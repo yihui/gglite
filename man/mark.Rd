@@ -9,8 +9,8 @@ mark(chart, type, ...)
 \arguments{
 \item{chart}{A \code{g2} object.}
 
-\item{type}{Character string indicating the mark type (e.g., \code{"interval"},
-\code{"line"}, \code{"point"}, \code{"area"}).}
+\item{type}{Character string indicating the mark type (e.g., \code{'interval'},
+\code{'line'}, \code{'point'}, \code{'area'}).}
 
 \item{...}{Additional mark-level options passed to G2.}
 }

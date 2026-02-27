@@ -144,14 +144,17 @@ scale_of = function(chart, field, ...) {
 #' Set the Coordinate System
 #'
 #' @param chart A `g2` object.
-#' @param type Coordinate type (e.g., `'polar'`, `'theta'`, `'transpose'`).
-#' @param ... Additional coordinate options.
+#' @param type Coordinate type. Supported types include `'polar'`, `'theta'`,
+#'   `'radial'`, `'radar'`, `'helix'`, `'parallel'`, and `'cartesian'` (the
+#'   default). See the G2 coordinate documentation for details.
+#' @param ... Additional coordinate options (e.g., `innerRadius`, `outerRadius`,
+#'   `startAngle`, `endAngle`, or `transform`).
 #' @return The modified `g2` object.
 #' @export
 #' @examples
 #' g2(data.frame(x = c('A', 'B'), y = c(3, 7)), x = x, y = y) |>
 #'   mark_interval() |>
-#'   coordinate('transpose')
+#'   coordinate('theta')
 coordinate = function(chart, type, ...) {
   chart$coords = c(list(type = type), list(...))
   chart

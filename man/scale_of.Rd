@@ -9,10 +9,10 @@ scale_of(chart, field, ...)
 \arguments{
 \item{chart}{A \code{g2} object.}
 
-\item{field}{Character string naming the aesthetic (e.g., \code{"x"}, \code{"y"},
-\code{"color"}).}
+\item{field}{Character string naming the aesthetic (e.g., \code{'x'}, \code{'y'},
+\code{'color'}).}
 
-\item{...}{Scale options passed to G2 (e.g., \code{type = "log"},
+\item{...}{Scale options passed to G2 (e.g., \code{type = 'log'},
 \code{range = c(0, 1)}).}
 }
 \value{
@@ -24,5 +24,5 @@ Add or modify scale settings for a given aesthetic field.
 \examples{
 g2(mtcars, x = mpg, y = hp) |>
   mark_point() |>
-  scale_of("x", type = "log")
+  scale_of('x', type = 'log')
 }

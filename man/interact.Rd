@@ -9,7 +9,7 @@ interact(chart, type, ...)
 \arguments{
 \item{chart}{A \code{g2} object.}
 
-\item{type}{Interaction type (e.g., \code{"tooltip"}, \code{"elementHighlight"}).}
+\item{type}{Interaction type (e.g., \code{'tooltip'}, \code{'elementHighlight'}).}
 
 \item{...}{Additional interaction options.}
 }
@@ -22,5 +22,5 @@ Add an Interaction
 \examples{
 g2(mtcars, x = mpg, y = hp) |>
   mark_point() |>
-  interact("tooltip")
+  interact('tooltip')
 }

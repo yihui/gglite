@@ -80,12 +80,12 @@ assert('pipe chaining works end-to-end', {
   chart = g2(mtcars, x = mpg, y = hp) |>
     mark_point() |>
     scale_of('x', type = 'linear') |>
-    coordinate('transpose') |>
+    coordinate('polar') |>
     interact('tooltip')
   (inherits(chart, 'g2'))
   (length(chart$layers) == 1)
   (chart$scales$x$type == 'linear')
-  (chart$coords$type == 'transpose')
+  (chart$coords$type == 'polar')
   (length(chart$interactions) == 1)
 })
 

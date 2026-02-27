@@ -2,7 +2,7 @@
 % Please edit documentation in R/gglite.R
 \name{build_config}
 \alias{build_config}
-\title{Build G2 Configuration}
+\title{Build G2 Spec}
 \usage{
 build_config(chart)
 }
@@ -14,6 +14,8 @@ A list suitable for JSON serialization.
 }
 \description{
 Convert a \code{g2} chart object into a nested list matching G2's
-\code{chart.options()} format.
+\code{chart.options()} spec format (data, marks, scales, etc.). Chart-level
+constructor options (width, height, container) are handled separately by
+\code{\link[=chart_html]{chart_html()}}.
 }
 \keyword{internal}

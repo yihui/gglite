@@ -18,5 +18,7 @@ A character string of HTML.
 }
 \description{
 Create an HTML string containing a container \verb{<div>} and a \verb{<script>} block
-that renders the chart using G2.
+that renders the chart using G2. Constructor options (container, width,
+height) are passed to \code{G2.Chart()}, while the visualization spec (data,
+marks, scales) is passed to \code{chart.options()}.
 }

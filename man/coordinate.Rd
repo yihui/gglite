@@ -9,9 +9,12 @@ coordinate(chart, type, ...)
 \arguments{
 \item{chart}{A \code{g2} object.}
 
-\item{type}{Coordinate type (e.g., \code{"polar"}, \code{"theta"}, \code{"transpose"}).}
+\item{type}{Coordinate type. Supported types include \code{'polar'}, \code{'theta'},
+\code{'radial'}, \code{'radar'}, \code{'helix'}, \code{'parallel'}, and \code{'cartesian'} (the
+default). See the G2 coordinate documentation for details.}
 
-\item{...}{Additional coordinate options.}
+\item{...}{Additional coordinate options (e.g., \code{innerRadius}, \code{outerRadius},
+\code{startAngle}, \code{endAngle}, or \code{transform}).}
 }
 \value{
 The modified \code{g2} object.
@@ -20,7 +23,7 @@ The modified \code{g2} object.
 Set the Coordinate System
 }
 \examples{
-g2(data.frame(x = c("A", "B"), y = c(3, 7)), x = x, y = y) |>
+g2(data.frame(x = c('A', 'B'), y = c(3, 7)), x = x, y = y) |>
   mark_interval() |>
-  coordinate("transpose")
+  coordinate('theta')
 }

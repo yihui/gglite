@@ -15,6 +15,6 @@ mark_interval(chart, ...)
 Add an Interval Mark (Bar/Column Chart)
 }
 \examples{
-g2(data.frame(x = c("A", "B", "C"), y = c(3, 7, 2)), x = x, y = y) |>
+g2(data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2)), x = x, y = y) |>
   mark_interval()
 }
