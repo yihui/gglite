@@ -9,16 +9,16 @@ encode(chart, ...)
 \arguments{
 \item{chart}{A \code{g2} object.}
 
-\item{...}{Named aesthetic mappings, e.g., \verb{x = var1, y = var2}.}
+\item{...}{Named mappings as character strings, e.g.,
+\verb{x = 'col1', color = 'col2'}.}
 }
 \value{
 The modified \code{g2} object.
 }
 \description{
-Map data variables to visual channels (x, y, color, size, shape, etc.).
-Arguments are captured as unevaluated expressions and stored in the chart
-object's \code{aesthetics} field.
+Map data columns to visual channels (x, y, color, size, shape, etc.).
+Column names are specified as character strings.
 }
 \examples{
-g2(mtcars) |> encode(x = mpg, y = hp) |> mark_point()
+g2(mtcars) |> encode(x = 'mpg', y = 'hp') |> mark_point()
 }

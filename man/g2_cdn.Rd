@@ -2,17 +2,16 @@
 % Please edit documentation in R/gglite.R
 \name{g2_cdn}
 \alias{g2_cdn}
-\title{Get the CDN URL for the G2 Library}
+\title{CDN URL for the G2 Library}
 \usage{
 g2_cdn()
 }
 \value{
-A character string with the CDN URL.
+A character string.
 }
 \description{
 Returns the URL for loading the G2 JavaScript library. Customizable via the
-\code{gglite.g2_cdn} global option. The default \verb{@5} resolves to the latest v5.x
-release. To pin a specific version, use e.g.,
-\code{options(gglite.g2_cdn = 'https://unpkg.com/@antv/g2@5.2.1/dist/g2.min.js')}.
+\code{gglite.g2_cdn} option. The default \verb{@5} resolves to the latest v5.x
+release.
 }
 \keyword{internal}

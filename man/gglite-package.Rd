@@ -6,8 +6,7 @@
 \alias{gglite-package}
 \title{gglite: Lightweight Data Visualization via the Grammar of Graphics}
 \description{
-An R interface to the AntV G2 JavaScript visualization library
-with a ggplot2-style API.
+An R interface to the AntV G2 JavaScript visualization library.
 }
 \seealso{
 Useful links:

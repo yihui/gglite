@@ -9,8 +9,7 @@ g2(data = NULL, ..., width = 640, height = 480)
 \arguments{
 \item{data}{A data frame (or \code{NULL}).}
 
-\item{...}{Aesthetic mappings passed to \code{\link[=encode]{encode()}}. Arguments are captured as
-unevaluated expressions (variable names from \code{data}).}
+\item{...}{Aesthetic mappings as \code{name = 'column'} pairs (character strings).}
 
 \item{width, height}{Width and height of the chart in pixels.}
 }
@@ -19,7 +18,8 @@ A \code{g2} object (S3 class).
 }
 \description{
 Construct a base chart object, optionally with data and aesthetic mappings.
+Column names are passed as character strings.
 }
 \examples{
-g2(mtcars, x = mpg, y = hp) |> mark_point()
+g2(mtcars, x = 'mpg', y = 'hp') |> mark_point()
 }
