@@ -267,8 +267,8 @@ mark_density = function(chart, ...) mark(chart, 'density', ...)
 #' @inheritParams mark
 #' @export
 #' @examples
-#' g2(iris, x = 'Sepal.Width', y = 'Sepal.Length') |>
-#'   mark_heatmap(style = list(opacity = 0.8))
+#' g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Petal.Length') |>
+#'   mark_heatmap()
 mark_heatmap = function(chart, ...) mark(chart, 'heatmap', ...)
 
 #' Add a Vector Mark
@@ -410,11 +410,6 @@ mark_word_cloud = function(chart, ...) mark(chart, 'wordCloud', ...)
 #'
 #' @inheritParams mark
 #' @export
-#' @examples
-#' g2() |>
-#'   mark_gauge(data = list(list(value = 0.75)),
-#'     encode = list(y = 'value', color = 'value'),
-#'     style = list(textContent = 'Score'))
 mark_gauge = function(chart, ...) mark(chart, 'gauge', ...)
 
 #' Add a Liquid Mark

@@ -16,6 +16,6 @@ mark_heatmap(chart, ...)
 A composite mark for rendering heatmaps from point data.
 }
 \examples{
-g2(iris, x = 'Sepal.Width', y = 'Sepal.Length') |>
-  mark_heatmap(style = list(opacity = 0.8))
+g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Petal.Length') |>
+  mark_heatmap()
 }

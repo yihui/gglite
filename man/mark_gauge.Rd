@@ -15,9 +15,3 @@ mark_gauge(chart, ...)
 \description{
 Add a Gauge Mark
 }
-\examples{
-g2() |>
-  mark_gauge(data = list(list(value = 0.75)),
-    encode = list(y = 'value', color = 'value'),
-    style = list(textContent = 'Score'))
-}
