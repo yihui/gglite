@@ -86,44 +86,6 @@ g2(df, x = 'x', y = 'y', color = 'x') |>
   coordinate('radial', innerRadius = 0.3)
 ```
 
-## Radar
-
-Suitable for radar or spider charts. Each category is placed along a spoke.
-
-```{r}
-df = data.frame(
-  item = rep(c('A', 'B', 'C', 'D', 'E'), 2),
-  score = c(70, 90, 80, 60, 95, 85, 60, 75, 90, 70),
-  group = rep(c('Series 1', 'Series 2'), each = 5)
-)
-g2(df, x = 'item', y = 'score', color = 'group') |>
-  mark_line(encode = list(shape = 'smooth')) |>
-  mark_point() |>
-  coordinate('radar')
-```
-
-## Helix
-
-A helix (spiral) coordinate. Data flows along a spiral path.
-
-```{r}
-df = data.frame(x = 1:50, y = cumsum(rnorm(50, 1)))
-g2(df, x = 'x', y = 'y') |>
-  mark_interval() |>
-  coordinate('helix')
-```
-
-## Parallel
-
-A parallel-coordinates chart. Each variable gets its own vertical axis.
-
-```{r}
-g2(iris, position = c('Sepal.Length', 'Sepal.Width',
-    'Petal.Length', 'Petal.Width'), color = 'Species') |>
-  mark_line(transform = list(list(type = 'normalizeY'))) |>
-  coordinate('parallel')
-```
-
 ## Transpose (coord_flip)
 
 Swap x and y axes, equivalent to ggplot2's `coord_flip()`. This is a

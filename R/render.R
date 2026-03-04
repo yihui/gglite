@@ -89,10 +89,7 @@ chart_html = function(chart, id = NULL, width = NULL, height = NULL) {
 }
 
 cdn_scripts = function() {
-  paste0(
-    '<script defer src="', g2_cdn(), '"></script>\n',
-    '<script defer src="', g2_col_cdn, '"></script>'
-  )
+  sprintf('<script src="%s" defer></script>', c(g2_cdn(), g2_col_cdn))
 }
 
 #' Preview a Chart in the Viewer or Browser
@@ -103,13 +100,13 @@ cdn_scripts = function() {
 #' @export
 preview = function(chart, ...) {
   body = chart_html(chart, ...)
-  html = paste0(
-    '<!DOCTYPE html>\n<html>\n<head>\n',
-    '<meta charset="utf-8">\n',
-    cdn_scripts(), '\n',
-    '</head>\n<body>\n',
-    body, '\n',
-    '</body>\n</html>'
+  html = c(
+    '<!DOCTYPE html>', '<html>', '<head>',
+    '<meta charset="utf-8">',
+    cdn_scripts(),
+    '</head>', '<body>',
+    body,
+    '</body>', '</html>'
   )
   xfun::html_view(html)
 }
@@ -131,15 +128,14 @@ print.g2 = function(x, ...) {
 #' @param ... Ignored.
 #' @return A `knit_asis` character vector.
 knit_print.g2 = function(x, ...) {
-  out = paste0(cdn_scripts(), '\n', chart_html(x, ...))
+  out = paste(c(cdn_scripts(), chart_html(x, ...)), collapse = '\n')
   structure(out, class = c('knit_asis', 'html'))
 }
 
 #' @importFrom xfun record_print
 #' @export
 record_print.g2 = function(x, ...) {
-  out = paste0(cdn_scripts(), '\n', chart_html(x, ...))
-  xfun::new_record(out, 'asis')
+  xfun::new_record(c(cdn_scripts(), chart_html(x, ...)), 'asis')
 }
 
 .onLoad = function(libname, pkgname) {

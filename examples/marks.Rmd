@@ -181,6 +181,7 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
   mark_point() |>
   mark_range(
     data = list(list(x = c(15, 25), y = c(100, 200))),
+    encode = list(x = 'x', y = 'y'),
     style = list(fill = 'steelblue', fillOpacity = 0.15)
   )
 ```
@@ -192,6 +193,7 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
   mark_point() |>
   mark_range_x(
     data = list(list(x = c(15, 25))),
+    encode = list(x = 'x'),
     style = list(fill = 'steelblue', fillOpacity = 0.15)
   )
 ```
@@ -203,6 +205,7 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
   mark_point() |>
   mark_range_y(
     data = list(list(y = c(100, 200))),
+    encode = list(y = 'y'),
     style = list(fill = 'orange', fillOpacity = 0.15)
   )
 ```
@@ -226,97 +229,6 @@ g2(df, x = 'x', y = 'y') |>
 g2(iris, x = 'Species', y = 'Sepal.Width') |> mark_boxplot()
 ```
 
-## Density Mark
-
-```{r}
-g2(iris, x = 'Sepal.Width', y = 'Sepal.Length') |>
-  mark_density(
-    transform = list(list(type = 'kde')),
-    style = list(fill = 'steelblue', fillOpacity = 0.5)
-  )
-```
-
-## Heatmap Mark
-
-```{r}
-g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Petal.Length') |>
-  mark_heatmap()
-```
-
-## Treemap Mark
-
-```{r}
-tree_data = list(
-  name = 'root', children = list(
-    list(name = 'A', value = 10),
-    list(name = 'B', value = 20),
-    list(name = 'C', value = 15),
-    list(name = 'D', value = 8)
-  )
-)
-g2() |>
-  mark_treemap(
-    data = list(value = tree_data),
-    encode = list(value = 'value')
-  )
-```
-
-## Pack (Circle Packing) Mark
-
-```{r}
-tree_data = list(
-  name = 'root', children = list(
-    list(name = 'A', value = 10),
-    list(name = 'B', value = 20),
-    list(name = 'C', value = 15)
-  )
-)
-g2() |>
-  mark_pack(
-    data = list(value = tree_data),
-    encode = list(value = 'value', color = 'name')
-  )
-```
-
-## Sankey Mark
-
-```{r}
-df = data.frame(
-  source = c('A', 'A', 'B', 'B'), target = c('B', 'C', 'C', 'D'),
-  value = c(5, 3, 2, 4)
-)
-g2(df) |>
-  mark_sankey(
-    encode = list(source = 'source', target = 'target', value = 'value'),
-    layout = list(nodeAlign = 'center')
-  )
-```
-
-## Chord Mark
-
-```{r}
-df = data.frame(
-  source = c('A', 'A', 'B'), target = c('B', 'C', 'C'),
-  value = c(5, 3, 2)
-)
-g2(df) |>
-  mark_chord(
-    encode = list(source = 'source', target = 'target', value = 'value')
-  )
-```
-
-## Word Cloud Mark
-
-```{r}
-df = data.frame(
-  text = c('Hello', 'Data', 'Science', 'R', 'G2', 'Chart',
-           'Visualization', 'Package', 'gglite'),
-  value = c(30, 25, 20, 15, 12, 10, 8, 6, 5)
-)
-g2(df) |>
-  mark_word_cloud(encode = list(text = 'text', value = 'value', color = 'text'))
-```
-
 ## Liquid Mark
 
 ```{r}
@@ -326,34 +238,4 @@ g2() |>
     encode = list(y = 'value'),
     style = list(textContent = '60%')
   )
-```
-
-## Partition (Sunburst) Mark
-
-```{r}
-tree_data = list(
-  name = 'root', children = list(
-    list(name = 'A', value = 10, children = list(
-      list(name = 'A1', value = 5), list(name = 'A2', value = 5)
-    )),
-    list(name = 'B', value = 20),
-    list(name = 'C', value = 15)
-  )
-)
-g2() |>
-  mark_partition(
-    data = list(value = tree_data),
-    encode = list(value = 'value'),
-    coordinate = list(type = 'theta', innerRadius = 0.3)
-  )
-```
-
-## Image Mark
-
-```{r}
-df = data.frame(x = 1:2, y = 1:2)
-g2(df, x = 'x', y = 'y') |>
-  mark_image(style = list(
-    src = 'https://gw.alipayobjects.com/mdn/rms_dfc253/afts/img/A*SZGfRaFPkIoAAAAAAAAAAAAAARQnAQ'
-  ))
 ```

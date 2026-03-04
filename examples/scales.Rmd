@@ -46,7 +46,7 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
 ```{r}
 df = data.frame(x = c('A', 'B', 'C', 'D'), y = c(3, 7, 2, 5))
 g2(df, x = 'x', y = 'y') |>
-  mark_interval() |>
+  mark_point() |>
   scale_of('x', type = 'ordinal')
 ```
 
@@ -56,14 +56,6 @@ g2(df, x = 'x', y = 'y') |>
 g2(df, x = 'x', y = 'y') |>
   mark_interval() |>
   scale_of('x', type = 'band')
-```
-
-## Point Scale
-
-```{r}
-g2(df, x = 'x', y = 'y') |>
-  mark_point() |>
-  scale_of('x', type = 'point')
 ```
 
 ## Time Scale

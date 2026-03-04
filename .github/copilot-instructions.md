@@ -172,7 +172,12 @@ as character strings, e.g., `g2(mtcars, x = 'mpg', y = 'hp')`.
    especially automatically generated ones.
 7. **Testing**: Use testit assertions with proper error handling
 8. **Update NEWS.md**: When making changes, make sure to update `NEWS.md`
-   accordingly to document what changed.
+   accordingly to document what changed. The first heading in NEWS.md always
+   represents the dev version and must be of the form `# PKG x.y` where PKG
+   is the package name and x.y is the next version to be released to CRAN
+   (note: x.y, not x.y.0). Usually y is bumped from the current minor
+   version, e.g., if the current dev version is 1.8.3, the next CRAN release
+   is expected to be 1.9.
 
 ## Package API
 
