@@ -3,3 +3,4 @@ package.json
 package-lock.json
 *.Rcheck/
 test-all.mjs
+gglite_*.tar.gz
