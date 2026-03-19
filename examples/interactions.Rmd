@@ -1,0 +1,134 @@
+---
+title: Interactions
+---
+
+```{r}
+library(gglite)
+```
+
+Interactions enable user-driven behaviors such as tooltips, brushing, and
+highlighting. Use `interact()` to add them.
+
+## Tooltip
+
+```{r}
+g2(mtcars, x = 'mpg', y = 'hp') |>
+  mark_point() |>
+  interact('tooltip')
+```
+
+## Element Highlight
+
+Highlight individual elements on hover.
+
+```{r}
+g2(mtcars, x = 'mpg', y = 'hp', color = 'cyl') |>
+  mark_point() |>
+  interact('elementHighlight')
+```
+
+## Element Highlight by X
+
+Highlight all elements sharing the same x value.
+
+```{r}
+df = data.frame(
+  x = rep(c('A', 'B', 'C'), each = 2), y = c(3, 2, 5, 4, 1, 6),
+  color = rep(c('a', 'b'), 3)
+)
+g2(df, x = 'x', y = 'y', color = 'color') |>
+  mark_interval() |>
+  transform_of('dodgeX') |>
+  interact('elementHighlightByX')
+```
+
+## Element Highlight by Color
+
+```{r}
+g2(df, x = 'x', y = 'y', color = 'color') |>
+  mark_interval() |>
+  transform_of('dodgeX') |>
+  interact('elementHighlightByColor')
+```
+
+## Element Select
+
+Click to select individual elements.
+
+```{r}
+g2(mtcars, x = 'mpg', y = 'hp', color = 'cyl') |>
+  mark_point() |>
+  interact('elementSelect')
+```
+
+## Brush Highlight
+
+Drag to brush and highlight a rectangular region.
+
+```{r}
+g2(mtcars, x = 'mpg', y = 'hp') |>
+  mark_point() |>
+  interact('brushHighlight')
+```
+
+## Brush X Highlight
+
+Brush only along the x axis.
+
+```{r}
+g2(mtcars, x = 'mpg', y = 'hp') |>
+  mark_point() |>
+  interact('brushXHighlight')
+```
+
+## Brush Y Highlight
+
+Brush only along the y axis.
+
+```{r}
+g2(mtcars, x = 'mpg', y = 'hp') |>
+  mark_point() |>
+  interact('brushYHighlight')
+```
+
+## Brush Filter
+
+Drag to filter the visible data.
+
+```{r}
+g2(mtcars, x = 'mpg', y = 'hp') |>
+  mark_point() |>
+  interact('brushFilter')
+```
+
+## Legend Filter
+
+Click legend entries to filter data.
+
+```{r}
+g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
+  mark_point() |>
+  interact('legendFilter')
+```
+
+## Legend Highlight
+
+Hover over legend entries to highlight.
+
+```{r}
+g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
+  mark_point() |>
+  interact('legendHighlight')
+```
+
+## Multiple Interactions
+
+You can combine several interactions.
+
+```{r}
+g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
+  mark_point() |>
+  interact('tooltip') |>
+  interact('legendFilter') |>
+  interact('brushHighlight')
+```

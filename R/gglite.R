@@ -18,12 +18,7 @@ g2_cdn = function() {
   getOption('gglite.g2_cdn', 'https://unpkg.com/@antv/g2@5/dist/g2.min.js')
 }
 
-#' CDN URL for the G2 Column-Major Data Helper
-#' @return A character string.
-#' @keywords internal
-g2_col_cdn = function() {
-  'https://cdn.jsdelivr.net/npm/@xiee/utils/js/g2-column.min.js'
-}
+g2_col_cdn = 'https://cdn.jsdelivr.net/npm/@xiee/utils/js/g2-column.min.js'
 
 #' Create a G2 Chart Object
 #'

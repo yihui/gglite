@@ -1,0 +1,72 @@
+---
+title: Titles and Tooltips
+---
+
+```{r}
+library(gglite)
+```
+
+## Chart Title
+
+### Simple title
+
+```{r}
+g2(mtcars, x = 'mpg', y = 'hp') |>
+  mark_point() |>
+  title_of('Motor Trend Cars')
+```
+
+### Title with subtitle
+
+```{r}
+g2(mtcars, x = 'mpg', y = 'hp') |>
+  mark_point() |>
+  title_of('Motor Trend Cars', subtitle = 'mpg vs horsepower')
+```
+
+### Title alignment
+
+```{r}
+g2(mtcars, x = 'mpg', y = 'hp') |>
+  mark_point() |>
+  title_of('Right-aligned Title', align = 'right')
+```
+
+### Title on a bar chart
+
+```{r}
+df = data.frame(x = c('A', 'B', 'C', 'D'), y = c(3, 7, 2, 5))
+g2(df, x = 'x', y = 'y') |>
+  mark_interval() |>
+  title_of('Simple Bar Chart', subtitle = 'Categories A-D')
+```
+
+## Tooltip Configuration
+
+### Enable crosshairs
+
+```{r}
+g2(mtcars, x = 'mpg', y = 'hp') |>
+  mark_point() |>
+  tooltip_of(crosshairs = TRUE)
+```
+
+### Shared tooltip (useful for multi-series)
+
+```{r}
+df = data.frame(
+  x = rep(1:5, 2), y = c(3, 1, 4, 1, 5, 2, 7, 1, 8, 3),
+  group = rep(c('A', 'B'), each = 5)
+)
+g2(df, x = 'x', y = 'y', color = 'group') |>
+  mark_line() |>
+  tooltip_of(shared = TRUE)
+```
+
+### Disable tooltip
+
+```{r}
+g2(mtcars, x = 'mpg', y = 'hp') |>
+  mark_point() |>
+  tooltip_of(FALSE)
+```

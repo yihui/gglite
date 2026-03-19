@@ -1,0 +1,133 @@
+---
+title: Scales
+---
+
+```{r}
+library(gglite)
+```
+
+Scales control how data values map to visual properties. Use `scale_of()` to
+configure the scale for a given channel.
+
+## Linear Scale (default for numeric)
+
+```{r}
+g2(mtcars, x = 'mpg', y = 'hp') |>
+  mark_point() |>
+  scale_of('x', type = 'linear')
+```
+
+## Log Scale
+
+```{r}
+g2(mtcars, x = 'mpg', y = 'hp') |>
+  mark_point() |>
+  scale_of('y', type = 'log')
+```
+
+## Power Scale
+
+```{r}
+g2(mtcars, x = 'mpg', y = 'hp') |>
+  mark_point() |>
+  scale_of('y', type = 'pow')
+```
+
+## Square Root Scale
+
+```{r}
+g2(mtcars, x = 'mpg', y = 'hp') |>
+  mark_point() |>
+  scale_of('y', type = 'sqrt')
+```
+
+## Ordinal Scale
+
+```{r}
+df = data.frame(x = c('A', 'B', 'C', 'D'), y = c(3, 7, 2, 5))
+g2(df, x = 'x', y = 'y') |>
+  mark_point() |>
+  scale_of('x', type = 'ordinal')
+```
+
+## Band Scale
+
+```{r}
+g2(df, x = 'x', y = 'y') |>
+  mark_interval() |>
+  scale_of('x', type = 'band')
+```
+
+## Time Scale
+
+```{r}
+df = data.frame(
+  date = as.character(seq(as.Date('2024-01-01'), by = 'month', length.out = 6)),
+  value = c(10, 20, 15, 30, 25, 35)
+)
+g2(df, x = 'date', y = 'value') |>
+  mark_line() |>
+  scale_of('x', type = 'time')
+```
+
+## Custom Domain and Range
+
+```{r}
+g2(mtcars, x = 'mpg', y = 'hp') |>
+  mark_point() |>
+  scale_of('x', domain = c(10, 35)) |>
+  scale_of('y', domain = c(0, 400))
+```
+
+## Nice Rounding
+
+```{r}
+g2(mtcars, x = 'mpg', y = 'hp') |>
+  mark_point() |>
+  scale_of('x', nice = TRUE) |>
+  scale_of('y', nice = TRUE)
+```
+
+## Zero Inclusion
+
+```{r}
+g2(mtcars, x = 'mpg', y = 'hp') |>
+  mark_point() |>
+  scale_of('y', zero = TRUE)
+```
+
+## Color Palette
+
+```{r}
+g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
+  mark_point() |>
+  scale_of('color', palette = 'category10')
+```
+
+### Custom color range
+
+```{r}
+g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
+  mark_point() |>
+  scale_of('color', range = c('#e41a1c', '#377eb8', '#4daf4a'))
+```
+
+## Identity Scale
+
+```{r}
+df = data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2), col = c('red', 'green', 'blue'))
+g2(df, x = 'x', y = 'y', color = 'col') |>
+  mark_interval() |>
+  scale_of('color', type = 'identity')
+```
+
+## Multiple Scales
+
+```{r}
+g2(mtcars, x = 'mpg', y = 'hp', color = 'wt', size = 'qsec') |>
+  mark_point() |>
+  scale_of('x', nice = TRUE) |>
+  scale_of('y', type = 'sqrt') |>
+  scale_of('color', palette = 'viridis') |>
+  scale_of('size', range = c(2, 10))
+```

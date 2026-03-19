@@ -1,0 +1,108 @@
+---
+title: Coordinates
+---
+
+```{r}
+library(gglite)
+```
+
+Coordinate systems control how the positional channels (x and y) are
+interpreted. Use `coordinate()` to set the type and options.
+
+## Cartesian (default)
+
+The default coordinate system. Typically you don't need to specify it
+explicitly, but you can do so for clarity.
+
+```{r}
+df = data.frame(x = c('A', 'B', 'C', 'D'), y = c(3, 7, 2, 5))
+g2(df, x = 'x', y = 'y') |>
+  mark_interval() |>
+  coordinate('cartesian')
+```
+
+## Polar
+
+Maps x to angle and y to radius. Useful for rose charts and radar-like
+displays.
+
+```{r}
+g2(df, x = 'x', y = 'y') |>
+  mark_interval() |>
+  coordinate('polar')
+```
+
+### Polar with innerRadius (donut rose)
+
+```{r}
+g2(df, x = 'x', y = 'y', color = 'x') |>
+  mark_interval() |>
+  coordinate('polar', innerRadius = 0.4)
+```
+
+### Polar with custom start/end angles
+
+```{r}
+g2(df, x = 'x', y = 'y', color = 'x') |>
+  mark_interval() |>
+  coordinate('polar', startAngle = -pi / 2, endAngle = pi / 2)
+```
+
+## Theta
+
+Maps data values to angular extent. Used for pie and donut charts.
+
+```{r}
+g2(df, x = 'x', y = 'y', color = 'x') |>
+  mark_interval() |>
+  transform_of('stackY') |>
+  coordinate('theta')
+```
+
+### Donut chart (theta with innerRadius)
+
+```{r}
+g2(df, x = 'x', y = 'y', color = 'x') |>
+  mark_interval() |>
+  transform_of('stackY') |>
+  coordinate('theta', innerRadius = 0.5)
+```
+
+## Radial
+
+Maps y to the radial direction. Suitable for radial bar charts.
+
+```{r}
+g2(df, x = 'x', y = 'y', color = 'x') |>
+  mark_interval() |>
+  coordinate('radial')
+```
+
+### Radial with innerRadius
+
+```{r}
+g2(df, x = 'x', y = 'y', color = 'x') |>
+  mark_interval() |>
+  coordinate('radial', innerRadius = 0.3)
+```
+
+## Transpose (coord_flip)
+
+Swap x and y axes, equivalent to ggplot2's `coord_flip()`. This is a
+coordinate transform, not a type.
+
+```{r}
+df = data.frame(x = c('A', 'B', 'C', 'D'), y = c(3, 7, 2, 5))
+g2(df, x = 'x', y = 'y') |>
+  mark_interval() |>
+  coord_transpose()
+```
+
+### Transpose with polar
+
+```{r}
+g2(df, x = 'x', y = 'y', color = 'x') |>
+  mark_interval() |>
+  coordinate('polar') |>
+  coord_transpose()
+```

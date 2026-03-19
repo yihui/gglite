@@ -1,0 +1,143 @@
+---
+title: Transforms
+---
+
+```{r}
+library(gglite)
+```
+
+Transforms are data manipulations applied to marks, similar to ggplot2's
+`stat_*()` and `position_*()` functions. Use `transform_of()` to add them.
+
+## stackY (position_stack)
+
+Stack bars vertically.
+
+```{r}
+df = data.frame(
+  x = rep(c('A', 'B', 'C'), each = 2), y = c(3, 2, 5, 4, 1, 6),
+  color = rep(c('a', 'b'), 3)
+)
+g2(df, x = 'x', y = 'y', color = 'color') |>
+  mark_interval() |>
+  transform_of('stackY')
+```
+
+### Stacked area chart
+
+```{r}
+df = data.frame(
+  x = rep(1:5, 2), y = c(3, 1, 4, 1, 5, 2, 7, 1, 8, 3),
+  group = rep(c('A', 'B'), each = 5)
+)
+g2(df, x = 'x', y = 'y', color = 'group') |>
+  mark_area() |>
+  transform_of('stackY')
+```
+
+## dodgeX (position_dodge)
+
+Place bars side by side.
+
+```{r}
+df = data.frame(
+  x = rep(c('A', 'B', 'C'), each = 2), y = c(3, 2, 5, 4, 1, 6),
+  color = rep(c('a', 'b'), 3)
+)
+g2(df, x = 'x', y = 'y', color = 'color') |>
+  mark_interval() |>
+  transform_of('dodgeX')
+```
+
+## normalizeY (position_fill)
+
+Normalize to 100% (percent-stacked chart).
+
+```{r}
+g2(df, x = 'x', y = 'y', color = 'color') |>
+  mark_interval() |>
+  transform_of('stackY') |>
+  transform_of('normalizeY')
+```
+
+## jitterX / jitterY
+
+Add random jitter to reduce overplotting.
+
+```{r}
+g2(mtcars, x = 'cyl', y = 'hp') |>
+  mark_point() |>
+  transform_of('jitterX')
+```
+
+### Jitter in both directions
+
+```{r}
+g2(mtcars, x = 'cyl', y = 'gear') |>
+  mark_point() |>
+  transform_of('jitterX') |>
+  transform_of('jitterY')
+```
+
+## binX (stat_bin)
+
+Bin data along x for histograms.
+
+```{r}
+g2(mtcars, x = 'mpg') |>
+  mark_interval(encode = list(y = 'count')) |>
+  transform_of('binX', thresholds = 15)
+```
+
+## bin (2D binning)
+
+Bin in two dimensions for heatmap-style plots.
+
+```{r}
+g2(mtcars, x = 'mpg', y = 'hp') |>
+  mark_rect(
+    transform = list(list(type = 'bin', thresholdsX = 10, thresholdsY = 10))
+  )
+```
+
+## symmetryY (mirror)
+
+Create a symmetric / butterfly chart.
+
+```{r}
+df = data.frame(
+  x = rep(c('A', 'B', 'C'), each = 2), y = c(3, 2, 5, 4, 1, 6),
+  color = rep(c('Male', 'Female'), 3)
+)
+g2(df, x = 'x', y = 'y', color = 'color') |>
+  mark_interval() |>
+  transform_of('stackY') |>
+  transform_of('symmetryY')
+```
+
+## sortX / sortY
+
+Sort data before rendering.
+
+```{r}
+df = data.frame(x = c('C', 'A', 'B'), y = c(2, 5, 3))
+g2(df, x = 'x', y = 'y') |>
+  mark_interval() |>
+  transform_of('sortX', reverse = TRUE)
+```
+
+## Multiple transforms
+
+Transforms can be chained. Order matters.
+
+```{r}
+df = data.frame(
+  x = rep(c('A', 'B', 'C'), each = 2), y = c(3, 2, 5, 4, 1, 6),
+  color = rep(c('a', 'b'), 3)
+)
+g2(df, x = 'x', y = 'y', color = 'color') |>
+  mark_interval() |>
+  transform_of('stackY') |>
+  transform_of('normalizeY') |>
+  coord_transpose()
+```

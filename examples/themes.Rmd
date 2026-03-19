@@ -1,0 +1,71 @@
+---
+title: Themes
+---
+
+```{r}
+library(gglite)
+```
+
+Themes control the overall visual appearance of the chart. Use `theme_of()` to
+set a built-in theme or provide custom options.
+
+## Classic Theme (default)
+
+```{r}
+g2(mtcars, x = 'mpg', y = 'hp') |>
+  mark_point() |>
+  theme_of('classic')
+```
+
+## Classic Dark Theme
+
+```{r}
+g2(mtcars, x = 'mpg', y = 'hp') |>
+  mark_point() |>
+  theme_of('classicDark')
+```
+
+## Light Theme
+
+```{r}
+g2(mtcars, x = 'mpg', y = 'hp') |>
+  mark_point() |>
+  theme_of('light')
+```
+
+## Dark Theme
+
+```{r}
+g2(mtcars, x = 'mpg', y = 'hp') |>
+  mark_point() |>
+  theme_of('dark')
+```
+
+## Academy Theme
+
+```{r}
+g2(mtcars, x = 'mpg', y = 'hp') |>
+  mark_point() |>
+  theme_of('academy')
+```
+
+## Theme on a bar chart
+
+```{r}
+df = data.frame(x = c('A', 'B', 'C', 'D'), y = c(3, 7, 2, 5))
+g2(df, x = 'x', y = 'y', color = 'x') |>
+  mark_interval() |>
+  theme_of('dark')
+```
+
+## Theme on a multi-series line chart
+
+```{r}
+df = data.frame(
+  x = rep(1:5, 2), y = c(3, 1, 4, 1, 5, 2, 7, 1, 8, 3),
+  group = rep(c('A', 'B'), each = 5)
+)
+g2(df, x = 'x', y = 'y', color = 'group') |>
+  mark_line() |>
+  theme_of('classicDark')
+```

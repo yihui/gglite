@@ -1,0 +1,69 @@
+---
+title: Sliders and Scrollbars
+---
+
+```{r}
+library(gglite)
+```
+
+Sliders and scrollbars allow users to zoom and pan through data.
+
+## Slider on x
+
+```{r}
+df = data.frame(x = 1:100, y = cumsum(rnorm(100)))
+g2(df, x = 'x', y = 'y') |>
+  mark_line() |>
+  slider_of('x')
+```
+
+## Slider on y
+
+```{r}
+g2(df, x = 'x', y = 'y') |>
+  mark_line() |>
+  slider_of('y')
+```
+
+## Slider on both axes
+
+```{r}
+g2(df, x = 'x', y = 'y') |>
+  mark_point() |>
+  slider_of('x') |>
+  slider_of('y')
+```
+
+## Scrollbar on x
+
+```{r}
+g2(df, x = 'x', y = 'y') |>
+  mark_line() |>
+  scrollbar_of('x')
+```
+
+## Scrollbar on y
+
+```{r}
+g2(df, x = 'x', y = 'y') |>
+  mark_line() |>
+  scrollbar_of('y')
+```
+
+## Scrollbar on both axes
+
+```{r}
+g2(df, x = 'x', y = 'y') |>
+  mark_point() |>
+  scrollbar_of('x') |>
+  scrollbar_of('y')
+```
+
+## Slider with a bar chart
+
+```{r}
+df = data.frame(x = paste0('Item ', 1:50), y = sample(1:100, 50))
+g2(df, x = 'x', y = 'y') |>
+  mark_interval() |>
+  slider_of('x')
+```

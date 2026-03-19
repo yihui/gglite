@@ -1,0 +1,55 @@
+---
+title: Facets
+---
+
+```{r}
+library(gglite)
+```
+
+Faceting splits data into multiple panels. gglite supports rectangular and
+circular faceting.
+
+## Rectangular Facet (by x)
+
+```{r}
+g2(iris, x = 'Sepal.Width', y = 'Sepal.Length') |>
+  mark_point() |>
+  facet_rect(x = 'Species')
+```
+
+## Rectangular Facet (by y)
+
+```{r}
+g2(iris, x = 'Sepal.Width', y = 'Sepal.Length') |>
+  mark_point() |>
+  facet_rect(y = 'Species')
+```
+
+## Rectangular Facet (by x and y)
+
+```{r}
+df = data.frame(
+  x = rnorm(200), y = rnorm(200),
+  a = sample(c('A', 'B'), 200, replace = TRUE),
+  b = sample(c('X', 'Y'), 200, replace = TRUE)
+)
+g2(df, x = 'x', y = 'y') |>
+  mark_point() |>
+  facet_rect(x = 'a', y = 'b')
+```
+
+## Facet with color
+
+```{r}
+g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
+  mark_point() |>
+  facet_rect(x = 'Species')
+```
+
+## Circular Facet
+
+```{r}
+g2(iris, x = 'Sepal.Width', y = 'Sepal.Length') |>
+  mark_point() |>
+  facet_circle(position = 'Species')
+```
