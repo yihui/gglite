@@ -61,6 +61,15 @@ build_config = function(chart) {
 #' Create an HTML string containing a container `<div>` and a `<script>` block
 #' that renders the chart using G2.
 #'
+#' The global option `gglite.defer_render` controls whether chart rendering is
+#' deferred until the container scrolls into the viewport. Set
+#' `options(gglite.defer_render = TRUE)` to use the default threshold (0.5,
+#' i.e., 50% of the chart visible), or supply a numeric value between 0 and 1
+#' to customise it, e.g., `options(gglite.defer_render = 0.3)`. When enabled,
+#' enter animations fire when the reader first sees each chart instead of on
+#' page load. This is useful for demo or documentation pages. It is not
+#' typically needed for regular plots.
+#'
 #' @param chart A `g2` object.
 #' @param id Container element ID (auto-generated if `NULL`).
 #' @param width,height Optional CSS dimensions for the container.
@@ -73,7 +82,7 @@ chart_html = function(chart, id = NULL, width = NULL, height = NULL) {
   ctor$container = id
   spec = build_config(chart)
   defer_opt = getOption('gglite.defer_render')
-  threshold = if (isTRUE(defer_opt)) 0.5 else if (is.numeric(defer_opt)) defer_opt else NULL
+  threshold = if (isTRUE(defer_opt)) 0.5 else if (is.numeric(defer_opt)) defer_opt
 
   w = if (!is.null(width)) paste0('width:', width, 'px;') else ''
   h = if (!is.null(height)) paste0('height:', height, 'px;') else ''
