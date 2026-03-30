@@ -4,7 +4,7 @@
 \alias{g2}
 \title{Create a G2 Chart Object}
 \usage{
-g2(data = NULL, ..., width = 640, height = 480)
+g2(data = NULL, ..., width = 640, height = 480, playback = FALSE)
 }
 \arguments{
 \item{data}{A data frame (or \code{NULL}).}
@@ -12,6 +12,13 @@ g2(data = NULL, ..., width = 640, height = 480)
 \item{...}{Aesthetic mappings as \code{name = 'column'} pairs (character strings).}
 
 \item{width, height}{Width and height of the chart in pixels.}
+
+\item{playback}{Whether to defer the chart's initial render until its
+container is scrolled into the viewport. When \code{TRUE}, the enter
+animations play the first time the reader scrolls the chart into view
+instead of firing immediately on page load (when the reader may not have
+reached the chart yet). This is useful for demo pages. It is not
+typically needed for regular plots.}
 }
 \value{
 A \code{g2} object (S3 class).

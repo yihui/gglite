@@ -72,18 +72,37 @@ chart_html = function(chart, id = NULL, width = NULL, height = NULL) {
   ctor = chart$options
   ctor$container = id
   spec = build_config(chart)
+  playback = isTRUE(chart$playback)
 
   w = if (!is.null(width)) paste0('width:', width, 'px;') else ''
   h = if (!is.null(height)) paste0('height:', height, 'px;') else ''
   style = paste0(w, h)
   if (nzchar(style)) style = paste0(' style="', style, '"')
 
+  if (playback) {
+    spec_js = paste0('const spec = ', xfun::tojson(spec), ';\n')
+    options_js = 'chart.options(spec);\n'
+    render_js = paste0(
+      'new IntersectionObserver((entries, obs) => {\n',
+      '  if (entries[0].isIntersecting) {\n',
+      '    chart.render();\n',
+      '    obs.disconnect();\n',
+      '  }\n',
+      '}, { threshold: 0.1 }).observe(document.getElementById("', id, '"));\n'  # 10% visible
+    )
+  } else {
+    spec_js = ''
+    options_js = paste0('chart.options(', xfun::tojson(spec), ');\n')
+    render_js = 'chart.render();\n'
+  }
+
   paste0(
     '<div id="', id, '"', style, '></div>\n',
     '<script type="module">\n',
+    spec_js,
     'const chart = new G2.Chart(', xfun::tojson(ctor), ');\n',
-    'chart.options(', xfun::tojson(spec), ');\n',
-    'chart.render();\n',
+    options_js,
+    render_js,
     '</script>'
   )
 }

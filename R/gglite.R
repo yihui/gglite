@@ -28,12 +28,18 @@ g2_col_cdn = 'https://cdn.jsdelivr.net/npm/@xiee/utils/js/g2-column.min.js'
 #' @param data A data frame (or `NULL`).
 #' @param ... Aesthetic mappings as `name = 'column'` pairs (character strings).
 #' @param width,height Width and height of the chart in pixels.
+#' @param playback Whether to defer the chart's initial render until its
+#'   container is scrolled into the viewport. When `TRUE`, the enter
+#'   animations play the first time the reader scrolls the chart into view
+#'   instead of firing immediately on page load (when the reader may not have
+#'   reached the chart yet). This is useful for demo pages. It is not
+#'   typically needed for regular plots.
 #' @return A `g2` object (S3 class).
 #' @importFrom utils modifyList
 #' @export
 #' @examples
 #' g2(mtcars, x = 'mpg', y = 'hp') |> mark_point()
-g2 = function(data = NULL, ..., width = 640, height = 480) {
+g2 = function(data = NULL, ..., width = 640, height = 480, playback = FALSE) {
   chart = structure(list(
     data = data,
     options = list(width = width, height = height, autoFit = TRUE),
@@ -46,7 +52,8 @@ g2 = function(data = NULL, ..., width = 640, height = 480) {
     axes = list(),
     legends = list(),
     chart_title = NULL,
-    facet = NULL
+    facet = NULL,
+    playback = playback
   ), class = 'g2')
   dots = list(...)
   if (length(dots)) chart$aesthetics = modifyList(chart$aesthetics, dots)
