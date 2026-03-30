@@ -4,22 +4,23 @@ title: Animations
 
 ```{r}
 library(gglite)
+options(gglite.playback = TRUE)
 ```
 
 Animations control how marks enter, update, and exit the chart. Use
 `animate()` to configure them on the most recently added mark.
 
-Note: the charts on this page use `playback = TRUE` in `g2()`, which defers
-rendering until the chart is scrolled into view so that the animation plays
-when you first see it. The durations are also set longer than you would
+Note: the charts on this page use `options(gglite.playback = TRUE)`, which
+defers rendering until the chart is scrolled into view so that the animation
+plays when you first see it. The durations are also set longer than you would
 typically use, so the animations are easier to see. In your own plots you
-would normally use shorter durations and omit `playback = TRUE`.
+may want to use shorter durations and omit `options(gglite.playback = TRUE)`.
 
 ## Fade-in Animation
 
 ```{r}
 df = data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2))
-g2(df, x = 'x', y = 'y', playback = TRUE) |>
+g2(df, x = 'x', y = 'y') |>
   mark_interval() |>
   animate(enter = list(type = 'fadeIn', duration = 2000))
 ```
@@ -27,7 +28,7 @@ g2(df, x = 'x', y = 'y', playback = TRUE) |>
 ## Wave-in Animation
 
 ```{r}
-g2(df, x = 'x', y = 'y', playback = TRUE) |>
+g2(df, x = 'x', y = 'y') |>
   mark_interval() |>
   animate(enter = list(type = 'waveIn', duration = 1600))
 ```
@@ -35,7 +36,7 @@ g2(df, x = 'x', y = 'y', playback = TRUE) |>
 ## Grow-in-Y Animation
 
 ```{r}
-g2(df, x = 'x', y = 'y', playback = TRUE) |>
+g2(df, x = 'x', y = 'y') |>
   mark_interval() |>
   animate(enter = list(type = 'growInY', duration = 2000))
 ```
@@ -43,7 +44,7 @@ g2(df, x = 'x', y = 'y', playback = TRUE) |>
 ## Scale-in-X Animation
 
 ```{r}
-g2(df, x = 'x', y = 'y', playback = TRUE) |>
+g2(df, x = 'x', y = 'y') |>
   mark_interval() |>
   animate(enter = list(type = 'scaleInX', duration = 1600))
 ```
@@ -51,7 +52,7 @@ g2(df, x = 'x', y = 'y', playback = TRUE) |>
 ## Scale-in-Y Animation
 
 ```{r}
-g2(df, x = 'x', y = 'y', playback = TRUE) |>
+g2(df, x = 'x', y = 'y') |>
   mark_interval() |>
   animate(enter = list(type = 'scaleInY', duration = 1600))
 ```
@@ -59,7 +60,7 @@ g2(df, x = 'x', y = 'y', playback = TRUE) |>
 ## Zoom-in Animation
 
 ```{r}
-g2(mtcars, x = 'mpg', y = 'hp', playback = TRUE) |>
+g2(mtcars, x = 'mpg', y = 'hp') |>
   mark_point() |>
   animate(enter = list(type = 'zoomIn', duration = 1200))
 ```
@@ -67,7 +68,7 @@ g2(mtcars, x = 'mpg', y = 'hp', playback = TRUE) |>
 ## Custom Duration and Delay
 
 ```{r}
-g2(df, x = 'x', y = 'y', playback = TRUE) |>
+g2(df, x = 'x', y = 'y') |>
   mark_interval() |>
   animate(enter = list(type = 'fadeIn', duration = 3000, delay = 1000))
 ```
@@ -84,7 +85,7 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
 
 ```{r}
 df = data.frame(x = 1:10, y = c(3, 1, 4, 1, 5, 9, 2, 6, 5, 3))
-g2(df, x = 'x', y = 'y', playback = TRUE) |>
+g2(df, x = 'x', y = 'y') |>
   mark_line() |>
   animate(enter = list(type = 'fadeIn', duration = 2000))
 ```

@@ -66,7 +66,8 @@ To render an Rmd file to HTML (e.g., for inspection or headless browser
 testing):
 
 ```bash
-Rscript -e 'litedown::fuse("examples/animations.Rmd", output = "/tmp/animations.html")'
+Rscript -e 'litedown::fuse("path/to/foo.Rmd")'
+# output: path/to/foo.html
 ```
 
 The GitHub Pages site is built by the `yihui/litedown/site` action, which

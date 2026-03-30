@@ -25,21 +25,21 @@ g2_col_cdn = 'https://cdn.jsdelivr.net/npm/@xiee/utils/js/g2-column.min.js'
 #' Construct a base chart object, optionally with data and aesthetic mappings.
 #' Column names are passed as character strings.
 #'
+#' The global option `gglite.playback` controls whether chart rendering is
+#' deferred until the container scrolls into the viewport. When set to `TRUE`
+#' via `options(gglite.playback = TRUE)`, enter animations fire when the reader
+#' first sees each chart instead of on page load. This is useful for demo or
+#' documentation pages. It is not typically needed for regular plots.
+#'
 #' @param data A data frame (or `NULL`).
 #' @param ... Aesthetic mappings as `name = 'column'` pairs (character strings).
 #' @param width,height Width and height of the chart in pixels.
-#' @param playback Whether to defer the chart's initial render until its
-#'   container is scrolled into the viewport. When `TRUE`, the enter
-#'   animations play the first time the reader scrolls the chart into view
-#'   instead of firing immediately on page load (when the reader may not have
-#'   reached the chart yet). This is useful for demo pages. It is not
-#'   typically needed for regular plots.
 #' @return A `g2` object (S3 class).
 #' @importFrom utils modifyList
 #' @export
 #' @examples
 #' g2(mtcars, x = 'mpg', y = 'hp') |> mark_point()
-g2 = function(data = NULL, ..., width = 640, height = 480, playback = FALSE) {
+g2 = function(data = NULL, ..., width = 640, height = 480) {
   chart = structure(list(
     data = data,
     options = list(width = width, height = height, autoFit = TRUE),
@@ -53,7 +53,7 @@ g2 = function(data = NULL, ..., width = 640, height = 480, playback = FALSE) {
     legends = list(),
     chart_title = NULL,
     facet = NULL,
-    playback = playback
+    playback = isTRUE(getOption('gglite.playback'))
   ), class = 'g2')
   dots = list(...)
   if (length(dots)) chart$aesthetics = modifyList(chart$aesthetics, dots)

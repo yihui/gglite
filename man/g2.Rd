@@ -4,7 +4,7 @@
 \alias{g2}
 \title{Create a G2 Chart Object}
 \usage{
-g2(data = NULL, ..., width = 640, height = 480, playback = FALSE)
+g2(data = NULL, ..., width = 640, height = 480)
 }
 \arguments{
 \item{data}{A data frame (or \code{NULL}).}
@@ -12,13 +12,6 @@ g2(data = NULL, ..., width = 640, height = 480, playback = FALSE)
 \item{...}{Aesthetic mappings as \code{name = 'column'} pairs (character strings).}
 
 \item{width, height}{Width and height of the chart in pixels.}
-
-\item{playback}{Whether to defer the chart's initial render until its
-container is scrolled into the viewport. When \code{TRUE}, the enter
-animations play the first time the reader scrolls the chart into view
-instead of firing immediately on page load (when the reader may not have
-reached the chart yet). This is useful for demo pages. It is not
-typically needed for regular plots.}
 }
 \value{
 A \code{g2} object (S3 class).
@@ -26,6 +19,13 @@ A \code{g2} object (S3 class).
 \description{
 Construct a base chart object, optionally with data and aesthetic mappings.
 Column names are passed as character strings.
+}
+\details{
+The global option \code{gglite.playback} controls whether chart rendering is
+deferred until the container scrolls into the viewport. When set to \code{TRUE}
+via \code{options(gglite.playback = TRUE)}, enter animations fire when the reader
+first sees each chart instead of on page load. This is useful for demo or
+documentation pages. It is not typically needed for regular plots.
 }
 \examples{
 g2(mtcars, x = 'mpg', y = 'hp') |> mark_point()
