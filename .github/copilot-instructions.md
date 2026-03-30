@@ -18,7 +18,7 @@ rendering in R Markdown, litedown, Shiny, and standalone HTML previews.
 **Note**: R is automatically installed via `.github/copilot-setup-steps.yml`
 when working with GitHub Copilot. For manual setup:
 - R (>= 3.5.0) - available via `copilot-setup-steps.yml`
-- R package dependencies (testit, roxygen2, xfun) - available via
+- R package dependencies (testit, roxygen2, xfun, litedown) - available via
   `copilot-setup-steps.yml`
 
 **For testing on Linux manually**: If not using Copilot's automated setup,
@@ -57,16 +57,34 @@ you're testing with the most recent R version that users will have.
 - Use `has_error()` instead of `tryCatch()` for error testing
 - Load the package with `library(gglite)` before testing
 
+### Rendering Example Rmd Files
+
+All `examples/*.Rmd` files are rendered using **litedown**, not rmarkdown.
+Never use `rmarkdown::render()` — it will produce incorrect output or fail.
+
+To render an Rmd file to HTML (e.g., for inspection or headless browser
+testing):
+
+```bash
+Rscript -e 'litedown::fuse("path/to/foo.Rmd")'
+# output: path/to/foo.html
+```
+
+The GitHub Pages site is built by the `yihui/litedown/site` action, which
+calls `litedown::fuse()` for every Rmd in the repo.
+
 ### Testing Plots in Headless Browsers
 
 Since gglite generates HTML/JavaScript visualizations, **plots must be tested
 in headless browsers** to make sure they can be rendered correctly and produce
-no errors in the browser console. Use tools such as Puppeteer or Playwright to
-open the generated HTML and verify that:
+no errors in the browser console. The workflow is:
 
-1. The chart container element exists in the DOM.
-2. The G2 chart renders without JavaScript errors.
-3. No warnings or errors appear in the browser console.
+1. **Render the Rmd to HTML first** using litedown (see above).
+2. **Open the HTML** in a headless browser (Puppeteer or Playwright).
+3. Verify that:
+   - The chart container element exists in the DOM.
+   - The G2 chart renders without JavaScript errors.
+   - No warnings or errors appear in the browser console.
 
 ## Project Structure
 
