@@ -55,9 +55,9 @@ g2(iris, position = c('Sepal.Length', 'Sepal.Width',
 
 # Radar coordinate (uses position encoding)
 df2 = data.frame(
-  item = rep(c('A', 'B', 'C', 'D', 'E'), 2),
+  item = rep(c('Design', 'Dev', 'Marketing', 'Sales', 'Support'), 2),
   score = c(70, 90, 60, 80, 75, 85, 65, 80, 70, 90),
-  team = rep(c('X', 'Y'), each = 5)
+  team = rep(c('A', 'B'), each = 5)
 )
 g2(df2, position = c('item', 'score'), color = 'team') |>
   mark_line(style = list(closed = TRUE)) |>

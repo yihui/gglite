@@ -84,6 +84,8 @@ chart_html = function(chart, id = NULL, width = NULL, height = NULL) {
   defer_opt = getOption('gglite.defer_render')
   threshold = if (isTRUE(defer_opt)) 0.5 else if (is.numeric(defer_opt)) defer_opt
 
+  # G2 dark themes render content with light colors on a transparent canvas;
+  # set a dark background so the chart is visible on light pages
   dark = isTRUE(chart$theme$type %in% c('dark', 'classicDark'))
   w = if (!is.null(width)) paste0('width:', width, 'px;') else ''
   h = if (!is.null(height)) paste0('height:', height, 'px;') else ''
