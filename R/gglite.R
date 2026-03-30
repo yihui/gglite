@@ -25,11 +25,14 @@ g2_col_cdn = 'https://cdn.jsdelivr.net/npm/@xiee/utils/js/g2-column.min.js'
 #' Construct a base chart object, optionally with data and aesthetic mappings.
 #' Column names are passed as character strings.
 #'
-#' The global option `gglite.playback` controls whether chart rendering is
-#' deferred until the container scrolls into the viewport. When set to `TRUE`
-#' via `options(gglite.playback = TRUE)`, enter animations fire when the reader
-#' first sees each chart instead of on page load. This is useful for demo or
-#' documentation pages. It is not typically needed for regular plots.
+#' The global option `gglite.defer_render` controls whether chart rendering is
+#' deferred until the container scrolls into the viewport. Set
+#' `options(gglite.defer_render = TRUE)` to use the default threshold (0.5,
+#' i.e., 50% of the chart visible), or supply a numeric value between 0 and 1
+#' to customise it, e.g., `options(gglite.defer_render = 0.3)`. When enabled,
+#' enter animations fire when the reader first sees each chart instead of on
+#' page load. This is useful for demo or documentation pages. It is not
+#' typically needed for regular plots.
 #'
 #' @param data A data frame (or `NULL`).
 #' @param ... Aesthetic mappings as `name = 'column'` pairs (character strings).
@@ -52,8 +55,7 @@ g2 = function(data = NULL, ..., width = 640, height = 480) {
     axes = list(),
     legends = list(),
     chart_title = NULL,
-    facet = NULL,
-    playback = isTRUE(getOption('gglite.playback'))
+    facet = NULL
   ), class = 'g2')
   dots = list(...)
   if (length(dots)) chart$aesthetics = modifyList(chart$aesthetics, dots)

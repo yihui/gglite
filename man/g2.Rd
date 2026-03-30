@@ -21,11 +21,14 @@ Construct a base chart object, optionally with data and aesthetic mappings.
 Column names are passed as character strings.
 }
 \details{
-The global option \code{gglite.playback} controls whether chart rendering is
-deferred until the container scrolls into the viewport. When set to \code{TRUE}
-via \code{options(gglite.playback = TRUE)}, enter animations fire when the reader
-first sees each chart instead of on page load. This is useful for demo or
-documentation pages. It is not typically needed for regular plots.
+The global option \code{gglite.defer_render} controls whether chart rendering is
+deferred until the container scrolls into the viewport. Set
+\code{options(gglite.defer_render = TRUE)} to use the default threshold (0.5,
+i.e., 50\% of the chart visible), or supply a numeric value between 0 and 1
+to customise it, e.g., \code{options(gglite.defer_render = 0.3)}. When enabled,
+enter animations fire when the reader first sees each chart instead of on
+page load. This is useful for demo or documentation pages. It is not
+typically needed for regular plots.
 }
 \examples{
 g2(mtcars, x = 'mpg', y = 'hp') |> mark_point()

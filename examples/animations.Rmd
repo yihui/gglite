@@ -4,17 +4,17 @@ title: Animations
 
 ```{r}
 library(gglite)
-options(gglite.playback = TRUE)
+options(gglite.defer_render = TRUE)
 ```
 
 Animations control how marks enter, update, and exit the chart. Use
 `animate()` to configure them on the most recently added mark.
 
-Note: the charts on this page use `options(gglite.playback = TRUE)`, which
+Note: the charts on this page use `options(gglite.defer_render = TRUE)`, which
 defers rendering until the chart is scrolled into view so that the animation
 plays when you first see it. The durations are also set longer than you would
 typically use, so the animations are easier to see. In your own plots you
-may want to use shorter durations and omit `options(gglite.playback = TRUE)`.
+may want to use shorter durations and omit `options(gglite.defer_render = TRUE)`.
 
 ## Fade-in Animation
 

@@ -72,14 +72,15 @@ chart_html = function(chart, id = NULL, width = NULL, height = NULL) {
   ctor = chart$options
   ctor$container = id
   spec = build_config(chart)
-  playback = isTRUE(chart$playback)
+  defer_opt = getOption('gglite.defer_render')
+  threshold = if (isTRUE(defer_opt)) 0.5 else if (is.numeric(defer_opt)) defer_opt else NULL
 
   w = if (!is.null(width)) paste0('width:', width, 'px;') else ''
   h = if (!is.null(height)) paste0('height:', height, 'px;') else ''
   style = paste0(w, h)
   if (nzchar(style)) style = paste0(' style="', style, '"')
 
-  if (playback) {
+  if (!is.null(threshold)) {
     spec_js = paste0('const spec = ', xfun::tojson(spec), ';\n')
     options_js = 'chart.options(spec);\n'
     render_js = paste0(
@@ -88,7 +89,8 @@ chart_html = function(chart, id = NULL, width = NULL, height = NULL) {
       '    chart.render();\n',
       '    obs.disconnect();\n',
       '  }\n',
-      '}, { threshold: 0.1 }).observe(document.getElementById("', id, '"));\n'  # 10% visible
+      '}, { threshold: ', threshold,
+      ' }).observe(document.getElementById("', id, '"));\n'
     )
   } else {
     spec_js = ''
