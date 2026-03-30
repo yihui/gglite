@@ -50,12 +50,16 @@ g2(df, x = 'x', y = 'y', color = 'x') |>
 g2(iris, position = c('Sepal.Length', 'Sepal.Width',
     'Petal.Length', 'Petal.Width'), color = 'Species') |>
   mark_line() |>
-  coordinate('parallel')
+  coordinate('parallel') |>
+  legend_of('color', position = 'bottom')
 
 # Radar coordinate (uses position encoding)
-df2 = data.frame(item = c('A', 'B', 'C', 'D', 'E'),
-  score = c(3, 7, 2, 5, 4))
-g2(df2, position = c('item', 'score')) |>
+df2 = data.frame(
+  item = rep(c('A', 'B', 'C', 'D', 'E'), 2),
+  score = c(70, 90, 60, 80, 75, 85, 65, 80, 70, 90),
+  team = rep(c('X', 'Y'), each = 5)
+)
+g2(df2, position = c('item', 'score'), color = 'team') |>
   mark_line(style = list(closed = TRUE)) |>
   mark_point() |>
   coordinate('radar')

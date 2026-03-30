@@ -95,7 +95,8 @@ encoding (a character vector of column names) instead of `x`/`y`.
 g2(iris, position = c('Sepal.Length', 'Sepal.Width',
     'Petal.Length', 'Petal.Width'), color = 'Species') |>
   mark_line() |>
-  coordinate('parallel')
+  coordinate('parallel') |>
+  legend_of('color', position = 'bottom')
 ```
 
 ## Radar
@@ -105,10 +106,11 @@ parallel coordinates, radar charts require a `position` encoding.
 
 ```{r}
 df_radar = data.frame(
-  item = c('A', 'B', 'C', 'D', 'E'),
-  score = c(3, 7, 2, 5, 4)
+  item = rep(c('Design', 'Dev', 'Marketing', 'Sales', 'Support'), 2),
+  score = c(70, 90, 60, 80, 75, 85, 65, 80, 70, 90),
+  team = rep(c('A', 'B'), each = 5)
 )
-g2(df_radar, position = c('item', 'score')) |>
+g2(df_radar, position = c('item', 'score'), color = 'team') |>
   mark_line(style = list(closed = TRUE)) |>
   mark_point() |>
   coordinate('radar')
@@ -116,12 +118,12 @@ g2(df_radar, position = c('item', 'score')) |>
 
 ## Helix
 
-Arranges data along a helix spiral.
+Arranges data along a helix spiral. Works best with `mark_interval()`.
 
 ```{r}
-df_helix = data.frame(x = 1:50, y = sin(1:50 / 5))
-g2(df_helix, x = 'x', y = 'y') |>
-  mark_line() |>
+df_helix = data.frame(x = paste0('D', 1:50), y = abs(sin(1:50 / 5)))
+g2(df_helix, x = 'x', y = 'y', color = 'y') |>
+  mark_interval() |>
   coordinate('helix')
 ```
 

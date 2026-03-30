@@ -84,12 +84,16 @@ chart_html = function(chart, id = NULL, width = NULL, height = NULL) {
   defer_opt = getOption('gglite.defer_render')
   threshold = if (isTRUE(defer_opt)) 0.5 else if (is.numeric(defer_opt)) defer_opt
 
+  dark = isTRUE(chart$theme$type %in% c('dark', 'classicDark'))
   w = if (!is.null(width)) paste0('width:', width, 'px;') else ''
   h = if (!is.null(height)) paste0('height:', height, 'px;') else ''
-  style = paste0(w, h)
-  if (nzchar(style)) style = paste0(' style="', style, '"')
+  bg = if (dark) 'background-color:#141414;' else ''
 
   if (!is.null(threshold)) {
+    # Ensure container has min-height so IntersectionObserver can trigger
+    ch = if (is.null(ctor$height)) 480 else ctor$height
+    mh = paste0('min-height:', ch, 'px;')
+    style = paste0(w, h, bg, mh)
     spec_js = paste0('const spec = ', xfun::tojson(spec), ';\n')
     options_js = 'chart.options(spec);\n'
     render_js = paste0(
@@ -102,10 +106,13 @@ chart_html = function(chart, id = NULL, width = NULL, height = NULL) {
       ' }).observe(document.getElementById("', id, '"));\n'
     )
   } else {
+    style = paste0(w, h, bg)
     spec_js = ''
     options_js = paste0('chart.options(', xfun::tojson(spec), ');\n')
     render_js = 'chart.render();\n'
   }
+
+  if (nzchar(style)) style = paste0(' style="', style, '"')
 
   paste0(
     '<div id="', id, '"', style, '></div>\n',

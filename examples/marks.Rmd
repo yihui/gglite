@@ -239,3 +239,169 @@ g2() |>
     style = list(textContent = '60%')
   )
 ```
+
+## Heatmap Mark
+
+```{r}
+g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Petal.Length') |>
+  mark_heatmap()
+```
+
+## Image Mark
+
+```{r}
+df = data.frame(x = 1:2, y = 1:2)
+g2(df, x = 'x', y = 'y') |>
+  mark_image(style = list(
+    src = 'https://gw.alipayobjects.com/mdn/rms_dfc253/afts/img/A*SZGfRaFPkIoAAAAAAAAAAAAAARQnAQ'
+  ))
+```
+
+## Word Cloud Mark
+
+```{r}
+df = data.frame(
+  text = c('Hello', 'Data', 'Science', 'R', 'G2', 'Chart', 'Vis', 'Stats'),
+  value = c(30, 25, 20, 18, 15, 12, 10, 8)
+)
+g2(df) |>
+  mark_word_cloud(
+    encode = list(text = 'text', value = 'value', color = 'text')
+  )
+```
+
+## Sankey Mark
+
+```{r}
+df = data.frame(
+  source = c('A', 'A', 'B', 'C'), target = c('B', 'C', 'C', 'D'),
+  value = c(5, 3, 2, 4)
+)
+g2(df) |>
+  mark_sankey(
+    encode = list(source = 'source', target = 'target', value = 'value'),
+    layout = list(nodeAlign = 'center')
+  )
+```
+
+## Chord Mark
+
+```{r}
+df = data.frame(
+  source = c('A', 'A', 'B'), target = c('B', 'C', 'C'),
+  value = c(5, 3, 2)
+)
+g2(df) |>
+  mark_chord(
+    encode = list(source = 'source', target = 'target', value = 'value')
+  )
+```
+
+## Treemap Mark
+
+```{r}
+tree_data = list(
+  name = 'root', children = list(
+    list(name = 'A', value = 10), list(name = 'B', value = 20),
+    list(name = 'C', value = 15), list(name = 'D', value = 8)
+  )
+)
+g2() |>
+  mark_treemap(
+    data = list(value = tree_data),
+    encode = list(value = 'value', color = 'name')
+  )
+```
+
+## Pack (Circle Packing) Mark
+
+```{r}
+tree_data = list(
+  name = 'root', children = list(
+    list(name = 'A', value = 10), list(name = 'B', value = 20),
+    list(name = 'C', value = 15), list(name = 'D', value = 8)
+  )
+)
+g2() |>
+  mark_pack(
+    data = list(value = tree_data),
+    encode = list(value = 'value', color = 'name')
+  )
+```
+
+## Gauge Mark
+
+```{r}
+g2() |>
+  mark_gauge(
+    data = list(value = list(target = 120, total = 400, name = 'score'))
+  )
+```
+
+## Force Graph Mark
+
+```{r}
+g2() |>
+  mark_force_graph(data = list(value = list(
+    nodes = list(
+      list(id = 'a'), list(id = 'b'),
+      list(id = 'c'), list(id = 'd')
+    ),
+    links = list(
+      list(source = 'a', target = 'b'),
+      list(source = 'b', target = 'c'),
+      list(source = 'c', target = 'd'),
+      list(source = 'a', target = 'd')
+    )
+  )))
+```
+
+## Tree Mark
+
+```{r}
+g2() |>
+  mark_tree(data = list(value = list(
+    name = 'root', children = list(
+      list(name = 'A', children = list(
+        list(name = 'A1'), list(name = 'A2')
+      )),
+      list(name = 'B', children = list(list(name = 'B1')))
+    )
+  )))
+```
+
+## Density Mark
+
+The `density` mark requires a KDE transform that is not available in
+G2 v5. Use `mark_heatmap()` as an alternative for 2-D density
+visualizations.
+
+```{r, eval=FALSE}
+g2(iris, x = 'Sepal.Width', y = 'Sepal.Length') |>
+  mark_density(
+    transform = list(list(type = 'kde')),
+    style = list(fill = 'steelblue', fillOpacity = 0.5)
+  )
+```
+
+## Partition (Sunburst) Mark
+
+The `partition` mark does not work correctly in G2 v5. Use
+`mark_treemap()` or `mark_pack()` as alternatives for hierarchical data.
+
+```{r, eval=FALSE}
+tree_data = list(
+  name = 'root', children = list(
+    list(name = 'A', value = 10, children = list(
+      list(name = 'A1', value = 5), list(name = 'A2', value = 5)
+    )),
+    list(name = 'B', value = 20)
+  )
+)
+g2() |>
+  mark_partition(
+    data = list(value = tree_data),
+    encode = list(value = 'value'),
+    coordinate = list(type = 'theta', innerRadius = 0.3)
+  )
+```
