@@ -92,6 +92,12 @@ When fixing or changing plot examples, **always submit screenshots** of the
 plots as PR comments so reviewers can see the visual results. Take screenshots
 in headless browsers (Playwright or Puppeteer) and attach them to the PR.
 
+### G2 Reference
+
+When in doubt about G2 features, marks, or coordinate systems, always refer to:
+- **G2 source repository**: https://github.com/antvis/G2
+- **G2 documentation site**: https://g2.antv.antgroup.com
+
 ## Project Structure
 
 ### Key Files and Directories

@@ -92,32 +92,35 @@ Maps multiple numeric variables to parallel axes. Use a `position`
 encoding (a character vector of column names) instead of `x`/`y`.
 
 ```{r}
-p = g2(mtcars, position = c('mpg', 'disp', 'hp', 'wt'),
-    color = 'cyl') |>
+g2(iris, position = c('Sepal.Length', 'Sepal.Width',
+    'Petal.Length', 'Petal.Width'), color = 'Species') |>
   mark_line() |>
   coordinate('parallel') |>
   legend_of('color', position = 'bottom')
-p$options$paddingTop = 30
-p
 ```
 
 ## Radar
 
-Displays data on radial axes emanating from a center point. Like
-parallel coordinates, radar charts require a `position` encoding
-with multiple numeric columns.
+Displays data on radial axes emanating from a center point. A radar chart
+is a line or area chart in polar coordinates. Use long-format data with
+`x` (category), `y` (value), and `color` (series) encodings. All values
+should be on the same scale (e.g., 0--100).
 
 ```{r}
 df_radar = data.frame(
-  Design = c(70, 85), Dev = c(90, 65), Marketing = c(60, 80),
-  Sales = c(80, 70), Support = c(75, 90), team = c('A', 'B')
+  item = rep(c('Design', 'Dev', 'Marketing', 'Sales', 'Support'), 2),
+  score = c(80, 90, 65, 75, 85, 60, 70, 85, 80, 70),
+  team = rep(c('A', 'B'), each = 5)
 )
-g2(df_radar, position = c('Design', 'Dev', 'Marketing',
-    'Sales', 'Support'), color = 'team') |>
-  mark_line(style = list(closed = TRUE)) |>
+g2(df_radar, x = 'item', y = 'score', color = 'team') |>
+  mark_area(style = list(fillOpacity = 0.5)) |>
+  mark_line(style = list(lineWidth = 2)) |>
   mark_point() |>
-  coordinate('radar') |>
-  legend_of('color', position = 'bottom')
+  coordinate('polar') |>
+  scale_of('x', padding = 0.5, align = 0) |>
+  scale_of('y', domainMin = 0, domainMax = 100) |>
+  axis_of('x', grid = TRUE) |>
+  axis_of('y', grid = TRUE, title = FALSE)
 ```
 
 ## Helix
@@ -143,11 +146,11 @@ g2(df, x = 'x', y = 'y') |>
   coord_transpose()
 ```
 
-### Transpose with polar
+### Transpose with radial
 
 ```{r}
 g2(df, x = 'x', y = 'y', color = 'x') |>
   mark_interval() |>
-  coordinate('polar') |>
+  coordinate('radial') |>
   coord_transpose()
 ```

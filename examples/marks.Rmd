@@ -16,7 +16,7 @@ g2(mtcars, x = 'mpg', y = 'hp') |> mark_point()
 
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp', color = 'cyl') |>
-  mark_point(style = list(shape = 'point'))
+  mark_point(style = list(shape = 'point', lineWidth = 0))
 ```
 
 ### Size by a variable
@@ -27,8 +27,9 @@ g2(mtcars, x = 'mpg', y = 'hp', size = 'wt') |> mark_point()
 
 ### Shape by a variable
 
-Note: shape mapping may produce mismatched shapes between the legend
-and plot area in some G2 versions.
+Note: in G2 v5, shape encoding in point marks may not always match
+between the legend and the plot. See [G2 source](https://github.com/antvis/G2)
+and [documentation](https://g2.antv.antgroup.com) for details.
 
 ```{r, eval=FALSE}
 g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species',
@@ -40,7 +41,7 @@ g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species',
 
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
-  mark_point(style = list(fill = 'steelblue', stroke = 'white', lineWidth = 1))
+  mark_point(style = list(fill = 'steelblue', stroke = 'navy', lineWidth = 1))
 ```
 
 ## Line Mark
@@ -131,18 +132,15 @@ g2(df, x = 'x', y = 'y') |>
 
 ## Path Mark
 
-The `path` mark connects points in data order. Note: due to G2's
-column-major data handling, the `path` mark may not render correctly
-with gglite. Use `mark_line()` as an alternative.
+The `path` mark in G2 uses an SVG-like `d` channel to draw arbitrary
+shapes. It does not use x/y data coordinates like `mark_line()`. Use
+`mark_line()` to connect data points in order.
 
 ```{r, eval=FALSE}
-n = 100
-t = seq(0, 4 * pi, length.out = n)
-df = data.frame(x = t * cos(t), y = t * sin(t))
 g2(df, x = 'x', y = 'y') |> mark_path()
 ```
 
-A line mark connecting the same spiral data:
+A line mark connecting data points in order:
 
 ```{r}
 n = 100
@@ -153,12 +151,15 @@ g2(df, x = 'x', y = 'y') |> mark_line()
 
 ## Polygon Mark
 
-The `polygon` mark draws filled polygons. Note: this mark does not
-currently work with gglite's column-major data format.
+The `polygon` mark draws filled polygons. Use list columns to store
+vertex coordinates for each polygon.
 
-```{r, eval=FALSE}
-df = data.frame(x = c(0, 1, 0.5), y = c(0, 0, 1))
-g2(df, x = 'x', y = 'y') |> mark_polygon()
+```{r}
+df = data.frame(group = c('triangle', 'square'))
+df$x = list(c(0, 1, 0.5), c(2, 3, 3, 2))
+df$y = list(c(0, 0, 1), c(0, 0, 1, 1))
+g2(df, color = 'group') |>
+  mark_polygon(encode = list(x = 'x', y = 'y'))
 ```
 
 ## Link Mark
@@ -180,11 +181,10 @@ g2(df) |>
 ### Vertical reference line (lineX)
 
 ```{r}
-df = data.frame(x = c('A', 'B', 'C', 'D'), y = c(3, 7, 2, 5))
-g2(df, x = 'x', y = 'y') |>
-  mark_interval() |>
+g2(mtcars, x = 'mpg', y = 'hp') |>
+  mark_point() |>
   mark_line_x(
-    data = list(list(x = 'B')),
+    data = list(list(x = mean(mtcars$mpg))),
     style = list(stroke = 'red', lineDash = c(4, 4))
   )
 ```
@@ -192,10 +192,10 @@ g2(df, x = 'x', y = 'y') |>
 ### Horizontal reference line (lineY)
 
 ```{r}
-g2(df, x = 'x', y = 'y') |>
-  mark_interval() |>
+g2(mtcars, x = 'mpg', y = 'hp') |>
+  mark_point() |>
   mark_line_y(
-    data = list(list(y = 4)),
+    data = list(list(y = mean(mtcars$hp))),
     style = list(stroke = 'red', lineDash = c(4, 4))
   )
 ```
@@ -263,7 +263,8 @@ g2(iris, x = 'Species', y = 'Sepal.Width') |> mark_boxplot()
 g2() |>
   mark_liquid(
     data = list(value = 0.6),
-    style = list(textContent = '60%')
+    style = list(contentText = '60%', contentFill = 'white',
+      contentFontSize = 40)
   )
 ```
 
@@ -276,13 +277,17 @@ g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Petal.Length') |>
 
 ## Image Mark
 
-The `image` mark places images at data coordinates. The example below
-uses an external image URL which may not render in all environments.
+The `image` mark places images at data coordinates.
 
-```{r, eval=FALSE}
-df = data.frame(x = 1:2, y = 1:2)
+```{r}
+df = data.frame(
+  x = c(1, 2, 3), y = c(3, 5, 2),
+  url = rep(
+    'https://cdn.jsdelivr.net/npm/@browser-logos/chrome/chrome_64x64.png', 3
+  )
+)
 g2(df, x = 'x', y = 'y') |>
-  mark_image(style = list(src = 'https://example.com/image.png'))
+  mark_image(encode = list(src = 'url'), style = list(width = 30, height = 30))
 ```
 
 ## Word Cloud Mark
@@ -333,16 +338,26 @@ g2(df) |>
 ```{r}
 tree_data = list(
   name = 'root', children = list(
-    list(name = 'A', value = 30), list(name = 'B', value = 25),
-    list(name = 'C', value = 20), list(name = 'D', value = 15),
-    list(name = 'E', value = 10)
+    list(name = 'Frontend', children = list(
+      list(name = 'React', value = 180),
+      list(name = 'Vue', value = 120),
+      list(name = 'Angular', value = 80)
+    )),
+    list(name = 'Backend', children = list(
+      list(name = 'Node.js', value = 150),
+      list(name = 'Python', value = 130),
+      list(name = 'Go', value = 90)
+    )),
+    list(name = 'Data', children = list(
+      list(name = 'R', value = 100),
+      list(name = 'Julia', value = 40)
+    ))
   )
 )
 g2() |>
   mark_treemap(
-    data = list(value = tree_data),
-    encode = list(value = 'value', color = 'name'),
-    labels = list(list(text = 'name', position = 'inside'))
+    data = list(type = 'inline', value = tree_data),
+    encode = list(value = 'value', color = 'name')
   )
 ```
 
@@ -351,9 +366,8 @@ g2() |>
 ```{r}
 g2() |>
   mark_pack(
-    data = list(value = tree_data),
-    encode = list(value = 'value', color = 'name'),
-    labels = list(list(text = 'name', position = 'inside'))
+    data = list(type = 'inline', value = tree_data),
+    encode = list(value = 'value')
   )
 ```
 
@@ -362,7 +376,10 @@ g2() |>
 ```{r}
 g2() |>
   mark_gauge(
-    data = list(value = list(target = 120, total = 400, name = 'score'))
+    data = list(
+      type = 'inline',
+      value = list(target = 120, total = 400, name = 'score')
+    )
   )
 ```
 
@@ -371,23 +388,31 @@ g2() |>
 ```{r}
 g2() |>
   mark_force_graph(
-    data = list(value = list(
+    data = list(type = 'inline', value = list(
       nodes = list(
-        list(id = 'Node1'), list(id = 'Node2'),
-        list(id = 'Node3'), list(id = 'Node4'),
-        list(id = 'Node5'), list(id = 'Node6')
+        list(id = 'CEO'), list(id = 'CTO'), list(id = 'CFO'),
+        list(id = 'VP Eng'), list(id = 'VP Sales'),
+        list(id = 'Dev Lead'), list(id = 'Backend'),
+        list(id = 'Frontend'), list(id = 'Accounting'),
+        list(id = 'Payroll'), list(id = 'Sales Rep 1'),
+        list(id = 'Sales Rep 2')
       ),
       links = list(
-        list(source = 'Node1', target = 'Node2'),
-        list(source = 'Node1', target = 'Node3'),
-        list(source = 'Node2', target = 'Node4'),
-        list(source = 'Node3', target = 'Node4'),
-        list(source = 'Node4', target = 'Node5'),
-        list(source = 'Node5', target = 'Node6'),
-        list(source = 'Node3', target = 'Node6')
+        list(source = 'CEO', target = 'CTO'),
+        list(source = 'CEO', target = 'CFO'),
+        list(source = 'CEO', target = 'VP Sales'),
+        list(source = 'CTO', target = 'VP Eng'),
+        list(source = 'VP Eng', target = 'Dev Lead'),
+        list(source = 'Dev Lead', target = 'Backend'),
+        list(source = 'Dev Lead', target = 'Frontend'),
+        list(source = 'CFO', target = 'Accounting'),
+        list(source = 'CFO', target = 'Payroll'),
+        list(source = 'VP Sales', target = 'Sales Rep 1'),
+        list(source = 'VP Sales', target = 'Sales Rep 2'),
+        list(source = 'Backend', target = 'Frontend')
       )
     )),
-    labels = list(list(text = 'id'))
+    labels = list(list(text = 'id', fontSize = 10))
   )
 ```
 
@@ -396,17 +421,24 @@ g2() |>
 ```{r}
 g2() |>
   mark_tree(
-    data = list(value = list(
-      name = 'Root', children = list(
-        list(name = 'Branch A', children = list(
-          list(name = 'Leaf A1'), list(name = 'Leaf A2')
+    data = list(type = 'inline', value = list(
+      name = 'Company', children = list(
+        list(name = 'Engineering', children = list(
+          list(name = 'Frontend'),
+          list(name = 'Backend'),
+          list(name = 'DevOps')
         )),
-        list(name = 'Branch B', children = list(
-          list(name = 'Leaf B1'), list(name = 'Leaf B2')
+        list(name = 'Marketing', children = list(
+          list(name = 'SEO'),
+          list(name = 'Content')
+        )),
+        list(name = 'Finance', children = list(
+          list(name = 'Accounting'),
+          list(name = 'Payroll')
         ))
       )
     )),
-    labels = list(list(text = 'name'))
+    labels = list(list(text = 'name', fontSize = 10))
   )
 ```
 
