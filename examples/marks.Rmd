@@ -15,8 +15,8 @@ g2(mtcars, x = 'mpg', y = 'hp') |> mark_point()
 ### Color by a variable
 
 ```{r}
-g2(mtcars, x = 'mpg', y = 'hp', color = 'cyl') |>
-  mark_point(style = list(shape = 'point', lineWidth = 0))
+g2(mtcars, x = 'mpg', y = 'hp', color = 'wt', size = 5) |>
+  mark_point(style = list(shape = 'point'))
 ```
 
 ### Size by a variable
