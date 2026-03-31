@@ -14,9 +14,9 @@ renderG2(expr, env = parent.frame(), quoted = FALSE)
 \item{quoted}{Whether \code{expr} is already quoted.}
 }
 \value{
-A render function for use with \code{\link[=g2output]{g2output()}}.
+A render function for use with \code{\link[=g2Output]{g2Output()}}.
 }
 \description{
-Create a reactive G2 chart for use with \code{\link[=g2output]{g2output()}}.
+Create a reactive G2 chart for use with \code{\link[=g2Output]{g2Output()}}.
 Assign it to an output slot: \code{output$ID = renderG2({...})}.
 }

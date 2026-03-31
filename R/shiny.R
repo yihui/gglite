@@ -10,7 +10,7 @@
 #' @examples
 #' \dontrun{
 #' library(shiny)
-#' ui = fluidPage(g2output('chart1'))
+#' ui = fluidPage(g2Output('chart1'))
 #' server = function(input, output, session) {
 #'   output$chart1 = renderG2({
 #'     g2(mtcars, x = 'mpg', y = 'hp') |> mark_point()
@@ -19,9 +19,7 @@
 #' shinyApp(ui, server)
 #' }
 #' @export
-g2output = function(outputId, width = '100%', height = '480px') {
-  if (!requireNamespace('shiny', quietly = TRUE))
-    stop('"shiny" is required; install it with install.packages("shiny")')
+g2Output = function(outputId, width = '100%', height = '480px') {
   dep_g2 = htmltools::htmlDependency(
     'g2', '5',
     src = c(href = 'https://unpkg.com/@antv/g2@5/dist'),
@@ -48,21 +46,19 @@ g2output = function(outputId, width = '100%', height = '480px') {
 
 #' Render a G2 Chart in Shiny
 #'
-#' Create a reactive G2 chart for use with [g2output()].
+#' Create a reactive G2 chart for use with [g2Output()].
 #' Assign it to an output slot: `output$ID = renderG2({...})`.
 #'
 #' @param expr An expression that returns a `g2` object.
 #' @param env The environment in which to evaluate `expr`.
 #' @param quoted Whether `expr` is already quoted.
-#' @return A render function for use with [g2output()].
+#' @return A render function for use with [g2Output()].
 #' @export
 renderG2 = function(expr, env = parent.frame(), quoted = FALSE) {
-  if (!requireNamespace('shiny', quietly = TRUE))
-    stop('"shiny" is required; install it with install.packages("shiny")')
   if (!quoted) expr = substitute(expr)
   expr_env = env
   func = function() eval(expr, envir = expr_env)
-  shiny::markRenderFunction(g2output, function() {
+  shiny::markRenderFunction(g2Output, function() {
     chart = func()
     list(ctor = chart$options, spec = xfun::tojson(build_config(chart)))
   })
