@@ -14,7 +14,7 @@ Sliders and scrollbars allow users to zoom and pan through data.
 df = data.frame(x = 1:100, y = cumsum(rnorm(100)))
 g2(df, x = 'x', y = 'y') |>
   mark_line() |>
-  slider_of('x')
+  slider_x()
 ```
 
 ## Slider on y
@@ -22,7 +22,7 @@ g2(df, x = 'x', y = 'y') |>
 ```{r}
 g2(df, x = 'x', y = 'y') |>
   mark_line() |>
-  slider_of('y')
+  slider_y()
 ```
 
 ## Slider on both axes
@@ -30,8 +30,8 @@ g2(df, x = 'x', y = 'y') |>
 ```{r}
 g2(df, x = 'x', y = 'y') |>
   mark_point() |>
-  slider_of('x') |>
-  slider_of('y')
+  slider_x() |>
+  slider_y()
 ```
 
 ## Scrollbar on x
@@ -39,7 +39,7 @@ g2(df, x = 'x', y = 'y') |>
 ```{r}
 g2(df, x = 'x', y = 'y') |>
   mark_line() |>
-  scrollbar_of('x')
+  scrollbar_x()
 ```
 
 ## Scrollbar on y
@@ -47,7 +47,7 @@ g2(df, x = 'x', y = 'y') |>
 ```{r}
 g2(df, x = 'x', y = 'y') |>
   mark_line() |>
-  scrollbar_of('y')
+  scrollbar_y()
 ```
 
 ## Scrollbar on both axes
@@ -55,8 +55,8 @@ g2(df, x = 'x', y = 'y') |>
 ```{r}
 g2(df, x = 'x', y = 'y') |>
   mark_point() |>
-  scrollbar_of('x') |>
-  scrollbar_of('y')
+  scrollbar_x() |>
+  scrollbar_y()
 ```
 
 ## Slider with a bar chart
@@ -65,5 +65,5 @@ g2(df, x = 'x', y = 'y') |>
 df = data.frame(x = paste0('Item ', 1:50), y = sample(1:100, 50))
 g2(df, x = 'x', y = 'y') |>
   mark_interval() |>
-  slider_of('x')
+  slider_x()
 ```

@@ -12,7 +12,7 @@ theme_classicDark(chart, ...)
 \item{...}{Additional theme options merged with the type.}
 }
 \description{
-Shortcut for \code{theme_of(chart, 'classicDark', ...)}.
+Shortcut for \code{theme_(chart, 'classicDark', ...)}.
 }
 \examples{
 g2(mtcars, x = 'mpg', y = 'hp') |> mark_point() |> theme_classicDark()

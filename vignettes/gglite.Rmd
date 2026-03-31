@@ -100,14 +100,14 @@ g2(df, x = 'x', y = 'y') |>
 
 ## Scales
 
-Scales control how data values map to visual properties. Use `scale_of()` to
-configure the scale for a given channel:
+Scales control how data values map to visual properties. Use helpers like
+`scale_x()`, `scale_y()`, and `scale_color()` to configure scales:
 
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp', color = 'wt') |>
   mark_point() |>
-  scale_of('y', type = 'log') |>
-  scale_of('color', palette = 'viridis')
+  scale_y(type = 'log') |>
+  scale_color(palette = 'viridis')
 ```
 
 Custom domain and range:
@@ -115,8 +115,8 @@ Custom domain and range:
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
   mark_point() |>
-  scale_of('x', domain = c(10, 35)) |>
-  scale_of('y', domain = c(0, 400))
+  scale_x(domain = c(10, 35)) |>
+  scale_y(domain = c(0, 400))
 ```
 
 ## Coordinates
@@ -138,7 +138,7 @@ g2(df, x = 'x', y = 'y', color = 'x') |>
 ```{r}
 g2(df, x = 'x', y = 'y', color = 'x') |>
   mark_interval() |>
-  transform_of('stackY') |>
+  transform_('stackY') |>
   coord_theta(innerRadius = 0.5)
 ```
 
@@ -154,7 +154,7 @@ g2(df, x = 'x', y = 'y') |>
 
 ## Transforms
 
-Transforms modify the data before rendering. Use `transform_of()` to apply
+Transforms modify the data before rendering. Use `transform_()` to apply
 statistical or layout transforms:
 
 ### Stacked bars
@@ -166,7 +166,7 @@ df = data.frame(
 )
 g2(df, x = 'x', y = 'y', color = 'color') |>
   mark_interval() |>
-  transform_of('stackY')
+  transform_('stackY')
 ```
 
 ### Dodged bars
@@ -174,7 +174,7 @@ g2(df, x = 'x', y = 'y', color = 'color') |>
 ```{r}
 g2(df, x = 'x', y = 'y', color = 'color') |>
   mark_interval() |>
-  transform_of('dodgeX')
+  transform_('dodgeX')
 ```
 
 ### Stacked area chart
@@ -186,7 +186,7 @@ df = data.frame(
 )
 g2(df, x = 'x', y = 'y', color = 'group') |>
   mark_area() |>
-  transform_of('stackY')
+  transform_('stackY')
 ```
 
 ## Facets
@@ -221,7 +221,7 @@ legends, and labels.
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
   mark_point() |>
-  title_of('Motor Trend Cars', subtitle = 'mpg vs horsepower')
+  title_('Motor Trend Cars', subtitle = 'mpg vs horsepower')
 ```
 
 ### Tooltips
@@ -229,7 +229,7 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
   mark_point() |>
-  tooltip_of(crosshairs = TRUE)
+  tooltip_(crosshairs = TRUE)
 ```
 
 ### Labels
@@ -238,7 +238,7 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
 df = data.frame(x = c('A', 'B', 'C', 'D'), y = c(3, 7, 2, 5))
 g2(df, x = 'x', y = 'y') |>
   mark_interval() |>
-  labels_of(text = 'y')
+  labels_(text = 'y')
 ```
 
 ## Interactions
@@ -265,9 +265,9 @@ df = data.frame(
 )
 g2(df, x = 'x', y = 'y', color = 'product') |>
   mark_interval() |>
-  transform_of('dodgeX') |>
-  scale_of('color', range = c('#5470c6', '#91cc75')) |>
-  title_of('Quarterly Sales', subtitle = 'By product line') |>
+  transform_('dodgeX') |>
+  scale_color(range = c('#5470c6', '#91cc75')) |>
+  title_('Quarterly Sales', subtitle = 'By product line') |>
   interact('tooltip') |>
   interact('elementHighlightByX') |>
   theme_classic()

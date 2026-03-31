@@ -27,29 +27,29 @@
 #' )
 #' g2(df, x = 'x', y = 'y', color = 'color') |>
 #'   mark_interval() |>
-#'   transform_of('stackY')
+#'   transform_('stackY')
 #'
 #' # Grouped (dodged) bar chart
 #' g2(df, x = 'x', y = 'y', color = 'color') |>
 #'   mark_interval() |>
-#'   transform_of('dodgeX')
+#'   transform_('dodgeX')
 #'
 #' # Percent stacked bar (normalizeY + stackY)
 #' g2(df, x = 'x', y = 'y', color = 'color') |>
 #'   mark_interval() |>
-#'   transform_of('stackY') |>
-#'   transform_of('normalizeY')
+#'   transform_('stackY') |>
+#'   transform_('normalizeY')
 #'
 #' # Jitter on a scatter plot
 #' g2(mtcars, x = 'cyl', y = 'hp') |>
 #'   mark_point() |>
-#'   transform_of('jitterX')
+#'   transform_('jitterX')
 #'
 #' # Histogram using binX
 #' g2(mtcars, x = 'mpg') |>
 #'   mark_interval(encode = list(y = 'count')) |>
-#'   transform_of('binX', thresholds = 15)
-transform_of = function(chart, type, ...) {
+#'   transform_('binX', thresholds = 15)
+transform_ = function(chart, type, ...) {
   n = length(chart$layers)
   if (n == 0) stop('add a mark before setting transforms')
   t = c(list(type = type), list(...))

@@ -76,14 +76,14 @@ df = data.frame(
   color = rep(c('a', 'b'), 3)
 )
 g2(df, x = 'x', y = 'y', color = 'color') |>
-  mark_interval() |> transform_of('stackY')
+  mark_interval() |> transform_('stackY')
 ```
 
 ### Grouped (dodged) bar
 
 ```{r}
 g2(df, x = 'x', y = 'y', color = 'color') |>
-  mark_interval() |> transform_of('dodgeX')
+  mark_interval() |> transform_('dodgeX')
 ```
 
 ## Area Mark
@@ -101,7 +101,7 @@ df = data.frame(
   group = rep(c('A', 'B'), each = 5)
 )
 g2(df, x = 'x', y = 'y', color = 'group') |>
-  mark_area() |> transform_of('stackY')
+  mark_area() |> transform_('stackY')
 ```
 
 ## Rect Mark

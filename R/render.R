@@ -40,7 +40,7 @@ build_config = function(chart) {
   if (!is.null(chart$tooltip_config)) config$tooltip = chart$tooltip_config
   if (!is.null(chart$sliders)) config$slider = chart$sliders
   if (!is.null(chart$scrollbars)) config$scrollbar = chart$scrollbars
-  if (length(chart$padding)) config = modifyList(config, chart$padding)
+  if (length(chart$layout)) config = modifyList(config, chart$layout)
 
   # Faceting wraps the spec as a facet view
   if (!is.null(chart$facet)) {

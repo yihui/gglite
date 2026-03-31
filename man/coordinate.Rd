@@ -39,7 +39,7 @@ g2(df, x = 'x', y = 'y') |>
 # Theta coordinate (pie / donut chart)
 g2(df, x = 'x', y = 'y', color = 'x') |>
   mark_interval() |>
-  transform_of('stackY') |>
+  transform_('stackY') |>
   coordinate('theta')
 
 # Radial coordinate (radial bar chart)
@@ -49,11 +49,11 @@ g2(df, x = 'x', y = 'y', color = 'x') |>
 
 # Parallel coordinate (uses position encoding)
 g2(iris, position = c('Sepal.Length', 'Sepal.Width',
-    'Petal.Length', 'Petal.Width'), color = 'Species') |>
+    'Petal.Length', 'Petal.Width'), color = 'Species',
+  padding = c(30, NA, NA, NA)) |>
   mark_line() |>
   coordinate('parallel') |>
-  legend_of('color', position = 'bottom') |>
-  padding_of(top = 30)
+  legend_('color', position = 'bottom')
 
 # Radar coordinate (polar with long-format data)
 df2 = data.frame(
@@ -65,7 +65,7 @@ g2(df2, x = 'item', y = 'score', color = 'team') |>
   mark_area(style = list(fillOpacity = 0.5)) |>
   mark_line(style = list(lineWidth = 2)) |>
   coordinate('polar') |>
-  scale_of('x', padding = 0.5, align = 0) |>
-  scale_of('y', domainMin = 0, domainMax = 100) |>
-  axis_of('x', grid = TRUE)
+  scale_('x', padding = 0.5, align = 0) |>
+  scale_('y', domainMin = 0, domainMax = 100) |>
+  axis_('x', grid = TRUE)
 }

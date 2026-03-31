@@ -49,7 +49,7 @@ server = function(input, output, session) {
   output$chart1 = renderG2({
     g2(mtcars, x = input$xvar, y = 'mpg') |>
       mark_point() |>
-      title_of(paste('mpg vs', input$xvar))
+      title_(paste('mpg vs', input$xvar))
   })
 }
 

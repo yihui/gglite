@@ -4,7 +4,15 @@
 \alias{g2}
 \title{Create a G2 Chart Object}
 \usage{
-g2(data = NULL, ..., width = 640, height = 480)
+g2(
+  data = NULL,
+  ...,
+  width = 640,
+  height = 480,
+  padding = NULL,
+  margin = NULL,
+  inset = NULL
+)
 }
 \arguments{
 \item{data}{A data frame (or \code{NULL}).}
@@ -12,6 +20,11 @@ g2(data = NULL, ..., width = 640, height = 480)
 \item{...}{Aesthetic mappings as \code{name = 'column'} pairs (character strings).}
 
 \item{width, height}{Width and height of the chart in pixels.}
+
+\item{padding, margin, inset}{Layout spacing in pixels. Each can be a scalar
+(applied to all sides) or a length-4 vector \code{c(top, right, bottom, left)};
+use \code{NA} to skip individual sides. \code{NULL} (the default) leaves the value
+unset.}
 }
 \value{
 A \code{g2} object (S3 class).

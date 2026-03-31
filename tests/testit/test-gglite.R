@@ -36,7 +36,7 @@ assert('build_config() produces correct spec', {
   df = data.frame(x = c('A', 'B'), y = c(3, 7))
   chart = g2(df, x = 'x', y = 'y') |>
     mark_interval() |>
-    scale_of('y', nice = TRUE)
+    scale_('y', nice = TRUE)
   config = gglite:::build_config(chart)
 
   # spec should NOT contain constructor options
@@ -69,9 +69,9 @@ assert('chart_html() generates correct HTML structure', {
   (grepl('"column"', html))
 })
 
-# transform_of() adds transforms to the last mark
-assert('transform_of() adds transforms', {
-  chart = g2() |> mark_interval() |> transform_of('stackY')
+# transform_() adds transforms to the last mark
+assert('transform_() adds transforms', {
+  chart = g2() |> mark_interval() |> transform_('stackY')
   (length(chart$layers[[1]]$transform) == 1)
   (chart$layers[[1]]$transform[[1]]$type == 'stackY')
 })
@@ -100,14 +100,14 @@ assert('animate() sets animation options', {
   (chart$layers[[1]]$animate$enter$type == 'fadeIn')
 })
 
-# theme_of(), axis_of(), legend_of(), title_of() set chart options
+# theme_(), axis_(), legend_(), title_() set chart options
 assert('component functions set chart options', {
   chart = g2(mtcars, x = 'mpg', y = 'hp') |>
     mark_point() |>
-    theme_of('dark') |>
-    axis_of('x', title = 'MPG') |>
-    legend_of('color', position = 'right') |>
-    title_of('Cars')
+    theme_('dark') |>
+    axis_('x', title = 'MPG') |>
+    legend_('color', position = 'right') |>
+    title_('Cars')
   (chart$theme$type == 'dark')
   (chart$axes$x$title == 'MPG')
   (chart$legends$color$position == 'right')
@@ -118,7 +118,7 @@ assert('component functions set chart options', {
 assert('pipe chaining works end-to-end', {
   chart = g2(mtcars, x = 'mpg', y = 'hp') |>
     mark_point() |>
-    scale_of('x', type = 'linear') |>
+    scale_('x', type = 'linear') |>
     coordinate('polar') |>
     interact('tooltip')
   (inherits(chart, 'g2'))
@@ -179,4 +179,64 @@ assert('theme_dark() sets dark theme', {
 assert('theme_academy() sets academy theme', {
   chart = g2() |> mark_point() |> theme_academy()
   (chart$theme$type == 'academy')
+})
+
+# g2() layout arguments (padding, margin, inset)
+assert('g2() padding scalar sets layout', {
+  chart = g2(padding = 20)
+  (chart$layout$padding %==% 20)
+})
+
+assert('g2() padding vector sets layout sides', {
+  chart = g2(padding = c(30, NA, NA, 10))
+  (chart$layout$paddingTop %==% 30)
+  (chart$layout$paddingLeft %==% 10)
+  (is.null(chart$layout$paddingRight))
+  (is.null(chart$layout$paddingBottom))
+})
+
+assert('g2() margin and inset work', {
+  chart = g2(margin = 16, inset = c(5, 10, 5, 10))
+  (chart$layout$margin %==% 16)
+  (chart$layout$insetTop %==% 5)
+  (chart$layout$insetRight %==% 10)
+})
+
+assert('process_layout rejects bad lengths', {
+  (has_error(gglite:::process_layout('padding', c(1, 2))))
+})
+
+# Helper wrapper functions
+assert('scale_x() is shortcut for scale_(x)', {
+  chart = g2() |> mark_point() |> scale_x(type = 'log')
+  (chart$scales$x$type == 'log')
+})
+
+assert('axis_x() and axis_y() are shortcuts', {
+  chart = g2() |> mark_point() |>
+    axis_x(title = 'X') |> axis_y(title = 'Y')
+  (chart$axes$x$title == 'X')
+  (chart$axes$y$title == 'Y')
+})
+
+assert('legend_color() is shortcut for legend_(color)', {
+  chart = g2() |> mark_point() |> legend_color(position = 'right')
+  (chart$legends$color$position == 'right')
+})
+
+assert('slider_x() and scrollbar_y() are shortcuts', {
+  chart = g2() |> mark_point() |> slider_x() |> scrollbar_y()
+  (isTRUE(chart$sliders$x))
+  (isTRUE(chart$scrollbars$y))
+})
+
+assert('build_config includes layout options', {
+  chart = g2(data.frame(x = 1, y = 2), x = 'x', y = 'y',
+    padding = 20, inset = c(5, NA, 5, NA)) |>
+    mark_point()
+  config = gglite:::build_config(chart)
+  (config$padding %==% 20)
+  (config$insetTop %==% 5)
+  (config$insetBottom %==% 5)
+  (is.null(config$insetRight))
 })

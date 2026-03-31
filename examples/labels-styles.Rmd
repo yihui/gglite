@@ -8,7 +8,7 @@ library(gglite)
 
 ## Labels
 
-Labels add text annotations to marks. Use `labels_of()` to configure them.
+Labels add text annotations to marks. Use `labels_()` to configure them.
 
 ### Basic labels on bars
 
@@ -16,7 +16,7 @@ Labels add text annotations to marks. Use `labels_of()` to configure them.
 df = data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2))
 g2(df, x = 'x', y = 'y') |>
   mark_interval() |>
-  labels_of(text = 'y')
+  labels_(text = 'y')
 ```
 
 ### Label position: inside
@@ -24,7 +24,7 @@ g2(df, x = 'x', y = 'y') |>
 ```{r}
 g2(df, x = 'x', y = 'y') |>
   mark_interval() |>
-  labels_of(text = 'y', position = 'inside')
+  labels_(text = 'y', position = 'inside')
 ```
 
 ### Label position: top
@@ -32,7 +32,7 @@ g2(df, x = 'x', y = 'y') |>
 ```{r}
 g2(df, x = 'x', y = 'y') |>
   mark_interval() |>
-  labels_of(text = 'y', position = 'top')
+  labels_(text = 'y', position = 'top')
 ```
 
 ### Labels on a scatter plot
@@ -41,7 +41,7 @@ g2(df, x = 'x', y = 'y') |>
 df = data.frame(x = 1:5, y = c(3, 7, 2, 9, 5), label = c('a', 'b', 'c', 'd', 'e'))
 g2(df, x = 'x', y = 'y') |>
   mark_point() |>
-  labels_of(text = 'label')
+  labels_(text = 'label')
 ```
 
 ### Multiple label layers
@@ -50,8 +50,8 @@ g2(df, x = 'x', y = 'y') |>
 df = data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2))
 g2(df, x = 'x', y = 'y') |>
   mark_interval() |>
-  labels_of(text = 'x', position = 'inside') |>
-  labels_of(text = 'y', position = 'top')
+  labels_(text = 'x', position = 'inside') |>
+  labels_(text = 'y', position = 'top')
 ```
 
 ## Mark Styles

@@ -12,7 +12,7 @@ theme_academy(chart, ...)
 \item{...}{Additional theme options merged with the type.}
 }
 \description{
-Shortcut for \code{theme_of(chart, 'academy', ...)}.
+Shortcut for \code{theme_(chart, 'academy', ...)}.
 }
 \examples{
 g2(mtcars, x = 'mpg', y = 'hp') |> mark_point() |> theme_academy()

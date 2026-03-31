@@ -26,5 +26,5 @@ df = data.frame(
   color = rep(c('a', 'b'), 2)
 )
 g2(df, x = 'x', y = 'y', color = 'color') |>
-  mark_interval() |> transform_of('stackY')
+  mark_interval() |> transform_('stackY')
 }

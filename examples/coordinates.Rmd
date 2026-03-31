@@ -55,7 +55,7 @@ Maps data values to angular extent. Used for pie and donut charts.
 ```{r}
 g2(df, x = 'x', y = 'y', color = 'x') |>
   mark_interval() |>
-  transform_of('stackY') |>
+  transform_('stackY') |>
   coordinate('theta')
 ```
 
@@ -64,7 +64,7 @@ g2(df, x = 'x', y = 'y', color = 'x') |>
 ```{r}
 g2(df, x = 'x', y = 'y', color = 'x') |>
   mark_interval() |>
-  transform_of('stackY') |>
+  transform_('stackY') |>
   coordinate('theta', innerRadius = 0.5)
 ```
 
@@ -93,11 +93,11 @@ encoding (a character vector of column names) instead of `x`/`y`.
 
 ```{r}
 g2(iris, position = c('Sepal.Length', 'Sepal.Width',
-    'Petal.Length', 'Petal.Width'), color = 'Species') |>
+    'Petal.Length', 'Petal.Width'), color = 'Species',
+    padding = c(30, NA, NA, NA)) |>
   mark_line() |>
   coordinate('parallel') |>
-  legend_of('color', position = 'bottom') |>
-  padding_of(top = 30)
+  legend_color(position = 'bottom')
 ```
 
 ## Radar
@@ -118,9 +118,9 @@ g2(df_radar, x = 'item', y = 'score', color = 'team') |>
   mark_line(style = list(lineWidth = 2)) |>
   mark_point() |>
   coordinate('polar') |>
-  scale_of('x', padding = 0.5, align = 0) |>
-  scale_of('y', domainMin = 0, domainMax = 100) |>
-  axis_of('y', grid = TRUE, title = FALSE)
+  scale_x(padding = 0.5, align = 0) |>
+  scale_y(domainMin = 0, domainMax = 100) |>
+  axis_y(grid = TRUE, title = FALSE)
 ```
 
 ## Helix

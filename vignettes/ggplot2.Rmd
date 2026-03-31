@@ -19,12 +19,12 @@ you can get started quickly.
 | `ggplot(data, aes(x, y))` | `g2(data, x = 'x', y = 'y')` | Column names are **character strings**, not bare symbols |
 | `+` operator | `\|>` pipe | gglite uses the native pipe |
 | `geom_point()` | `mark_point()` | "geom" → "mark" |
-| `scale_x_log10()` | `scale_of('x', type = 'log')` | One function for all scales |
+| `scale_x_log10()` | `scale_x(type = 'log')` | Helper functions for each channel |
 | `coord_flip()` | `coord_transpose()` | |
 | `coord_polar()` | `coord_polar()` | |
 | `facet_wrap()` / `facet_grid()` | `facet_rect()` / `facet_circle()` | |
 | `theme_minimal()` | `theme_light()` | |
-| `labs(title = ...)` | `title_of(...)` | |
+| `labs(title = ...)` | `title_(...)` | |
 | Static PNG/PDF | Interactive HTML/JS | Charts support tooltips, brushing, filtering |
 
 ## No non-standard evaluation
@@ -152,18 +152,18 @@ df = data.frame(
 )
 g2(df, x = 'x', y = 'y', color = 'color') |>
   mark_interval() |>
-  transform_of('stackY')
+  transform_('stackY')
 ```
 :::
 
-For grouped (dodged) bars, replace `transform_of('stackY')` with
-`transform_of('dodgeX')`.
+For grouped (dodged) bars, replace `transform_('stackY')` with
+`transform_('dodgeX')`.
 
 ## Scales
 
 In ggplot2 each scale has its own function (`scale_x_log10()`,
-`scale_color_brewer()`, etc.). In gglite there is a single `scale_of()`
-function:
+`scale_color_brewer()`, etc.). In gglite there are helpers like `scale_x()`,
+`scale_y()`, and `scale_color()`:
 
 ::: flex-col
 ```r
@@ -177,7 +177,7 @@ ggplot(mtcars, aes(mpg, hp)) +
 # gglite
 g2(mtcars, x = 'mpg', y = 'hp') |>
   mark_point() |>
-  scale_of('y', type = 'log')
+  scale_y(type = 'log')
 ```
 :::
 
@@ -188,7 +188,7 @@ Custom color palettes:
 g2(iris, x = 'Sepal.Width', y = 'Sepal.Length',
    color = 'Species') |>
   mark_point() |>
-  scale_of('color', range = c('#e41a1c', '#377eb8', '#4daf4a'))
+  scale_color(range = c('#e41a1c', '#377eb8', '#4daf4a'))
 ```
 
 ## Coordinates
@@ -217,7 +217,7 @@ Polar coordinates create rose or pie charts:
 # gglite
 g2(df, x = 'x', y = 'y', color = 'x') |>
   mark_interval() |>
-  transform_of('stackY') |>
+  transform_('stackY') |>
   coord_theta(innerRadius = 0.5)
 ```
 
@@ -262,7 +262,7 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
 
 ## Titles and labels
 
-In ggplot2 you use `labs()`; in gglite use `title_of()`:
+In ggplot2 you use `labs()`; in gglite use `title_()`:
 
 ::: flex-col
 ```r
@@ -277,7 +277,7 @@ ggplot(mtcars, aes(mpg, hp)) +
 # gglite
 g2(mtcars, x = 'mpg', y = 'hp') |>
   mark_point() |>
-  title_of('Motor Trend Cars',
+  title_('Motor Trend Cars',
     subtitle = 'mpg vs horsepower')
 ```
 :::
@@ -327,12 +327,12 @@ g2(data, x = 'col1', y = 'col2', color = 'col3')
 |> mark_area()
 
 # Transforms (position adjustments)
-|> transform_of('stackY')
-|> transform_of('dodgeX')
+|> transform_('stackY')
+|> transform_('dodgeX')
 
 # Scales
-|> scale_of('x', type = 'log')
-|> scale_of('color', palette = 'viridis')
+|> scale_x(type = 'log')
+|> scale_color(palette = 'viridis')
 
 # Coordinates
 |> coord_polar()
@@ -346,9 +346,9 @@ g2(data, x = 'col1', y = 'col2', color = 'col3')
 |> theme_dark()
 
 # Components
-|> title_of('Title', subtitle = 'Subtitle')
-|> tooltip_of(crosshairs = TRUE)
-|> labels_of(text = 'y')
+|> title_('Title', subtitle = 'Subtitle')
+|> tooltip_(crosshairs = TRUE)
+|> labels_(text = 'y')
 
 # Interactions
 |> interact('tooltip')

@@ -6,15 +6,16 @@ title: Scales
 library(gglite)
 ```
 
-Scales control how data values map to visual properties. Use `scale_of()` to
-configure the scale for a given channel.
+Scales control how data values map to visual properties. Use helpers like
+`scale_x()`, `scale_y()`, `scale_color()`, and `scale_size()` to configure
+the scale for a given channel.
 
 ## Linear Scale (default for numeric)
 
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
   mark_point() |>
-  scale_of('x', type = 'linear')
+  scale_x(type = 'linear')
 ```
 
 ## Log Scale
@@ -22,7 +23,7 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
   mark_point() |>
-  scale_of('y', type = 'log')
+  scale_y(type = 'log')
 ```
 
 ## Power Scale
@@ -30,7 +31,7 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
   mark_point() |>
-  scale_of('y', type = 'pow')
+  scale_y(type = 'pow')
 ```
 
 ## Square Root Scale
@@ -38,7 +39,7 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
   mark_point() |>
-  scale_of('y', type = 'sqrt')
+  scale_y(type = 'sqrt')
 ```
 
 ## Ordinal Scale
@@ -47,7 +48,7 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
 df = data.frame(x = c('A', 'B', 'C', 'D'), y = c(3, 7, 2, 5))
 g2(df, x = 'x', y = 'y') |>
   mark_point() |>
-  scale_of('x', type = 'ordinal')
+  scale_x(type = 'ordinal')
 ```
 
 ## Band Scale
@@ -55,7 +56,7 @@ g2(df, x = 'x', y = 'y') |>
 ```{r}
 g2(df, x = 'x', y = 'y') |>
   mark_interval() |>
-  scale_of('x', type = 'band')
+  scale_x(type = 'band')
 ```
 
 ## Time Scale
@@ -67,7 +68,7 @@ df = data.frame(
 )
 g2(df, x = 'date', y = 'value') |>
   mark_line() |>
-  scale_of('x', type = 'time')
+  scale_x(type = 'time')
 ```
 
 ## Custom Domain and Range
@@ -75,8 +76,8 @@ g2(df, x = 'date', y = 'value') |>
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
   mark_point() |>
-  scale_of('x', domain = c(10, 35)) |>
-  scale_of('y', domain = c(0, 400))
+  scale_x(domain = c(10, 35)) |>
+  scale_y(domain = c(0, 400))
 ```
 
 ## Nice Rounding
@@ -84,8 +85,8 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
   mark_point() |>
-  scale_of('x', nice = TRUE) |>
-  scale_of('y', nice = TRUE)
+  scale_x(nice = TRUE) |>
+  scale_y(nice = TRUE)
 ```
 
 ## Zero Inclusion
@@ -93,7 +94,7 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
   mark_point() |>
-  scale_of('y', zero = TRUE)
+  scale_y(zero = TRUE)
 ```
 
 ## Color Palette
@@ -101,7 +102,7 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
 ```{r}
 g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
   mark_point() |>
-  scale_of('color', palette = 'category10')
+  scale_color(palette = 'category10')
 ```
 
 ### Custom color range
@@ -109,7 +110,7 @@ g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
 ```{r}
 g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
   mark_point() |>
-  scale_of('color', range = c('#e41a1c', '#377eb8', '#4daf4a'))
+  scale_color(range = c('#e41a1c', '#377eb8', '#4daf4a'))
 ```
 
 ## Identity Scale
@@ -118,7 +119,7 @@ g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
 df = data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2), col = c('red', 'green', 'blue'))
 g2(df, x = 'x', y = 'y', color = 'col') |>
   mark_interval() |>
-  scale_of('color', type = 'identity')
+  scale_color(type = 'identity')
 ```
 
 ## Multiple Scales
@@ -126,8 +127,8 @@ g2(df, x = 'x', y = 'y', color = 'col') |>
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp', color = 'wt', size = 'qsec') |>
   mark_point() |>
-  scale_of('x', nice = TRUE) |>
-  scale_of('y', type = 'sqrt') |>
-  scale_of('color', palette = 'viridis') |>
-  scale_of('size', range = c(2, 10))
+  scale_x(nice = TRUE) |>
+  scale_y(type = 'sqrt') |>
+  scale_color(palette = 'viridis') |>
+  scale_size(range = c(2, 10))
 ```

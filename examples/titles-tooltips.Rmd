@@ -13,7 +13,7 @@ library(gglite)
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
   mark_point() |>
-  title_of('Motor Trend Cars')
+  title_('Motor Trend Cars')
 ```
 
 ### Title with subtitle
@@ -21,7 +21,7 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
   mark_point() |>
-  title_of('Motor Trend Cars', subtitle = 'mpg vs horsepower')
+  title_('Motor Trend Cars', subtitle = 'mpg vs horsepower')
 ```
 
 ### Title alignment
@@ -29,7 +29,7 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
   mark_point() |>
-  title_of('Right-aligned Title', align = 'right')
+  title_('Right-aligned Title', align = 'right')
 ```
 
 ### Title on a bar chart
@@ -38,7 +38,7 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
 df = data.frame(x = c('A', 'B', 'C', 'D'), y = c(3, 7, 2, 5))
 g2(df, x = 'x', y = 'y') |>
   mark_interval() |>
-  title_of('Simple Bar Chart', subtitle = 'Categories A-D')
+  title_('Simple Bar Chart', subtitle = 'Categories A-D')
 ```
 
 ## Tooltip Configuration
@@ -48,7 +48,7 @@ g2(df, x = 'x', y = 'y') |>
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
   mark_point() |>
-  tooltip_of(crosshairs = TRUE)
+  tooltip_(crosshairs = TRUE)
 ```
 
 ### Shared tooltip (useful for multi-series)
@@ -60,7 +60,7 @@ df = data.frame(
 )
 g2(df, x = 'x', y = 'y', color = 'group') |>
   mark_line() |>
-  tooltip_of(shared = TRUE)
+  tooltip_(shared = TRUE)
 ```
 
 ### Disable tooltip
@@ -68,5 +68,5 @@ g2(df, x = 'x', y = 'y', color = 'group') |>
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
   mark_point() |>
-  tooltip_of(FALSE)
+  tooltip_(FALSE)
 ```

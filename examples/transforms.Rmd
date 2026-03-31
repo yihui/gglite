@@ -7,7 +7,7 @@ library(gglite)
 ```
 
 Transforms are data manipulations applied to marks, similar to ggplot2's
-`stat_*()` and `position_*()` functions. Use `transform_of()` to add them.
+`stat_*()` and `position_*()` functions. Use `transform_()` to add them.
 
 ## stackY (position_stack)
 
@@ -20,7 +20,7 @@ df = data.frame(
 )
 g2(df, x = 'x', y = 'y', color = 'color') |>
   mark_interval() |>
-  transform_of('stackY')
+  transform_('stackY')
 ```
 
 ### Stacked area chart
@@ -32,7 +32,7 @@ df = data.frame(
 )
 g2(df, x = 'x', y = 'y', color = 'group') |>
   mark_area() |>
-  transform_of('stackY')
+  transform_('stackY')
 ```
 
 ## dodgeX (position_dodge)
@@ -46,7 +46,7 @@ df = data.frame(
 )
 g2(df, x = 'x', y = 'y', color = 'color') |>
   mark_interval() |>
-  transform_of('dodgeX')
+  transform_('dodgeX')
 ```
 
 ## normalizeY (position_fill)
@@ -56,8 +56,8 @@ Normalize to 100% (percent-stacked chart).
 ```{r}
 g2(df, x = 'x', y = 'y', color = 'color') |>
   mark_interval() |>
-  transform_of('stackY') |>
-  transform_of('normalizeY')
+  transform_('stackY') |>
+  transform_('normalizeY')
 ```
 
 ## jitterX / jitterY
@@ -67,7 +67,7 @@ Add random jitter to reduce overplotting.
 ```{r}
 g2(mtcars, x = 'cyl', y = 'hp') |>
   mark_point() |>
-  transform_of('jitterX')
+  transform_('jitterX')
 ```
 
 ### Jitter in both directions
@@ -75,8 +75,8 @@ g2(mtcars, x = 'cyl', y = 'hp') |>
 ```{r}
 g2(mtcars, x = 'cyl', y = 'gear') |>
   mark_point() |>
-  transform_of('jitterX') |>
-  transform_of('jitterY')
+  transform_('jitterX') |>
+  transform_('jitterY')
 ```
 
 ## binX (stat_bin)
@@ -86,7 +86,7 @@ Bin data along x for histograms.
 ```{r}
 g2(mtcars, x = 'mpg') |>
   mark_interval(encode = list(y = 'count')) |>
-  transform_of('binX', thresholds = 15)
+  transform_('binX', thresholds = 15)
 ```
 
 ## bin (2D binning)
@@ -111,8 +111,8 @@ df = data.frame(
 )
 g2(df, x = 'x', y = 'y', color = 'color') |>
   mark_interval() |>
-  transform_of('stackY') |>
-  transform_of('symmetryY')
+  transform_('stackY') |>
+  transform_('symmetryY')
 ```
 
 ## sortX / sortY
@@ -123,7 +123,7 @@ Sort data before rendering.
 df = data.frame(x = c('C', 'A', 'B'), y = c(2, 5, 3))
 g2(df, x = 'x', y = 'y') |>
   mark_interval() |>
-  transform_of('sortX', reverse = TRUE)
+  transform_('sortX', reverse = TRUE)
 ```
 
 ## Multiple transforms
@@ -137,7 +137,7 @@ df = data.frame(
 )
 g2(df, x = 'x', y = 'y', color = 'color') |>
   mark_interval() |>
-  transform_of('stackY') |>
-  transform_of('normalizeY') |>
+  transform_('stackY') |>
+  transform_('normalizeY') |>
   coord_transpose()
 ```
