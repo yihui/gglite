@@ -6,6 +6,13 @@
 #' @keywords internal
 "_PACKAGE"
 
+#' CDN URL for the G2 Library
+#'
+#' Returns the URL for loading the G2 JavaScript library. Customizable via the
+#' `gglite.g2_cdn` option. The default `@5` resolves to the latest v5.x
+#' release.
+#'
+#' @return A character string.
 #' @noRd
 g2_cdn = function() {
   getOption('gglite.g2_cdn', 'https://unpkg.com/@antv/g2@5/dist/g2.min.js')
@@ -13,6 +20,16 @@ g2_cdn = function() {
 
 g2_col_cdn = 'https://cdn.jsdelivr.net/npm/@xiee/utils/js/g2-column.min.js'
 
+#' Process a layout argument (padding, margin, or inset)
+#'
+#' Convert a scalar or length-4 vector into named G2 layout options.
+#' A scalar sets the property directly (e.g., `padding = 20`). A length-4
+#' vector sets `Top`, `Right`, `Bottom`, `Left` variants; `NA` values are
+#' omitted.
+#'
+#' @param name Base name: `'padding'`, `'margin'`, or `'inset'`.
+#' @param value `NULL`, a scalar, or a length-4 numeric vector.
+#' @return A named list of layout options.
 #' @noRd
 process_layout = function(name, value) {
   if (is.null(value)) return(list())
@@ -91,6 +108,14 @@ encode = function(chart, ...) {
   chart
 }
 
+#' Annotate Data Frames for Column-Major JSON
+#'
+#' Recursively walks a nested list and wraps any data frame found in a `data`
+#' field with `list(type = 'column', value = df)` so that the G2 column-major
+#' helper script can convert it client-side.
+#'
+#' @param x A nested list.
+#' @return The annotated list.
 #' @noRd
 annotate_df = function(x) {
   if (is.data.frame(x) || !is.list(x)) return(x)
@@ -108,5 +133,6 @@ annotate_df = function(x) {
   x
 }
 
+#' Remove NULL elements from a list
 #' @noRd
 dropNulls = function(x) x[!vapply(x, is.null, logical(1))]
