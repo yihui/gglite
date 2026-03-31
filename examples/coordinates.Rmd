@@ -146,15 +146,11 @@ g2(df, x = 'x', y = 'y') |>
   coord_transpose()
 ```
 
-### Transpose with polar
+### Transpose with parallel
 
-Note: coordinate transposing typically works for Cartesian only. With
-polar or radial coordinates, swapping angle and radius often produces
-confusing results.
-
-```{r, eval=FALSE}
-g2(df, x = 'x', y = 'y', color = 'x') |>
-  mark_interval() |>
-  coordinate('radial') |>
+```{r}
+g2(iris, position = names(iris)[-5], color = 'Species') |>
+  mark_line() |>
+  coordinate('parallel') |> 
   coord_transpose()
 ```
