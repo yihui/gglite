@@ -20,6 +20,35 @@ g2_cdn = function() {
 
 g2_col_cdn = 'https://cdn.jsdelivr.net/npm/@xiee/utils/js/g2-column.min.js'
 
+#' Default gglite Theme Overrides
+#'
+#' A list of G2 theme token overrides that are applied globally to every chart.
+#' Increases element sizes (fonts, symbols) by ~20% compared to G2 defaults and
+#' makes axis grid lines more visible. Customizable via
+#' `options(gglite.theme = list(...))`.
+#'
+#' @keywords internal
+.gglite_default_theme = list(
+  axis = list(
+    labelFontSize = 14,
+    titleFontSize = 14,
+    gridStrokeOpacity = 0.25
+  ),
+  label = list(fontSize = 14),
+  innerLabel = list(fontSize = 14),
+  legendCategory = list(
+    itemLabelFontSize = 14,
+    itemValueFontSize = 14
+  ),
+  point = list(
+    point = list(r = 3.6),
+    hollow = list(r = 3.6),
+    plus = list(r = 3.6),
+    diamond = list(r = 3.6)
+  ),
+  text = list(text = list(fontSize = 14))
+)
+
 #' Create a G2 Chart Object
 #'
 #' Construct a base chart object, optionally with data and aesthetic mappings.

@@ -33,7 +33,6 @@ build_config = function(chart) {
   if (length(chart$scales)) config$scale = chart$scales
   if (!is.null(chart$coords)) config$coordinate = chart$coords
   if (length(chart$interactions)) config$interaction = chart$interactions
-  if (!is.null(chart$theme)) config$theme = chart$theme
   if (length(chart$axes)) config$axis = chart$axes
   if (length(chart$legends)) config$legend = chart$legends
   if (!is.null(chart$chart_title)) config$title = chart$chart_title
@@ -41,6 +40,15 @@ build_config = function(chart) {
   if (!is.null(chart$sliders)) config$slider = chart$sliders
   if (!is.null(chart$scrollbars)) config$scrollbar = chart$scrollbars
   if (length(chart$padding)) config = modifyList(config, chart$padding)
+
+  # Apply theme: merge global gglite defaults with chart-specific overrides.
+  # Use options(gglite.theme = list(...)) to customize or suppress defaults.
+  global_theme = getOption('gglite.theme', .gglite_default_theme)
+  config$theme = if (!is.null(chart$theme)) {
+    modifyList(global_theme, chart$theme)
+  } else {
+    global_theme
+  }
 
   # Faceting wraps the spec as a facet view
   if (!is.null(chart$facet)) {

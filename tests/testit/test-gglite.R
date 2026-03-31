@@ -100,7 +100,37 @@ assert('animate() sets animation options', {
   (chart$layers[[1]]$animate$enter$type %==% 'fadeIn')
 })
 
-# theme_of(), axis_of(), legend_of(), title_of() set chart options
+# build_config() applies global theme defaults and merges with user overrides
+assert('build_config() applies global theme defaults', {
+  chart = g2(mtcars, x = 'mpg', y = 'hp') |> mark_point()
+  config = build_config(chart)
+  # default axis font size is 14 (not G2's 12)
+  (config$theme$axis$labelFontSize %==% 14)
+  (config$theme$axis$gridStrokeOpacity %==% 0.25)
+  (config$theme$label$fontSize %==% 14)
+})
+
+assert('build_config() merges user theme with global defaults', {
+  chart = g2(mtcars, x = 'mpg', y = 'hp') |>
+    mark_point() |>
+    theme_of('dark', axis = list(labelFontSize = 18))
+  config = build_config(chart)
+  # user override wins
+  (config$theme$type %==% 'dark')
+  (config$theme$axis$labelFontSize %==% 18)
+  # default still preserved for other keys
+  (config$theme$label$fontSize %==% 14)
+})
+
+assert('gglite.theme option overrides global defaults', {
+  old = getOption('gglite.theme')
+  options(gglite.theme = list(axis = list(labelFontSize = 20)))
+  chart = g2(mtcars, x = 'mpg', y = 'hp') |> mark_point()
+  config = build_config(chart)
+  options(gglite.theme = old)
+  (config$theme$axis$labelFontSize %==% 20)
+})
+
 assert('component functions set chart options', {
   chart = g2(mtcars, x = 'mpg', y = 'hp') |>
     mark_point() |>
