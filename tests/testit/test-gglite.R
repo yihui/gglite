@@ -147,3 +147,36 @@ assert('annotate_df() wraps data frames', {
   (is.data.frame(res$data$value))
   (res$children[[1]]$data$type == 'column')
 })
+
+# coord_*() shortcut functions
+assert('coord_polar() sets polar coordinate', {
+  chart = g2() |> mark_interval() |> coord_polar()
+  (chart$coords$type == 'polar')
+})
+
+assert('coord_theta() sets theta coordinate', {
+  chart = g2() |> mark_interval() |> coord_theta(innerRadius = 0.5)
+  (chart$coords$type == 'theta')
+  (chart$coords$innerRadius == 0.5)
+})
+
+assert('coord_radial() sets radial coordinate', {
+  chart = g2() |> mark_interval() |> coord_radial()
+  (chart$coords$type == 'radial')
+})
+
+# theme_*() shortcut functions
+assert('theme_classic() sets classic theme', {
+  chart = g2() |> mark_point() |> theme_classic()
+  (chart$theme$type == 'classic')
+})
+
+assert('theme_dark() sets dark theme', {
+  chart = g2() |> mark_point() |> theme_dark()
+  (chart$theme$type == 'dark')
+})
+
+assert('theme_academy() sets academy theme', {
+  chart = g2() |> mark_point() |> theme_academy()
+  (chart$theme$type == 'academy')
+})

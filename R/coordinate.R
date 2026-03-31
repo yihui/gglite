@@ -60,3 +60,68 @@ coord_transpose = function(chart) {
   )
   chart
 }
+
+#' Polar Coordinate System
+#'
+#' Shortcut for `coordinate(chart, 'polar', ...)`.
+#'
+#' @inheritParams coordinate
+#' @export
+#' @examples
+#' g2(data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2)),
+#'   x = 'x', y = 'y', color = 'x') |>
+#'   mark_interval() |> coord_polar()
+coord_polar = function(chart, ...) coordinate(chart, 'polar', ...)
+
+#' Theta Coordinate System
+#'
+#' Shortcut for `coordinate(chart, 'theta', ...)`. Used for pie and donut
+#' charts.
+#'
+#' @inheritParams coordinate
+#' @export
+#' @examples
+#' g2(data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2)),
+#'   x = 'x', y = 'y', color = 'x') |>
+#'   mark_interval() |> transform_of('stackY') |>
+#'   coord_theta(innerRadius = 0.5)
+coord_theta = function(chart, ...) coordinate(chart, 'theta', ...)
+
+#' Radial Coordinate System
+#'
+#' Shortcut for `coordinate(chart, 'radial', ...)`. Suitable for radial bar
+#' charts.
+#'
+#' @inheritParams coordinate
+#' @export
+#' @examples
+#' g2(data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2)),
+#'   x = 'x', y = 'y', color = 'x') |>
+#'   mark_interval() |> coord_radial()
+coord_radial = function(chart, ...) coordinate(chart, 'radial', ...)
+
+#' Radar Coordinate System
+#'
+#' Shortcut for `coordinate(chart, 'radar', ...)`. Used with `position`
+#' encoding for radar (spider) charts.
+#'
+#' @inheritParams coordinate
+#' @export
+coord_radar = function(chart, ...) coordinate(chart, 'radar', ...)
+
+#' Helix Coordinate System
+#'
+#' Shortcut for `coordinate(chart, 'helix', ...)`.
+#'
+#' @inheritParams coordinate
+#' @export
+coord_helix = function(chart, ...) coordinate(chart, 'helix', ...)
+
+#' Parallel Coordinate System
+#'
+#' Shortcut for `coordinate(chart, 'parallel', ...)`. Used with `position`
+#' encoding for parallel coordinate plots.
+#'
+#' @inheritParams coordinate
+#' @export
+coord_parallel = function(chart, ...) coordinate(chart, 'parallel', ...)

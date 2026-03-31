@@ -6,10 +6,6 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
-library(gglite)
-```
-
 The **gglite** package provides a lightweight R interface to the
 [AntV G2](https://g2.antv.antgroup.com/) JavaScript visualization library. It
 follows the _Grammar of Graphics_ framework---the same theoretical foundation
@@ -39,6 +35,7 @@ mappings. Column names are always passed as **character strings** (no
 non-standard evaluation):
 
 ```{r}
+library(gglite)
 g2(mtcars, x = 'mpg', y = 'hp') |> mark_point()
 ```
 
@@ -133,7 +130,7 @@ supports Cartesian (default), polar, theta, and radial coordinates.
 df = data.frame(x = c('A', 'B', 'C', 'D'), y = c(3, 7, 2, 5))
 g2(df, x = 'x', y = 'y', color = 'x') |>
   mark_interval() |>
-  coordinate('polar')
+  coord_polar()
 ```
 
 ### Theta coordinates (pie chart)
@@ -142,7 +139,7 @@ g2(df, x = 'x', y = 'y', color = 'x') |>
 g2(df, x = 'x', y = 'y', color = 'x') |>
   mark_interval() |>
   transform_of('stackY') |>
-  coordinate('theta', innerRadius = 0.5)
+  coord_theta(innerRadius = 0.5)
 ```
 
 ### Transposing axes
@@ -204,13 +201,14 @@ g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
 
 ## Themes
 
-Themes change the overall look. Built-in themes include `classic` (default),
-`classicDark`, `light`, `dark`, and `academy`:
+Themes change the overall look. Built-in themes include `theme_classic()`
+(default), `theme_classicDark()`, `theme_light()`, `theme_dark()`, and
+`theme_academy()`:
 
 ```{r}
 g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
   mark_point() |>
-  theme_of('academy')
+  theme_academy()
 ```
 
 ## Components
@@ -272,5 +270,5 @@ g2(df, x = 'x', y = 'y', color = 'product') |>
   title_of('Quarterly Sales', subtitle = 'By product line') |>
   interact('tooltip') |>
   interact('elementHighlightByX') |>
-  theme_of('classic')
+  theme_classic()
 ```

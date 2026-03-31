@@ -6,10 +6,6 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
-library(gglite)
-```
-
 If you are familiar with **ggplot2**, you already know the Grammar of Graphics.
 **gglite** follows the same grammar but renders interactive JavaScript charts
 powered by [AntV G2](https://g2.antv.antgroup.com/) instead of static R
@@ -25,9 +21,9 @@ you can get started quickly.
 | `geom_point()` | `mark_point()` | "geom" → "mark" |
 | `scale_x_log10()` | `scale_of('x', type = 'log')` | One function for all scales |
 | `coord_flip()` | `coord_transpose()` | |
-| `coord_polar()` | `coordinate('polar')` | |
+| `coord_polar()` | `coord_polar()` | |
 | `facet_wrap()` / `facet_grid()` | `facet_rect()` / `facet_circle()` | |
-| `theme_minimal()` | `theme_of('light')` | |
+| `theme_minimal()` | `theme_light()` | |
 | `labs(title = ...)` | `title_of(...)` | |
 | Static PNG/PDF | Interactive HTML/JS | Charts support tooltips, brushing, filtering |
 
@@ -35,6 +31,7 @@ you can get started quickly.
 
 The biggest syntax difference: in ggplot2 you write bare column names inside
 `aes()`; in gglite you always pass **quoted strings**:
+
 ```r
 # ggplot2
 ggplot(mtcars, aes(mpg, hp, color = factor(cyl)))
@@ -48,8 +45,8 @@ This means gglite works naturally with programmatic column names---no need for
 
 ## Building blocks: geom → mark
 
-Every ggplot2 `geom_*()` has a corresponding `mark_*()` in gglite. Here are the
-most common mappings:
+Many ggplot2 `geom_*()` functions have corresponding `mark_*()` equivalents in
+gglite. Here are some common mappings:
 
 | ggplot2 | gglite |
 |:--------|:-------|
@@ -66,54 +63,53 @@ most common mappings:
 | `geom_rect()` | `mark_rect()` |
 | `geom_tile()` | `mark_cell()` |
 
+gglite also provides marks without direct ggplot2 equivalents, such as
+`mark_sankey()`, `mark_chord()`, `mark_word_cloud()`, `mark_treemap()`,
+`mark_liquid()`, and `mark_gauge()`.
+
 ## Scatter plot
 
-::: {.col2}
-
-**ggplot2**
+::: flex-col
 ```r
+# ggplot2
 ggplot(iris, aes(Sepal.Width, Sepal.Length,
                  color = Species)) +
   geom_point()
 ```
 
-**gglite**
-```{r}
+```r
+# gglite
 g2(iris, x = 'Sepal.Width', y = 'Sepal.Length',
    color = 'Species') |>
   mark_point()
 ```
-
 :::
 
 ## Bar chart
 
-::: {.col2}
-
-**ggplot2**
+::: flex-col
 ```r
+# ggplot2
 df = data.frame(x = c('A', 'B', 'C', 'D'),
                 y = c(3, 7, 2, 5))
 ggplot(df, aes(x, y)) +
   geom_col()
 ```
 
-**gglite**
-```{r}
+```r
+# gglite
 df = data.frame(x = c('A', 'B', 'C', 'D'),
                 y = c(3, 7, 2, 5))
 g2(df, x = 'x', y = 'y') |>
   mark_interval()
 ```
-
 :::
 
 ## Line chart with groups
 
-::: {.col2}
-
-**ggplot2**
+::: flex-col
 ```r
+# ggplot2
 df = data.frame(
   x = rep(1:5, 2),
   y = c(3, 1, 4, 1, 5, 2, 7, 1, 8, 3),
@@ -123,8 +119,8 @@ ggplot(df, aes(x, y, color = g)) +
   geom_line()
 ```
 
-**gglite**
-```{r}
+```r
+# gglite
 df = data.frame(
   x = rep(1:5, 2),
   y = c(3, 1, 4, 1, 5, 2, 7, 1, 8, 3),
@@ -133,7 +129,6 @@ df = data.frame(
 g2(df, x = 'x', y = 'y', color = 'g') |>
   mark_line()
 ```
-
 :::
 
 ## Stacked and dodged bars
@@ -141,16 +136,15 @@ g2(df, x = 'x', y = 'y', color = 'g') |>
 In ggplot2 you set `position = "stack"` or `position = "dodge"` inside the
 geom. In gglite, stacking and dodging are data **transforms**:
 
-::: {.col2}
-
-**ggplot2**
+::: flex-col
 ```r
+# ggplot2
 ggplot(df, aes(x, y, fill = color)) +
   geom_col(position = "stack")
 ```
 
-**gglite**
-```{r}
+```r
+# gglite
 df = data.frame(
   x = rep(c('A', 'B', 'C'), each = 2),
   y = c(3, 2, 5, 4, 1, 6),
@@ -160,7 +154,6 @@ g2(df, x = 'x', y = 'y', color = 'color') |>
   mark_interval() |>
   transform_of('stackY')
 ```
-
 :::
 
 For grouped (dodged) bars, replace `transform_of('stackY')` with
@@ -172,27 +165,26 @@ In ggplot2 each scale has its own function (`scale_x_log10()`,
 `scale_color_brewer()`, etc.). In gglite there is a single `scale_of()`
 function:
 
-::: {.col2}
-
-**ggplot2**
+::: flex-col
 ```r
+# ggplot2
 ggplot(mtcars, aes(mpg, hp)) +
   geom_point() +
   scale_y_log10()
 ```
 
-**gglite**
-```{r}
+```r
+# gglite
 g2(mtcars, x = 'mpg', y = 'hp') |>
   mark_point() |>
   scale_of('y', type = 'log')
 ```
-
 :::
 
 Custom color palettes:
 
-```{r}
+```r
+# gglite
 g2(iris, x = 'Sepal.Width', y = 'Sepal.Length',
    color = 'Species') |>
   mark_point() |>
@@ -201,97 +193,93 @@ g2(iris, x = 'Sepal.Width', y = 'Sepal.Length',
 
 ## Coordinates
 
-::: {.col2}
-
-**ggplot2**
+::: flex-col
 ```r
+# ggplot2
 ggplot(df, aes(x, y)) +
   geom_col() +
   coord_flip()
 ```
 
-**gglite**
-```{r}
+```r
+# gglite
 df = data.frame(x = c('A', 'B', 'C', 'D'),
                 y = c(3, 7, 2, 5))
 g2(df, x = 'x', y = 'y') |>
   mark_interval() |>
   coord_transpose()
 ```
-
 :::
 
 Polar coordinates create rose or pie charts:
 
-```{r}
+```r
+# gglite
 g2(df, x = 'x', y = 'y', color = 'x') |>
   mark_interval() |>
   transform_of('stackY') |>
-  coordinate('theta', innerRadius = 0.5)
+  coord_theta(innerRadius = 0.5)
 ```
 
 ## Faceting
 
 ggplot2's `facet_wrap()` and `facet_grid()` correspond to `facet_rect()`:
 
-::: {.col2}
-
-**ggplot2**
+::: flex-col
 ```r
+# ggplot2
 ggplot(iris, aes(Sepal.Width, Sepal.Length)) +
   geom_point() +
   facet_wrap(~Species)
 ```
 
-**gglite**
-```{r}
+```r
+# gglite
 g2(iris, x = 'Sepal.Width', y = 'Sepal.Length') |>
   mark_point() |>
   facet_rect(x = 'Species')
 ```
-
 :::
 
 ## Themes
 
-ggplot2 uses `theme_*()` functions; gglite uses `theme_of()` with a theme name:
+ggplot2 uses `theme_*()` functions; gglite also provides `theme_*()` shortcuts:
 
 | ggplot2 | gglite |
 |:--------|:-------|
-| `theme_gray()` (default) | `theme_of('classic')` (default) |
-| `theme_bw()` / `theme_minimal()` | `theme_of('light')` |
-| `theme_dark()` | `theme_of('dark')` |
-| — | `theme_of('classicDark')` |
-| — | `theme_of('academy')` |
+| `theme_gray()` (default) | `theme_classic()` (default) |
+| `theme_bw()` / `theme_minimal()` | `theme_light()` |
+| `theme_dark()` | `theme_dark()` |
+| — | `theme_classicDark()` |
+| — | `theme_academy()` |
 
-```{r}
+```r
+# gglite
 g2(mtcars, x = 'mpg', y = 'hp') |>
   mark_point() |>
-  theme_of('academy')
+  theme_academy()
 ```
 
 ## Titles and labels
 
 In ggplot2 you use `labs()`; in gglite use `title_of()`:
 
-::: {.col2}
-
-**ggplot2**
+::: flex-col
 ```r
+# ggplot2
 ggplot(mtcars, aes(mpg, hp)) +
   geom_point() +
   labs(title = "Motor Trend Cars",
        subtitle = "mpg vs horsepower")
 ```
 
-**gglite**
-```{r}
+```r
+# gglite
 g2(mtcars, x = 'mpg', y = 'hp') |>
   mark_point() |>
   title_of('Motor Trend Cars',
     subtitle = 'mpg vs horsepower')
 ```
-
 :::
 
 ## What gglite adds
@@ -303,7 +291,8 @@ cannot provide out of the box:
 
 Add tooltips, brushing, and filtering with `interact()`:
 
-```{r}
+```r
+# gglite
 g2(iris, x = 'Sepal.Width', y = 'Sepal.Length',
    color = 'Species') |>
   mark_point() |>
@@ -346,14 +335,15 @@ g2(data, x = 'col1', y = 'col2', color = 'col3')
 |> scale_of('color', palette = 'viridis')
 
 # Coordinates
-|> coordinate('polar')
+|> coord_polar()
+|> coord_theta()
 |> coord_transpose()
 
 # Facets
 |> facet_rect(x = 'var')
 
 # Theme
-|> theme_of('dark')
+|> theme_dark()
 
 # Components
 |> title_of('Title', subtitle = 'Subtitle')
