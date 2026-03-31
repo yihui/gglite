@@ -1,0 +1,274 @@
+---
+title: "Introduction to gglite"
+vignette: >
+  %\VignetteIndexEntry{Introduction to gglite}
+  %\VignetteEngine{litedown::vignette}
+  %\VignetteEncoding{UTF-8}
+---
+
+The **gglite** package provides a lightweight R interface to the
+[AntV G2](https://g2.antv.antgroup.com/) JavaScript visualization library. It
+follows the _Grammar of Graphics_ framework---the same theoretical foundation
+behind **ggplot2**---but renders interactive, web-based charts powered by G2.
+
+A visualization in gglite is built by composing independent layers:
+
+1. **Data** -- the data frame you want to visualize.
+2. **Marks** (geometries) -- the visual shapes representing data (points,
+   lines, bars, ...).
+3. **Encodings** (aesthetics) -- mappings from data columns to visual channels
+   (position, color, size, ...).
+4. **Scales** -- control how data values translate to visual values.
+5. **Coordinates** -- the coordinate system (Cartesian, polar, ...).
+6. **Transforms** -- statistical or layout transforms applied to the data.
+7. **Facets** -- split data into multiple panels.
+8. **Themes** -- overall visual styling.
+9. **Components** -- axes, legends, titles, tooltips, and labels.
+
+Each layer is added with the pipe operator `|>`, so building a chart reads
+naturally from left to right.
+
+## Data and encodings
+
+Every chart starts with `g2()`, which accepts a data frame and aesthetic
+mappings. Column names are always passed as **character strings** (no
+non-standard evaluation):
+
+```{r}
+library(gglite)
+g2(mtcars, x = 'mpg', y = 'hp') |> mark_point()
+```
+
+You can also set encodings later with `encode()`:
+
+```{r}
+g2(mtcars) |> encode(x = 'mpg', y = 'hp', color = 'cyl') |> mark_point()
+```
+
+## Marks (geometries)
+
+Marks are the visual building blocks. gglite provides 35+ mark types. Here are
+the most common ones.
+
+### Points (scatter plot)
+
+```{r}
+g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
+  mark_point()
+```
+
+### Lines
+
+```{r}
+df = data.frame(
+  x = rep(1:5, 2), y = c(3, 1, 4, 1, 5, 2, 7, 1, 8, 3),
+  group = rep(c('A', 'B'), each = 5)
+)
+g2(df, x = 'x', y = 'y', color = 'group') |> mark_line()
+```
+
+### Bars (intervals)
+
+```{r}
+df = data.frame(x = c('A', 'B', 'C', 'D'), y = c(3, 7, 2, 5))
+g2(df, x = 'x', y = 'y') |> mark_interval()
+```
+
+### Areas
+
+```{r}
+df = data.frame(x = 1:10, y = c(3, 1, 4, 1, 5, 9, 2, 6, 5, 3))
+g2(df, x = 'x', y = 'y') |> mark_area()
+```
+
+### Box plots
+
+```{r}
+g2(iris, x = 'Species', y = 'Sepal.Width') |> mark_boxplot()
+```
+
+### Combining marks
+
+Multiple marks can be layered on the same chart:
+
+```{r}
+df = data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2))
+g2(df, x = 'x', y = 'y') |>
+  mark_interval() |>
+  mark_text(encode = list(text = 'y'))
+```
+
+## Scales
+
+Scales control how data values map to visual properties. Use `scale_of()` to
+configure the scale for a given channel:
+
+```{r}
+g2(mtcars, x = 'mpg', y = 'hp', color = 'wt') |>
+  mark_point() |>
+  scale_of('y', type = 'log') |>
+  scale_of('color', palette = 'viridis')
+```
+
+Custom domain and range:
+
+```{r}
+g2(mtcars, x = 'mpg', y = 'hp') |>
+  mark_point() |>
+  scale_of('x', domain = c(10, 35)) |>
+  scale_of('y', domain = c(0, 400))
+```
+
+## Coordinates
+
+Coordinate systems change how positional encodings are interpreted. gglite
+supports Cartesian (default), polar, theta, and radial coordinates.
+
+### Polar coordinates (rose chart)
+
+```{r}
+df = data.frame(x = c('A', 'B', 'C', 'D'), y = c(3, 7, 2, 5))
+g2(df, x = 'x', y = 'y', color = 'x') |>
+  mark_interval() |>
+  coord_polar()
+```
+
+### Theta coordinates (pie chart)
+
+```{r}
+g2(df, x = 'x', y = 'y', color = 'x') |>
+  mark_interval() |>
+  transform_of('stackY') |>
+  coord_theta(innerRadius = 0.5)
+```
+
+### Transposing axes
+
+`coord_transpose()` swaps x and y (similar to ggplot2's `coord_flip()`):
+
+```{r}
+g2(df, x = 'x', y = 'y') |>
+  mark_interval() |>
+  coord_transpose()
+```
+
+## Transforms
+
+Transforms modify the data before rendering. Use `transform_of()` to apply
+statistical or layout transforms:
+
+### Stacked bars
+
+```{r}
+df = data.frame(
+  x = rep(c('A', 'B', 'C'), each = 2), y = c(3, 2, 5, 4, 1, 6),
+  color = rep(c('a', 'b'), 3)
+)
+g2(df, x = 'x', y = 'y', color = 'color') |>
+  mark_interval() |>
+  transform_of('stackY')
+```
+
+### Dodged bars
+
+```{r}
+g2(df, x = 'x', y = 'y', color = 'color') |>
+  mark_interval() |>
+  transform_of('dodgeX')
+```
+
+### Stacked area chart
+
+```{r}
+df = data.frame(
+  x = rep(1:5, 2), y = c(3, 1, 4, 1, 5, 2, 7, 1, 8, 3),
+  group = rep(c('A', 'B'), each = 5)
+)
+g2(df, x = 'x', y = 'y', color = 'group') |>
+  mark_area() |>
+  transform_of('stackY')
+```
+
+## Facets
+
+Faceting splits data into panels. Use `facet_rect()` for a grid layout:
+
+```{r}
+g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
+  mark_point() |>
+  facet_rect(x = 'Species')
+```
+
+## Themes
+
+Themes change the overall look. Built-in themes include `theme_classic()`
+(default), `theme_classicDark()`, `theme_light()`, `theme_dark()`, and
+`theme_academy()`:
+
+```{r}
+g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
+  mark_point() |>
+  theme_academy()
+```
+
+## Components
+
+Components are the non-data elements of a chart: titles, tooltips, axes,
+legends, and labels.
+
+### Titles
+
+```{r}
+g2(mtcars, x = 'mpg', y = 'hp') |>
+  mark_point() |>
+  title_of('Motor Trend Cars', subtitle = 'mpg vs horsepower')
+```
+
+### Tooltips
+
+```{r}
+g2(mtcars, x = 'mpg', y = 'hp') |>
+  mark_point() |>
+  tooltip_of(crosshairs = TRUE)
+```
+
+### Labels
+
+```{r}
+df = data.frame(x = c('A', 'B', 'C', 'D'), y = c(3, 7, 2, 5))
+g2(df, x = 'x', y = 'y') |>
+  mark_interval() |>
+  labels_of(text = 'y')
+```
+
+## Interactions
+
+Interactions add user-driven behaviors like hovering, brushing, and filtering:
+
+```{r}
+g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
+  mark_point() |>
+  interact('tooltip') |>
+  interact('legendFilter') |>
+  interact('brushHighlight')
+```
+
+## Putting it all together
+
+Here is a more complete example combining several grammar layers:
+
+```{r}
+df = data.frame(
+  x = rep(c('Q1', 'Q2', 'Q3', 'Q4'), each = 2),
+  y = c(120, 80, 150, 90, 180, 110, 200, 130),
+  product = rep(c('Widget', 'Gadget'), 4)
+)
+g2(df, x = 'x', y = 'y', color = 'product') |>
+  mark_interval() |>
+  transform_of('dodgeX') |>
+  scale_of('color', range = c('#5470c6', '#91cc75')) |>
+  title_of('Quarterly Sales', subtitle = 'By product line') |>
+  interact('tooltip') |>
+  interact('elementHighlightByX') |>
+  theme_classic()
+```

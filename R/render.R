@@ -184,16 +184,3 @@ record_print.g2 = function(x, ...) {
   }
 }
 
-#' Render a Chart in Shiny
-#'
-#' @param chart A `g2` object.
-#' @param session The Shiny session object.
-#' @param output_id The container element ID on the client side.
-#' @export
-render_shiny = function(chart, session, output_id) {
-  spec = build_config(chart)
-  ctor = chart$options
-  session$sendCustomMessage('g2-render', list(
-    id = output_id, ctor = ctor, spec = spec
-  ))
-}

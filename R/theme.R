@@ -26,3 +26,53 @@ theme_of = function(chart, type, ...) {
   }
   chart
 }
+
+#' Classic Theme
+#'
+#' Shortcut for `theme_of(chart, 'classic', ...)`. This is the default theme.
+#'
+#' @inheritParams theme_of
+#' @export
+#' @examples
+#' g2(mtcars, x = 'mpg', y = 'hp') |> mark_point() |> theme_classic()
+theme_classic = function(chart, ...) theme_of(chart, 'classic', ...)
+
+#' Classic Dark Theme
+#'
+#' Shortcut for `theme_of(chart, 'classicDark', ...)`.
+#'
+#' @inheritParams theme_of
+#' @export
+#' @examples
+#' g2(mtcars, x = 'mpg', y = 'hp') |> mark_point() |> theme_classicDark()
+theme_classicDark = function(chart, ...) theme_of(chart, 'classicDark', ...)
+
+#' Light Theme
+#'
+#' Shortcut for `theme_of(chart, 'light', ...)`.
+#'
+#' @inheritParams theme_of
+#' @export
+#' @examples
+#' g2(mtcars, x = 'mpg', y = 'hp') |> mark_point() |> theme_light()
+theme_light = function(chart, ...) theme_of(chart, 'light', ...)
+
+#' Dark Theme
+#'
+#' Shortcut for `theme_of(chart, 'dark', ...)`.
+#'
+#' @inheritParams theme_of
+#' @export
+#' @examples
+#' g2(mtcars, x = 'mpg', y = 'hp') |> mark_point() |> theme_dark()
+theme_dark = function(chart, ...) theme_of(chart, 'dark', ...)
+
+#' Academy Theme
+#'
+#' Shortcut for `theme_of(chart, 'academy', ...)`.
+#'
+#' @inheritParams theme_of
+#' @export
+#' @examples
+#' g2(mtcars, x = 'mpg', y = 'hp') |> mark_point() |> theme_academy()
+theme_academy = function(chart, ...) theme_of(chart, 'academy', ...)

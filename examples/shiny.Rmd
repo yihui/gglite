@@ -1,0 +1,86 @@
+---
+title: Shiny
+---
+
+gglite charts can be embedded in [Shiny](https://shiny.posit.co/) applications
+using `g2Output()` and `renderG2()`. These follow the familiar Shiny output/
+render pattern: `g2Output()` creates the placeholder in the UI and
+automatically injects the required JavaScript dependencies, while `renderG2()`
+creates the reactive chart in the server.
+
+## Basic Example
+
+The simplest app renders a static scatter plot:
+
+```r
+library(shiny)
+library(gglite)
+
+ui = fluidPage(
+  g2Output('chart1')
+)
+
+server = function(input, output, session) {
+  output$chart1 = renderG2({
+    g2(mtcars, x = 'mpg', y = 'hp') |> mark_point()
+  })
+}
+
+shinyApp(ui, server)
+```
+
+## Reactive Example
+
+Wrap the chart in `renderG2({})` and reference reactive inputs directly. The
+chart re-renders automatically whenever an input changes. The following app
+lets the user pick the y-axis variable:
+
+```r
+library(shiny)
+library(gglite)
+
+ui = fluidPage(
+  selectInput('xvar', 'X variable',
+              choices = c('hp', 'wt', 'qsec', 'drat')),
+  g2Output('chart1')
+)
+
+server = function(input, output, session) {
+  output$chart1 = renderG2({
+    g2(mtcars, x = input$xvar, y = 'mpg') |>
+      mark_point() |>
+      title_of(paste('mpg vs', input$xvar))
+  })
+}
+
+shinyApp(ui, server)
+```
+
+## Multiple Charts
+
+Use a distinct `outputId` for each chart and assign a separate `renderG2()`
+for each one:
+
+```r
+library(shiny)
+library(gglite)
+
+ui = fluidPage(
+  fluidRow(
+    column(6, g2Output('scatter')),
+    column(6, g2Output('bars'))
+  )
+)
+
+server = function(input, output, session) {
+  output$scatter = renderG2({
+    g2(mtcars, x = 'mpg', y = 'hp') |> mark_point()
+  })
+  output$bars = renderG2({
+    freq = as.data.frame(table(cyl = mtcars$cyl))
+    g2(freq, x = 'cyl', y = 'Freq') |> mark_interval()
+  })
+}
+
+shinyApp(ui, server)
+```
