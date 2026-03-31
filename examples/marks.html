@@ -1,0 +1,1960 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="generator" content="litedown 0.9">
+<title>Marks (Geometry Layers)</title>
+<style type="text/css">
+body {
+  font-family: sans-serif;
+  max-width: 800px;
+  margin: auto;
+  padding: 1em;
+  line-height: 1.5;
+  print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;
+}
+body, .abstract, code, .footnotes, footer, #refs, .caption { font-size: .9em; }
+li li { font-size: .95em; }
+ul:has(li > input[type="checkbox"]) { list-style: none; padding-left: 1em; }
+*, :before, :after { box-sizing: border-box; }
+a { color: steelblue; }
+pre, img { max-width: 100%; }
+pre { white-space: pre-wrap; word-break: break-word; }
+pre code { display: block; padding: 1em; overflow-x: auto; }
+code { font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace; }
+:not(pre, th) > code, code[class], div > .caption { background: #f8f8f8; }
+pre > code:is(:not([class]), .language-plain, .language-none, .plain), .box, .figure, .table { background: inherit; border: 1px solid #eee; }
+pre > code {
+  &.message { border-color: #9eeaf9; }
+  &.warning { background: #fff3cd; border-color: #fff3cd; }
+  &.error { background: #f8d7da; border-color: #f8d7da; }
+}
+.fenced-chunk { border-left: 1px solid #666; }
+.code-fence {
+  opacity: .4;
+  border: 1px dashed #666;
+  border-left: 2px solid;
+  &:hover { opacity: inherit; }
+}
+.box, .figure, .table, table { margin: 1em auto; }
+div > .caption { padding: 1px 1em; }
+.figure { p:has(img, svg), pre:has(svg) { text-align: center; } }
+.flex-col { display: flex; justify-content: space-between; }
+table {
+  &:only-child:not(.table > *) { margin: auto; }
+  th, td { padding: 5px; font-variant-numeric: tabular-nums; }
+  thead, tfoot, tr:nth-child(even) { background: whitesmoke; }
+  thead th { border-bottom: 1px solid #ddd; }
+  &:not(.datatable-table) {
+    border-top: 1px solid #666;
+    border-bottom: 1px solid #666;
+  }
+}
+blockquote {
+  color: #666;
+  margin: 0;
+  padding: 1px 1em;
+  border-left: .5em solid #eee;
+}
+hr, .footnotes::before { border: 1px dashed #ddd; }
+.frontmatter { text-align: center; }
+#TOC {
+  a { text-decoration: none; }
+  ul { list-style: none; padding-left: 1em; }
+  & > ul { padding: 0; }
+  ul ul { border-left: 1px solid lightsteelblue; }
+}
+.body h2 { border-bottom: 1px solid #666; }
+.body .appendix, .appendix ~ h2 { border-bottom-style: dashed; }
+.main-number::after { content: "."; }
+span[class^="ref-number-"] { font-weight: bold; }
+.ref-number-fig::after, .ref-number-tab::after { content: ":"; }
+.cross-ref-chp::before { content: "Chapter "; }
+.cross-ref-sec::before { content: "Section "; }
+.cross-ref-fig::before, .ref-number-fig::before { content: "Figure "; }
+.cross-ref-tab::before, .ref-number-tab::before { content: "Table "; }
+.cross-ref-eqn::before, .MathJax_ref:has(mjx-mtext > mjx-c + mjx-c)::before { content: "Equation "; }
+.abstract, #refs {
+  &::before { display: block; margin: 1em auto; font-weight: bold; }
+}
+.abstract::before { content: "Abstract"; text-align: center; }
+#refs::before { content: "Bibliography"; font-size: 1.5em; }
+.ref-paren-open::before { content: "("; }
+.ref-paren-close::after { content: ")"; }
+.ref-semicolon::after { content: "; "; }
+.ref-and::after { content: " and "; }
+.ref-et-al::after { content: " et al."; font-style: italic; }
+.footnote-ref a {
+  &::before { content: "["; }
+  &::after { content: "]"; }
+}
+section.footnotes {
+  margin-top: 2em;
+  &::before { content: ""; display: block; max-width: 20em; }
+}
+.fade {
+  background: repeating-linear-gradient(135deg, white, white 30px, #ddd 32px, #ddd 32px);
+  opacity: 0.6;
+}
+
+@media print {
+  body { max-width: 100%; }
+  tr, img { break-inside: avoid; }
+}
+@media only screen and (min-width: 992px) {
+  body:not(.pagesjs) pre:has(.line-numbers):not(:hover) { white-space: pre; }
+}
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.24/css/prism-xcode.min.css">
+</head>
+<body>
+<div class="frontmatter">
+<div class="title"><h1>Marks (Geometry Layers)</h1></div>
+</div>
+<div class="body">
+<pre><code class="language-r">library(gglite)
+</code></pre>
+<h2 id="sec:point-mark-scatter-plot">Point Mark (Scatter Plot)</h2>
+<pre><code class="language-r">g2(mtcars, x = 'mpg', y = 'hp') |&gt; mark_point()
+</code></pre>
+<script src="https://unpkg.com/@antv/g2@5/dist/g2.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@xiee/utils/js/g2-column.min.js" defer></script>
+<div id="gglite-1774977662-419521"></div>
+<script type="module">
+const chart = new G2.Chart({
+  "width": 640,
+  "height": 480,
+  "autoFit": true,
+  "container": "gglite-1774977662-419521"
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "mpg": [21, 21, 22.8, 21.4, 18.7, 18.1, 14.3, 24.4, 22.8, 19.2, 17.8, 16.4, 17.3, 15.2, 10.4, 10.4, 14.7, 32.4, 30.4, 33.9, 21.5, 15.5, 15.2, 13.3, 19.2, 27.3, 26, 30.4, 15.8, 19.7, 15, 21.4],
+      "cyl": [6, 6, 4, 6, 8, 6, 8, 4, 4, 6, 6, 8, 8, 8, 8, 8, 8, 4, 4, 4, 4, 8, 8, 8, 8, 4, 4, 4, 8, 6, 8, 4],
+      "disp": [160, 160, 108, 258, 360, 225, 360, 146.7, 140.8, 167.6, 167.6, 275.8, 275.8, 275.8, 472, 460, 440, 78.7, 75.7, 71.1, 120.1, 318, 304, 350, 400, 79, 120.3, 95.1, 351, 145, 301, 121],
+      "hp": [110, 110, 93, 110, 175, 105, 245, 62, 95, 123, 123, 180, 180, 180, 205, 215, 230, 66, 52, 65, 97, 150, 150, 245, 175, 66, 91, 113, 264, 175, 335, 109],
+      "drat": [3.9, 3.9, 3.85, 3.08, 3.15, 2.76, 3.21, 3.69, 3.92, 3.92, 3.92, 3.07, 3.07, 3.07, 2.93, 3, 3.23, 4.08, 4.93, 4.22, 3.7, 2.76, 3.15, 3.73, 3.08, 4.08, 4.43, 3.77, 4.22, 3.62, 3.54, 4.11],
+      "wt": [2.62, 2.875, 2.32, 3.215, 3.44, 3.46, 3.57, 3.19, 3.15, 3.44, 3.44, 4.07, 3.73, 3.78, 5.25, 5.424, 5.345, 2.2, 1.615, 1.835, 2.465, 3.52, 3.435, 3.84, 3.845, 1.935, 2.14, 1.513, 3.17, 2.77, 3.57, 2.78],
+      "qsec": [16.46, 17.02, 18.61, 19.44, 17.02, 20.22, 15.84, 20, 22.9, 18.3, 18.9, 17.4, 17.6, 18, 17.98, 17.82, 17.42, 19.47, 18.52, 19.9, 20.01, 16.87, 17.3, 15.41, 17.05, 18.9, 16.7, 16.9, 14.5, 15.5, 14.6, 18.6],
+      "vs": [0, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1],
+      "am": [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1],
+      "gear": [4, 4, 4, 3, 3, 3, 3, 4, 4, 4, 4, 3, 3, 3, 3, 3, 3, 4, 4, 4, 3, 3, 3, 3, 3, 4, 5, 5, 5, 5, 5, 4],
+      "carb": [4, 4, 1, 1, 2, 1, 4, 2, 2, 4, 4, 3, 3, 3, 4, 4, 4, 1, 2, 1, 1, 2, 2, 4, 2, 1, 2, 2, 4, 6, 8, 2]
+    }
+  },
+  "children": [
+    {
+      "type": "point",
+      "encode": {
+        "x": "mpg",
+        "y": "hp"
+      }
+    }
+  ]
+});
+chart.render();
+</script>
+<h3 id="sec:color-by-a-variable">Color by a variable</h3>
+<pre><code class="language-r">g2(mtcars, x = 'mpg', y = 'hp', color = 'wt', size = 5) |&gt;
+  mark_point(style = list(shape = 'point'))
+</code></pre>
+<div id="gglite-1774977662-785164"></div>
+<script type="module">
+const chart = new G2.Chart({
+  "width": 640,
+  "height": 480,
+  "autoFit": true,
+  "container": "gglite-1774977662-785164"
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "mpg": [21, 21, 22.8, 21.4, 18.7, 18.1, 14.3, 24.4, 22.8, 19.2, 17.8, 16.4, 17.3, 15.2, 10.4, 10.4, 14.7, 32.4, 30.4, 33.9, 21.5, 15.5, 15.2, 13.3, 19.2, 27.3, 26, 30.4, 15.8, 19.7, 15, 21.4],
+      "cyl": [6, 6, 4, 6, 8, 6, 8, 4, 4, 6, 6, 8, 8, 8, 8, 8, 8, 4, 4, 4, 4, 8, 8, 8, 8, 4, 4, 4, 8, 6, 8, 4],
+      "disp": [160, 160, 108, 258, 360, 225, 360, 146.7, 140.8, 167.6, 167.6, 275.8, 275.8, 275.8, 472, 460, 440, 78.7, 75.7, 71.1, 120.1, 318, 304, 350, 400, 79, 120.3, 95.1, 351, 145, 301, 121],
+      "hp": [110, 110, 93, 110, 175, 105, 245, 62, 95, 123, 123, 180, 180, 180, 205, 215, 230, 66, 52, 65, 97, 150, 150, 245, 175, 66, 91, 113, 264, 175, 335, 109],
+      "drat": [3.9, 3.9, 3.85, 3.08, 3.15, 2.76, 3.21, 3.69, 3.92, 3.92, 3.92, 3.07, 3.07, 3.07, 2.93, 3, 3.23, 4.08, 4.93, 4.22, 3.7, 2.76, 3.15, 3.73, 3.08, 4.08, 4.43, 3.77, 4.22, 3.62, 3.54, 4.11],
+      "wt": [2.62, 2.875, 2.32, 3.215, 3.44, 3.46, 3.57, 3.19, 3.15, 3.44, 3.44, 4.07, 3.73, 3.78, 5.25, 5.424, 5.345, 2.2, 1.615, 1.835, 2.465, 3.52, 3.435, 3.84, 3.845, 1.935, 2.14, 1.513, 3.17, 2.77, 3.57, 2.78],
+      "qsec": [16.46, 17.02, 18.61, 19.44, 17.02, 20.22, 15.84, 20, 22.9, 18.3, 18.9, 17.4, 17.6, 18, 17.98, 17.82, 17.42, 19.47, 18.52, 19.9, 20.01, 16.87, 17.3, 15.41, 17.05, 18.9, 16.7, 16.9, 14.5, 15.5, 14.6, 18.6],
+      "vs": [0, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1],
+      "am": [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1],
+      "gear": [4, 4, 4, 3, 3, 3, 3, 4, 4, 4, 4, 3, 3, 3, 3, 3, 3, 4, 4, 4, 3, 3, 3, 3, 3, 4, 5, 5, 5, 5, 5, 4],
+      "carb": [4, 4, 1, 1, 2, 1, 4, 2, 2, 4, 4, 3, 3, 3, 4, 4, 4, 1, 2, 1, 1, 2, 2, 4, 2, 1, 2, 2, 4, 6, 8, 2]
+    }
+  },
+  "children": [
+    {
+      "type": "point",
+      "encode": {
+        "x": "mpg",
+        "y": "hp",
+        "color": "wt",
+        "size": 5
+      },
+      "style": {
+        "shape": "point"
+      }
+    }
+  ]
+});
+chart.render();
+</script>
+<h3 id="sec:size-by-a-variable">Size by a variable</h3>
+<pre><code class="language-r">g2(mtcars, x = 'mpg', y = 'hp', size = 'wt') |&gt; mark_point()
+</code></pre>
+<div id="gglite-1774977662-18529"></div>
+<script type="module">
+const chart = new G2.Chart({
+  "width": 640,
+  "height": 480,
+  "autoFit": true,
+  "container": "gglite-1774977662-18529"
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "mpg": [21, 21, 22.8, 21.4, 18.7, 18.1, 14.3, 24.4, 22.8, 19.2, 17.8, 16.4, 17.3, 15.2, 10.4, 10.4, 14.7, 32.4, 30.4, 33.9, 21.5, 15.5, 15.2, 13.3, 19.2, 27.3, 26, 30.4, 15.8, 19.7, 15, 21.4],
+      "cyl": [6, 6, 4, 6, 8, 6, 8, 4, 4, 6, 6, 8, 8, 8, 8, 8, 8, 4, 4, 4, 4, 8, 8, 8, 8, 4, 4, 4, 8, 6, 8, 4],
+      "disp": [160, 160, 108, 258, 360, 225, 360, 146.7, 140.8, 167.6, 167.6, 275.8, 275.8, 275.8, 472, 460, 440, 78.7, 75.7, 71.1, 120.1, 318, 304, 350, 400, 79, 120.3, 95.1, 351, 145, 301, 121],
+      "hp": [110, 110, 93, 110, 175, 105, 245, 62, 95, 123, 123, 180, 180, 180, 205, 215, 230, 66, 52, 65, 97, 150, 150, 245, 175, 66, 91, 113, 264, 175, 335, 109],
+      "drat": [3.9, 3.9, 3.85, 3.08, 3.15, 2.76, 3.21, 3.69, 3.92, 3.92, 3.92, 3.07, 3.07, 3.07, 2.93, 3, 3.23, 4.08, 4.93, 4.22, 3.7, 2.76, 3.15, 3.73, 3.08, 4.08, 4.43, 3.77, 4.22, 3.62, 3.54, 4.11],
+      "wt": [2.62, 2.875, 2.32, 3.215, 3.44, 3.46, 3.57, 3.19, 3.15, 3.44, 3.44, 4.07, 3.73, 3.78, 5.25, 5.424, 5.345, 2.2, 1.615, 1.835, 2.465, 3.52, 3.435, 3.84, 3.845, 1.935, 2.14, 1.513, 3.17, 2.77, 3.57, 2.78],
+      "qsec": [16.46, 17.02, 18.61, 19.44, 17.02, 20.22, 15.84, 20, 22.9, 18.3, 18.9, 17.4, 17.6, 18, 17.98, 17.82, 17.42, 19.47, 18.52, 19.9, 20.01, 16.87, 17.3, 15.41, 17.05, 18.9, 16.7, 16.9, 14.5, 15.5, 14.6, 18.6],
+      "vs": [0, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1],
+      "am": [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1],
+      "gear": [4, 4, 4, 3, 3, 3, 3, 4, 4, 4, 4, 3, 3, 3, 3, 3, 3, 4, 4, 4, 3, 3, 3, 3, 3, 4, 5, 5, 5, 5, 5, 4],
+      "carb": [4, 4, 1, 1, 2, 1, 4, 2, 2, 4, 4, 3, 3, 3, 4, 4, 4, 1, 2, 1, 1, 2, 2, 4, 2, 1, 2, 2, 4, 6, 8, 2]
+    }
+  },
+  "children": [
+    {
+      "type": "point",
+      "encode": {
+        "x": "mpg",
+        "y": "hp",
+        "size": "wt"
+      }
+    }
+  ]
+});
+chart.render();
+</script>
+<h3 id="sec:shape-by-a-variable">Shape by a variable</h3>
+<p>Note: in G2 v5, shape encoding in point marks may not always match
+between the legend and the plot. See <a href="https://github.com/antvis/G2">G2 source</a>
+and <a href="https://g2.antv.antgroup.com">documentation</a> for details.</p>
+<pre><code class="language-r">g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species',
+    shape = 'Species') |&gt;
+  mark_point()
+</code></pre>
+<h3 id="sec:custom-style">Custom style</h3>
+<pre><code class="language-r">g2(mtcars, x = 'mpg', y = 'hp', size = 10) |&gt;
+  mark_point(style = list(fill = 'lightyellow', stroke = 'steelblue', lineWidth = 2))
+</code></pre>
+<div id="gglite-1774977662-45260"></div>
+<script type="module">
+const chart = new G2.Chart({
+  "width": 640,
+  "height": 480,
+  "autoFit": true,
+  "container": "gglite-1774977662-45260"
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "mpg": [21, 21, 22.8, 21.4, 18.7, 18.1, 14.3, 24.4, 22.8, 19.2, 17.8, 16.4, 17.3, 15.2, 10.4, 10.4, 14.7, 32.4, 30.4, 33.9, 21.5, 15.5, 15.2, 13.3, 19.2, 27.3, 26, 30.4, 15.8, 19.7, 15, 21.4],
+      "cyl": [6, 6, 4, 6, 8, 6, 8, 4, 4, 6, 6, 8, 8, 8, 8, 8, 8, 4, 4, 4, 4, 8, 8, 8, 8, 4, 4, 4, 8, 6, 8, 4],
+      "disp": [160, 160, 108, 258, 360, 225, 360, 146.7, 140.8, 167.6, 167.6, 275.8, 275.8, 275.8, 472, 460, 440, 78.7, 75.7, 71.1, 120.1, 318, 304, 350, 400, 79, 120.3, 95.1, 351, 145, 301, 121],
+      "hp": [110, 110, 93, 110, 175, 105, 245, 62, 95, 123, 123, 180, 180, 180, 205, 215, 230, 66, 52, 65, 97, 150, 150, 245, 175, 66, 91, 113, 264, 175, 335, 109],
+      "drat": [3.9, 3.9, 3.85, 3.08, 3.15, 2.76, 3.21, 3.69, 3.92, 3.92, 3.92, 3.07, 3.07, 3.07, 2.93, 3, 3.23, 4.08, 4.93, 4.22, 3.7, 2.76, 3.15, 3.73, 3.08, 4.08, 4.43, 3.77, 4.22, 3.62, 3.54, 4.11],
+      "wt": [2.62, 2.875, 2.32, 3.215, 3.44, 3.46, 3.57, 3.19, 3.15, 3.44, 3.44, 4.07, 3.73, 3.78, 5.25, 5.424, 5.345, 2.2, 1.615, 1.835, 2.465, 3.52, 3.435, 3.84, 3.845, 1.935, 2.14, 1.513, 3.17, 2.77, 3.57, 2.78],
+      "qsec": [16.46, 17.02, 18.61, 19.44, 17.02, 20.22, 15.84, 20, 22.9, 18.3, 18.9, 17.4, 17.6, 18, 17.98, 17.82, 17.42, 19.47, 18.52, 19.9, 20.01, 16.87, 17.3, 15.41, 17.05, 18.9, 16.7, 16.9, 14.5, 15.5, 14.6, 18.6],
+      "vs": [0, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1],
+      "am": [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1],
+      "gear": [4, 4, 4, 3, 3, 3, 3, 4, 4, 4, 4, 3, 3, 3, 3, 3, 3, 4, 4, 4, 3, 3, 3, 3, 3, 4, 5, 5, 5, 5, 5, 4],
+      "carb": [4, 4, 1, 1, 2, 1, 4, 2, 2, 4, 4, 3, 3, 3, 4, 4, 4, 1, 2, 1, 1, 2, 2, 4, 2, 1, 2, 2, 4, 6, 8, 2]
+    }
+  },
+  "children": [
+    {
+      "type": "point",
+      "encode": {
+        "x": "mpg",
+        "y": "hp",
+        "size": 10
+      },
+      "style": {
+        "fill": "lightyellow",
+        "stroke": "steelblue",
+        "lineWidth": 2
+      }
+    }
+  ]
+});
+chart.render();
+</script>
+<h2 id="sec:line-mark">Line Mark</h2>
+<pre><code class="language-r">df = data.frame(x = 1:10, y = cumsum(rnorm(10)))
+g2(df, x = 'x', y = 'y') |&gt; mark_line()
+</code></pre>
+<div id="gglite-1774977662-500944"></div>
+<script type="module">
+const chart = new G2.Chart({
+  "width": 640,
+  "height": 480,
+  "autoFit": true,
+  "container": "gglite-1774977662-500944"
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "x": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+      "y": [-2.43361259190295, -3.34316390226881, -2.91728277295252, -2.74112144493079, -1.14575068058002, -0.356889532483259, 0.750063945170845, 1.58904243896646, 2.18237168872891, 2.69245689558612]
+    }
+  },
+  "children": [
+    {
+      "type": "line",
+      "encode": {
+        "x": "x",
+        "y": "y"
+      }
+    }
+  ]
+});
+chart.render();
+</script>
+<h3 id="sec:multi-series-line">Multi-series line</h3>
+<pre><code class="language-r">df = data.frame(
+  x = rep(1:5, 2), y = c(3, 1, 4, 1, 5, 2, 7, 1, 8, 3),
+  group = rep(c('A', 'B'), each = 5)
+)
+g2(df, x = 'x', y = 'y', color = 'group') |&gt; mark_line()
+</code></pre>
+<div id="gglite-1774977662-947225"></div>
+<script type="module">
+const chart = new G2.Chart({
+  "width": 640,
+  "height": 480,
+  "autoFit": true,
+  "container": "gglite-1774977662-947225"
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "x": [1, 2, 3, 4, 5, 1, 2, 3, 4, 5],
+      "y": [3, 1, 4, 1, 5, 2, 7, 1, 8, 3],
+      "group": ["A", "A", "A", "A", "A", "B", "B", "B", "B", "B"]
+    }
+  },
+  "children": [
+    {
+      "type": "line",
+      "encode": {
+        "x": "x",
+        "y": "y",
+        "color": "group"
+      }
+    }
+  ]
+});
+chart.render();
+</script>
+<h2 id="sec:interval-mark-bar-chart">Interval Mark (Bar Chart)</h2>
+<pre><code class="language-r">df = data.frame(x = c('A', 'B', 'C', 'D'), y = c(3, 7, 2, 5))
+g2(df, x = 'x', y = 'y') |&gt; mark_interval()
+</code></pre>
+<div id="gglite-1774977662-128363"></div>
+<script type="module">
+const chart = new G2.Chart({
+  "width": 640,
+  "height": 480,
+  "autoFit": true,
+  "container": "gglite-1774977662-128363"
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "x": ["A", "B", "C", "D"],
+      "y": [3, 7, 2, 5]
+    }
+  },
+  "children": [
+    {
+      "type": "interval",
+      "encode": {
+        "x": "x",
+        "y": "y"
+      }
+    }
+  ]
+});
+chart.render();
+</script>
+<h3 id="sec:stacked-bar">Stacked bar</h3>
+<pre><code class="language-r">df = data.frame(
+  x = rep(c('A', 'B', 'C'), each = 2), y = c(3, 2, 5, 4, 1, 6),
+  color = rep(c('a', 'b'), 3)
+)
+g2(df, x = 'x', y = 'y', color = 'color') |&gt;
+  mark_interval() |&gt; transform_of('stackY')
+</code></pre>
+<div id="gglite-1774977662-738669"></div>
+<script type="module">
+const chart = new G2.Chart({
+  "width": 640,
+  "height": 480,
+  "autoFit": true,
+  "container": "gglite-1774977662-738669"
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "x": ["A", "A", "B", "B", "C", "C"],
+      "y": [3, 2, 5, 4, 1, 6],
+      "color": ["a", "b", "a", "b", "a", "b"]
+    }
+  },
+  "children": [
+    {
+      "type": "interval",
+      "encode": {
+        "x": "x",
+        "y": "y",
+        "color": "color"
+      },
+      "transform": [
+        {
+          "type": "stackY"
+        }
+      ]
+    }
+  ]
+});
+chart.render();
+</script>
+<h3 id="sec:grouped-dodged-bar">Grouped (dodged) bar</h3>
+<pre><code class="language-r">g2(df, x = 'x', y = 'y', color = 'color') |&gt;
+  mark_interval() |&gt; transform_of('dodgeX')
+</code></pre>
+<div id="gglite-1774977662-32583"></div>
+<script type="module">
+const chart = new G2.Chart({
+  "width": 640,
+  "height": 480,
+  "autoFit": true,
+  "container": "gglite-1774977662-32583"
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "x": ["A", "A", "B", "B", "C", "C"],
+      "y": [3, 2, 5, 4, 1, 6],
+      "color": ["a", "b", "a", "b", "a", "b"]
+    }
+  },
+  "children": [
+    {
+      "type": "interval",
+      "encode": {
+        "x": "x",
+        "y": "y",
+        "color": "color"
+      },
+      "transform": [
+        {
+          "type": "dodgeX"
+        }
+      ]
+    }
+  ]
+});
+chart.render();
+</script>
+<h2 id="sec:area-mark">Area Mark</h2>
+<pre><code class="language-r">df = data.frame(x = 1:10, y = c(3, 1, 4, 1, 5, 9, 2, 6, 5, 3))
+g2(df, x = 'x', y = 'y') |&gt; mark_area()
+</code></pre>
+<div id="gglite-1774977662-799314"></div>
+<script type="module">
+const chart = new G2.Chart({
+  "width": 640,
+  "height": 480,
+  "autoFit": true,
+  "container": "gglite-1774977662-799314"
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "x": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+      "y": [3, 1, 4, 1, 5, 9, 2, 6, 5, 3]
+    }
+  },
+  "children": [
+    {
+      "type": "area",
+      "encode": {
+        "x": "x",
+        "y": "y"
+      }
+    }
+  ]
+});
+chart.render();
+</script>
+<h3 id="sec:stacked-area">Stacked area</h3>
+<pre><code class="language-r">df = data.frame(
+  x = rep(1:5, 2), y = c(3, 1, 4, 1, 5, 2, 7, 1, 8, 3),
+  group = rep(c('A', 'B'), each = 5)
+)
+g2(df, x = 'x', y = 'y', color = 'group') |&gt;
+  mark_area() |&gt; transform_of('stackY')
+</code></pre>
+<div id="gglite-1774977662-278927"></div>
+<script type="module">
+const chart = new G2.Chart({
+  "width": 640,
+  "height": 480,
+  "autoFit": true,
+  "container": "gglite-1774977662-278927"
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "x": [1, 2, 3, 4, 5, 1, 2, 3, 4, 5],
+      "y": [3, 1, 4, 1, 5, 2, 7, 1, 8, 3],
+      "group": ["A", "A", "A", "A", "A", "B", "B", "B", "B", "B"]
+    }
+  },
+  "children": [
+    {
+      "type": "area",
+      "encode": {
+        "x": "x",
+        "y": "y",
+        "color": "group"
+      },
+      "transform": [
+        {
+          "type": "stackY"
+        }
+      ]
+    }
+  ]
+});
+chart.render();
+</script>
+<h2 id="sec:rect-mark">Rect Mark</h2>
+<pre><code class="language-r">g2(mtcars, x = 'mpg', y = 'hp') |&gt;
+  mark_rect(
+    transform = list(list(type = 'bin', thresholdsX = 10, thresholdsY = 10))
+  )
+</code></pre>
+<div id="gglite-1774977662-519072"></div>
+<script type="module">
+const chart = new G2.Chart({
+  "width": 640,
+  "height": 480,
+  "autoFit": true,
+  "container": "gglite-1774977662-519072"
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "mpg": [21, 21, 22.8, 21.4, 18.7, 18.1, 14.3, 24.4, 22.8, 19.2, 17.8, 16.4, 17.3, 15.2, 10.4, 10.4, 14.7, 32.4, 30.4, 33.9, 21.5, 15.5, 15.2, 13.3, 19.2, 27.3, 26, 30.4, 15.8, 19.7, 15, 21.4],
+      "cyl": [6, 6, 4, 6, 8, 6, 8, 4, 4, 6, 6, 8, 8, 8, 8, 8, 8, 4, 4, 4, 4, 8, 8, 8, 8, 4, 4, 4, 8, 6, 8, 4],
+      "disp": [160, 160, 108, 258, 360, 225, 360, 146.7, 140.8, 167.6, 167.6, 275.8, 275.8, 275.8, 472, 460, 440, 78.7, 75.7, 71.1, 120.1, 318, 304, 350, 400, 79, 120.3, 95.1, 351, 145, 301, 121],
+      "hp": [110, 110, 93, 110, 175, 105, 245, 62, 95, 123, 123, 180, 180, 180, 205, 215, 230, 66, 52, 65, 97, 150, 150, 245, 175, 66, 91, 113, 264, 175, 335, 109],
+      "drat": [3.9, 3.9, 3.85, 3.08, 3.15, 2.76, 3.21, 3.69, 3.92, 3.92, 3.92, 3.07, 3.07, 3.07, 2.93, 3, 3.23, 4.08, 4.93, 4.22, 3.7, 2.76, 3.15, 3.73, 3.08, 4.08, 4.43, 3.77, 4.22, 3.62, 3.54, 4.11],
+      "wt": [2.62, 2.875, 2.32, 3.215, 3.44, 3.46, 3.57, 3.19, 3.15, 3.44, 3.44, 4.07, 3.73, 3.78, 5.25, 5.424, 5.345, 2.2, 1.615, 1.835, 2.465, 3.52, 3.435, 3.84, 3.845, 1.935, 2.14, 1.513, 3.17, 2.77, 3.57, 2.78],
+      "qsec": [16.46, 17.02, 18.61, 19.44, 17.02, 20.22, 15.84, 20, 22.9, 18.3, 18.9, 17.4, 17.6, 18, 17.98, 17.82, 17.42, 19.47, 18.52, 19.9, 20.01, 16.87, 17.3, 15.41, 17.05, 18.9, 16.7, 16.9, 14.5, 15.5, 14.6, 18.6],
+      "vs": [0, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1],
+      "am": [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1],
+      "gear": [4, 4, 4, 3, 3, 3, 3, 4, 4, 4, 4, 3, 3, 3, 3, 3, 3, 4, 4, 4, 3, 3, 3, 3, 3, 4, 5, 5, 5, 5, 5, 4],
+      "carb": [4, 4, 1, 1, 2, 1, 4, 2, 2, 4, 4, 3, 3, 3, 4, 4, 4, 1, 2, 1, 1, 2, 2, 4, 2, 1, 2, 2, 4, 6, 8, 2]
+    }
+  },
+  "children": [
+    {
+      "type": "rect",
+      "encode": {
+        "x": "mpg",
+        "y": "hp"
+      },
+      "transform": [
+        {
+          "type": "bin",
+          "thresholdsX": 10,
+          "thresholdsY": 10
+        }
+      ]
+    }
+  ]
+});
+chart.render();
+</script>
+<h2 id="sec:cell-mark">Cell Mark</h2>
+<pre><code class="language-r">df = expand.grid(x = LETTERS[1:5], y = LETTERS[1:5])
+df$value = seq_len(nrow(df))
+g2(df, x = 'x', y = 'y', color = 'value') |&gt; mark_cell()
+</code></pre>
+<div id="gglite-1774977662-652514"></div>
+<script type="module">
+const chart = new G2.Chart({
+  "width": 640,
+  "height": 480,
+  "autoFit": true,
+  "container": "gglite-1774977662-652514"
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "x": ["A", "B", "C", "D", "E", "A", "B", "C", "D", "E", "A", "B", "C", "D", "E", "A", "B", "C", "D", "E", "A", "B", "C", "D", "E"],
+      "y": ["A", "A", "A", "A", "A", "B", "B", "B", "B", "B", "C", "C", "C", "C", "C", "D", "D", "D", "D", "D", "E", "E", "E", "E", "E"],
+      "value": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
+    }
+  },
+  "children": [
+    {
+      "type": "cell",
+      "encode": {
+        "x": "x",
+        "y": "y",
+        "color": "value"
+      }
+    }
+  ]
+});
+chart.render();
+</script>
+<h2 id="sec:text-mark">Text Mark</h2>
+<pre><code class="language-r">df = data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2))
+g2(df, x = 'x', y = 'y') |&gt;
+  mark_interval() |&gt;
+  mark_text(encode = list(text = 'y'))
+</code></pre>
+<div id="gglite-1774977662-793108"></div>
+<script type="module">
+const chart = new G2.Chart({
+  "width": 640,
+  "height": 480,
+  "autoFit": true,
+  "container": "gglite-1774977662-793108"
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "x": ["A", "B", "C"],
+      "y": [3, 7, 2]
+    }
+  },
+  "children": [
+    {
+      "type": "interval",
+      "encode": {
+        "x": "x",
+        "y": "y"
+      }
+    },
+    {
+      "type": "text",
+      "encode": {
+        "x": "x",
+        "y": "y",
+        "text": "y"
+      }
+    }
+  ]
+});
+chart.render();
+</script>
+<h2 id="sec:path-mark">Path Mark</h2>
+<p>The <code>path</code> mark in G2 uses an SVG-like <code>d</code> channel to draw arbitrary
+shapes. It does not use x/y data coordinates like <code>mark_line()</code>. Use
+<code>mark_line()</code> to connect data points in order.</p>
+<pre><code class="language-r">g2(df, x = 'x', y = 'y') |&gt; mark_path()
+</code></pre>
+<p>A line mark connecting data points in order:</p>
+<pre><code class="language-r">n = 100
+t = seq(0, 4 * pi, length.out = n)
+df = data.frame(x = t * cos(t), y = t * sin(t))
+g2(df, x = 'x', y = 'y') |&gt; mark_line()
+</code></pre>
+<div id="gglite-1774977662-608487"></div>
+<script type="module">
+const chart = new G2.Chart({
+  "width": 640,
+  "height": 480,
+  "autoFit": true,
+  "container": "gglite-1774977662-608487"
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "x": [0, 0.125911836472011, 0.245729335705743, 0.353521682205047, 0.44368141953074, 0.511076994992714, 0.551194554488185, 0.56026575298179, 0.535378636228072, 0.474569001104594, 0.376890048417144, 0.242458595230082, 0.0724766047008952, -0.130772689671181, -0.363954251846355, -0.622735945928841, -0.901867576802783, -1.19528284672331, -1.49622230609958, -1.79737491238694, -2.09103539163953, -2.36927423154078, -2.62411683030538, -2.84772808925869, -3.03259857339201, -3.17172827761557, -3.25880402916769, -3.28836662954, -3.25596399164775, -3.15828675756388, -2.99328318518238, -2.76025046346558, -2.45990004887855, -2.09439510239319, -1.6673586381149, -1.18385156126034, -0.650320364241705, -0.0745148537674933, 0.534623112434466, 1.16709830516235, 1.81202607179061, 2.45781886462067, 3.09239216494791, 3.70338617607253, 4.27839927969043, 4.80522894281618, 5.27211553345356, 5.66798435808046, 5.98268117657118, 6.20719648274924, 6.33387396198902, 6.35659875010688, 6.27096141745073, 6.07439398419649, 5.76627473137941, 5.34799909961303, 4.82301455488515, 4.19681793814359, 3.4769144914146, 2.67273845589116, 1.79553585409592, 0.858210785750068, -0.124862727934722, -1.13806063742298, -2.16475714059034, -3.18759739639613, -4.1887902047864, -5.15041572733948, -6.05474295211804, -6.88455132591947, -7.62345079411972, -8.25619440739252, -8.76897767877332, -9.14971900497083, -9.38831570174209, -9.47687054185003, -9.40988412102872, -9.18440890606882, -8.8001614314372, -8.25958979697614, -7.56789436794502, -6.73300037744812, -5.76548196654773, -4.67843805466444, -3.48732129720152, -2.20972224335286, -0.865111639363194, 0.52545538408149, 1.93966876184065, 3.35432143091259, 4.74569001104595, 6.08993198709432, 7.36349275347495, 8.54351559456688, 9.60824750586302, 10.5374337138551, 11.3126938305615, 11.9178727817286, 12.3393599742571, 12.5663706143592],
+      "y": [0, 0.0160687645311999, 0.0637579532518741, 0.141528732159712, 0.246857712215365, 0.376298019024888, 0.52556294614999, 0.689630392416191, 0.862865832177074, 1.03916116148217, 1.2120864107544, 1.37505102313841, 1.52147117318212, 1.64493944770686, 1.7393931329623, 1.7992773513396, 1.81969936741873, 1.79657053582447, 1.72673258963269, 1.6080652638224, 1.43957260804599, 1.22144576004507, 0.955100417468133, 0.643187752733129, 0.289578053162408, -0.100683073526379, -0.521445521051193, -0.965551560927387, -1.42495724806993, -1.89087630184983, -2.35394391498323, -2.80439749352982, -3.23227093620203, -3.62759872846844, -3.98062586377545, -4.28201941653824, -4.52307748389643, -4.69593118862811, -4.7937354955412, -4.81084473798116, -4.74296897806139, -4.58730763049077, -4.34265716054927, -4.00949011548197, -3.59000325761738, -3.08813312790779, -2.50953797030312, -1.86154557947442, -1.15306728526621, -0.39447894475522, 0.402529535464512, 1.22513399059535, 2.05958234324829, 2.89142418317533, 3.70575975348935, 4.48750407202172, 5.22166154574396, 5.89360614645972, 6.48936201386499, 6.99587924264055, 7.40129959689409, 7.69520697968455, 7.86885766743089, 7.91538559681875, 7.82997836166993, 7.61002003368836, 7.25519745693687, 6.76756727267299, 6.15158159871058, 5.41407100446144, 4.56418417687889, 3.61328445046303, 2.57480416247303, 1.46405857833605, 0.298021897638075, -0.904931416132527, -2.12531605250947, -3.34285146113846, -4.53679853731028, -5.68631180178165, -6.77080111083116, -7.77029665334712, -8.66581081985921, -9.43969046848468, -10.0759531675018, -10.560601164414, -10.8819071155992, -11.0306660055704, -11.0004081851073, -10.7875690557141, -10.3916116148217, -9.81509884101422, -9.06371372889852, -8.14622566532484, -7.0744027576679, -5.86287066511491, -4.52891942911079, -3.09226073271589, -1.57473892405759, -6.15574621990973e-15]
+    }
+  },
+  "children": [
+    {
+      "type": "line",
+      "encode": {
+        "x": "x",
+        "y": "y"
+      }
+    }
+  ]
+});
+chart.render();
+</script>
+<h2 id="sec:polygon-mark">Polygon Mark</h2>
+<p>The <code>polygon</code> mark draws filled polygons. Use list columns to store
+vertex coordinates for each polygon.</p>
+<pre><code class="language-r">df = data.frame(group = c('triangle', 'square'))
+df$x = list(c(0, 1, 0.5), c(2, 3, 3, 2))
+df$y = list(c(0, 0, 1), c(0, 0, 1, 1))
+g2(df, color = 'group') |&gt;
+  mark_polygon(encode = list(x = 'x', y = 'y'))
+</code></pre>
+<div id="gglite-1774977662-192887"></div>
+<script type="module">
+const chart = new G2.Chart({
+  "width": 640,
+  "height": 480,
+  "autoFit": true,
+  "container": "gglite-1774977662-192887"
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "group": ["triangle", "square"],
+      "x": [
+        [0, 1, 0.5],
+        [2, 3, 3, 2]
+      ],
+      "y": [
+        [0, 0, 1],
+        [0, 0, 1, 1]
+      ]
+    }
+  },
+  "children": [
+    {
+      "type": "polygon",
+      "encode": {
+        "color": "group",
+        "x": "x",
+        "y": "y"
+      }
+    }
+  ]
+});
+chart.render();
+</script>
+<h2 id="sec:link-mark">Link Mark</h2>
+<pre><code class="language-r">df = data.frame(
+  x = c('A', 'B', 'C'), y = c(1, 3, 2),
+  x1 = c('B', 'C', 'D'), y1 = c(3, 1, 4)
+)
+g2(df) |&gt;
+  mark_link(
+    encode = list(x = c('x', 'x1'), y = c('y', 'y1')),
+    style = list(stroke = 'steelblue', lineWidth = 2)
+  )
+</code></pre>
+<div id="gglite-1774977662-793461"></div>
+<script type="module">
+const chart = new G2.Chart({
+  "width": 640,
+  "height": 480,
+  "autoFit": true,
+  "container": "gglite-1774977662-793461"
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "x": ["A", "B", "C"],
+      "y": [1, 3, 2],
+      "x1": ["B", "C", "D"],
+      "y1": [3, 1, 4]
+    }
+  },
+  "children": [
+    {
+      "type": "link",
+      "encode": {
+        "x": ["x", "x1"],
+        "y": ["y", "y1"]
+      },
+      "style": {
+        "stroke": "steelblue",
+        "lineWidth": 2
+      }
+    }
+  ]
+});
+chart.render();
+</script>
+<h2 id="sec:reference-lines">Reference Lines</h2>
+<h3 id="sec:vertical-reference-line-linex">Vertical reference line (lineX)</h3>
+<pre><code class="language-r">g2(mtcars, x = 'mpg', y = 'hp') |&gt;
+  mark_point() |&gt;
+  mark_line_x(
+    data = list(list(x = mean(mtcars$mpg))),
+    encode = list(x = 'x'),
+    style = list(stroke = 'red', lineDash = c(4, 4))
+  )
+</code></pre>
+<div id="gglite-1774977662-203578"></div>
+<script type="module">
+const chart = new G2.Chart({
+  "width": 640,
+  "height": 480,
+  "autoFit": true,
+  "container": "gglite-1774977662-203578"
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "mpg": [21, 21, 22.8, 21.4, 18.7, 18.1, 14.3, 24.4, 22.8, 19.2, 17.8, 16.4, 17.3, 15.2, 10.4, 10.4, 14.7, 32.4, 30.4, 33.9, 21.5, 15.5, 15.2, 13.3, 19.2, 27.3, 26, 30.4, 15.8, 19.7, 15, 21.4],
+      "cyl": [6, 6, 4, 6, 8, 6, 8, 4, 4, 6, 6, 8, 8, 8, 8, 8, 8, 4, 4, 4, 4, 8, 8, 8, 8, 4, 4, 4, 8, 6, 8, 4],
+      "disp": [160, 160, 108, 258, 360, 225, 360, 146.7, 140.8, 167.6, 167.6, 275.8, 275.8, 275.8, 472, 460, 440, 78.7, 75.7, 71.1, 120.1, 318, 304, 350, 400, 79, 120.3, 95.1, 351, 145, 301, 121],
+      "hp": [110, 110, 93, 110, 175, 105, 245, 62, 95, 123, 123, 180, 180, 180, 205, 215, 230, 66, 52, 65, 97, 150, 150, 245, 175, 66, 91, 113, 264, 175, 335, 109],
+      "drat": [3.9, 3.9, 3.85, 3.08, 3.15, 2.76, 3.21, 3.69, 3.92, 3.92, 3.92, 3.07, 3.07, 3.07, 2.93, 3, 3.23, 4.08, 4.93, 4.22, 3.7, 2.76, 3.15, 3.73, 3.08, 4.08, 4.43, 3.77, 4.22, 3.62, 3.54, 4.11],
+      "wt": [2.62, 2.875, 2.32, 3.215, 3.44, 3.46, 3.57, 3.19, 3.15, 3.44, 3.44, 4.07, 3.73, 3.78, 5.25, 5.424, 5.345, 2.2, 1.615, 1.835, 2.465, 3.52, 3.435, 3.84, 3.845, 1.935, 2.14, 1.513, 3.17, 2.77, 3.57, 2.78],
+      "qsec": [16.46, 17.02, 18.61, 19.44, 17.02, 20.22, 15.84, 20, 22.9, 18.3, 18.9, 17.4, 17.6, 18, 17.98, 17.82, 17.42, 19.47, 18.52, 19.9, 20.01, 16.87, 17.3, 15.41, 17.05, 18.9, 16.7, 16.9, 14.5, 15.5, 14.6, 18.6],
+      "vs": [0, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1],
+      "am": [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1],
+      "gear": [4, 4, 4, 3, 3, 3, 3, 4, 4, 4, 4, 3, 3, 3, 3, 3, 3, 4, 4, 4, 3, 3, 3, 3, 3, 4, 5, 5, 5, 5, 5, 4],
+      "carb": [4, 4, 1, 1, 2, 1, 4, 2, 2, 4, 4, 3, 3, 3, 4, 4, 4, 1, 2, 1, 1, 2, 2, 4, 2, 1, 2, 2, 4, 6, 8, 2]
+    }
+  },
+  "children": [
+    {
+      "type": "point",
+      "encode": {
+        "x": "mpg",
+        "y": "hp"
+      }
+    },
+    {
+      "type": "lineX",
+      "encode": {
+        "x": "x",
+        "y": "hp"
+      },
+      "data": [
+        {
+          "x": 20.090625
+        }
+      ],
+      "style": {
+        "stroke": "red",
+        "lineDash": [4, 4]
+      }
+    }
+  ]
+});
+chart.render();
+</script>
+<h3 id="sec:horizontal-reference-line-liney">Horizontal reference line (lineY)</h3>
+<pre><code class="language-r">g2(mtcars, x = 'mpg', y = 'hp') |&gt;
+  mark_point() |&gt;
+  mark_line_y(
+    data = list(list(y = mean(mtcars$hp))),
+    encode = list(y = 'y'),
+    style = list(stroke = 'red', lineDash = c(4, 4))
+  )
+</code></pre>
+<div id="gglite-1774977662-294621"></div>
+<script type="module">
+const chart = new G2.Chart({
+  "width": 640,
+  "height": 480,
+  "autoFit": true,
+  "container": "gglite-1774977662-294621"
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "mpg": [21, 21, 22.8, 21.4, 18.7, 18.1, 14.3, 24.4, 22.8, 19.2, 17.8, 16.4, 17.3, 15.2, 10.4, 10.4, 14.7, 32.4, 30.4, 33.9, 21.5, 15.5, 15.2, 13.3, 19.2, 27.3, 26, 30.4, 15.8, 19.7, 15, 21.4],
+      "cyl": [6, 6, 4, 6, 8, 6, 8, 4, 4, 6, 6, 8, 8, 8, 8, 8, 8, 4, 4, 4, 4, 8, 8, 8, 8, 4, 4, 4, 8, 6, 8, 4],
+      "disp": [160, 160, 108, 258, 360, 225, 360, 146.7, 140.8, 167.6, 167.6, 275.8, 275.8, 275.8, 472, 460, 440, 78.7, 75.7, 71.1, 120.1, 318, 304, 350, 400, 79, 120.3, 95.1, 351, 145, 301, 121],
+      "hp": [110, 110, 93, 110, 175, 105, 245, 62, 95, 123, 123, 180, 180, 180, 205, 215, 230, 66, 52, 65, 97, 150, 150, 245, 175, 66, 91, 113, 264, 175, 335, 109],
+      "drat": [3.9, 3.9, 3.85, 3.08, 3.15, 2.76, 3.21, 3.69, 3.92, 3.92, 3.92, 3.07, 3.07, 3.07, 2.93, 3, 3.23, 4.08, 4.93, 4.22, 3.7, 2.76, 3.15, 3.73, 3.08, 4.08, 4.43, 3.77, 4.22, 3.62, 3.54, 4.11],
+      "wt": [2.62, 2.875, 2.32, 3.215, 3.44, 3.46, 3.57, 3.19, 3.15, 3.44, 3.44, 4.07, 3.73, 3.78, 5.25, 5.424, 5.345, 2.2, 1.615, 1.835, 2.465, 3.52, 3.435, 3.84, 3.845, 1.935, 2.14, 1.513, 3.17, 2.77, 3.57, 2.78],
+      "qsec": [16.46, 17.02, 18.61, 19.44, 17.02, 20.22, 15.84, 20, 22.9, 18.3, 18.9, 17.4, 17.6, 18, 17.98, 17.82, 17.42, 19.47, 18.52, 19.9, 20.01, 16.87, 17.3, 15.41, 17.05, 18.9, 16.7, 16.9, 14.5, 15.5, 14.6, 18.6],
+      "vs": [0, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1],
+      "am": [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1],
+      "gear": [4, 4, 4, 3, 3, 3, 3, 4, 4, 4, 4, 3, 3, 3, 3, 3, 3, 4, 4, 4, 3, 3, 3, 3, 3, 4, 5, 5, 5, 5, 5, 4],
+      "carb": [4, 4, 1, 1, 2, 1, 4, 2, 2, 4, 4, 3, 3, 3, 4, 4, 4, 1, 2, 1, 1, 2, 2, 4, 2, 1, 2, 2, 4, 6, 8, 2]
+    }
+  },
+  "children": [
+    {
+      "type": "point",
+      "encode": {
+        "x": "mpg",
+        "y": "hp"
+      }
+    },
+    {
+      "type": "lineY",
+      "encode": {
+        "x": "mpg",
+        "y": "y"
+      },
+      "data": [
+        {
+          "y": 146.6875
+        }
+      ],
+      "style": {
+        "stroke": "red",
+        "lineDash": [4, 4]
+      }
+    }
+  ]
+});
+chart.render();
+</script>
+<h2 id="sec:range-marks">Range Marks</h2>
+<h3 id="sec:full-range">Full range</h3>
+<pre><code class="language-r">g2(mtcars, x = 'mpg', y = 'hp') |&gt;
+  mark_point() |&gt;
+  mark_range(
+    data = list(list(x = c(15, 25), y = c(100, 200))),
+    encode = list(x = 'x', y = 'y'),
+    style = list(fill = 'steelblue', fillOpacity = 0.15)
+  )
+</code></pre>
+<div id="gglite-1774977662-255750"></div>
+<script type="module">
+const chart = new G2.Chart({
+  "width": 640,
+  "height": 480,
+  "autoFit": true,
+  "container": "gglite-1774977662-255750"
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "mpg": [21, 21, 22.8, 21.4, 18.7, 18.1, 14.3, 24.4, 22.8, 19.2, 17.8, 16.4, 17.3, 15.2, 10.4, 10.4, 14.7, 32.4, 30.4, 33.9, 21.5, 15.5, 15.2, 13.3, 19.2, 27.3, 26, 30.4, 15.8, 19.7, 15, 21.4],
+      "cyl": [6, 6, 4, 6, 8, 6, 8, 4, 4, 6, 6, 8, 8, 8, 8, 8, 8, 4, 4, 4, 4, 8, 8, 8, 8, 4, 4, 4, 8, 6, 8, 4],
+      "disp": [160, 160, 108, 258, 360, 225, 360, 146.7, 140.8, 167.6, 167.6, 275.8, 275.8, 275.8, 472, 460, 440, 78.7, 75.7, 71.1, 120.1, 318, 304, 350, 400, 79, 120.3, 95.1, 351, 145, 301, 121],
+      "hp": [110, 110, 93, 110, 175, 105, 245, 62, 95, 123, 123, 180, 180, 180, 205, 215, 230, 66, 52, 65, 97, 150, 150, 245, 175, 66, 91, 113, 264, 175, 335, 109],
+      "drat": [3.9, 3.9, 3.85, 3.08, 3.15, 2.76, 3.21, 3.69, 3.92, 3.92, 3.92, 3.07, 3.07, 3.07, 2.93, 3, 3.23, 4.08, 4.93, 4.22, 3.7, 2.76, 3.15, 3.73, 3.08, 4.08, 4.43, 3.77, 4.22, 3.62, 3.54, 4.11],
+      "wt": [2.62, 2.875, 2.32, 3.215, 3.44, 3.46, 3.57, 3.19, 3.15, 3.44, 3.44, 4.07, 3.73, 3.78, 5.25, 5.424, 5.345, 2.2, 1.615, 1.835, 2.465, 3.52, 3.435, 3.84, 3.845, 1.935, 2.14, 1.513, 3.17, 2.77, 3.57, 2.78],
+      "qsec": [16.46, 17.02, 18.61, 19.44, 17.02, 20.22, 15.84, 20, 22.9, 18.3, 18.9, 17.4, 17.6, 18, 17.98, 17.82, 17.42, 19.47, 18.52, 19.9, 20.01, 16.87, 17.3, 15.41, 17.05, 18.9, 16.7, 16.9, 14.5, 15.5, 14.6, 18.6],
+      "vs": [0, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1],
+      "am": [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1],
+      "gear": [4, 4, 4, 3, 3, 3, 3, 4, 4, 4, 4, 3, 3, 3, 3, 3, 3, 4, 4, 4, 3, 3, 3, 3, 3, 4, 5, 5, 5, 5, 5, 4],
+      "carb": [4, 4, 1, 1, 2, 1, 4, 2, 2, 4, 4, 3, 3, 3, 4, 4, 4, 1, 2, 1, 1, 2, 2, 4, 2, 1, 2, 2, 4, 6, 8, 2]
+    }
+  },
+  "children": [
+    {
+      "type": "point",
+      "encode": {
+        "x": "mpg",
+        "y": "hp"
+      }
+    },
+    {
+      "type": "range",
+      "encode": {
+        "x": "x",
+        "y": "y"
+      },
+      "data": [
+        {
+          "x": [15, 25],
+          "y": [100, 200]
+        }
+      ],
+      "style": {
+        "fill": "steelblue",
+        "fillOpacity": 0.15
+      }
+    }
+  ]
+});
+chart.render();
+</script>
+<h3 id="sec:horizontal-range-rangex">Horizontal range (rangeX)</h3>
+<pre><code class="language-r">g2(mtcars, x = 'mpg', y = 'hp') |&gt;
+  mark_point() |&gt;
+  mark_range_x(
+    data = list(list(x = c(15, 25))),
+    encode = list(x = 'x'),
+    style = list(fill = 'steelblue', fillOpacity = 0.15)
+  )
+</code></pre>
+<div id="gglite-1774977663-907304"></div>
+<script type="module">
+const chart = new G2.Chart({
+  "width": 640,
+  "height": 480,
+  "autoFit": true,
+  "container": "gglite-1774977663-907304"
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "mpg": [21, 21, 22.8, 21.4, 18.7, 18.1, 14.3, 24.4, 22.8, 19.2, 17.8, 16.4, 17.3, 15.2, 10.4, 10.4, 14.7, 32.4, 30.4, 33.9, 21.5, 15.5, 15.2, 13.3, 19.2, 27.3, 26, 30.4, 15.8, 19.7, 15, 21.4],
+      "cyl": [6, 6, 4, 6, 8, 6, 8, 4, 4, 6, 6, 8, 8, 8, 8, 8, 8, 4, 4, 4, 4, 8, 8, 8, 8, 4, 4, 4, 8, 6, 8, 4],
+      "disp": [160, 160, 108, 258, 360, 225, 360, 146.7, 140.8, 167.6, 167.6, 275.8, 275.8, 275.8, 472, 460, 440, 78.7, 75.7, 71.1, 120.1, 318, 304, 350, 400, 79, 120.3, 95.1, 351, 145, 301, 121],
+      "hp": [110, 110, 93, 110, 175, 105, 245, 62, 95, 123, 123, 180, 180, 180, 205, 215, 230, 66, 52, 65, 97, 150, 150, 245, 175, 66, 91, 113, 264, 175, 335, 109],
+      "drat": [3.9, 3.9, 3.85, 3.08, 3.15, 2.76, 3.21, 3.69, 3.92, 3.92, 3.92, 3.07, 3.07, 3.07, 2.93, 3, 3.23, 4.08, 4.93, 4.22, 3.7, 2.76, 3.15, 3.73, 3.08, 4.08, 4.43, 3.77, 4.22, 3.62, 3.54, 4.11],
+      "wt": [2.62, 2.875, 2.32, 3.215, 3.44, 3.46, 3.57, 3.19, 3.15, 3.44, 3.44, 4.07, 3.73, 3.78, 5.25, 5.424, 5.345, 2.2, 1.615, 1.835, 2.465, 3.52, 3.435, 3.84, 3.845, 1.935, 2.14, 1.513, 3.17, 2.77, 3.57, 2.78],
+      "qsec": [16.46, 17.02, 18.61, 19.44, 17.02, 20.22, 15.84, 20, 22.9, 18.3, 18.9, 17.4, 17.6, 18, 17.98, 17.82, 17.42, 19.47, 18.52, 19.9, 20.01, 16.87, 17.3, 15.41, 17.05, 18.9, 16.7, 16.9, 14.5, 15.5, 14.6, 18.6],
+      "vs": [0, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1],
+      "am": [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1],
+      "gear": [4, 4, 4, 3, 3, 3, 3, 4, 4, 4, 4, 3, 3, 3, 3, 3, 3, 4, 4, 4, 3, 3, 3, 3, 3, 4, 5, 5, 5, 5, 5, 4],
+      "carb": [4, 4, 1, 1, 2, 1, 4, 2, 2, 4, 4, 3, 3, 3, 4, 4, 4, 1, 2, 1, 1, 2, 2, 4, 2, 1, 2, 2, 4, 6, 8, 2]
+    }
+  },
+  "children": [
+    {
+      "type": "point",
+      "encode": {
+        "x": "mpg",
+        "y": "hp"
+      }
+    },
+    {
+      "type": "rangeX",
+      "encode": {
+        "x": "x",
+        "y": "hp"
+      },
+      "data": [
+        {
+          "x": [15, 25]
+        }
+      ],
+      "style": {
+        "fill": "steelblue",
+        "fillOpacity": 0.15
+      }
+    }
+  ]
+});
+chart.render();
+</script>
+<h3 id="sec:vertical-range-rangey">Vertical range (rangeY)</h3>
+<pre><code class="language-r">g2(mtcars, x = 'mpg', y = 'hp') |&gt;
+  mark_point() |&gt;
+  mark_range_y(
+    data = list(list(y = c(100, 200))),
+    encode = list(y = 'y'),
+    style = list(fill = 'orange', fillOpacity = 0.15)
+  )
+</code></pre>
+<div id="gglite-1774977663-810750"></div>
+<script type="module">
+const chart = new G2.Chart({
+  "width": 640,
+  "height": 480,
+  "autoFit": true,
+  "container": "gglite-1774977663-810750"
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "mpg": [21, 21, 22.8, 21.4, 18.7, 18.1, 14.3, 24.4, 22.8, 19.2, 17.8, 16.4, 17.3, 15.2, 10.4, 10.4, 14.7, 32.4, 30.4, 33.9, 21.5, 15.5, 15.2, 13.3, 19.2, 27.3, 26, 30.4, 15.8, 19.7, 15, 21.4],
+      "cyl": [6, 6, 4, 6, 8, 6, 8, 4, 4, 6, 6, 8, 8, 8, 8, 8, 8, 4, 4, 4, 4, 8, 8, 8, 8, 4, 4, 4, 8, 6, 8, 4],
+      "disp": [160, 160, 108, 258, 360, 225, 360, 146.7, 140.8, 167.6, 167.6, 275.8, 275.8, 275.8, 472, 460, 440, 78.7, 75.7, 71.1, 120.1, 318, 304, 350, 400, 79, 120.3, 95.1, 351, 145, 301, 121],
+      "hp": [110, 110, 93, 110, 175, 105, 245, 62, 95, 123, 123, 180, 180, 180, 205, 215, 230, 66, 52, 65, 97, 150, 150, 245, 175, 66, 91, 113, 264, 175, 335, 109],
+      "drat": [3.9, 3.9, 3.85, 3.08, 3.15, 2.76, 3.21, 3.69, 3.92, 3.92, 3.92, 3.07, 3.07, 3.07, 2.93, 3, 3.23, 4.08, 4.93, 4.22, 3.7, 2.76, 3.15, 3.73, 3.08, 4.08, 4.43, 3.77, 4.22, 3.62, 3.54, 4.11],
+      "wt": [2.62, 2.875, 2.32, 3.215, 3.44, 3.46, 3.57, 3.19, 3.15, 3.44, 3.44, 4.07, 3.73, 3.78, 5.25, 5.424, 5.345, 2.2, 1.615, 1.835, 2.465, 3.52, 3.435, 3.84, 3.845, 1.935, 2.14, 1.513, 3.17, 2.77, 3.57, 2.78],
+      "qsec": [16.46, 17.02, 18.61, 19.44, 17.02, 20.22, 15.84, 20, 22.9, 18.3, 18.9, 17.4, 17.6, 18, 17.98, 17.82, 17.42, 19.47, 18.52, 19.9, 20.01, 16.87, 17.3, 15.41, 17.05, 18.9, 16.7, 16.9, 14.5, 15.5, 14.6, 18.6],
+      "vs": [0, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1],
+      "am": [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1],
+      "gear": [4, 4, 4, 3, 3, 3, 3, 4, 4, 4, 4, 3, 3, 3, 3, 3, 3, 4, 4, 4, 3, 3, 3, 3, 3, 4, 5, 5, 5, 5, 5, 4],
+      "carb": [4, 4, 1, 1, 2, 1, 4, 2, 2, 4, 4, 3, 3, 3, 4, 4, 4, 1, 2, 1, 1, 2, 2, 4, 2, 1, 2, 2, 4, 6, 8, 2]
+    }
+  },
+  "children": [
+    {
+      "type": "point",
+      "encode": {
+        "x": "mpg",
+        "y": "hp"
+      }
+    },
+    {
+      "type": "rangeY",
+      "encode": {
+        "x": "mpg",
+        "y": "y"
+      },
+      "data": [
+        {
+          "y": [100, 200]
+        }
+      ],
+      "style": {
+        "fill": "orange",
+        "fillOpacity": 0.15
+      }
+    }
+  ]
+});
+chart.render();
+</script>
+<h2 id="sec:connector-mark">Connector Mark</h2>
+<pre><code class="language-r">df = data.frame(x = c('A', 'B'), y = c(3, 7))
+g2(df, x = 'x', y = 'y') |&gt;
+  mark_interval() |&gt;
+  mark_connector(
+    data = list(list(x = 'A', x1 = 'B')),
+    encode = list(x = 'x', x1 = 'x1'),
+    labels = list(list(text = '+133%'))
+  )
+</code></pre>
+<div id="gglite-1774977663-109161"></div>
+<script type="module">
+const chart = new G2.Chart({
+  "width": 640,
+  "height": 480,
+  "autoFit": true,
+  "container": "gglite-1774977663-109161"
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "x": ["A", "B"],
+      "y": [3, 7]
+    }
+  },
+  "children": [
+    {
+      "type": "interval",
+      "encode": {
+        "x": "x",
+        "y": "y"
+      }
+    },
+    {
+      "type": "connector",
+      "encode": {
+        "x": "x",
+        "y": "y",
+        "x1": "x1"
+      },
+      "data": [
+        {
+          "x": "A",
+          "x1": "B"
+        }
+      ],
+      "labels": [
+        {
+          "text": "+133%"
+        }
+      ]
+    }
+  ]
+});
+chart.render();
+</script>
+<h2 id="sec:box-plot-mark">Box Plot Mark</h2>
+<pre><code class="language-r">g2(iris, x = 'Species', y = 'Sepal.Width') |&gt; mark_boxplot()
+</code></pre>
+<div id="gglite-1774977663-67101"></div>
+<script type="module">
+const chart = new G2.Chart({
+  "width": 640,
+  "height": 480,
+  "autoFit": true,
+  "container": "gglite-1774977663-67101"
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "Sepal.Length": [5.1, 4.9, 4.7, 4.6, 5, 5.4, 4.6, 5, 4.4, 4.9, 5.4, 4.8, 4.8, 4.3, 5.8, 5.7, 5.4, 5.1, 5.7, 5.1, 5.4, 5.1, 4.6, 5.1, 4.8, 5, 5, 5.2, 5.2, 4.7, 4.8, 5.4, 5.2, 5.5, 4.9, 5, 5.5, 4.9, 4.4, 5.1, 5, 4.5, 4.4, 5, 5.1, 4.8, 5.1, 4.6, 5.3, 5, 7, 6.4, 6.9, 5.5, 6.5, 5.7, 6.3, 4.9, 6.6, 5.2, 5, 5.9, 6, 6.1, 5.6, 6.7, 5.6, 5.8, 6.2, 5.6, 5.9, 6.1, 6.3, 6.1, 6.4, 6.6, 6.8, 6.7, 6, 5.7, 5.5, 5.5, 5.8, 6, 5.4, 6, 6.7, 6.3, 5.6, 5.5, 5.5, 6.1, 5.8, 5, 5.6, 5.7, 5.7, 6.2, 5.1, 5.7, 6.3, 5.8, 7.1, 6.3, 6.5, 7.6, 4.9, 7.3, 6.7, 7.2, 6.5, 6.4, 6.8, 5.7, 5.8, 6.4, 6.5, 7.7, 7.7, 6, 6.9, 5.6, 7.7, 6.3, 6.7, 7.2, 6.2, 6.1, 6.4, 7.2, 7.4, 7.9, 6.4, 6.3, 6.1, 7.7, 6.3, 6.4, 6, 6.9, 6.7, 6.9, 5.8, 6.8, 6.7, 6.7, 6.3, 6.5, 6.2, 5.9],
+      "Sepal.Width": [3.5, 3, 3.2, 3.1, 3.6, 3.9, 3.4, 3.4, 2.9, 3.1, 3.7, 3.4, 3, 3, 4, 4.4, 3.9, 3.5, 3.8, 3.8, 3.4, 3.7, 3.6, 3.3, 3.4, 3, 3.4, 3.5, 3.4, 3.2, 3.1, 3.4, 4.1, 4.2, 3.1, 3.2, 3.5, 3.6, 3, 3.4, 3.5, 2.3, 3.2, 3.5, 3.8, 3, 3.8, 3.2, 3.7, 3.3, 3.2, 3.2, 3.1, 2.3, 2.8, 2.8, 3.3, 2.4, 2.9, 2.7, 2, 3, 2.2, 2.9, 2.9, 3.1, 3, 2.7, 2.2, 2.5, 3.2, 2.8, 2.5, 2.8, 2.9, 3, 2.8, 3, 2.9, 2.6, 2.4, 2.4, 2.7, 2.7, 3, 3.4, 3.1, 2.3, 3, 2.5, 2.6, 3, 2.6, 2.3, 2.7, 3, 2.9, 2.9, 2.5, 2.8, 3.3, 2.7, 3, 2.9, 3, 3, 2.5, 2.9, 2.5, 3.6, 3.2, 2.7, 3, 2.5, 2.8, 3.2, 3, 3.8, 2.6, 2.2, 3.2, 2.8, 2.8, 2.7, 3.3, 3.2, 2.8, 3, 2.8, 3, 2.8, 3.8, 2.8, 2.8, 2.6, 3, 3.4, 3.1, 3, 3.1, 3.1, 3.1, 2.7, 3.2, 3.3, 3, 2.5, 3, 3.4, 3],
+      "Petal.Length": [1.4, 1.4, 1.3, 1.5, 1.4, 1.7, 1.4, 1.5, 1.4, 1.5, 1.5, 1.6, 1.4, 1.1, 1.2, 1.5, 1.3, 1.4, 1.7, 1.5, 1.7, 1.5, 1, 1.7, 1.9, 1.6, 1.6, 1.5, 1.4, 1.6, 1.6, 1.5, 1.5, 1.4, 1.5, 1.2, 1.3, 1.4, 1.3, 1.5, 1.3, 1.3, 1.3, 1.6, 1.9, 1.4, 1.6, 1.4, 1.5, 1.4, 4.7, 4.5, 4.9, 4, 4.6, 4.5, 4.7, 3.3, 4.6, 3.9, 3.5, 4.2, 4, 4.7, 3.6, 4.4, 4.5, 4.1, 4.5, 3.9, 4.8, 4, 4.9, 4.7, 4.3, 4.4, 4.8, 5, 4.5, 3.5, 3.8, 3.7, 3.9, 5.1, 4.5, 4.5, 4.7, 4.4, 4.1, 4, 4.4, 4.6, 4, 3.3, 4.2, 4.2, 4.2, 4.3, 3, 4.1, 6, 5.1, 5.9, 5.6, 5.8, 6.6, 4.5, 6.3, 5.8, 6.1, 5.1, 5.3, 5.5, 5, 5.1, 5.3, 5.5, 6.7, 6.9, 5, 5.7, 4.9, 6.7, 4.9, 5.7, 6, 4.8, 4.9, 5.6, 5.8, 6.1, 6.4, 5.6, 5.1, 5.6, 6.1, 5.6, 5.5, 4.8, 5.4, 5.6, 5.1, 5.1, 5.9, 5.7, 5.2, 5, 5.2, 5.4, 5.1],
+      "Petal.Width": [0.2, 0.2, 0.2, 0.2, 0.2, 0.4, 0.3, 0.2, 0.2, 0.1, 0.2, 0.2, 0.1, 0.1, 0.2, 0.4, 0.4, 0.3, 0.3, 0.3, 0.2, 0.4, 0.2, 0.5, 0.2, 0.2, 0.4, 0.2, 0.2, 0.2, 0.2, 0.4, 0.1, 0.2, 0.2, 0.2, 0.2, 0.1, 0.2, 0.2, 0.3, 0.3, 0.2, 0.6, 0.4, 0.3, 0.2, 0.2, 0.2, 0.2, 1.4, 1.5, 1.5, 1.3, 1.5, 1.3, 1.6, 1, 1.3, 1.4, 1, 1.5, 1, 1.4, 1.3, 1.4, 1.5, 1, 1.5, 1.1, 1.8, 1.3, 1.5, 1.2, 1.3, 1.4, 1.4, 1.7, 1.5, 1, 1.1, 1, 1.2, 1.6, 1.5, 1.6, 1.5, 1.3, 1.3, 1.3, 1.2, 1.4, 1.2, 1, 1.3, 1.2, 1.3, 1.3, 1.1, 1.3, 2.5, 1.9, 2.1, 1.8, 2.2, 2.1, 1.7, 1.8, 1.8, 2.5, 2, 1.9, 2.1, 2, 2.4, 2.3, 1.8, 2.2, 2.3, 1.5, 2.3, 2, 2, 1.8, 2.1, 1.8, 1.8, 1.8, 2.1, 1.6, 1.9, 2, 2.2, 1.5, 1.4, 2.3, 2.4, 1.8, 1.8, 2.1, 2.4, 2.3, 1.9, 2.3, 2.5, 2.3, 1.9, 2, 2.3, 1.8],
+      "Species": ["setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica"]
+    }
+  },
+  "children": [
+    {
+      "type": "boxplot",
+      "encode": {
+        "x": "Species",
+        "y": "Sepal.Width"
+      }
+    }
+  ]
+});
+chart.render();
+</script>
+<h2 id="sec:liquid-mark">Liquid Mark</h2>
+<pre><code class="language-r">g2() |&gt;
+  mark_liquid(
+    data = list(value = 0.6),
+    style = list(contentText = '60%', contentFill = 'white',
+      contentFontSize = 40)
+  )
+</code></pre>
+<div id="gglite-1774977663-440132"></div>
+<script type="module">
+const chart = new G2.Chart({
+  "width": 640,
+  "height": 480,
+  "autoFit": true,
+  "container": "gglite-1774977663-440132"
+});
+chart.options({
+  "children": [
+    {
+      "type": "liquid",
+      "data": {
+        "value": 0.6
+      },
+      "style": {
+        "contentText": "60%",
+        "contentFill": "white",
+        "contentFontSize": 40
+      }
+    }
+  ]
+});
+chart.render();
+</script>
+<h2 id="sec:heatmap-mark">Heatmap Mark</h2>
+<pre><code class="language-r">g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Petal.Length') |&gt;
+  mark_heatmap()
+</code></pre>
+<div id="gglite-1774977663-108344"></div>
+<script type="module">
+const chart = new G2.Chart({
+  "width": 640,
+  "height": 480,
+  "autoFit": true,
+  "container": "gglite-1774977663-108344"
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "Sepal.Length": [5.1, 4.9, 4.7, 4.6, 5, 5.4, 4.6, 5, 4.4, 4.9, 5.4, 4.8, 4.8, 4.3, 5.8, 5.7, 5.4, 5.1, 5.7, 5.1, 5.4, 5.1, 4.6, 5.1, 4.8, 5, 5, 5.2, 5.2, 4.7, 4.8, 5.4, 5.2, 5.5, 4.9, 5, 5.5, 4.9, 4.4, 5.1, 5, 4.5, 4.4, 5, 5.1, 4.8, 5.1, 4.6, 5.3, 5, 7, 6.4, 6.9, 5.5, 6.5, 5.7, 6.3, 4.9, 6.6, 5.2, 5, 5.9, 6, 6.1, 5.6, 6.7, 5.6, 5.8, 6.2, 5.6, 5.9, 6.1, 6.3, 6.1, 6.4, 6.6, 6.8, 6.7, 6, 5.7, 5.5, 5.5, 5.8, 6, 5.4, 6, 6.7, 6.3, 5.6, 5.5, 5.5, 6.1, 5.8, 5, 5.6, 5.7, 5.7, 6.2, 5.1, 5.7, 6.3, 5.8, 7.1, 6.3, 6.5, 7.6, 4.9, 7.3, 6.7, 7.2, 6.5, 6.4, 6.8, 5.7, 5.8, 6.4, 6.5, 7.7, 7.7, 6, 6.9, 5.6, 7.7, 6.3, 6.7, 7.2, 6.2, 6.1, 6.4, 7.2, 7.4, 7.9, 6.4, 6.3, 6.1, 7.7, 6.3, 6.4, 6, 6.9, 6.7, 6.9, 5.8, 6.8, 6.7, 6.7, 6.3, 6.5, 6.2, 5.9],
+      "Sepal.Width": [3.5, 3, 3.2, 3.1, 3.6, 3.9, 3.4, 3.4, 2.9, 3.1, 3.7, 3.4, 3, 3, 4, 4.4, 3.9, 3.5, 3.8, 3.8, 3.4, 3.7, 3.6, 3.3, 3.4, 3, 3.4, 3.5, 3.4, 3.2, 3.1, 3.4, 4.1, 4.2, 3.1, 3.2, 3.5, 3.6, 3, 3.4, 3.5, 2.3, 3.2, 3.5, 3.8, 3, 3.8, 3.2, 3.7, 3.3, 3.2, 3.2, 3.1, 2.3, 2.8, 2.8, 3.3, 2.4, 2.9, 2.7, 2, 3, 2.2, 2.9, 2.9, 3.1, 3, 2.7, 2.2, 2.5, 3.2, 2.8, 2.5, 2.8, 2.9, 3, 2.8, 3, 2.9, 2.6, 2.4, 2.4, 2.7, 2.7, 3, 3.4, 3.1, 2.3, 3, 2.5, 2.6, 3, 2.6, 2.3, 2.7, 3, 2.9, 2.9, 2.5, 2.8, 3.3, 2.7, 3, 2.9, 3, 3, 2.5, 2.9, 2.5, 3.6, 3.2, 2.7, 3, 2.5, 2.8, 3.2, 3, 3.8, 2.6, 2.2, 3.2, 2.8, 2.8, 2.7, 3.3, 3.2, 2.8, 3, 2.8, 3, 2.8, 3.8, 2.8, 2.8, 2.6, 3, 3.4, 3.1, 3, 3.1, 3.1, 3.1, 2.7, 3.2, 3.3, 3, 2.5, 3, 3.4, 3],
+      "Petal.Length": [1.4, 1.4, 1.3, 1.5, 1.4, 1.7, 1.4, 1.5, 1.4, 1.5, 1.5, 1.6, 1.4, 1.1, 1.2, 1.5, 1.3, 1.4, 1.7, 1.5, 1.7, 1.5, 1, 1.7, 1.9, 1.6, 1.6, 1.5, 1.4, 1.6, 1.6, 1.5, 1.5, 1.4, 1.5, 1.2, 1.3, 1.4, 1.3, 1.5, 1.3, 1.3, 1.3, 1.6, 1.9, 1.4, 1.6, 1.4, 1.5, 1.4, 4.7, 4.5, 4.9, 4, 4.6, 4.5, 4.7, 3.3, 4.6, 3.9, 3.5, 4.2, 4, 4.7, 3.6, 4.4, 4.5, 4.1, 4.5, 3.9, 4.8, 4, 4.9, 4.7, 4.3, 4.4, 4.8, 5, 4.5, 3.5, 3.8, 3.7, 3.9, 5.1, 4.5, 4.5, 4.7, 4.4, 4.1, 4, 4.4, 4.6, 4, 3.3, 4.2, 4.2, 4.2, 4.3, 3, 4.1, 6, 5.1, 5.9, 5.6, 5.8, 6.6, 4.5, 6.3, 5.8, 6.1, 5.1, 5.3, 5.5, 5, 5.1, 5.3, 5.5, 6.7, 6.9, 5, 5.7, 4.9, 6.7, 4.9, 5.7, 6, 4.8, 4.9, 5.6, 5.8, 6.1, 6.4, 5.6, 5.1, 5.6, 6.1, 5.6, 5.5, 4.8, 5.4, 5.6, 5.1, 5.1, 5.9, 5.7, 5.2, 5, 5.2, 5.4, 5.1],
+      "Petal.Width": [0.2, 0.2, 0.2, 0.2, 0.2, 0.4, 0.3, 0.2, 0.2, 0.1, 0.2, 0.2, 0.1, 0.1, 0.2, 0.4, 0.4, 0.3, 0.3, 0.3, 0.2, 0.4, 0.2, 0.5, 0.2, 0.2, 0.4, 0.2, 0.2, 0.2, 0.2, 0.4, 0.1, 0.2, 0.2, 0.2, 0.2, 0.1, 0.2, 0.2, 0.3, 0.3, 0.2, 0.6, 0.4, 0.3, 0.2, 0.2, 0.2, 0.2, 1.4, 1.5, 1.5, 1.3, 1.5, 1.3, 1.6, 1, 1.3, 1.4, 1, 1.5, 1, 1.4, 1.3, 1.4, 1.5, 1, 1.5, 1.1, 1.8, 1.3, 1.5, 1.2, 1.3, 1.4, 1.4, 1.7, 1.5, 1, 1.1, 1, 1.2, 1.6, 1.5, 1.6, 1.5, 1.3, 1.3, 1.3, 1.2, 1.4, 1.2, 1, 1.3, 1.2, 1.3, 1.3, 1.1, 1.3, 2.5, 1.9, 2.1, 1.8, 2.2, 2.1, 1.7, 1.8, 1.8, 2.5, 2, 1.9, 2.1, 2, 2.4, 2.3, 1.8, 2.2, 2.3, 1.5, 2.3, 2, 2, 1.8, 2.1, 1.8, 1.8, 1.8, 2.1, 1.6, 1.9, 2, 2.2, 1.5, 1.4, 2.3, 2.4, 1.8, 1.8, 2.1, 2.4, 2.3, 1.9, 2.3, 2.5, 2.3, 1.9, 2, 2.3, 1.8],
+      "Species": ["setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica"]
+    }
+  },
+  "children": [
+    {
+      "type": "heatmap",
+      "encode": {
+        "x": "Sepal.Width",
+        "y": "Sepal.Length",
+        "color": "Petal.Length"
+      }
+    }
+  ]
+});
+chart.render();
+</script>
+<h2 id="sec:image-mark">Image Mark</h2>
+<p>The <code>image</code> mark places images at data coordinates.</p>
+<pre><code class="language-r">df = data.frame(
+  x = c(1, 2, 3), y = c(3, 5, 2),
+  url = rep(
+    'https://cdn.jsdelivr.net/npm/@browser-logos/chrome/chrome_64x64.png', 3
+  )
+)
+g2(df, x = 'x', y = 'y') |&gt;
+  mark_image(encode = list(src = 'url'), style = list(width = 30, height = 30))
+</code></pre>
+<div id="gglite-1774977663-110642"></div>
+<script type="module">
+const chart = new G2.Chart({
+  "width": 640,
+  "height": 480,
+  "autoFit": true,
+  "container": "gglite-1774977663-110642"
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "x": [1, 2, 3],
+      "y": [3, 5, 2],
+      "url": ["https://cdn.jsdelivr.net/npm/@browser-logos/chrome/chrome_64x64.png", "https://cdn.jsdelivr.net/npm/@browser-logos/chrome/chrome_64x64.png", "https://cdn.jsdelivr.net/npm/@browser-logos/chrome/chrome_64x64.png"]
+    }
+  },
+  "children": [
+    {
+      "type": "image",
+      "encode": {
+        "x": "x",
+        "y": "y",
+        "src": "url"
+      },
+      "style": {
+        "width": 30,
+        "height": 30
+      }
+    }
+  ]
+});
+chart.render();
+</script>
+<h2 id="sec:word-cloud-mark">Word Cloud Mark</h2>
+<pre><code class="language-r">df = data.frame(
+  text = c('Hello', 'Data', 'Science', 'R', 'G2', 'Chart', 'Vis', 'Stats'),
+  value = c(30, 25, 20, 18, 15, 12, 10, 8)
+)
+g2(df) |&gt;
+  mark_word_cloud(
+    encode = list(text = 'text', value = 'value', color = 'text')
+  )
+</code></pre>
+<div id="gglite-1774977663-603566"></div>
+<script type="module">
+const chart = new G2.Chart({
+  "width": 640,
+  "height": 480,
+  "autoFit": true,
+  "container": "gglite-1774977663-603566"
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "text": ["Hello", "Data", "Science", "R", "G2", "Chart", "Vis", "Stats"],
+      "value": [30, 25, 20, 18, 15, 12, 10, 8]
+    }
+  },
+  "children": [
+    {
+      "type": "wordCloud",
+      "encode": {
+        "text": "text",
+        "value": "value",
+        "color": "text"
+      }
+    }
+  ]
+});
+chart.render();
+</script>
+<h2 id="sec:sankey-mark">Sankey Mark</h2>
+<pre><code class="language-r">df = data.frame(
+  source = c('Coal', 'Coal', 'Oil', 'Oil', 'Gas', 'Gas', 'Solar'),
+  target = c('Electricity', 'Heat', 'Electricity', 'Transport',
+    'Electricity', 'Heat', 'Electricity'),
+  value = c(25, 10, 15, 20, 20, 5, 10)
+)
+g2(df) |&gt;
+  mark_sankey(
+    encode = list(source = 'source', target = 'target', value = 'value'),
+    layout = list(nodeAlign = 'center', nodePadding = 0.03)
+  )
+</code></pre>
+<div id="gglite-1774977663-870981"></div>
+<script type="module">
+const chart = new G2.Chart({
+  "width": 640,
+  "height": 480,
+  "autoFit": true,
+  "container": "gglite-1774977663-870981"
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "source": ["Coal", "Coal", "Oil", "Oil", "Gas", "Gas", "Solar"],
+      "target": ["Electricity", "Heat", "Electricity", "Transport", "Electricity", "Heat", "Electricity"],
+      "value": [25, 10, 15, 20, 20, 5, 10]
+    }
+  },
+  "children": [
+    {
+      "type": "sankey",
+      "encode": {
+        "source": "source",
+        "target": "target",
+        "value": "value"
+      },
+      "layout": {
+        "nodeAlign": "center",
+        "nodePadding": 0.03
+      }
+    }
+  ]
+});
+chart.render();
+</script>
+<h2 id="sec:chord-mark">Chord Mark</h2>
+<pre><code class="language-r">df = data.frame(
+  source = c('A', 'A', 'A', 'B', 'B', 'C'),
+  target = c('B', 'C', 'D', 'C', 'D', 'D'),
+  value = c(5, 3, 2, 4, 1, 3)
+)
+g2(df) |&gt;
+  mark_chord(
+    encode = list(source = 'source', target = 'target', value = 'value')
+  )
+</code></pre>
+<div id="gglite-1774977663-14337"></div>
+<script type="module">
+const chart = new G2.Chart({
+  "width": 640,
+  "height": 480,
+  "autoFit": true,
+  "container": "gglite-1774977663-14337"
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "source": ["A", "A", "A", "B", "B", "C"],
+      "target": ["B", "C", "D", "C", "D", "D"],
+      "value": [5, 3, 2, 4, 1, 3]
+    }
+  },
+  "children": [
+    {
+      "type": "chord",
+      "encode": {
+        "source": "source",
+        "target": "target",
+        "value": "value"
+      }
+    }
+  ]
+});
+chart.render();
+</script>
+<h2 id="sec:treemap-mark">Treemap Mark</h2>
+<pre><code class="language-r">tree_data = list(
+  name = 'root', children = list(
+    list(name = 'Frontend', children = list(
+      list(name = 'React', value = 180),
+      list(name = 'Vue', value = 120),
+      list(name = 'Angular', value = 80)
+    )),
+    list(name = 'Backend', children = list(
+      list(name = 'Node.js', value = 150),
+      list(name = 'Python', value = 130),
+      list(name = 'Go', value = 90)
+    )),
+    list(name = 'Data', children = list(
+      list(name = 'R', value = 100),
+      list(name = 'Julia', value = 40)
+    ))
+  )
+)
+g2() |&gt;
+  mark_treemap(
+    data = list(type = 'inline', value = tree_data),
+    encode = list(value = 'value')
+  )
+</code></pre>
+<div id="gglite-1774977663-427014"></div>
+<script type="module">
+const chart = new G2.Chart({
+  "width": 640,
+  "height": 480,
+  "autoFit": true,
+  "container": "gglite-1774977663-427014"
+});
+chart.options({
+  "children": [
+    {
+      "type": "treemap",
+      "data": {
+        "type": "inline",
+        "value": {
+          "name": "root",
+          "children": [
+            {
+              "name": "Frontend",
+              "children": [
+                {
+                  "name": "React",
+                  "value": 180
+                },
+                {
+                  "name": "Vue",
+                  "value": 120
+                },
+                {
+                  "name": "Angular",
+                  "value": 80
+                }
+              ]
+            },
+            {
+              "name": "Backend",
+              "children": [
+                {
+                  "name": "Node.js",
+                  "value": 150
+                },
+                {
+                  "name": "Python",
+                  "value": 130
+                },
+                {
+                  "name": "Go",
+                  "value": 90
+                }
+              ]
+            },
+            {
+              "name": "Data",
+              "children": [
+                {
+                  "name": "R",
+                  "value": 100
+                },
+                {
+                  "name": "Julia",
+                  "value": 40
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "encode": {
+        "value": "value"
+      }
+    }
+  ]
+});
+chart.render();
+</script>
+<h2 id="sec:pack-circle-packing-mark">Pack (Circle Packing) Mark</h2>
+<pre><code class="language-r">g2() |&gt;
+  mark_pack(
+    data = list(type = 'inline', value = tree_data),
+    encode = list(value = 'value', color = 'depth'),
+    style = list(
+      labelText = xfun::js(
+        '(d) =&gt; d.r &gt;= 10 &amp;&amp; d.height === 0 ? d.data.name : &quot;&quot;'
+      ),
+      labelFontSize = 8
+    ),
+    legend = FALSE
+  )
+</code></pre>
+<div id="gglite-1774977663-413953"></div>
+<script type="module">
+const chart = new G2.Chart({
+  "width": 640,
+  "height": 480,
+  "autoFit": true,
+  "container": "gglite-1774977663-413953"
+});
+chart.options({
+  "children": [
+    {
+      "type": "pack",
+      "data": {
+        "type": "inline",
+        "value": {
+          "name": "root",
+          "children": [
+            {
+              "name": "Frontend",
+              "children": [
+                {
+                  "name": "React",
+                  "value": 180
+                },
+                {
+                  "name": "Vue",
+                  "value": 120
+                },
+                {
+                  "name": "Angular",
+                  "value": 80
+                }
+              ]
+            },
+            {
+              "name": "Backend",
+              "children": [
+                {
+                  "name": "Node.js",
+                  "value": 150
+                },
+                {
+                  "name": "Python",
+                  "value": 130
+                },
+                {
+                  "name": "Go",
+                  "value": 90
+                }
+              ]
+            },
+            {
+              "name": "Data",
+              "children": [
+                {
+                  "name": "R",
+                  "value": 100
+                },
+                {
+                  "name": "Julia",
+                  "value": 40
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "encode": {
+        "value": "value",
+        "color": "depth"
+      },
+      "style": {
+        "labelText": (d) => d.r >= 10 && d.height === 0 ? d.data.name : "",
+        "labelFontSize": 8
+      },
+      "legend": false
+    }
+  ]
+});
+chart.render();
+</script>
+<h2 id="sec:gauge-mark">Gauge Mark</h2>
+<pre><code class="language-r">g2() |&gt;
+  mark_gauge(
+    data = list(
+      type = 'inline',
+      value = list(target = 120, total = 400, name = 'score')
+    )
+  )
+</code></pre>
+<div id="gglite-1774977663-364490"></div>
+<script type="module">
+const chart = new G2.Chart({
+  "width": 640,
+  "height": 480,
+  "autoFit": true,
+  "container": "gglite-1774977663-364490"
+});
+chart.options({
+  "children": [
+    {
+      "type": "gauge",
+      "data": {
+        "type": "inline",
+        "value": {
+          "target": 120,
+          "total": 400,
+          "name": "score"
+        }
+      }
+    }
+  ]
+});
+chart.render();
+</script>
+<h2 id="sec:force-graph-mark">Force Graph Mark</h2>
+<pre><code class="language-r">g2() |&gt;
+  mark_force_graph(
+    data = list(type = 'inline', value = list(
+      nodes = list(
+        list(id = 'CEO'), list(id = 'CTO'), list(id = 'CFO'),
+        list(id = 'VP Eng'), list(id = 'VP Sales'),
+        list(id = 'Dev Lead'), list(id = 'Backend'),
+        list(id = 'Frontend'), list(id = 'Accounting'),
+        list(id = 'Payroll'), list(id = 'Sales Rep 1'),
+        list(id = 'Sales Rep 2')
+      ),
+      links = list(
+        list(source = 'CEO', target = 'CTO'),
+        list(source = 'CEO', target = 'CFO'),
+        list(source = 'CEO', target = 'VP Sales'),
+        list(source = 'CTO', target = 'VP Eng'),
+        list(source = 'VP Eng', target = 'Dev Lead'),
+        list(source = 'Dev Lead', target = 'Backend'),
+        list(source = 'Dev Lead', target = 'Frontend'),
+        list(source = 'CFO', target = 'Accounting'),
+        list(source = 'CFO', target = 'Payroll'),
+        list(source = 'VP Sales', target = 'Sales Rep 1'),
+        list(source = 'VP Sales', target = 'Sales Rep 2'),
+        list(source = 'Backend', target = 'Frontend')
+      )
+    )),
+    nodeLabels = list(list(text = 'id', fontSize = 10))
+  )
+</code></pre>
+<div id="gglite-1774977663-892516"></div>
+<script type="module">
+const chart = new G2.Chart({
+  "width": 640,
+  "height": 480,
+  "autoFit": true,
+  "container": "gglite-1774977663-892516"
+});
+chart.options({
+  "children": [
+    {
+      "type": "forceGraph",
+      "data": {
+        "type": "inline",
+        "value": {
+          "nodes": [
+            {
+              "id": "CEO"
+            },
+            {
+              "id": "CTO"
+            },
+            {
+              "id": "CFO"
+            },
+            {
+              "id": "VP Eng"
+            },
+            {
+              "id": "VP Sales"
+            },
+            {
+              "id": "Dev Lead"
+            },
+            {
+              "id": "Backend"
+            },
+            {
+              "id": "Frontend"
+            },
+            {
+              "id": "Accounting"
+            },
+            {
+              "id": "Payroll"
+            },
+            {
+              "id": "Sales Rep 1"
+            },
+            {
+              "id": "Sales Rep 2"
+            }
+          ],
+          "links": [
+            {
+              "source": "CEO",
+              "target": "CTO"
+            },
+            {
+              "source": "CEO",
+              "target": "CFO"
+            },
+            {
+              "source": "CEO",
+              "target": "VP Sales"
+            },
+            {
+              "source": "CTO",
+              "target": "VP Eng"
+            },
+            {
+              "source": "VP Eng",
+              "target": "Dev Lead"
+            },
+            {
+              "source": "Dev Lead",
+              "target": "Backend"
+            },
+            {
+              "source": "Dev Lead",
+              "target": "Frontend"
+            },
+            {
+              "source": "CFO",
+              "target": "Accounting"
+            },
+            {
+              "source": "CFO",
+              "target": "Payroll"
+            },
+            {
+              "source": "VP Sales",
+              "target": "Sales Rep 1"
+            },
+            {
+              "source": "VP Sales",
+              "target": "Sales Rep 2"
+            },
+            {
+              "source": "Backend",
+              "target": "Frontend"
+            }
+          ]
+        }
+      },
+      "nodeLabels": [
+        {
+          "text": "id",
+          "fontSize": 10
+        }
+      ]
+    }
+  ]
+});
+chart.render();
+</script>
+<h2 id="sec:tree-mark">Tree Mark</h2>
+<pre><code class="language-r">g2() |&gt;
+  mark_tree(
+    data = list(type = 'inline', value = list(
+      name = 'Company', children = list(
+        list(name = 'Engineering', children = list(
+          list(name = 'Frontend'),
+          list(name = 'Backend'),
+          list(name = 'DevOps')
+        )),
+        list(name = 'Marketing', children = list(
+          list(name = 'SEO'),
+          list(name = 'Content')
+        )),
+        list(name = 'Finance', children = list(
+          list(name = 'Accounting'),
+          list(name = 'Payroll')
+        ))
+      )
+    )),
+    nodeLabels = list(list(text = 'name', fontSize = 10))
+  )
+</code></pre>
+<div id="gglite-1774977663-261874"></div>
+<script type="module">
+const chart = new G2.Chart({
+  "width": 640,
+  "height": 480,
+  "autoFit": true,
+  "container": "gglite-1774977663-261874"
+});
+chart.options({
+  "children": [
+    {
+      "type": "tree",
+      "data": {
+        "type": "inline",
+        "value": {
+          "name": "Company",
+          "children": [
+            {
+              "name": "Engineering",
+              "children": [
+                {
+                  "name": "Frontend"
+                },
+                {
+                  "name": "Backend"
+                },
+                {
+                  "name": "DevOps"
+                }
+              ]
+            },
+            {
+              "name": "Marketing",
+              "children": [
+                {
+                  "name": "SEO"
+                },
+                {
+                  "name": "Content"
+                }
+              ]
+            },
+            {
+              "name": "Finance",
+              "children": [
+                {
+                  "name": "Accounting"
+                },
+                {
+                  "name": "Payroll"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "nodeLabels": [
+        {
+          "text": "name",
+          "fontSize": 10
+        }
+      ]
+    }
+  ]
+});
+chart.render();
+</script>
+<h2 id="sec:density-mark">Density Mark</h2>
+<p>The <code>density</code> mark requires a KDE transform that is not available in
+G2 v5. Use <code>mark_heatmap()</code> as an alternative for 2-D density
+visualizations.</p>
+<pre><code class="language-r">g2(iris, x = 'Sepal.Width', y = 'Sepal.Length') |&gt;
+  mark_density(
+    transform = list(list(type = 'kde')),
+    style = list(fill = 'steelblue', fillOpacity = 0.5)
+  )
+</code></pre>
+<h2 id="sec:partition-sunburst-mark">Partition (Sunburst) Mark</h2>
+<p>The <code>partition</code> mark does not work correctly in G2 v5. Use
+<code>mark_treemap()</code> or <code>mark_pack()</code> as alternatives for hierarchical data.</p>
+<pre><code class="language-r">tree_data = list(
+  name = 'root', children = list(
+    list(name = 'A', value = 10, children = list(
+      list(name = 'A1', value = 5), list(name = 'A2', value = 5)
+    )),
+    list(name = 'B', value = 20)
+  )
+)
+g2() |&gt;
+  mark_partition(
+    data = list(value = tree_data),
+    encode = list(value = 'value'),
+    coordinate = list(type = 'theta', innerRadius = 0.3)
+  )
+</code></pre>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" defer></script>
+</body>
+</html>

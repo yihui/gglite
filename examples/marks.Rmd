@@ -369,8 +369,14 @@ g2() |>
 g2() |>
   mark_pack(
     data = list(type = 'inline', value = tree_data),
-    encode = list(value = 'value'),
-    labels = list(list(text = 'value'))
+    encode = list(value = 'value', color = 'depth'),
+    style = list(
+      labelText = xfun::js(
+        '(d) => d.r >= 10 && d.height === 0 ? d.data.name : ""'
+      ),
+      labelFontSize = 8
+    ),
+    legend = FALSE
   )
 ```
 
