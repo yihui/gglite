@@ -134,7 +134,7 @@ cdn_scripts = function() {
 
 #' Preview a Chart in the Viewer or Browser
 #'
-#' @param chart A `g2` object.
+#' @param x A `g2` object.
 #' @param ... Additional arguments passed to [chart_html()].
 #' @return The chart object (invisibly).
 #' @export

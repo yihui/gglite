@@ -7,9 +7,9 @@
 \method{print}{g2}(x, ...)
 }
 \arguments{
-\item{...}{Additional arguments passed to \code{\link[=chart_html]{chart_html()}}.}
+\item{x}{A \code{g2} object.}
 
-\item{chart}{A \code{g2} object.}
+\item{...}{Additional arguments passed to \code{\link[=chart_html]{chart_html()}}.}
 }
 \value{
 The chart object (invisibly).
