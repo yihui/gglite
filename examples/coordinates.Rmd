@@ -94,8 +94,7 @@ Maps multiple numeric variables to parallel axes. Use a `position`
 encoding (a character vector of column names) instead of `x`/`y`.
 
 ```{r}
-g2(iris, position = c('Sepal.Length', 'Sepal.Width',
-    'Petal.Length', 'Petal.Width'), color = 'Species',
+g2(iris, position = names(iris)[-5], color = 'Species',
     padding = 30) |>
   mark_line() |>
   coord_parallel() |>

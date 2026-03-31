@@ -35,8 +35,7 @@
 #'   coord_radial()
 #'
 #' # Parallel coordinate (uses position encoding)
-#' g2(iris, position = c('Sepal.Length', 'Sepal.Width',
-#'     'Petal.Length', 'Petal.Width'), color = 'Species',
+#' g2(iris, position = names(iris)[-5], color = 'Species',
 #'   padding = c(30, NA, NA, NA)) |>
 #'   mark_line() |>
 #'   coord_parallel() |>
