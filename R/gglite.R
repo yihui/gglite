@@ -20,34 +20,33 @@ g2_cdn = function() {
 
 g2_col_cdn = 'https://cdn.jsdelivr.net/npm/@xiee/utils/js/g2-column.min.js'
 
-#' Default gglite Theme Overrides
+#' Set or Get Global Chart Defaults
 #'
-#' A list of G2 theme token overrides that are applied globally to every chart.
-#' Increases element sizes (fonts, symbols) by ~20% compared to G2 defaults and
-#' makes axis grid lines more visible. Customizable via
-#' `options(gglite.theme = list(...))`.
+#' Similar to [par()], get or set default theme options applied to all charts.
+#' When set, these options are merged with per-chart [theme_of()] settings and
+#' passed to G2. Chart size defaults (fonts, point size, grid opacity) are
+#' applied automatically via a JavaScript patch loaded with every page.
 #'
-#' @keywords internal
-.gglite_default_theme = list(
-  axis = list(
-    labelFontSize = 14,
-    titleFontSize = 14,
-    gridStrokeOpacity = 0.25
-  ),
-  label = list(fontSize = 14),
-  innerLabel = list(fontSize = 14),
-  legendCategory = list(
-    itemLabelFontSize = 14,
-    itemValueFontSize = 14
-  ),
-  point = list(
-    point = list(r = 3.6),
-    hollow = list(r = 3.6),
-    plus = list(r = 3.6),
-    diamond = list(r = 3.6)
-  ),
-  text = list(text = list(fontSize = 14))
-)
+#' @param ... Named theme options in the same structure accepted by [theme_of()],
+#'   e.g., `axis = list(labelFontSize = 16)`. Pass a single list (e.g., the
+#'   return value of a previous `g2_defaults()` call) to restore saved settings.
+#'   Pass `NULL` to clear all R-level defaults.
+#' @return The previous defaults, invisibly (like [par()]).
+#' @export
+#' @examples
+#' # Increase axis label size for all subsequent charts
+#' old = g2_defaults(axis = list(labelFontSize = 18))
+#' g2(mtcars, x = 'mpg', y = 'hp') |> mark_point()
+#' g2_defaults(old)  # restore previous defaults
+g2_defaults = function(...) {
+  prev = getOption('gglite.theme')
+  args = list(...)
+  if (!length(args)) return(invisible(prev))
+  # A single unnamed arg is a saved value to restore (or NULL to clear)
+  val = if (length(args) == 1 && is.null(names(args))) args[[1]] else args
+  options(gglite.theme = val)
+  invisible(prev)
+}
 
 #' Create a G2 Chart Object
 #'

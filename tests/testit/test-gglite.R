@@ -31,6 +31,19 @@ assert('mark_point() and mark_line() add layers', {
   (chart$layers[[2]]$type %==% 'line')
 })
 
+# mark_point() defaults to solid shape; user can override
+assert('mark_point() defaults to solid shape and respects user override', {
+  chart = g2(mtcars, x = 'mpg', y = 'hp') |> mark_point()
+  (chart$layers[[1]]$style$shape %==% 'point')
+  chart2 = g2(mtcars, x = 'mpg', y = 'hp') |>
+    mark_point(style = list(shape = 'hollow'))
+  (chart2$layers[[1]]$style$shape %==% 'hollow')
+  chart3 = g2(mtcars, x = 'mpg', y = 'hp') |>
+    mark_point(style = list(opacity = 0.5))
+  (chart3$layers[[1]]$style$shape %==% 'point')
+  (chart3$layers[[1]]$style$opacity %==% 0.5)
+})
+
 # build_config() produces correct spec with column-major data
 assert('build_config() produces correct spec', {
   df = data.frame(x = c('A', 'B'), y = c(3, 7))
@@ -101,33 +114,31 @@ assert('animate() sets animation options', {
 })
 
 # build_config() applies global theme defaults and merges with user overrides
-assert('build_config() applies global theme defaults', {
+assert('build_config() has no theme by default (JS handles defaults)', {
   chart = g2(mtcars, x = 'mpg', y = 'hp') |> mark_point()
   config = build_config(chart)
-  # default axis font size is 14 (not G2's 12)
-  (config$theme$axis$labelFontSize %==% 14)
-  (config$theme$axis$gridStrokeOpacity %==% 0.25)
-  (config$theme$label$fontSize %==% 14)
+  (is.null(config$theme))
 })
 
-assert('build_config() merges user theme with global defaults', {
+assert('g2_defaults() sets and restores global theme options', {
+  old = g2_defaults(axis = list(labelFontSize = 20))
+  chart = g2(mtcars, x = 'mpg', y = 'hp') |> mark_point()
+  config = build_config(chart)
+  g2_defaults(old)
+  (config$theme$axis$labelFontSize %==% 20)
+  (is.null(getOption('gglite.theme')))
+})
+
+assert('g2_defaults() merges with per-chart theme_of()', {
+  old = g2_defaults(axis = list(labelFontSize = 20))
   chart = g2(mtcars, x = 'mpg', y = 'hp') |>
     mark_point() |>
-    theme_of('dark', axis = list(labelFontSize = 18))
+    theme_of('dark', axis = list(titleFontSize = 18))
   config = build_config(chart)
-  # user override wins
+  g2_defaults(old)
+  # per-chart type + titleFontSize win; labelFontSize from g2_defaults preserved
   (config$theme$type %==% 'dark')
-  (config$theme$axis$labelFontSize %==% 18)
-  # default still preserved for other keys
-  (config$theme$label$fontSize %==% 14)
-})
-
-assert('gglite.theme option overrides global defaults', {
-  old = getOption('gglite.theme')
-  options(gglite.theme = list(axis = list(labelFontSize = 20)))
-  chart = g2(mtcars, x = 'mpg', y = 'hp') |> mark_point()
-  config = build_config(chart)
-  options(gglite.theme = old)
+  (config$theme$axis$titleFontSize %==% 18)
   (config$theme$axis$labelFontSize %==% 20)
 })
 

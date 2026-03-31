@@ -41,14 +41,14 @@ build_config = function(chart) {
   if (!is.null(chart$scrollbars)) config$scrollbar = chart$scrollbars
   if (length(chart$padding)) config = modifyList(config, chart$padding)
 
-  # Apply theme: merge global gglite defaults with chart-specific overrides.
-  # Use options(gglite.theme = list(...)) to customize or suppress defaults.
-  global_theme = getOption('gglite.theme', .gglite_default_theme)
-  config$theme = if (!is.null(chart$theme)) {
-    modifyList(global_theme, chart$theme)
-  } else {
-    global_theme
-  }
+  # Theme: merge R-level g2_defaults() with per-chart theme_of() overrides.
+  # JS (g2-defaults.js) handles size/grid/shape defaults without R carrying them.
+  user_defaults = getOption('gglite.theme')
+  theme = if (length(user_defaults)) {
+    if (!is.null(chart$theme)) modifyList(user_defaults, chart$theme)
+    else user_defaults
+  } else chart$theme
+  if (!is.null(theme)) config$theme = theme
 
   # Faceting wraps the spec as a facet view
   if (!is.null(chart$facet)) {
@@ -137,7 +137,12 @@ chart_html = function(chart, id = NULL, width = NULL, height = NULL) {
 }
 
 cdn_scripts = function() {
-  sprintf('<script src="%s" defer></script>', c(g2_cdn(), g2_col_cdn))
+  js = readLines(system.file('js', 'g2-defaults.js', package = 'gglite'),
+                 warn = FALSE)
+  c(
+    sprintf('<script src="%s" defer></script>', c(g2_cdn(), g2_col_cdn)),
+    paste0('<script type="module">\n', paste(js, collapse = '\n'), '\n</script>')
+  )
 }
 
 #' Preview a Chart in the Viewer or Browser

@@ -52,7 +52,15 @@ mark_line = function(chart, ...) mark(chart, 'line', ...)
 #' @export
 #' @examples
 #' g2(mtcars, x = 'mpg', y = 'hp', color = 'cyl') |> mark_point()
-mark_point = function(chart, ...) mark(chart, 'point', ...)
+mark_point = function(chart, ...) {
+  opts = list(...)
+  if (is.null(opts$style)) {
+    opts$style = list(shape = 'point')
+  } else if (is.null(opts$style$shape)) {
+    opts$style = modifyList(list(shape = 'point'), opts$style)
+  }
+  do.call(mark, c(list(chart, 'point'), opts))
+}
 
 #' Add an Area Mark
 #'
