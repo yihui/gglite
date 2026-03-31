@@ -7,7 +7,9 @@ library(gglite)
 ```
 
 Coordinate systems control how the positional channels (x and y) are
-interpreted. Use `coordinate()` to set the type and options.
+interpreted. Use helpers like `coord_polar()`, `coord_theta()`,
+`coord_radial()`, `coord_helix()`, and `coord_parallel()` to set the
+coordinate system.
 
 ## Cartesian (default)
 
@@ -18,7 +20,7 @@ explicitly, but you can do so for clarity.
 df = data.frame(x = c('A', 'B', 'C', 'D'), y = c(3, 7, 2, 5))
 g2(df, x = 'x', y = 'y') |>
   mark_interval() |>
-  coordinate('cartesian')
+  coord_('cartesian')
 ```
 
 ## Polar
@@ -29,7 +31,7 @@ displays.
 ```{r}
 g2(df, x = 'x', y = 'y') |>
   mark_interval() |>
-  coordinate('polar')
+  coord_polar()
 ```
 
 ### Polar with innerRadius (donut rose)
@@ -37,7 +39,7 @@ g2(df, x = 'x', y = 'y') |>
 ```{r}
 g2(df, x = 'x', y = 'y', color = 'x') |>
   mark_interval() |>
-  coordinate('polar', innerRadius = 0.4)
+  coord_polar(innerRadius = 0.4)
 ```
 
 ### Polar with custom start/end angles
@@ -45,7 +47,7 @@ g2(df, x = 'x', y = 'y', color = 'x') |>
 ```{r}
 g2(df, x = 'x', y = 'y', color = 'x') |>
   mark_interval() |>
-  coordinate('polar', startAngle = -pi / 2, endAngle = pi / 2)
+  coord_polar(startAngle = -pi / 2, endAngle = pi / 2)
 ```
 
 ## Theta
@@ -56,7 +58,7 @@ Maps data values to angular extent. Used for pie and donut charts.
 g2(df, x = 'x', y = 'y', color = 'x') |>
   mark_interval() |>
   transform_('stackY') |>
-  coordinate('theta')
+  coord_theta()
 ```
 
 ### Donut chart (theta with innerRadius)
@@ -65,7 +67,7 @@ g2(df, x = 'x', y = 'y', color = 'x') |>
 g2(df, x = 'x', y = 'y', color = 'x') |>
   mark_interval() |>
   transform_('stackY') |>
-  coordinate('theta', innerRadius = 0.5)
+  coord_theta(innerRadius = 0.5)
 ```
 
 ## Radial
@@ -75,7 +77,7 @@ Maps y to the radial direction. Suitable for radial bar charts.
 ```{r}
 g2(df, x = 'x', y = 'y', color = 'x') |>
   mark_interval() |>
-  coordinate('radial')
+  coord_radial()
 ```
 
 ### Radial with innerRadius
@@ -83,7 +85,7 @@ g2(df, x = 'x', y = 'y', color = 'x') |>
 ```{r}
 g2(df, x = 'x', y = 'y', color = 'x') |>
   mark_interval() |>
-  coordinate('radial', innerRadius = 0.3)
+  coord_radial(innerRadius = 0.3)
 ```
 
 ## Parallel
@@ -96,7 +98,7 @@ g2(iris, position = c('Sepal.Length', 'Sepal.Width',
     'Petal.Length', 'Petal.Width'), color = 'Species',
     padding = c(30, NA, NA, NA)) |>
   mark_line() |>
-  coordinate('parallel') |>
+  coord_parallel() |>
   legend_color(position = 'bottom')
 ```
 
@@ -117,7 +119,7 @@ g2(df_radar, x = 'item', y = 'score', color = 'team') |>
   mark_area(style = list(fillOpacity = 0.5)) |>
   mark_line(style = list(lineWidth = 2)) |>
   mark_point() |>
-  coordinate('polar') |>
+  coord_polar() |>
   scale_x(padding = 0.5, align = 0) |>
   scale_y(domainMin = 0, domainMax = 100) |>
   axis_y(grid = TRUE, title = FALSE)
@@ -131,7 +133,7 @@ Arranges data along a helix spiral. Works best with `mark_interval()`.
 df_helix = data.frame(x = paste0('D', 1:50), y = abs(sin(1:50 / 5)))
 g2(df_helix, x = 'x', y = 'y', color = 'y') |>
   mark_interval() |>
-  coordinate('helix')
+  coord_helix()
 ```
 
 ## Transpose (coord_flip)
@@ -151,6 +153,6 @@ g2(df, x = 'x', y = 'y') |>
 ```{r}
 g2(iris, position = names(iris)[-5], color = 'Species') |>
   mark_line() |>
-  coordinate('parallel') |> 
+  coord_parallel() |> 
   coord_transpose()
 ```

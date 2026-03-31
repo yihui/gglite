@@ -13,6 +13,6 @@ coord_parallel(chart, ...)
 \code{startAngle}, \code{endAngle}, or \code{transform}.}
 }
 \description{
-Shortcut for \code{coordinate(chart, 'parallel', ...)}. Used with \code{position}
+Shortcut for \code{coord_(chart, 'parallel', ...)}. Used with \code{position}
 encoding for parallel coordinate plots.
 }

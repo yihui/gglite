@@ -6,15 +6,16 @@ title: Themes
 library(gglite)
 ```
 
-Themes control the overall visual appearance of the chart. Use `theme_()` to
-set a built-in theme or provide custom options.
+Themes control the overall visual appearance of the chart. Use helpers like
+`theme_classic()`, `theme_dark()`, `theme_light()`, `theme_classicDark()`,
+and `theme_academy()` to set a built-in theme.
 
 ## Classic Theme (default)
 
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
   mark_point() |>
-  theme_('classic')
+  theme_classic()
 ```
 
 ## Classic Dark Theme
@@ -22,7 +23,7 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
   mark_point() |>
-  theme_('classicDark')
+  theme_classicDark()
 ```
 
 ## Light Theme
@@ -30,7 +31,7 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
   mark_point() |>
-  theme_('light')
+  theme_light()
 ```
 
 ## Dark Theme
@@ -38,7 +39,7 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
   mark_point() |>
-  theme_('dark')
+  theme_dark()
 ```
 
 ## Academy Theme
@@ -46,7 +47,7 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
   mark_point() |>
-  theme_('academy')
+  theme_academy()
 ```
 
 ## Theme on a bar chart
@@ -55,7 +56,7 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
 df = data.frame(x = c('A', 'B', 'C', 'D'), y = c(3, 7, 2, 5))
 g2(df, x = 'x', y = 'y', color = 'x') |>
   mark_interval() |>
-  theme_('dark')
+  theme_dark()
 ```
 
 ## Theme on a multi-series line chart
@@ -67,5 +68,5 @@ df = data.frame(
 )
 g2(df, x = 'x', y = 'y', color = 'group') |>
   mark_line() |>
-  theme_('classicDark')
+  theme_classicDark()
 ```

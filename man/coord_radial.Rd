@@ -13,7 +13,7 @@ coord_radial(chart, ...)
 \code{startAngle}, \code{endAngle}, or \code{transform}.}
 }
 \description{
-Shortcut for \code{coordinate(chart, 'radial', ...)}. Suitable for radial bar
+Shortcut for \code{coord_(chart, 'radial', ...)}. Suitable for radial bar
 charts.
 }
 \examples{

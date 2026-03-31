@@ -13,7 +13,7 @@ coord_polar(chart, ...)
 \code{startAngle}, \code{endAngle}, or \code{transform}.}
 }
 \description{
-Shortcut for \code{coordinate(chart, 'polar', ...)}.
+Shortcut for \code{coord_(chart, 'polar', ...)}.
 }
 \examples{
 g2(data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2)),

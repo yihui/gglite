@@ -122,7 +122,7 @@ you cannot solve it.
   `annotate_df()`
 - `mark.R` - All 35 mark (geometry) functions
 - `scale.R` - `scale_()` and helpers (`scale_x()`, `scale_y()`, etc.)
-- `coordinate.R` - `coordinate()`, `coord_transpose()`
+- `coordinate.R` - `coord_()`, `coord_transpose()`
 - `interact.R` - `interact()`
 - `theme.R` - `theme_()` and theme shortcuts
 - `transform.R` - `transform_()`

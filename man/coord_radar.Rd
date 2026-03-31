@@ -13,6 +13,6 @@ coord_radar(chart, ...)
 \code{startAngle}, \code{endAngle}, or \code{transform}.}
 }
 \description{
-Shortcut for \code{coordinate(chart, 'radar', ...)}. Used with \code{position}
+Shortcut for \code{coord_(chart, 'radar', ...)}. Used with \code{position}
 encoding for radar (spider) charts.
 }

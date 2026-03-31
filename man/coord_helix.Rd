@@ -13,5 +13,5 @@ coord_helix(chart, ...)
 \code{startAngle}, \code{endAngle}, or \code{transform}.}
 }
 \description{
-Shortcut for \code{coordinate(chart, 'helix', ...)}.
+Shortcut for \code{coord_(chart, 'helix', ...)}.
 }

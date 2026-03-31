@@ -21,26 +21,26 @@
 #' df = data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2))
 #' g2(df, x = 'x', y = 'y') |>
 #'   mark_interval() |>
-#'   coordinate('polar')
+#'   coord_polar()
 #'
 #' # Theta coordinate (pie / donut chart)
 #' g2(df, x = 'x', y = 'y', color = 'x') |>
 #'   mark_interval() |>
 #'   transform_('stackY') |>
-#'   coordinate('theta')
+#'   coord_theta()
 #'
 #' # Radial coordinate (radial bar chart)
 #' g2(df, x = 'x', y = 'y', color = 'x') |>
 #'   mark_interval() |>
-#'   coordinate('radial')
+#'   coord_radial()
 #'
 #' # Parallel coordinate (uses position encoding)
 #' g2(iris, position = c('Sepal.Length', 'Sepal.Width',
 #'     'Petal.Length', 'Petal.Width'), color = 'Species',
 #'   padding = c(30, NA, NA, NA)) |>
 #'   mark_line() |>
-#'   coordinate('parallel') |>
-#'   legend_('color', position = 'bottom')
+#'   coord_parallel() |>
+#'   legend_color(position = 'bottom')
 #'
 #' # Radar coordinate (polar with long-format data)
 #' df2 = data.frame(
@@ -51,11 +51,11 @@
 #' g2(df2, x = 'item', y = 'score', color = 'team') |>
 #'   mark_area(style = list(fillOpacity = 0.5)) |>
 #'   mark_line(style = list(lineWidth = 2)) |>
-#'   coordinate('polar') |>
-#'   scale_('x', padding = 0.5, align = 0) |>
-#'   scale_('y', domainMin = 0, domainMax = 100) |>
-#'   axis_('x', grid = TRUE)
-coordinate = function(chart, type, ...) {
+#'   coord_polar() |>
+#'   scale_x(padding = 0.5, align = 0) |>
+#'   scale_y(domainMin = 0, domainMax = 100) |>
+#'   axis_x(grid = TRUE)
+coord_ = function(chart, type, ...) {
   chart$coords = c(list(type = type), list(...))
   chart
 }
@@ -83,65 +83,65 @@ coord_transpose = function(chart) {
 
 #' Polar Coordinate System
 #'
-#' Shortcut for `coordinate(chart, 'polar', ...)`.
+#' Shortcut for `coord_(chart, 'polar', ...)`.
 #'
-#' @inheritParams coordinate
+#' @inheritParams coord_
 #' @export
 #' @examples
 #' g2(data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2)),
 #'   x = 'x', y = 'y', color = 'x') |>
 #'   mark_interval() |> coord_polar()
-coord_polar = function(chart, ...) coordinate(chart, 'polar', ...)
+coord_polar = function(chart, ...) coord_(chart, 'polar', ...)
 
 #' Theta Coordinate System
 #'
-#' Shortcut for `coordinate(chart, 'theta', ...)`. Used for pie and donut
+#' Shortcut for `coord_(chart, 'theta', ...)`. Used for pie and donut
 #' charts.
 #'
-#' @inheritParams coordinate
+#' @inheritParams coord_
 #' @export
 #' @examples
 #' g2(data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2)),
 #'   x = 'x', y = 'y', color = 'x') |>
 #'   mark_interval() |> transform_('stackY') |>
 #'   coord_theta(innerRadius = 0.5)
-coord_theta = function(chart, ...) coordinate(chart, 'theta', ...)
+coord_theta = function(chart, ...) coord_(chart, 'theta', ...)
 
 #' Radial Coordinate System
 #'
-#' Shortcut for `coordinate(chart, 'radial', ...)`. Suitable for radial bar
+#' Shortcut for `coord_(chart, 'radial', ...)`. Suitable for radial bar
 #' charts.
 #'
-#' @inheritParams coordinate
+#' @inheritParams coord_
 #' @export
 #' @examples
 #' g2(data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2)),
 #'   x = 'x', y = 'y', color = 'x') |>
 #'   mark_interval() |> coord_radial()
-coord_radial = function(chart, ...) coordinate(chart, 'radial', ...)
+coord_radial = function(chart, ...) coord_(chart, 'radial', ...)
 
 #' Radar Coordinate System
 #'
-#' Shortcut for `coordinate(chart, 'radar', ...)`. Used with `position`
+#' Shortcut for `coord_(chart, 'radar', ...)`. Used with `position`
 #' encoding for radar (spider) charts.
 #'
-#' @inheritParams coordinate
+#' @inheritParams coord_
 #' @export
-coord_radar = function(chart, ...) coordinate(chart, 'radar', ...)
+coord_radar = function(chart, ...) coord_(chart, 'radar', ...)
 
 #' Helix Coordinate System
 #'
-#' Shortcut for `coordinate(chart, 'helix', ...)`.
+#' Shortcut for `coord_(chart, 'helix', ...)`.
 #'
-#' @inheritParams coordinate
+#' @inheritParams coord_
 #' @export
-coord_helix = function(chart, ...) coordinate(chart, 'helix', ...)
+coord_helix = function(chart, ...) coord_(chart, 'helix', ...)
 
 #' Parallel Coordinate System
 #'
-#' Shortcut for `coordinate(chart, 'parallel', ...)`. Used with `position`
+#' Shortcut for `coord_(chart, 'parallel', ...)`. Used with `position`
 #' encoding for parallel coordinate plots.
 #'
-#' @inheritParams coordinate
+#' @inheritParams coord_
 #' @export
-coord_parallel = function(chart, ...) coordinate(chart, 'parallel', ...)
+coord_parallel = function(chart, ...) coord_(chart, 'parallel', ...)

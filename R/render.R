@@ -1,15 +1,6 @@
 # ---- Configuration builder ----
 
-#' Build G2 Spec
-#'
-#' Convert a `g2` chart object into a nested list matching G2's
-#' `chart.options()` spec format. Data frames are annotated for column-major
-#' JSON serialisation via [annotate_df()]. Constructor options (width, height,
-#' container) are handled separately by [chart_html()].
-#'
-#' @param chart A `g2` object.
-#' @return A list suitable for JSON serialization.
-#' @keywords internal
+#' @noRd
 build_config = function(chart) {
   config = list()
 

@@ -13,7 +13,7 @@ coord_theta(chart, ...)
 \code{startAngle}, \code{endAngle}, or \code{transform}.}
 }
 \description{
-Shortcut for \code{coordinate(chart, 'theta', ...)}. Used for pie and donut
+Shortcut for \code{coord_(chart, 'theta', ...)}. Used for pie and donut
 charts.
 }
 \examples{
