@@ -5,3 +5,4 @@ package-lock.json
 test-all.mjs
 gglite_*.tar.gz
 .Rproj.user
+examples/*.html
