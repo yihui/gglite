@@ -98,6 +98,11 @@ When in doubt about G2 features, marks, or coordinate systems, always refer to:
 - **G2 source repository**: https://github.com/antvis/G2
 - **G2 documentation site**: https://g2.antv.antgroup.com
 
+If you have consulted the source repository and documentation but still cannot
+solve a problem raised in a PR, **file a GitHub issue for that problem to keep
+track of it**. The issue should clearly describe what the problem is, and why
+you cannot solve it.
+
 ## Project Structure
 
 ### Key Files and Directories
