@@ -42,10 +42,7 @@ build_config = function(chart) {
   if (length(chart$layout)) config = modifyList(config, chart$layout)
 
   # Theme: merge global option with per-chart theme
-  theme = getOption('gglite.theme')
-  if (!is.null(chart$theme)) {
-    theme = if (length(theme)) modifyList(theme, chart$theme) else chart$theme
-  }
+  theme = modifyList(as.list(getOption('gglite.theme')), as.list(chart$theme))
   if (length(theme)) config$theme = theme
 
   # Faceting wraps the spec as a facet view
