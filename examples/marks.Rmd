@@ -27,13 +27,8 @@ g2(mtcars, x = 'mpg', y = 'hp', size = 'wt') |> mark_point()
 
 ### Shape by a variable
 
-Note: in G2 v5, shape encoding in point marks may not always match
-between the legend and the plot. See [G2 source](https://github.com/antvis/G2)
-and [documentation](https://g2.antv.antgroup.com) for details.
-
-```{r, eval=FALSE}
-g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species',
-    shape = 'Species') |>
+```{r}
+g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', shape = 'Species') |>
   mark_point()
 ```
 
