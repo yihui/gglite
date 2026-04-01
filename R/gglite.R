@@ -18,7 +18,7 @@ g2_cdn = function() {
   getOption('gglite.g2_cdn', 'https://unpkg.com/@antv/g2@5/dist/g2.min.js')
 }
 
-g2_patches_cdn = 'https://cdn.jsdelivr.net/npm/@xiee/utils/js/g2-patches.min.js'
+g2_patches_cdn = 'https://cdn.jsdelivr.net/npm/@xiee/utils@v1.14.30/js/g2-patches.min.js'
 
 #' Process a layout argument (padding, margin, or inset)
 #'
