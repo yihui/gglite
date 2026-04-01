@@ -265,6 +265,24 @@ assert('slider_x() and scrollbar_y() are shortcuts', {
   (isTRUE(chart$scrollbars$y))
 })
 
+# build_config() auto-sets shape scale range to fix legend mismatch
+assert('build_config() sets shape scale range when shape maps to column', {
+  chart = g2(iris, x = 'Sepal.Width', y = 'Sepal.Length',
+    shape = 'Species') |> mark_point()
+  config = build_config(chart)
+  # 3 unique Species -> range of length 3
+  (length(config$scale$shape$range) %==% 3L)
+  (config$scale$shape$range %==% c('point', 'plus', 'diamond'))
+})
+
+assert('build_config() does not override user-set shape range', {
+  chart = g2(iris, x = 'Sepal.Width', y = 'Sepal.Length',
+    shape = 'Species') |> mark_point() |>
+    scale_shape(range = c('circle', 'square', 'triangle'))
+  config = build_config(chart)
+  (config$scale$shape$range %==% c('circle', 'square', 'triangle'))
+})
+
 assert('build_config includes layout options', {
   chart = g2(data.frame(x = 1, y = 2), x = 'x', y = 'y',
     padding = 20, inset = c(5, NA, 5, NA)) |>

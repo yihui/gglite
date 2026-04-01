@@ -31,6 +31,22 @@ build_config = function(chart) {
 
   # Chart-wide config
   if (length(chart$scales)) config$scale = chart$scales
+
+  # Work around G2 legend bug: when shape is the only categorical encoding
+  # (no color), the legend renders wrong shapes. Explicitly set the shape
+  # scale range to exactly N shapes so ordinal wrapping is correct.
+  shape_col = chart$aesthetics$shape
+  if (is.character(shape_col) && length(shape_col) == 1 &&
+      !is.null(chart$data) && shape_col %in% names(chart$data) &&
+      is.null(chart$scales$shape$range)) {
+    n = length(unique(chart$data[[shape_col]]))
+    shapes = c('point', 'plus', 'diamond', 'square', 'triangle',
+      'hexagon', 'cross', 'bowtie')
+    if (is.null(config$scale)) config$scale = list()
+    config$scale$shape = modifyList(
+      as.list(config$scale$shape), list(range = rep_len(shapes, n))
+    )
+  }
   if (!is.null(chart$coords)) config$coordinate = chart$coords
   if (length(chart$interactions)) config$interaction = chart$interactions
   if (length(chart$axes)) config$axis = chart$axes
