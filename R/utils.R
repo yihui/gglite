@@ -158,7 +158,7 @@ parse_formula = function(f) {
       if (row_only) enc$y = facet_terms[1] else enc$x = facet_terms[1]
     }
     if (!row_only && length(facet_terms) >= 2) enc$y = facet_terms[2]
-    facet = list(type = 'facetRect', encode = enc)
+    if (length(enc)) facet = list(type = 'facetRect', encode = enc)
   }
 
   list(aesthetics = aesthetics, facet = facet)
