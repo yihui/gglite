@@ -11,7 +11,9 @@ g2(
   height = 480,
   padding = NULL,
   margin = NULL,
-  inset = NULL
+  inset = NULL,
+  title = NULL,
+  subtitle = NULL
 )
 }
 \arguments{
@@ -30,6 +32,11 @@ or a formula followed by optional named aesthetics.}
 (applied to all sides) or a length-4 vector \code{c(top, right, bottom, left)};
 use \code{NA} to skip individual sides. \code{NULL} (the default) leaves the value
 unset.}
+
+\item{title}{Chart title string, a convenient alternative to piping into
+\code{\link[=title_]{title_()}} separately.}
+
+\item{subtitle}{Chart subtitle string.}
 }
 \value{
 A \code{g2} object (S3 class).
@@ -66,4 +73,7 @@ g2(mtcars, ~ mpg)
 # Time series
 g2(sunspot.year)
 g2(EuStockMarkets)
+
+# Title and subtitle
+g2(mtcars, hp ~ mpg, title = 'Motor Trend Cars', subtitle = 'mpg vs hp')
 }

@@ -8,6 +8,13 @@ library(gglite)
 
 ## Chart Title
 
+### Title and subtitle via `g2()` arguments
+
+```{r}
+g2(mtcars, x = 'mpg', y = 'hp',
+  title = 'Motor Trend Cars', subtitle = 'mpg vs horsepower')
+```
+
 ### Simple title
 
 ```{r}

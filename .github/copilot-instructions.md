@@ -155,7 +155,9 @@ Before submitting changes:
 2. Run `R CMD check gglite_*.tar.gz --no-manual` to validate
 3. Ensure all tests pass: `Rscript tests/test-all.R`
 4. Check GitHub Actions status for multi-platform validation
-5. Update `NEWS.md` to document your changes (except for v0.1)
+5. Update `NEWS.md` to document your changes (except for v0.1). **Do NOT add
+   NEWS entries while the package is still at v0.1** — the initial release
+   description is sufficient.
 
 ## Important Conventions
 
@@ -220,12 +222,13 @@ as character strings, e.g., `g2(mtcars, x = 'mpg', y = 'hp')`.
    especially automatically generated ones.
 8. **Testing**: Use testit assertions with proper error handling
 9. **Update NEWS.md**: When making changes, make sure to update `NEWS.md`
-   accordingly to document what changed. The first heading in NEWS.md always
-   represents the dev version and must be of the form `# PKG x.y` where PKG
-   is the package name and x.y is the next version to be released to CRAN
-   (note: x.y, not x.y.0). Usually y is bumped from the current minor
-   version, e.g., if the current dev version is 1.8.3, the next CRAN release
-   is expected to be 1.9.
+   accordingly to document what changed — **except for v0.1** (do NOT add
+   individual change entries for the initial release). The first heading in
+   NEWS.md always represents the dev version and must be of the form
+   `# PKG x.y` where PKG is the package name and x.y is the next version to
+   be released to CRAN (note: x.y, not x.y.0). Usually y is bumped from the
+   current minor version, e.g., if the current dev version is 1.8.3, the next
+   CRAN release is expected to be 1.9.
 
 ## Package API
 

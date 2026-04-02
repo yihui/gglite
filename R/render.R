@@ -120,10 +120,10 @@ build_config = function(chart) {
       config$axis$y = modifyList(as.list(y_ax), list(title = chart$ts_name))
   }
   if (length(chart$legends)) config$legend = chart$legends
-  if (!is.null(chart$chart_title)) config$title = chart$chart_title
-  if (!is.null(chart$tooltip_config)) config$tooltip = chart$tooltip_config
-  if (!is.null(chart$sliders)) config$slider = chart$sliders
-  if (!is.null(chart$scrollbars)) config$scrollbar = chart$scrollbars
+  if (length(chart$chart_title)) config$title = chart$chart_title
+  config$tooltip = chart$tooltip_config
+  config$slider = chart$sliders
+  config$scrollbar = chart$scrollbars
   if (length(chart$layout)) config = modifyList(config, chart$layout)
 
   # Theme: merge global option with per-chart theme

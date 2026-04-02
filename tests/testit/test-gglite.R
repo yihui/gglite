@@ -104,6 +104,18 @@ assert('g2() formula ~ x1 + x2 + x3 sets position encoding', {
   (is.null(chart$aesthetics$x))
 })
 
+assert('g2() title argument sets chart title', {
+  chart = g2(mtcars, x = 'mpg', y = 'hp', title = 'My Title')
+  (chart$chart_title$title %==% 'My Title')
+})
+
+assert('g2() title and subtitle arguments set title and subtitle', {
+  chart = g2(mtcars, x = 'mpg', y = 'hp',
+    title = 'Title', subtitle = 'Subtitle')
+  (chart$chart_title$title %==% 'Title')
+  (chart$chart_title$subtitle %==% 'Subtitle')
+})
+
 # ---- interact() uses named list (object) format ----
 
 assert('interact() stores interaction as named list', {
