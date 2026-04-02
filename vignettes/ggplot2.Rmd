@@ -7,6 +7,7 @@ output:
       js: ['@sidenotes', '@appendix', '@toc-highlight', '@copy-button', '@heading-anchor', '@pages']
     options:
       toc: true
+      number_sections: true
 vignette: >
   %\VignetteIndexEntry{gglite for ggplot2 Users}
   %\VignetteEngine{litedown::vignette}
