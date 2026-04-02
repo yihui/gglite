@@ -17,6 +17,5 @@ Configure the Opacity Scale
 }
 \examples{
 g2(mtcars, x = 'mpg', y = 'hp', opacity = 'wt') |>
-  mark_point() |>
   scale_opacity(range = c(0.2, 1))
 }

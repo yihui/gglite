@@ -17,22 +17,18 @@
 #' @examples
 #' # Tooltip on scatter plot
 #' g2(mtcars, x = 'mpg', y = 'hp') |>
-#'   mark_point() |>
 #'   interact('tooltip')
 #'
 #' # Highlight elements on hover
 #' g2(mtcars, x = 'mpg', y = 'hp', color = 'cyl') |>
-#'   mark_point() |>
 #'   interact('elementHighlight')
 #'
 #' # Brush to highlight a region
 #' g2(mtcars, x = 'mpg', y = 'hp') |>
-#'   mark_point() |>
 #'   interact('brushHighlight')
 #'
 #' # Legend filter
 #' g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
-#'   mark_point() |>
 #'   interact('legendFilter')
 interact = function(chart, type, ...) {
   entry = c(list(type = type), list(...))

@@ -11,7 +11,6 @@
 #' @export
 #' @examples
 #' g2(iris, x = 'Sepal.Width', y = 'Sepal.Length') |>
-#'   mark_point() |>
 #'   facet_rect(x = 'Species')
 facet_rect = function(chart, ...) {
   chart$facet = list(type = 'facetRect')
@@ -29,7 +28,6 @@ facet_rect = function(chart, ...) {
 #' @export
 #' @examples
 #' g2(iris, x = 'Sepal.Width', y = 'Sepal.Length') |>
-#'   mark_point() |>
 #'   facet_circle(position = 'Species')
 facet_circle = function(chart, ...) {
   chart$facet = list(type = 'facetCircle')

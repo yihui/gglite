@@ -155,7 +155,7 @@ Before submitting changes:
 2. Run `R CMD check gglite_*.tar.gz --no-manual` to validate
 3. Ensure all tests pass: `Rscript tests/test-all.R`
 4. Check GitHub Actions status for multi-platform validation
-5. Update `NEWS.md` to document your changes
+5. Update `NEWS.md` to document your changes (except for v0.1)
 
 ## Important Conventions
 
@@ -208,15 +208,18 @@ as character strings, e.g., `g2(mtcars, x = 'mpg', y = 'hp')`.
 3. **MANDATORY: Wait for CI to be green**: After pushing code, you MUST wait
    for GitHub Actions CI to complete successfully before claiming the task is
    done.
-4. **Bump version in PRs**: Bump the patch version number in DESCRIPTION once
+4. **MANDATORY: Merge latest main before pushing**: Before pushing to a branch
+   or PR, always pull and merge the latest main branch. If there are merge
+   conflicts, resolve them before pushing.
+5. **Bump version in PRs**: Bump the patch version number in DESCRIPTION once
    per PR (on the first commit or when you first make changes), not on every
    commit to the PR
-5. **NEVER BREAK CI**: Breaking CI is completely unacceptable. If CI fails, you
+6. **NEVER BREAK CI**: Breaking CI is completely unacceptable. If CI fails, you
    must immediately fix it.
-6. **Never commit binary files**: Avoid version-controlling binary files,
+7. **Never commit binary files**: Avoid version-controlling binary files,
    especially automatically generated ones.
-7. **Testing**: Use testit assertions with proper error handling
-8. **Update NEWS.md**: When making changes, make sure to update `NEWS.md`
+8. **Testing**: Use testit assertions with proper error handling
+9. **Update NEWS.md**: When making changes, make sure to update `NEWS.md`
    accordingly to document what changed. The first heading in NEWS.md always
    represents the dev version and must be of the form `# PKG x.y` where PKG
    is the package name and x.y is the next version to be released to CRAN
@@ -232,7 +235,6 @@ component functions:
 
 ```r
 g2(mtcars, x = 'mpg', y = 'hp') |>
-  mark_point() |>
   scale_x(type = 'log') |>
   theme_('dark') |>
   title_('Motor Trend Cars')

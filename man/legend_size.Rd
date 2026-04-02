@@ -17,6 +17,5 @@ Configure the Size Legend
 }
 \examples{
 g2(mtcars, x = 'mpg', y = 'hp', size = 'wt') |>
-  mark_point() |>
   legend_size(position = 'bottom')
 }

@@ -21,6 +21,5 @@ in \verb{mark_*()} functions.
 }
 \examples{
 g2(mtcars, x = 'mpg', y = 'hp') |>
-  mark_point() |>
   tooltip_(crosshairs = TRUE)
 }

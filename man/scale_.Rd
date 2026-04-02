@@ -28,15 +28,14 @@ G2 scale types: \code{'linear'}, \code{'ordinal'}, \code{'band'}, \code{'point'}
 }
 \examples{
 # Log-scaled x axis
-g2(mtcars, x = 'mpg', y = 'hp') |> mark_point() |>
+g2(mtcars, x = 'mpg', y = 'hp') |>
   scale_('x', type = 'log')
 
 # Square-root scale on y
-g2(mtcars, x = 'mpg', y = 'hp') |> mark_point() |>
+g2(mtcars, x = 'mpg', y = 'hp') |>
   scale_('y', type = 'sqrt')
 
 # Ordinal colour palette
 g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
-  mark_point() |>
   scale_('color', palette = 'category10')
 }

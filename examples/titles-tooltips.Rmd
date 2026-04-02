@@ -12,7 +12,6 @@ library(gglite)
 
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
-  mark_point() |>
   title_('Motor Trend Cars')
 ```
 
@@ -20,7 +19,6 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
 
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
-  mark_point() |>
   title_('Motor Trend Cars', subtitle = 'mpg vs horsepower')
 ```
 
@@ -28,7 +26,6 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
 
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
-  mark_point() |>
   title_('Right-aligned Title', align = 'right')
 ```
 
@@ -47,7 +44,6 @@ g2(df, x = 'x', y = 'y') |>
 
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
-  mark_point() |>
   tooltip_(crosshairs = TRUE)
 ```
 
@@ -67,6 +63,5 @@ g2(df, x = 'x', y = 'y', color = 'group') |>
 
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
-  mark_point() |>
   tooltip_(FALSE)
 ```

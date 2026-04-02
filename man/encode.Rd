@@ -20,5 +20,5 @@ Map data columns to visual channels (x, y, color, size, shape, etc.).
 Column names are specified as character strings.
 }
 \examples{
-g2(mtcars) |> encode(x = 'mpg', y = 'hp') |> mark_point()
+g2(mtcars) |> encode(x = 'mpg', y = 'hp')
 }

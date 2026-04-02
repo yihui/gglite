@@ -13,7 +13,6 @@ highlighting. Use `interact()` to add them.
 
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
-  mark_point() |>
   interact('tooltip')
 ```
 
@@ -23,7 +22,6 @@ Highlight individual elements on hover.
 
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp', color = 'cyl') |>
-  mark_point() |>
   interact('elementHighlight')
 ```
 
@@ -57,7 +55,6 @@ Click to select individual elements.
 
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp', color = 'cyl') |>
-  mark_point() |>
   interact('elementSelect')
 ```
 
@@ -67,7 +64,6 @@ Drag to brush and highlight a rectangular region.
 
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
-  mark_point() |>
   interact('brushHighlight')
 ```
 
@@ -77,7 +73,6 @@ Brush only along the x axis.
 
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
-  mark_point() |>
   interact('brushXHighlight')
 ```
 
@@ -87,7 +82,6 @@ Brush only along the y axis.
 
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
-  mark_point() |>
   interact('brushYHighlight')
 ```
 
@@ -97,7 +91,6 @@ Drag to filter the visible data.
 
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
-  mark_point() |>
   interact('brushFilter')
 ```
 
@@ -107,7 +100,6 @@ Click legend entries to filter data.
 
 ```{r}
 g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
-  mark_point() |>
   interact('legendFilter')
 ```
 
@@ -117,7 +109,6 @@ Hover over legend entries to highlight.
 
 ```{r}
 g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
-  mark_point() |>
   interact('legendHighlight')
 ```
 
@@ -127,7 +118,6 @@ You can combine several interactions.
 
 ```{r}
 g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
-  mark_point() |>
   interact('tooltip') |>
   interact('legendFilter') |>
   interact('brushHighlight')

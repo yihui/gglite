@@ -11,7 +11,6 @@
 #' @export
 #' @examples
 #' g2(mtcars, x = 'mpg', y = 'hp') |>
-#'   mark_point() |>
 #'   axis_('x', title = 'Miles per Gallon') |>
 #'   axis_('y', title = 'Horsepower')
 axis_ = function(chart, channel, ...) {
@@ -30,7 +29,6 @@ axis_ = function(chart, channel, ...) {
 #' @export
 #' @examples
 #' g2(mtcars, x = 'mpg', y = 'hp') |>
-#'   mark_point() |>
 #'   axis_x(title = 'Miles per Gallon')
 axis_x = function(chart, ...) axis_(chart, 'x', ...)
 
@@ -40,7 +38,6 @@ axis_x = function(chart, ...) axis_(chart, 'x', ...)
 #' @export
 #' @examples
 #' g2(mtcars, x = 'mpg', y = 'hp') |>
-#'   mark_point() |>
 #'   axis_y(title = 'Horsepower')
 axis_y = function(chart, ...) axis_(chart, 'y', ...)
 
@@ -57,7 +54,6 @@ axis_y = function(chart, ...) axis_(chart, 'y', ...)
 #' @export
 #' @examples
 #' g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
-#'   mark_point() |>
 #'   legend_('color', position = 'right')
 legend_ = function(chart, channel, ...) {
   args = list(...)
@@ -75,7 +71,6 @@ legend_ = function(chart, channel, ...) {
 #' @export
 #' @examples
 #' g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
-#'   mark_point() |>
 #'   legend_color(position = 'right')
 legend_color = function(chart, ...) legend_(chart, 'color', ...)
 
@@ -85,7 +80,6 @@ legend_color = function(chart, ...) legend_(chart, 'color', ...)
 #' @export
 #' @examples
 #' g2(mtcars, x = 'mpg', y = 'hp', size = 'wt') |>
-#'   mark_point() |>
 #'   legend_size(position = 'bottom')
 legend_size = function(chart, ...) legend_(chart, 'size', ...)
 
@@ -95,7 +89,6 @@ legend_size = function(chart, ...) legend_(chart, 'size', ...)
 #' @export
 #' @examples
 #' g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', shape = 'Species') |>
-#'   mark_point() |>
 #'   legend_shape(position = 'bottom')
 legend_shape = function(chart, ...) legend_(chart, 'shape', ...)
 
@@ -105,7 +98,6 @@ legend_shape = function(chart, ...) legend_(chart, 'shape', ...)
 #' @export
 #' @examples
 #' g2(mtcars, x = 'mpg', y = 'hp', opacity = 'wt') |>
-#'   mark_point() |>
 #'   legend_opacity(position = 'bottom')
 legend_opacity = function(chart, ...) legend_(chart, 'opacity', ...)
 
@@ -118,7 +110,6 @@ legend_opacity = function(chart, ...) legend_(chart, 'opacity', ...)
 #' @export
 #' @examples
 #' g2(mtcars, x = 'mpg', y = 'hp') |>
-#'   mark_point() |>
 #'   title_('Motor Trend Cars', subtitle = 'mpg vs hp')
 title_ = function(chart, text, ...) {
   dots = list(...)
@@ -142,7 +133,6 @@ title_ = function(chart, text, ...) {
 #' @export
 #' @examples
 #' g2(mtcars, x = 'mpg', y = 'hp') |>
-#'   mark_point() |>
 #'   tooltip_(crosshairs = TRUE)
 tooltip_ = function(chart, ...) {
   args = list(...)
@@ -205,7 +195,6 @@ style_mark = function(chart, ...) {
 #' @export
 #' @examples
 #' g2(mtcars, x = 'mpg', y = 'hp') |>
-#'   mark_point() |>
 #'   slider_('x')
 slider_ = function(chart, channel, ...) {
   if (is.null(chart$sliders)) chart$sliders = list()
@@ -220,7 +209,6 @@ slider_ = function(chart, channel, ...) {
 #' @export
 #' @examples
 #' g2(mtcars, x = 'mpg', y = 'hp') |>
-#'   mark_point() |>
 #'   slider_x()
 slider_x = function(chart, ...) slider_(chart, 'x', ...)
 
@@ -230,7 +218,6 @@ slider_x = function(chart, ...) slider_(chart, 'x', ...)
 #' @export
 #' @examples
 #' g2(mtcars, x = 'mpg', y = 'hp') |>
-#'   mark_point() |>
 #'   slider_y()
 slider_y = function(chart, ...) slider_(chart, 'y', ...)
 

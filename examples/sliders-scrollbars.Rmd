@@ -29,7 +29,6 @@ g2(df, x = 'x', y = 'y') |>
 
 ```{r}
 g2(df, x = 'x', y = 'y') |>
-  mark_point() |>
   slider_x() |>
   slider_y()
 ```
@@ -54,7 +53,6 @@ g2(df, x = 'x', y = 'y') |>
 
 ```{r}
 g2(df, x = 'x', y = 'y') |>
-  mark_point() |>
   scrollbar_x() |>
   scrollbar_y()
 ```

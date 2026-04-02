@@ -16,6 +16,5 @@ Add a Y Slider
 }
 \examples{
 g2(mtcars, x = 'mpg', y = 'hp') |>
-  mark_point() |>
   slider_y()
 }

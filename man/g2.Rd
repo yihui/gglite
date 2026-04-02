@@ -56,7 +56,7 @@ arguments alongside the formula.
 }
 
 \examples{
-g2(mtcars, x = 'mpg', y = 'hp') |> mark_point()
+g2(mtcars, x = 'mpg', y = 'hp')
 
 # Formula interface
 g2(mtcars, hp ~ mpg)

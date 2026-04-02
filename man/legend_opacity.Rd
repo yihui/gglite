@@ -17,6 +17,5 @@ Configure the Opacity Legend
 }
 \examples{
 g2(mtcars, x = 'mpg', y = 'hp', opacity = 'wt') |>
-  mark_point() |>
   legend_opacity(position = 'bottom')
 }

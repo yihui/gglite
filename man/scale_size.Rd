@@ -17,6 +17,5 @@ Configure the Size Scale
 }
 \examples{
 g2(mtcars, x = 'mpg', y = 'hp', size = 'wt') |>
-  mark_point() |>
   scale_size(range = c(2, 10))
 }

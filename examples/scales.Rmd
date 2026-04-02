@@ -14,7 +14,6 @@ the scale for a given channel.
 
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
-  mark_point() |>
   scale_x(type = 'linear')
 ```
 
@@ -22,7 +21,6 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
 
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
-  mark_point() |>
   scale_y(type = 'log')
 ```
 
@@ -30,7 +28,6 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
 
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
-  mark_point() |>
   scale_y(type = 'pow')
 ```
 
@@ -38,7 +35,6 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
 
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
-  mark_point() |>
   scale_y(type = 'sqrt')
 ```
 
@@ -75,7 +71,6 @@ g2(df, x = 'date', y = 'value') |>
 
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
-  mark_point() |>
   scale_x(domain = c(10, 35)) |>
   scale_y(domain = c(0, 400))
 ```
@@ -84,7 +79,6 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
 
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
-  mark_point() |>
   scale_x(nice = TRUE) |>
   scale_y(nice = TRUE)
 ```
@@ -93,7 +87,6 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
 
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
-  mark_point() |>
   scale_y(zero = TRUE)
 ```
 
@@ -101,7 +94,6 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
 
 ```{r}
 g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
-  mark_point() |>
   scale_color(palette = 'category10')
 ```
 
@@ -109,7 +101,6 @@ g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
 
 ```{r}
 g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
-  mark_point() |>
   scale_color(range = c('#e41a1c', '#377eb8', '#4daf4a'))
 ```
 
@@ -126,7 +117,6 @@ g2(df, x = 'x', y = 'y', color = 'col') |>
 
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp', color = 'wt', size = 'qsec') |>
-  mark_point() |>
   scale_x(nice = TRUE) |>
   scale_y(type = 'sqrt') |>
   scale_color(palette = 'viridis') |>

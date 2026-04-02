@@ -26,12 +26,10 @@
 #' @examples
 #' # Dark theme
 #' g2(mtcars, x = 'mpg', y = 'hp') |>
-#'   mark_point() |>
 #'   theme_('dark')
 #'
 #' # Academy theme
 #' g2(mtcars, x = 'mpg', y = 'hp') |>
-#'   mark_point() |>
 #'   theme_('academy')
 theme_ = function(chart, type, ...) {
   if (is.character(type)) {
@@ -49,7 +47,7 @@ theme_ = function(chart, type, ...) {
 #' @inheritParams theme_
 #' @export
 #' @examples
-#' g2(mtcars, x = 'mpg', y = 'hp') |> mark_point() |> theme_classic()
+#' g2(mtcars, x = 'mpg', y = 'hp') |> theme_classic()
 theme_classic = function(chart, ...) theme_(chart, 'classic', ...)
 
 #' Classic Dark Theme
@@ -59,7 +57,7 @@ theme_classic = function(chart, ...) theme_(chart, 'classic', ...)
 #' @inheritParams theme_
 #' @export
 #' @examples
-#' g2(mtcars, x = 'mpg', y = 'hp') |> mark_point() |> theme_classicDark()
+#' g2(mtcars, x = 'mpg', y = 'hp') |> theme_classicDark()
 theme_classicDark = function(chart, ...) theme_(chart, 'classicDark', ...)
 
 #' Light Theme
@@ -69,7 +67,7 @@ theme_classicDark = function(chart, ...) theme_(chart, 'classicDark', ...)
 #' @inheritParams theme_
 #' @export
 #' @examples
-#' g2(mtcars, x = 'mpg', y = 'hp') |> mark_point() |> theme_light()
+#' g2(mtcars, x = 'mpg', y = 'hp') |> theme_light()
 theme_light = function(chart, ...) theme_(chart, 'light', ...)
 
 #' Dark Theme
@@ -79,7 +77,7 @@ theme_light = function(chart, ...) theme_(chart, 'light', ...)
 #' @inheritParams theme_
 #' @export
 #' @examples
-#' g2(mtcars, x = 'mpg', y = 'hp') |> mark_point() |> theme_dark()
+#' g2(mtcars, x = 'mpg', y = 'hp') |> theme_dark()
 theme_dark = function(chart, ...) theme_(chart, 'dark', ...)
 
 #' Academy Theme
@@ -89,5 +87,5 @@ theme_dark = function(chart, ...) theme_(chart, 'dark', ...)
 #' @inheritParams theme_
 #' @export
 #' @examples
-#' g2(mtcars, x = 'mpg', y = 'hp') |> mark_point() |> theme_academy()
+#' g2(mtcars, x = 'mpg', y = 'hp') |> theme_academy()
 theme_academy = function(chart, ...) theme_(chart, 'academy', ...)

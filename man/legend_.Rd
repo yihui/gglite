@@ -23,6 +23,5 @@ Customise the legend for a visual channel (\code{'color'}, \code{'size'}, \code{
 }
 \examples{
 g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
-  mark_point() |>
   legend_('color', position = 'right')
 }

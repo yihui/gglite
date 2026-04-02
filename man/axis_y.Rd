@@ -17,6 +17,5 @@ Configure the Y Axis
 }
 \examples{
 g2(mtcars, x = 'mpg', y = 'hp') |>
-  mark_point() |>
   axis_y(title = 'Horsepower')
 }
