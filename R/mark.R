@@ -267,15 +267,50 @@ mark_beeswarm = function(chart, ...) mark_(chart, 'beeswarm', ...)
 
 #' Add a Density Mark
 #'
-#' A composite mark for univariate kernel density estimation visualization.
-#' The data should contain a numeric column for density estimation and
-#' optionally categorical columns for grouping. A `kde` (Kernel Density
-#' Estimation) data transform is required to compute the density curve from
-#' the raw data.
+#' Visualize probability density distribution using kernel density estimation
+#' (KDE). When the chart has a numeric `x` aesthetic, the KDE transform and
+#' encodings are configured automatically: the density is computed for the `x`
+#' column, and if `color` is also mapped, separate density curves are drawn for
+#' each group. Explicit `data`/`encode` in `...` bypass this auto-configuration.
 #'
 #' @inheritParams mark_
 #' @export
-mark_density = function(chart = NULL, ...) mark_(chart, 'density', ...)
+#' @examples
+#' g2(iris, x = 'Sepal.Width', color = 'Species') |> mark_density()
+mark_density = function(chart = NULL, ...) {
+  mod = check_chart(mark_density, chart, list(...))
+  if (!is.null(mod)) return(mod)
+  opts = list(...)
+  # Auto-configure KDE when no explicit data/encode provided
+  if (is.null(opts$data) && is.null(opts$encode) && is.data.frame(chart$data)) {
+    aes = chart$aesthetics
+    field = aes$x
+    color = aes$color
+    if (!is.null(field) && is.numeric(chart$data[[field]])) {
+      # Use color variable as the x-axis band; fall back to field name
+      chart$data$.x = if (!is.null(color)) chart$data[[color]] else field
+      group_by = list('.x')
+      if (!is.null(color)) group_by = c(group_by, list(color))
+      layer = list(
+        type = 'density',
+        data = list(transform = list(list(
+          type = 'kde', field = field,
+          groupBy = group_by, size = 20L
+        ))),
+        encode = list(
+          x = '.x', y = 'y', size = 'size',
+          color = color, series = color
+        ),
+        tooltip = FALSE
+      )
+      chart$aesthetics$x = NULL
+      if (length(opts)) layer = modifyList(layer, opts)
+      chart$layers = c(chart$layers, list(layer))
+      return(chart)
+    }
+  }
+  mark_(chart, 'density', ...)
+}
 
 #' Add a Heatmap Mark
 #'
@@ -450,13 +485,47 @@ mark_liquid = function(chart = NULL, ...) mark_(chart, 'liquid', ...)
 #' @export
 mark_shape = function(chart = NULL, ...) mark_(chart, 'shape', ...)
 
-#' Add a Partition (Sunburst) Mark
+#' Add a Sunburst Mark
 #'
-#' A composite mark for hierarchical partition (sunburst/icicle) visualization.
-#' The data should be a nested tree structure wrapped in a list (i.e., the
-#' `value` in `data = list(type = 'inline', value = list(tree))` should be a
-#' list containing the root node). Use `coordinate = list(type = 'theta')` for
-#' a sunburst layout, or the default Cartesian coordinates for an icicle chart.
+#' A composite mark for sunburst (radial partition) visualization of
+#' hierarchical data. This wraps the partition mark with polar coordinates.
+#' The data should be a nested tree structure wrapped in a list, e.g.,
+#' `data = list(type = 'inline', value = list(tree))`.
+#'
+#' @inheritParams mark_
+#' @export
+#' @examples
+#' tree = list(name = 'root', children = list(
+#'   list(name = 'A', value = 10, children = list(
+#'     list(name = 'A1', value = 5), list(name = 'A2', value = 5)
+#'   )),
+#'   list(name = 'B', value = 20)
+#' ))
+#' g2() |> mark_sunburst(
+#'   data = list(type = 'inline', value = list(tree)),
+#'   encode = list(value = 'value')
+#' )
+mark_sunburst = function(chart = NULL, ...) {
+  mod = check_chart(mark_sunburst, chart, list(...))
+  if (!is.null(mod)) return(mod)
+  opts = list(...)
+  # Default to polar coordinates for sunburst layout
+  if (is.null(opts$coordinate))
+    opts$coordinate = list(type = 'polar')
+  if (is.null(opts$axis)) opts$axis = FALSE
+  if (is.null(opts$legend)) opts$legend = FALSE
+  layer = list(type = 'partition')
+  if (length(opts)) layer = modifyList(layer, opts)
+  chart$layers = c(chart$layers, list(layer))
+  chart
+}
+
+#' Add a Partition (Icicle) Mark
+#'
+#' A composite mark for hierarchical icicle chart visualization. For a radial
+#' (sunburst) layout, use [mark_sunburst()] instead. The data should be a
+#' nested tree structure wrapped in a list, e.g.,
+#' `data = list(type = 'inline', value = list(tree))`.
 #'
 #' @inheritParams mark_
 #' @export

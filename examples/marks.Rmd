@@ -471,39 +471,14 @@ g2() |>
 
 ## Density Mark
 
-The `density` mark visualizes the probability density distribution of a
-continuous variable using kernel density estimation (KDE). The data
-should be in long format with a numeric column for density estimation
-and categorical columns for grouping. A `kde` data transform computes
-the density curve.
+The density mark computes kernel density estimation (KDE) automatically
+from the `x` aesthetic. Map `color` for grouped density curves.
 
 ```{r}
-iris_long = cbind(
-  stack(iris[, 1:4]),
-  species = rep(iris$Species, 4)
-)
-names(iris_long) = c('y', 'x', 'species')
-g2(iris_long) |>
-  mark_density(
-    data = list(
-      transform = list(list(
-        type = 'kde', field = 'y',
-        groupBy = list('x', 'species'), size = 20L
-      ))
-    ),
-    encode = list(
-      x = 'x', y = 'y', series = 'species',
-      color = 'species', size = 'size'
-    ),
-    tooltip = FALSE
-  )
+g2(iris, x = 'Sepal.Width', color = 'Species') |> mark_density()
 ```
 
-## Partition (Sunburst) Mark
-
-The `partition` mark displays hierarchical data as an icicle chart (in
-Cartesian coordinates) or a sunburst chart (in polar coordinates). The
-data must be a nested tree wrapped in a list (array).
+## Sunburst Mark
 
 ```{r}
 tree_data = list(
@@ -525,7 +500,7 @@ tree_data = list(
   )
 )
 g2() |>
-  mark_partition(
+  mark_sunburst(
     data = list(type = 'inline', value = list(tree_data)),
     encode = list(value = 'value'),
     style = list(inset = 0.5)
