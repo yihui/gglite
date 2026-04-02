@@ -3,22 +3,23 @@ name: Build and deploy package site
 on:
   push:
     branches: ["main"]
+  pull_request:
+    branches: ["main"]
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
+  build:
+    runs-on: macos-latest
+    permissions:
+      contents: read
+      statuses: write
     steps:
       - uses: actions/checkout@HEAD
 
-      - uses: actions/configure-pages@HEAD
+      - if: github.event_name != 'pull_request'
+        uses: actions/configure-pages@HEAD
         with:
           enablement: true
 
@@ -32,9 +33,42 @@ jobs:
         with:
           site-dir: 'site'
 
-      - uses: actions/upload-pages-artifact@HEAD
+      - if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@HEAD
+        with:
+          name: site-preview
+          path: 'site'
+
+      - if: github.event_name == 'pull_request'
+        uses: actions/github-script@HEAD
+        with:
+          script: |
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            await github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: context.payload.pull_request.head.sha,
+              state: 'success',
+              target_url: runUrl,
+              description: 'Site preview artifact ready',
+              context: 'Site preview'
+            });
+
+      - if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@HEAD
         with:
           path: 'site'
 
+  deploy:
+    needs: build
+    if: github.event_name != 'pull_request'
+    runs-on: macos-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      pages: write
+      id-token: write
+    steps:
       - id: deployment
         uses: actions/deploy-pages@HEAD
