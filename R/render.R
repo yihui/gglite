@@ -198,6 +198,9 @@ chart_html = function(chart, id = NULL, width = NULL, height = NULL) {
                                 sample.int(1e6, 1))
   ctor = chart$options
   ctor$container = id
+  # When autoFit is enabled, drop explicit width so G2 uses the container's
+  # natural width instead of the fixed default
+  if (isTRUE(ctor$autoFit)) ctor$width = NULL
   spec = build_config(chart)
   defer_opt = getOption('gglite.defer_render')
   threshold = if (isTRUE(defer_opt)) 0.5 else if (is.numeric(defer_opt)) defer_opt
