@@ -20,39 +20,29 @@ g2_cdn = function() {
 
 g2_patches_cdn = 'https://cdn.jsdelivr.net/npm/@xiee/utils@v1.14.30/js/g2-patches.min.js'
 
-#' Process a layout argument (padding, margin, or inset)
-#'
-#' Convert a scalar or length-4 vector into named G2 layout options.
-#' A scalar sets the property directly (e.g., `padding = 20`). A length-4
-#' vector sets `Top`, `Right`, `Bottom`, `Left` variants; `NA` values are
-#' omitted.
-#'
-#' @param name Base name: `'padding'`, `'margin'`, or `'inset'`.
-#' @param value `NULL`, a scalar, or a length-4 numeric vector.
-#' @return A named list of layout options.
-#' @noRd
-process_layout = function(name, value) {
-  if (is.null(value)) return(list())
-  if (length(value) == 1) {
-    res = list(value)
-    names(res) = name
-    return(res)
-  }
-  if (length(value) != 4) stop(
-    "'", name, "' must be a scalar or a length-4 vector (top, right, bottom, left)"
-  )
-  sides = c('Top', 'Right', 'Bottom', 'Left')
-  res = stats::setNames(as.list(value), paste0(name, sides))
-  dropNulls(lapply(res, function(v) if (is.na(v)) NULL else v))
-}
-
 #' Create a G2 Chart Object
 #'
 #' Construct a base chart object, optionally with data and aesthetic mappings.
-#' Column names are passed as character strings.
+#' Column names are passed as character strings. You can also use a formula
+#' (e.g., `y ~ x`) to specify the mappings (see **Formula Interface**).
+#'
+#' @section Formula Interface:
+#' Instead of named aesthetic arguments, you can pass a formula as the first
+#' argument after `data`:
+#' \describe{
+#'   \item{`y ~ x`}{Maps `x` and `y` to the named columns.}
+#'   \item{`~ x`}{Maps only `x` (e.g., for histograms or bar counts).}
+#'   \item{`~ x1 + x2 + x3`}{Creates a `position` encoding with multiple
+#'     fields (for parallel coordinates).}
+#'   \item{`y ~ x | z`}{Facets the chart by `z` (column direction).}
+#'   \item{`y ~ x | z1 + z2`}{Facets by `z1` (columns) and `z2` (rows).}
+#' }
+#' Additional aesthetics (e.g., `color`, `size`) can still be passed as named
+#' arguments alongside the formula.
 #'
 #' @param data A data frame (or `NULL`).
-#' @param ... Aesthetic mappings as `name = 'column'` pairs (character strings).
+#' @param ... Aesthetic mappings as `name = 'column'` pairs (character strings),
+#'   or a formula followed by optional named aesthetics.
 #' @param width,height Width and height of the chart in pixels.
 #' @param padding,margin,inset Layout spacing in pixels. Each can be a scalar
 #'   (applied to all sides) or a length-4 vector `c(top, right, bottom, left)`;
@@ -63,10 +53,21 @@ process_layout = function(name, value) {
 #' @export
 #' @examples
 #' g2(mtcars, x = 'mpg', y = 'hp') |> mark_point()
+#'
+#' # Formula interface
+#' g2(mtcars, hp ~ mpg)
+#' g2(mtcars, hp ~ mpg, color = 'cyl')
+#' g2(mtcars, ~ mpg)
 g2 = function(
   data = NULL, ..., width = 640, height = 480,
   padding = NULL, margin = NULL, inset = NULL
 ) {
+  dots = list(...)
+  facet_from_formula = if (length(dots) && inherits(dots[[1]], 'formula')) {
+    parsed = parse_formula(dots[[1]])
+    dots = c(parsed$aesthetics, dots[-1])
+    parsed$facet
+  }
   chart = structure(list(
     data = data,
     options = list(width = width, height = height, autoFit = TRUE),
@@ -79,14 +80,13 @@ g2 = function(
     axes = list(),
     legends = list(),
     chart_title = NULL,
-    facet = NULL,
+    facet = facet_from_formula,
     layout = c(
       process_layout('padding', padding),
       process_layout('margin', margin),
       process_layout('inset', inset)
     )
   ), class = 'g2')
-  dots = list(...)
   if (length(dots)) chart$aesthetics = modifyList(chart$aesthetics, dots)
   chart
 }
@@ -108,31 +108,4 @@ encode = function(chart, ...) {
   chart
 }
 
-#' Annotate Data Frames for Column-Major JSON
-#'
-#' Recursively walks a nested list and wraps any data frame found in a `data`
-#' field with `list(type = 'column', value = df)` so that the G2 column-major
-#' helper script can convert it client-side.
-#'
-#' @param x A nested list.
-#' @return The annotated list.
-#' @noRd
-annotate_df = function(x) {
-  if (is.data.frame(x) || !is.list(x)) return(x)
-  nms = names(x)
-  if ('data' %in% nms) {
-    if (is.data.frame(d <- x$data)) {
-      x$data = list(type = 'column', value = d)
-    } else if (is.null(d)) x$data = NULL
-  }
-  idx = setdiff(nms, '')
-  idx = if (length(idx)) setdiff(idx, 'data') else seq_along(x)
-  for (i in idx) {
-    if (is.list(xi <- x[[i]])) x[[i]] = annotate_df(xi)
-  }
-  x
-}
 
-#' Remove NULL elements from a list
-#' @noRd
-dropNulls = function(x) x[!vapply(x, is.null, logical(1))]

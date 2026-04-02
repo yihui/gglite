@@ -20,6 +20,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@HEAD
 
+      - name: Checkout G2
+        uses: actions/checkout@HEAD
+        with:
+          repository: antvis/G2
+          path: G2
+
       - name: Install R
         uses: r-lib/actions/setup-r@HEAD
         with:

@@ -6,6 +6,13 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+```{r, setup, include = FALSE}
+if (!exists('penguins')) {
+  load(con <- url('https://cdn.jsdelivr.net/gh/r-devel/r-svn/src/library/datasets/data/penguins.rda'))
+  close(con)
+}
+```
+
 The **gglite** package provides a lightweight R interface to the
 [AntV G2](https://g2.antv.antgroup.com/) JavaScript visualization library. It
 follows the _Grammar of Graphics_ framework---the same theoretical foundation
@@ -43,6 +50,41 @@ You can also set encodings later with `encode()`:
 
 ```{r}
 g2(mtcars) |> encode(x = 'mpg', y = 'hp', color = 'cyl') |> mark_point()
+```
+
+### Formula interface
+
+You can use R formulas as a shorthand for aesthetic mappings. The left-hand
+side maps to `y` and the right-hand side maps to `x`:
+
+```{r}
+g2(mtcars, hp ~ mpg)
+```
+
+Additional aesthetics like `color` can be passed alongside the formula:
+
+```{r}
+g2(iris, Sepal.Length ~ Sepal.Width, color = 'Species')
+```
+
+Use `|` for faceting:
+
+```{r}
+g2(iris, Sepal.Length ~ Sepal.Width | Species)
+```
+
+A one-sided formula maps only `x` (useful for histograms or counts):
+
+```{r}
+g2(mtcars, ~ mpg)
+```
+
+Use `+` on the right-hand side for multiple position fields (parallel
+coordinates):
+
+```{r}
+g2(iris, ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width,
+  color = 'Species')
 ```
 
 ## Marks (geometries)
@@ -97,6 +139,86 @@ g2(df, x = 'x', y = 'y') |>
   mark_interval() |>
   mark_text(encode = list(text = 'y'))
 ```
+
+## Automatic marks
+
+When no `mark_*()` is added to the pipeline, gglite automatically chooses a
+mark based on the types of the `x` and `y` variables:
+
+| `x` type | `y` type | Mark | Chart type |
+|-----------|----------|------|------------|
+| numeric | numeric | `point` | Scatter plot |
+| categorical | numeric | `boxplot` | Box plot |
+| numeric | categorical | `boxplot` (transposed) | Horizontal box plot |
+| categorical | categorical | `cell` + `group` | Contingency table |
+| Date | numeric | `line` | Line chart |
+| numeric | _(none)_ | `interval` + `binX` | Histogram |
+| categorical | _(none)_ | `interval` + `groupX` | Count bar chart |
+| _(position)_ | _(none)_ | `line` + parallel | Parallel coordinates |
+
+This means you can often skip the mark entirely:
+
+### Scatter plot (numeric × numeric)
+
+```{r}
+g2(penguins, bill_len ~ bill_dep, color = 'species')
+```
+
+### Box plot (categorical × numeric)
+
+```{r}
+g2(penguins, bill_len ~ species)
+```
+
+### Horizontal box plot (numeric × categorical)
+
+```{r}
+g2(penguins, species ~ bill_len)
+```
+
+### Contingency table (categorical × categorical)
+
+Cells are automatically colored by the count of each combination:
+
+```{r}
+g2(penguins, island ~ species)
+```
+
+### Line chart (Date × numeric)
+
+```{r}
+df = data.frame(date = Sys.Date() + 0:9, value = cumsum(rnorm(10)))
+g2(df, value ~ date)
+```
+
+### Histogram (numeric only)
+
+```{r}
+g2(penguins, ~ bill_len)
+```
+
+### Count bar chart (categorical only)
+
+```{r}
+g2(penguins, ~ species)
+```
+
+### Parallel coordinates (multiple position fields)
+
+```{r}
+g2(penguins, ~ bill_len + bill_dep + flipper_len + body_mass, color = 'species')
+```
+
+You can still add scales, themes, titles, and other components as usual:
+
+```{r}
+g2(mtcars, hp ~ mpg, color = 'cyl') |>
+  scale_color(type = 'ordinal') |>
+  title_('Motor Trend Cars')
+```
+
+If you add any `mark_*()`, automatic detection is skipped entirely, so explicit
+marks always take priority.
 
 ## Scales
 
