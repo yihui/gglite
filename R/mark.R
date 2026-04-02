@@ -299,7 +299,7 @@ mark_density = function(chart = NULL, ...) {
         ))),
         encode = list(
           x = '.x', y = 'y', size = 'size',
-          color = color, series = color
+          color = color
         ),
         tooltip = FALSE
       )

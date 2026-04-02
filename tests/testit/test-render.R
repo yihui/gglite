@@ -88,12 +88,13 @@ assert('auto_mark: categorical x + numeric y, repeated -> beeswarm', {
   (is.null(res$coord))
 })
 
-assert('auto_mark: categorical x + numeric y, large groups -> beeswarm + boxplot', {
+assert('auto_mark: categorical x + numeric y, large groups -> beeswarm + density', {
   df = data.frame(x = rep(c('A', 'B'), each = 30), y = rnorm(60))
   res = auto_mark(df, list(x = 'x', y = 'y'))
   (length(res$marks) %==% 2L)
   (res$marks[[1]]$type %==% 'beeswarm')
-  (res$marks[[2]]$type %==% 'boxplot')
+  (res$marks[[2]]$type %==% 'density')
+  (!is.null(res$marks[[2]]$data$transform))
 })
 
 assert('auto_mark: numeric x + categorical y -> transpose', {

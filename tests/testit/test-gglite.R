@@ -215,15 +215,16 @@ assert('auto_mark: repeated categories produce beeswarm', {
   (auto$marks[[1]]$type %==% 'beeswarm')
 })
 
-assert('auto_mark: large groups produce beeswarm + boxplot', {
+assert('auto_mark: large groups produce beeswarm + density', {
   df = data.frame(x = rep(c('A', 'B'), each = 30), y = rnorm(60))
   auto = auto_mark(df, list(x = 'x', y = 'y'))
   (length(auto$marks) %==% 2L)
   (auto$marks[[1]]$type %==% 'beeswarm')
-  (auto$marks[[2]]$type %==% 'boxplot')
+  (auto$marks[[2]]$type %==% 'density')
+  (!is.null(auto$marks[[2]]$data$transform))
 })
 
-assert('auto_mark: no boxplot when smallest group has fewer than 30', {
+assert('auto_mark: no density when smallest group has fewer than 30', {
   df = data.frame(x = c(rep('A', 29), rep('B', 40)), y = rnorm(69))
   auto = auto_mark(df, list(x = 'x', y = 'y'))
   (length(auto$marks) %==% 1L)
@@ -246,13 +247,13 @@ assert('auto_mark: numeric x categorical (transposed) repeated -> beeswarm', {
   (!is.null(auto$coord))
 })
 
-assert('build_config generates multiple children for beeswarm + boxplot', {
+assert('build_config generates multiple children for beeswarm + density', {
   df = data.frame(x = rep(c('A', 'B'), each = 30), y = rnorm(60))
   chart = g2(df, x = 'x', y = 'y')
   config = build_config(chart)
   (length(config$children) %==% 2L)
   (config$children[[1]]$type %==% 'beeswarm')
-  (config$children[[2]]$type %==% 'boxplot')
+  (config$children[[2]]$type %==% 'density')
 })
 
 # ---- + operator (ggplot2-style syntax) ----

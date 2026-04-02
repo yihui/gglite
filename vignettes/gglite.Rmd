@@ -160,10 +160,10 @@ mark based on the types of the `x` and `y` variables:
 | numeric | numeric | `point` | Scatter plot |
 | categorical (unique) | numeric | `interval` | Bar plot |
 | categorical (repeated) | numeric | `beeswarm` | Beeswarm plot |
-| categorical (repeated, n ≥ 30) | numeric | `beeswarm` + `boxplot` | Beeswarm + box plot |
+| categorical (repeated, n ≥ 30) | numeric | `beeswarm` + `density` | Beeswarm + density |
 | numeric | categorical (unique) | `interval` (transposed) | Horizontal bar plot |
 | numeric | categorical (repeated) | `beeswarm` (transposed) | Horizontal beeswarm |
-| numeric | categorical (repeated, n ≥ 30) | `beeswarm` + `boxplot` (transposed) | Horizontal beeswarm + box plot |
+| numeric | categorical (repeated, n ≥ 30) | `beeswarm` + `density` (transposed) | Horizontal beeswarm + density |
 | categorical | categorical | `cell` + `group` | Contingency table |
 | Date | numeric | `line` | Line chart |
 | `ts`/`mts` | _(auto)_ | `line` | Time series line chart |
@@ -174,8 +174,8 @@ mark based on the types of the `x` and `y` variables:
 When `x` (or `y`) is categorical, the choice depends on whether the categories
 are unique in the data. If every category appears exactly once, a bar plot
 (`interval`) is drawn. If categories are repeated, a beeswarm plot shows
-individual data points. When all groups have at least 30 observations, a box
-plot is overlaid on the beeswarm for a summary view.
+individual data points. When all groups have at least 30 observations, a density
+curve is overlaid on the beeswarm for a summary view.
 
 This means you can often skip the mark entirely:
 
@@ -202,10 +202,10 @@ When categories are repeated, individual points are shown in a beeswarm layout:
 g2(iris, Sepal.Width ~ Species)
 ```
 
-### Beeswarm + box plot (categorical × numeric, large groups)
+### Beeswarm + density (categorical × numeric, large groups)
 
-When every group has at least 30 observations, a box plot is overlaid on the
-beeswarm:
+When every group has at least 30 observations, a density curve is overlaid on
+the beeswarm:
 
 ```{r}
 g2(penguins, bill_len ~ species)
