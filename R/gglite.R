@@ -63,11 +63,10 @@ g2 = function(
   padding = NULL, margin = NULL, inset = NULL
 ) {
   dots = list(...)
-  facet_from_formula = NULL
-  if (length(dots) && inherits(dots[[1]], 'formula')) {
+  facet_from_formula = if (length(dots) && inherits(dots[[1]], 'formula')) {
     parsed = parse_formula(dots[[1]])
     dots = c(parsed$aesthetics, dots[-1])
-    facet_from_formula = parsed$facet
+    parsed$facet
   }
   chart = structure(list(
     data = data,

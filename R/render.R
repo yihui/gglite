@@ -14,10 +14,7 @@ auto_mark = function(data, aesthetics) {
 
   # Multi-field position encoding → line mark + parallel coordinates
   if (length(aesthetics$position) > 1)
-    return(list(
-      mark = list(type = 'line'),
-      coord = list(type = 'parallel')
-    ))
+    return(list(mark = list(type = 'line'), coord = list(type = 'parallel')))
 
   x_col = aesthetics$x
   y_col = aesthetics$y
@@ -25,29 +22,24 @@ auto_mark = function(data, aesthetics) {
   y = if (!is.null(y_col) && y_col %in% names(data)) data[[y_col]]
   xt = var_type(x)
   yt = var_type(y)
-  mark = NULL
   coord = NULL
-  if (xt == 'numeric' && yt == 'numeric') {
-    mark = list(type = 'point', style = list(shape = 'point'))
+  mark = if (xt == 'numeric' && yt == 'numeric') {
+    list(type = 'point', style = list(shape = 'point'))
   } else if (xt == 'categorical' && yt == 'numeric') {
-    mark = list(type = 'interval')
+    list(type = 'interval')
   } else if (xt == 'numeric' && yt == 'categorical') {
-    mark = list(type = 'interval',
-      encode = list(x = y_col, y = x_col))
     coord = list(transform = list(list(type = 'transpose')))
+    list(type = 'interval', encode = list(x = y_col, y = x_col))
   } else if (xt == 'categorical' && yt == 'categorical') {
-    mark = list(type = 'cell')
+    list(type = 'cell')
   } else if (xt == 'date' && yt == 'numeric') {
-    mark = list(type = 'line')
+    list(type = 'line')
   } else if (xt == 'numeric' && yt == 'none') {
-    mark = list(type = 'interval',
-      transform = list(list(type = 'binX', y = 'count')))
+    list(type = 'interval', transform = list(list(type = 'binX', y = 'count')))
   } else if (xt == 'categorical' && yt == 'none') {
-    mark = list(type = 'interval',
-      transform = list(list(type = 'groupX', y = 'count')))
+    list(type = 'interval', transform = list(list(type = 'groupX', y = 'count')))
   }
-  if (is.null(mark)) return(NULL)
-  list(mark = mark, coord = coord)
+  if (!is.null(mark)) list(mark = mark, coord = coord)
 }
 
 # ---- Configuration builder ----
