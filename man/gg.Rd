@@ -16,7 +16,8 @@ gg(
   sub = NULL,
   by = NULL,
   facet = NULL,
-  alpha = NULL
+  alpha = NULL,
+  palette = NULL
 )
 }
 \arguments{
@@ -54,6 +55,11 @@ For more control, use \code{\link[=facet_rect]{facet_rect()}} or \code{\link[=fa
 of marks. A convenient alternative to calling
 \code{style_mark(fillOpacity = ..., strokeOpacity = ...)}. Inspired by
 tinyplot's \code{alpha} argument.}
+
+\item{palette}{Character string naming a color palette (e.g.,
+\code{'category10'}, \code{'tableau10'}, \code{'set2'}). A convenient alternative to
+calling \code{scale_color(palette = ...)}. Inspired by tinyplot's \code{palette}
+argument.}
 }
 \description{
 \code{gg()} is a convenient shorthand for \code{\link[=g2]{g2()}}, inspired by tinyplot's \code{plt()}

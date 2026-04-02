@@ -138,3 +138,8 @@ assert('g2() by argument sets color aesthetic', {
   chart = g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', by = 'Species')
   (chart$aesthetics$color %==% 'Species')
 })
+
+assert('g2() palette argument sets color scale palette', {
+  chart = g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', palette = 'set2')
+  (chart$scales$color$palette %==% 'set2')
+})

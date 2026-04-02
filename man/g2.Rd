@@ -16,7 +16,8 @@ g2(
   sub = NULL,
   by = NULL,
   facet = NULL,
-  alpha = NULL
+  alpha = NULL,
+  palette = NULL
 )
 }
 \arguments{
@@ -54,6 +55,11 @@ For more control, use \code{\link[=facet_rect]{facet_rect()}} or \code{\link[=fa
 of marks. A convenient alternative to calling
 \code{style_mark(fillOpacity = ..., strokeOpacity = ...)}. Inspired by
 tinyplot's \code{alpha} argument.}
+
+\item{palette}{Character string naming a color palette (e.g.,
+\code{'category10'}, \code{'tableau10'}, \code{'set2'}). A convenient alternative to
+calling \code{scale_color(palette = ...)}. Inspired by tinyplot's \code{palette}
+argument.}
 }
 \value{
 A \code{g2} object (S3 class).
@@ -106,4 +112,7 @@ g2(mtcars, hp ~ mpg, facet = gear ~ cyl)
 
 # Adjust opacity (like tinyplot's alpha)
 g2(iris, Sepal.Length ~ Sepal.Width | Species, alpha = 0.5)
+
+# Set color palette (like tinyplot's palette)
+g2(iris, Sepal.Length ~ Sepal.Width | Species, palette = 'set2')
 }

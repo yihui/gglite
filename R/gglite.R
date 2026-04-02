@@ -66,6 +66,10 @@ g2_patches_cdn = 'https://cdn.jsdelivr.net/npm/@xiee/utils@v1.14.30/js/g2-patche
 #'   of marks. A convenient alternative to calling
 #'   `style_mark(fillOpacity = ..., strokeOpacity = ...)`. Inspired by
 #'   tinyplot's `alpha` argument.
+#' @param palette Character string naming a color palette (e.g.,
+#'   `'category10'`, `'tableau10'`, `'set2'`). A convenient alternative to
+#'   calling `scale_color(palette = ...)`. Inspired by tinyplot's `palette`
+#'   argument.
 #' @return A `g2` object (S3 class).
 #' @import stats utils
 #' @export
@@ -96,10 +100,14 @@ g2_patches_cdn = 'https://cdn.jsdelivr.net/npm/@xiee/utils@v1.14.30/js/g2-patche
 #'
 #' # Adjust opacity (like tinyplot's alpha)
 #' g2(iris, Sepal.Length ~ Sepal.Width | Species, alpha = 0.5)
+#'
+#' # Set color palette (like tinyplot's palette)
+#' g2(iris, Sepal.Length ~ Sepal.Width | Species, palette = 'set2')
 g2 = function(
   data = NULL, ..., width = 640, height = 480,
   padding = NULL, margin = NULL, inset = NULL,
-  main = NULL, sub = NULL, by = NULL, facet = NULL, alpha = NULL
+  main = NULL, sub = NULL, by = NULL, facet = NULL, alpha = NULL,
+  palette = NULL
 ) {
   dots = list(...)
   by_from_formula = NULL
@@ -157,6 +165,7 @@ g2 = function(
   # by argument (explicit or from formula |) sets color grouping
   if (is.null(by) && !is.null(by_from_formula)) by = by_from_formula
   if (!is.null(by)) chart$aesthetics$color = by
+  if (!is.null(palette)) chart$scales$color = list(palette = palette)
   chart
 }
 
