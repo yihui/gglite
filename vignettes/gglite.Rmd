@@ -152,6 +152,7 @@ mark based on the types of the `x` and `y` variables:
 | numeric | categorical | `boxplot` (transposed) | Horizontal box plot |
 | categorical | categorical | `cell` + `group` | Contingency table |
 | Date | numeric | `line` | Line chart |
+| `ts`/`mts` | _(auto)_ | `line` | Time series line chart |
 | numeric | _(none)_ | `interval` + `binX` | Histogram |
 | categorical | _(none)_ | `interval` + `groupX` | Count bar chart |
 | _(position)_ | _(none)_ | `line` + parallel | Parallel coordinates |
@@ -219,6 +220,23 @@ g2(mtcars, hp ~ mpg, color = 'cyl') |>
 
 If you add any `mark_*()`, automatic detection is skipped entirely, so explicit
 marks always take priority.
+
+### Time series
+
+`g2()` also accepts R time series (`ts` and `mts`) objects directly. Univariate
+series are converted to a data frame with `time` and `value` columns;
+multivariate series are reshaped to long format with `time`, `series`, and
+`value` columns. The auto-mark feature draws a line chart automatically:
+
+```{r}
+g2(sunspot.year) |> title_('Yearly Sunspot Numbers (1700--1988)')
+```
+
+Multivariate time series produce one line per series:
+
+```{r}
+g2(EuStockMarkets) |> title_('EU Stock Markets (1991--1998)')
+```
 
 ## Scales
 

@@ -15,7 +15,11 @@ g2(
 )
 }
 \arguments{
-\item{data}{A data frame (or \code{NULL}).}
+\item{data}{A data frame, a \code{ts}/\code{mts} time series object, or \code{NULL}. Time
+series objects are automatically converted to data frames (with columns
+\code{time} and \code{value} for univariate series, or \code{time}, \code{series}, and \code{value}
+for multivariate series) and default aesthetic mappings are set
+accordingly.}
 
 \item{...}{Aesthetic mappings as \code{name = 'column'} pairs (character strings),
 or a formula followed by optional named aesthetics.}
@@ -58,4 +62,8 @@ g2(mtcars, x = 'mpg', y = 'hp') |> mark_point()
 g2(mtcars, hp ~ mpg)
 g2(mtcars, hp ~ mpg, color = 'cyl')
 g2(mtcars, ~ mpg)
+
+# Time series
+g2(sunspot.year)
+g2(EuStockMarkets)
 }

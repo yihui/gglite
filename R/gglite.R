@@ -40,7 +40,11 @@ g2_patches_cdn = 'https://cdn.jsdelivr.net/npm/@xiee/utils@v1.14.30/js/g2-patche
 #' Additional aesthetics (e.g., `color`, `size`) can still be passed as named
 #' arguments alongside the formula.
 #'
-#' @param data A data frame (or `NULL`).
+#' @param data A data frame, a `ts`/`mts` time series object, or `NULL`. Time
+#'   series objects are automatically converted to data frames (with columns
+#'   `time` and `value` for univariate series, or `time`, `series`, and `value`
+#'   for multivariate series) and default aesthetic mappings are set
+#'   accordingly.
 #' @param ... Aesthetic mappings as `name = 'column'` pairs (character strings),
 #'   or a formula followed by optional named aesthetics.
 #' @param width,height Width and height of the chart in pixels.
@@ -50,6 +54,7 @@ g2_patches_cdn = 'https://cdn.jsdelivr.net/npm/@xiee/utils@v1.14.30/js/g2-patche
 #'   unset.
 #' @return A `g2` object (S3 class).
 #' @importFrom utils modifyList
+#' @importFrom stats is.ts time
 #' @export
 #' @examples
 #' g2(mtcars, x = 'mpg', y = 'hp') |> mark_point()
@@ -58,15 +63,27 @@ g2_patches_cdn = 'https://cdn.jsdelivr.net/npm/@xiee/utils@v1.14.30/js/g2-patche
 #' g2(mtcars, hp ~ mpg)
 #' g2(mtcars, hp ~ mpg, color = 'cyl')
 #' g2(mtcars, ~ mpg)
+#'
+#' # Time series
+#' g2(sunspot.year)
+#' g2(EuStockMarkets)
 g2 = function(
   data = NULL, ..., width = 640, height = 480,
   padding = NULL, margin = NULL, inset = NULL
 ) {
   dots = list(...)
-  facet_from_formula = if (length(dots) && inherits(dots[[1]], 'formula')) {
+  has_formula = length(dots) && inherits(dots[[1]], 'formula')
+  facet_from_formula = if (has_formula) {
     parsed = parse_formula(dots[[1]])
     dots = c(parsed$aesthetics, dots[-1])
     parsed$facet
+  }
+  # Convert time series to data frame with default aesthetics
+  ts_aes = NULL
+  if (is.ts(data)) {
+    converted = ts_to_df(data)
+    data = converted$data
+    ts_aes = converted$aesthetics
   }
   chart = structure(list(
     data = data,
@@ -75,7 +92,8 @@ g2 = function(
     scales = list(),
     coords = NULL,
     interactions = list(),
-    aesthetics = list(),
+    aesthetics = if (!is.null(ts_aes) && !has_formula) ts_aes else list(),
+    ts_origin = !is.null(ts_aes),
     theme = NULL,
     axes = list(),
     legends = list(),
