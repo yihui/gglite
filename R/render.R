@@ -95,6 +95,18 @@ build_config = function(chart) {
     }
   }
 
+  # G2 highlight interactions (legendHighlight, elementHighlight, etc.)
+  # require explicit state config on marks to be visible; inject defaults when
+  # the user hasn't provided any
+  hi = c(
+    'legendHighlight', 'elementHighlight',
+    'elementHighlightByX', 'elementHighlightByColor'
+  )
+  if (any(hi %in% names(chart$interactions))) marks = lapply(marks, function(m) {
+    if (is.null(m$state$inactive)) m$state$inactive = list(opacity = 0.5)
+    m
+  })
+
   if (length(marks)) config$children = marks
 
   # Chart-wide config

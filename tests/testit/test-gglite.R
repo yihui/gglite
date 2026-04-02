@@ -140,6 +140,21 @@ assert('multiple interact() calls merge into one named list', {
   (chart$interactions$brushHighlight %==% TRUE)
 })
 
+assert('build_config injects inactive state for legendHighlight', {
+  chart = g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
+    interact('legendHighlight')
+  config = build_config(chart)
+  (config$children[[1]]$state$inactive$opacity %==% 0.5)
+})
+
+assert('build_config does not overwrite user-defined inactive state', {
+  chart = g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
+    mark_point(state = list(inactive = list(opacity = 0.3))) |>
+    interact('legendHighlight')
+  config = build_config(chart)
+  (config$children[[1]]$state$inactive$opacity %==% 0.3)
+})
+
 # ---- legend title fix ----
 
 assert('legend_ transforms title string to showTitle + titleText', {
