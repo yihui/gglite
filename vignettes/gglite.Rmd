@@ -336,6 +336,24 @@ g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
   facet_rect(x = 'Species')
 ```
 
+The formula interface supports faceting with `|`. Use `| var` for column facets,
+`| 0 + var` for row facets, and `| var1 + var2` for both:
+
+```{r}
+# Column facet: panels arranged in columns by species
+g2(penguins, bill_len ~ bill_dep | species)
+```
+
+```{r}
+# Row facet: panels arranged in rows by island
+g2(penguins, bill_len ~ bill_dep | 0 + island)
+```
+
+```{r}
+# Both: columns by species, rows by island
+g2(penguins, bill_len ~ bill_dep | species + island)
+```
+
 ## Themes
 
 Themes change the overall look. Built-in themes include `theme_classic()`

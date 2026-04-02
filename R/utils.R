@@ -125,7 +125,8 @@ extract_terms = function(expr) {
 #' - `y ~ x` maps to `list(x = 'x', y = 'y')`
 #' - `~ x` maps to `list(x = 'x')`
 #' - `~ x1 + x2 + x3` maps to `list(position = c('x1', 'x2', 'x3'))`
-#' - `y ~ x | z` adds faceting by `z`
+#' - `y ~ x | z` adds faceting by `z` (columns)
+#' - `y ~ x | 0 + z` adds faceting by `z` (rows)
 #' - `y ~ x | z1 + z2` adds faceting by `z1` (columns) and `z2` (rows)
 #'
 #' @param f A formula object.
@@ -154,13 +155,14 @@ parse_formula = function(f) {
     aesthetics$position = rhs_terms
   }
 
-  # Build facet
+  # Build facet: | var → column; | 0 + var → row; | var1 + var2 → both
   facet = NULL
   if (length(facet_terms)) {
-    enc = list()
-    if (length(facet_terms) >= 1) enc$x = facet_terms[1]
-    if (length(facet_terms) >= 2) enc$y = facet_terms[2]
-    facet = list(type = 'facetRect', encode = enc)
+    # A leading 0 shifts terms to row (y) instead of column (x)
+    nms = if (facet_terms[1] == '0') 'y' else c('x', 'y')
+    facet_terms = facet_terms[facet_terms != '0']
+    enc = setNames(as.list(facet_terms), head(nms, length(facet_terms)))
+    if (length(enc)) facet = list(type = 'facetRect', encode = enc)
   }
 
   list(aesthetics = aesthetics, facet = facet)

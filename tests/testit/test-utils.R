@@ -68,6 +68,20 @@ assert('parse_formula: y ~ x | z1 + z2', {
   (res$facet$encode$y %==% 'b')
 })
 
+assert('parse_formula: y ~ x | 0 + z (row facet)', {
+  res = parse_formula(hp ~ mpg | 0 + cyl)
+  (res$aesthetics$x %==% 'mpg')
+  (res$aesthetics$y %==% 'hp')
+  (res$facet$type %==% 'facetRect')
+  (is.null(res$facet$encode$x))
+  (res$facet$encode$y %==% 'cyl')
+})
+
+assert('parse_formula: y ~ x | 0 (bare 0, no facet)', {
+  res = parse_formula(hp ~ mpg | 0)
+  (is.null(res$facet))
+})
+
 assert('ts_to_df converts univariate ts', {
   res = ts_to_df(sunspot.year)
   (is.data.frame(res$data))
