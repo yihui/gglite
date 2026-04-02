@@ -6,3 +6,4 @@ test-all.mjs
 *.tar.gz
 .Rproj.user
 examples/*.html
+G2/

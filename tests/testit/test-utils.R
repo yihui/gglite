@@ -67,3 +67,27 @@ assert('parse_formula: y ~ x | z1 + z2', {
   (res$facet$encode$x %==% 'a')
   (res$facet$encode$y %==% 'b')
 })
+
+assert('ts_to_df converts univariate ts', {
+  res = ts_to_df(sunspot.year)
+  (is.data.frame(res$data))
+  (names(res$data) %==% c('time', 'value'))
+  (nrow(res$data) %==% length(sunspot.year))
+  (res$data$time[1] %==% 1700)
+  (res$data$value[1] %==% as.numeric(sunspot.year[1]))
+  (res$aesthetics$x %==% 'time')
+  (res$aesthetics$y %==% 'value')
+  (is.null(res$aesthetics$color))
+})
+
+assert('ts_to_df converts multivariate ts', {
+  res = ts_to_df(EuStockMarkets)
+  (is.data.frame(res$data))
+  (names(res$data) %==% c('time', 'series', 'value'))
+  (nrow(res$data) %==% (nrow(EuStockMarkets) * ncol(EuStockMarkets)))
+  (is.factor(res$data$series))
+  (levels(res$data$series) %==% colnames(EuStockMarkets))
+  (res$aesthetics$x %==% 'time')
+  (res$aesthetics$y %==% 'value')
+  (res$aesthetics$color %==% 'series')
+})

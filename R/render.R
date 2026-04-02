@@ -6,10 +6,11 @@
 #'
 #' @param data A data frame.
 #' @param aesthetics A named list of aesthetic mappings (column names).
+#' @param ts Whether the data originates from a time series object.
 #' @return A list with elements `mark` (a layer list) and `coord` (a coordinate
 #'   list or `NULL`), or `NULL`.
 #' @noRd
-auto_mark = function(data, aesthetics) {
+auto_mark = function(data, aesthetics, ts = FALSE) {
   if (is.null(data) || !is.data.frame(data)) return()
 
   # Multi-field position encoding → line mark + parallel coordinates
@@ -23,7 +24,9 @@ auto_mark = function(data, aesthetics) {
   xt = var_type(x)
   yt = var_type(y)
   coord = NULL
-  mark = if (xt == 'numeric' && yt == 'numeric') {
+  mark = if (ts && xt == 'numeric' && yt == 'numeric') {
+    list(type = 'line')
+  } else if (xt == 'numeric' && yt == 'numeric') {
     list(type = 'point', style = list(shape = 'point'))
   } else if (xt == 'categorical' && yt == 'numeric') {
     list(type = 'boxplot')
@@ -77,7 +80,7 @@ build_config = function(chart) {
 
   # Auto-detect mark type when no layers are configured
   if (!length(marks) && !is.null(chart$data)) {
-    auto = auto_mark(chart$data, chart$aesthetics)
+    auto = auto_mark(chart$data, chart$aesthetics, ts = isTRUE(chart$ts_origin))
     if (!is.null(auto)) {
       m = list(type = auto$mark$type)
       enc = chart$aesthetics
@@ -99,6 +102,12 @@ build_config = function(chart) {
   if (!is.null(chart$coords)) config$coordinate = chart$coords
   if (length(chart$interactions)) config$interaction = chart$interactions
   if (length(chart$axes)) config$axis = chart$axes
+  # Default y-axis title for time series data (use data object name)
+  if (isTRUE(chart$ts_origin) && !is.null(chart$ts_name)) {
+    y_ax = config$axis$y
+    if (is.null(y_ax$title))
+      config$axis$y = modifyList(as.list(y_ax), list(title = chart$ts_name))
+  }
   if (length(chart$legends)) config$legend = chart$legends
   if (!is.null(chart$chart_title)) config$title = chart$chart_title
   if (!is.null(chart$tooltip_config)) config$tooltip = chart$tooltip_config

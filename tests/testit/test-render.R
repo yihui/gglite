@@ -150,3 +150,68 @@ assert('build_config auto mark adds transpose for numeric x + cat y', {
   (config$children[[1]]$encode$x %==% 'Species')
   (config$children[[1]]$encode$y %==% 'Sepal.Width')
 })
+
+assert('auto_mark: ts numeric x + numeric y -> line', {
+  df = data.frame(time = 1:10, value = rnorm(10))
+  res = auto_mark(df, list(x = 'time', y = 'value'), ts = TRUE)
+  (res$mark$type %==% 'line')
+  (is.null(res$coord))
+})
+
+assert('auto_mark: ts = FALSE still gives point for numeric + numeric', {
+  df = data.frame(time = 1:10, value = rnorm(10))
+  res = auto_mark(df, list(x = 'time', y = 'value'), ts = FALSE)
+  (res$mark$type %==% 'point')
+})
+
+assert('build_config auto-detects line for univariate ts', {
+  chart = g2(sunspot.year)
+  config = build_config(chart)
+  (length(config$children) %==% 1L)
+  (config$children[[1]]$type %==% 'line')
+  (config$children[[1]]$encode$x %==% 'time')
+  (config$children[[1]]$encode$y %==% 'value')
+})
+
+assert('build_config auto-detects line for multivariate ts', {
+  chart = g2(EuStockMarkets)
+  config = build_config(chart)
+  (length(config$children) %==% 1L)
+  (config$children[[1]]$type %==% 'line')
+  (config$children[[1]]$encode$x %==% 'time')
+  (config$children[[1]]$encode$y %==% 'value')
+  (config$children[[1]]$encode$color %==% 'series')
+})
+
+assert('g2() ts conversion sets default aesthetics', {
+  chart = g2(sunspot.year)
+  (is.data.frame(chart$data))
+  (chart$aesthetics$x %==% 'time')
+  (chart$aesthetics$y %==% 'value')
+  (isTRUE(chart$ts_origin))
+})
+
+assert('g2() ts aesthetics can be overridden', {
+  chart = g2(sunspot.year, size = 'value')
+  (chart$aesthetics$x %==% 'time')
+  (chart$aesthetics$y %==% 'value')
+  (chart$aesthetics$size %==% 'value')
+})
+
+assert('build_config sets default y-axis title from ts name', {
+  chart = g2(sunspot.year)
+  config = build_config(chart)
+  (config$axis$y$title %==% 'sunspot.year')
+})
+
+assert('build_config ts y-axis title not set for non-ts data', {
+  chart = g2(mtcars, x = 'mpg', y = 'hp')
+  config = build_config(chart)
+  (is.null(config$axis$y$title))
+})
+
+assert('build_config ts y-axis title does not override user title', {
+  chart = g2(sunspot.year) |> axis_y(title = 'My Title')
+  config = build_config(chart)
+  (config$axis$y$title %==% 'My Title')
+})

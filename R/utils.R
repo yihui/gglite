@@ -13,6 +13,34 @@ var_type = function(x) {
   'numeric'
 }
 
+#' Convert a Time Series to a Data Frame
+#'
+#' Converts a `ts` (or `mts`) object into a data frame suitable for plotting.
+#' Univariate series produce columns `time` and `value`; multivariate series
+#' are reshaped to long format with columns `time`, `series`, and `value`.
+#'
+#' @param x A `ts` or `mts` object.
+#' @return A list with elements `data` (a data frame) and `aesthetics` (a named
+#'   list of default aesthetic mappings).
+#' @noRd
+ts_to_df = function(x) {
+  t = as.numeric(time(x))
+  if (NCOL(x) > 1) {
+    nms = colnames(x)
+    d = data.frame(
+      time = rep(t, length(nms)),
+      series = factor(rep(nms, each = length(t)), levels = nms),
+      value = as.numeric(x)
+    )
+    list(data = d, aesthetics = list(x = 'time', y = 'value', color = 'series'))
+  } else {
+    list(
+      data = data.frame(time = t, value = as.numeric(x)),
+      aesthetics = list(x = 'time', y = 'value')
+    )
+  }
+}
+
 #' Remove NULL Elements from a List
 #' @noRd
 dropNulls = function(x) x[!vapply(x, is.null, logical(1))]
@@ -39,7 +67,7 @@ process_layout = function(name, value) {
     "'", name, "' must be a scalar or a length-4 vector (top, right, bottom, left)"
   )
   sides = c('Top', 'Right', 'Bottom', 'Left')
-  res = stats::setNames(as.list(value), paste0(name, sides))
+  res = setNames(as.list(value), paste0(name, sides))
   dropNulls(lapply(res, function(v) if (is.na(v)) NULL else v))
 }
 
