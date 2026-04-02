@@ -157,7 +157,7 @@ g2 = function(
   }
   chart = structure(list(
     data = data,
-    options = list(width = width, height = height, autoFit = TRUE),
+    options = list(width = width, height = height, autoFit = if (is.null(width)) TRUE),
     layers = list(),
     scales = list(),
     coords = NULL,
