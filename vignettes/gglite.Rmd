@@ -43,8 +43,7 @@ A visualization in gglite is built by composing independent layers:
 Each layer is added with the pipe operator `|>`, so building a chart reads
 naturally from left to right. If you prefer the ggplot2 convention, you can
 also use `+` instead of `|>`---both operators produce identical results. Use
-whichever you prefer: `|>` is idiomatic R (>= 4.1), while `+` mirrors the
-ggplot2 style.
+whichever you prefer.
 
 ## Data and encodings
 
