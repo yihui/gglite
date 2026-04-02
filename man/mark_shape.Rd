@@ -4,7 +4,7 @@
 \alias{mark_shape}
 \title{Add a Shape Mark}
 \usage{
-mark_shape(chart, ...)
+mark_shape(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

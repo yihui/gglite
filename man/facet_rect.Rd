@@ -4,7 +4,7 @@
 \alias{facet_rect}
 \title{Facet by a Rectangular Grid}
 \usage{
-facet_rect(chart, ...)
+facet_rect(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

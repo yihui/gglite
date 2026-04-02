@@ -4,7 +4,7 @@
 \alias{mark_edge}
 \title{Add an Edge Mark}
 \usage{
-mark_edge(chart, ...)
+mark_edge(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

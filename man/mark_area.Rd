@@ -4,7 +4,7 @@
 \alias{mark_area}
 \title{Add an Area Mark}
 \usage{
-mark_area(chart, ...)
+mark_area(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

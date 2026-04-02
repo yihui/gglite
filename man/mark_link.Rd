@@ -4,7 +4,7 @@
 \alias{mark_link}
 \title{Add a Link Mark}
 \usage{
-mark_link(chart, ...)
+mark_link(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

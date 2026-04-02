@@ -4,7 +4,7 @@
 \alias{scale_opacity}
 \title{Configure the Opacity Scale}
 \usage{
-scale_opacity(chart, ...)
+scale_opacity(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

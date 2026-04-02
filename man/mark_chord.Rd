@@ -4,7 +4,7 @@
 \alias{mark_chord}
 \title{Add a Chord Mark}
 \usage{
-mark_chord(chart, ...)
+mark_chord(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

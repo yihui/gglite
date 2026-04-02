@@ -4,7 +4,7 @@
 \alias{coord_helix}
 \title{Helix Coordinate System}
 \usage{
-coord_helix(chart, ...)
+coord_helix(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

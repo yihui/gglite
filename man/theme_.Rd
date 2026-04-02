@@ -4,7 +4,7 @@
 \alias{theme_}
 \title{Set the Chart Theme}
 \usage{
-theme_(chart, type, ...)
+theme_(chart = NULL, type, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

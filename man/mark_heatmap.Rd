@@ -4,7 +4,7 @@
 \alias{mark_heatmap}
 \title{Add a Heatmap Mark}
 \usage{
-mark_heatmap(chart, ...)
+mark_heatmap(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

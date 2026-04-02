@@ -4,7 +4,7 @@
 \alias{animate}
 \title{Set Animation Options}
 \usage{
-animate(chart, ...)
+animate(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

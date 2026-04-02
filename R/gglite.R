@@ -20,6 +20,68 @@ g2_cdn = function() {
 
 g2_patches_cdn = 'https://cdn.jsdelivr.net/npm/@xiee/utils@v1.14.30/js/g2-patches.min.js'
 
+#' Create a Deferred Chart Modifier
+#'
+#' Wrap a modifier function and its arguments into a closure that can be applied
+#' later via the `+` operator. This enables ggplot2-style syntax like
+#' `g2(data) + mark_point() + theme_('dark')`.
+#'
+#' @param fn The modifier function to defer.
+#' @param args A list of arguments (excluding `chart`) to pass when applied.
+#' @return A function of class `g2_mod`.
+#' @noRd
+g2_mod = function(fn, args = list()) {
+  f = function(chart) do.call(fn, c(list(chart), args))
+  class(f) = 'g2_mod'
+  f
+}
+
+#' Check Chart and Defer if Needed
+#'
+#' If `chart` is a `g2` object, return `NULL` so the caller proceeds normally.
+#' If `chart` is a `g2_mod` (from a piped modifier), compose the two modifiers
+#' so that mixing `|>` and `+` operators works correctly. Otherwise, capture
+#' the arguments into a [g2_mod()] closure for later application via `+`.
+#'
+#' @param fn The modifier function to defer to.
+#' @param chart The `chart` argument from the modifier.
+#' @param args A list of remaining arguments (excluding `chart`).
+#' @return `NULL` if `chart` is a `g2` object, or a `g2_mod` closure.
+#' @noRd
+check_chart = function(fn, chart, args) {
+  if (inherits(chart, 'g2')) return()
+  if (inherits(chart, 'g2_mod')) {
+    prev = chart
+    this = g2_mod(fn, args)
+    f = function(c) this(prev(c))
+    class(f) = 'g2_mod'
+    return(f)
+  }
+  g2_mod(fn, c(if (!is.null(chart)) list(chart), args))
+}
+
+#' Add a Modifier to a G2 Chart
+#'
+#' Enables ggplot2-style `+` syntax for building charts. The right-hand side
+#' must be a deferred modifier created by calling a modifier function without
+#' a chart argument (e.g., `mark_point()`, `theme_('dark')`).
+#'
+#' @param e1 A `g2` object (the chart).
+#' @param e2 A `g2_mod` object (a deferred modifier).
+#' @return The modified `g2` object.
+#' @export
+#' @examples
+#' # These two are equivalent:
+#' g2(mtcars, x = 'mpg', y = 'hp') |> mark_point() |> theme_('dark')
+#' g2(mtcars, x = 'mpg', y = 'hp') + mark_point() + theme_('dark')
+`+.g2` = function(e1, e2) {
+  if (inherits(e2, 'g2_mod')) return(e2(e1))
+  stop(
+    'Cannot add an object of class "', class(e2)[1], '" to a g2 chart. ',
+    'Use a gglite modifier function (e.g., mark_point(), theme_(), scale_x()).'
+  )
+}
+
 #' Create a G2 Chart Object
 #'
 #' Construct a base chart object, optionally with data and aesthetic mappings.
@@ -130,7 +192,9 @@ g2 = function(
 #' @export
 #' @examples
 #' g2(mtcars) |> encode(x = 'mpg', y = 'hp')
-encode = function(chart, ...) {
+encode = function(chart = NULL, ...) {
+  mod = check_chart(encode, chart, list(...))
+  if (!is.null(mod)) return(mod)
   chart$aesthetics = modifyList(chart$aesthetics, list(...))
   chart
 }

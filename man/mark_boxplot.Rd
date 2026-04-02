@@ -4,7 +4,7 @@
 \alias{mark_boxplot}
 \title{Add a Box Plot Mark}
 \usage{
-mark_boxplot(chart, ...)
+mark_boxplot(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

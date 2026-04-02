@@ -4,7 +4,7 @@
 \alias{legend_opacity}
 \title{Configure the Opacity Legend}
 \usage{
-legend_opacity(chart, ...)
+legend_opacity(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

@@ -4,7 +4,7 @@
 \alias{mark_range}
 \title{Add a Range Mark}
 \usage{
-mark_range(chart, ...)
+mark_range(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

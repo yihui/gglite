@@ -4,7 +4,7 @@
 \alias{slider_}
 \title{Add a Slider}
 \usage{
-slider_(chart, channel, ...)
+slider_(chart = NULL, channel, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

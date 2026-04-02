@@ -4,7 +4,7 @@
 \alias{interact}
 \title{Add an Interaction}
 \usage{
-interact(chart, type, ...)
+interact(chart = NULL, type, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

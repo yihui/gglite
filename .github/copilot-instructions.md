@@ -209,7 +209,8 @@ as character strings, e.g., `g2(mtcars, x = 'mpg', y = 'hp')`.
    successfully before submitting ANY code changes.
 3. **MANDATORY: Wait for CI to be green**: After pushing code, you MUST wait
    for GitHub Actions CI to complete successfully before claiming the task is
-   done.
+   done. Do not wait more than 3 minutes for any single CI job; if it hasn't
+   finished, skip it and continue your work.
 4. **MANDATORY: Merge latest main before pushing**: Before pushing to a branch
    or PR, always pull and merge the latest main branch. If there are merge
    conflicts, resolve them before pushing.

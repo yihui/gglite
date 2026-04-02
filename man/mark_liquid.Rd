@@ -4,7 +4,7 @@
 \alias{mark_liquid}
 \title{Add a Liquid Mark}
 \usage{
-mark_liquid(chart, ...)
+mark_liquid(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

@@ -4,7 +4,7 @@
 \alias{scrollbar_y}
 \title{Add a Y Scrollbar}
 \usage{
-scrollbar_y(chart, ...)
+scrollbar_y(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

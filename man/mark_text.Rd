@@ -4,7 +4,7 @@
 \alias{mark_text}
 \title{Add a Text Mark}
 \usage{
-mark_text(chart, ...)
+mark_text(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

@@ -4,7 +4,7 @@
 \alias{scale_y}
 \title{Configure the Y Scale}
 \usage{
-scale_y(chart, ...)
+scale_y(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

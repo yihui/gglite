@@ -4,7 +4,7 @@
 \alias{scale_size}
 \title{Configure the Size Scale}
 \usage{
-scale_size(chart, ...)
+scale_size(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

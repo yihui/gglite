@@ -4,7 +4,7 @@
 \alias{facet_circle}
 \title{Facet in a Circular Layout}
 \usage{
-facet_circle(chart, ...)
+facet_circle(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

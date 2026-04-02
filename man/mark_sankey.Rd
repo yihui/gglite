@@ -4,7 +4,7 @@
 \alias{mark_sankey}
 \title{Add a Sankey Mark}
 \usage{
-mark_sankey(chart, ...)
+mark_sankey(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

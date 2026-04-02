@@ -4,7 +4,7 @@
 \alias{mark_image}
 \title{Add an Image Mark}
 \usage{
-mark_image(chart, ...)
+mark_image(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

@@ -4,7 +4,7 @@
 \alias{legend_size}
 \title{Configure the Size Legend}
 \usage{
-legend_size(chart, ...)
+legend_size(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

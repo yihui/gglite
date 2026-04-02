@@ -4,7 +4,7 @@
 \alias{coord_transpose}
 \title{Transpose (Flip) the Coordinate System}
 \usage{
-coord_transpose(chart)
+coord_transpose(chart = NULL)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

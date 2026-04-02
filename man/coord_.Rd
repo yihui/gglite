@@ -4,7 +4,7 @@
 \alias{coord_}
 \title{Set the Coordinate System}
 \usage{
-coord_(chart, type, ...)
+coord_(chart = NULL, type, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

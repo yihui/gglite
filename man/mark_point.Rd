@@ -4,7 +4,7 @@
 \alias{mark_point}
 \title{Add a Point Mark (Scatter Plot)}
 \usage{
-mark_point(chart, ...)
+mark_point(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

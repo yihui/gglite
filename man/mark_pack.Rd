@@ -4,7 +4,7 @@
 \alias{mark_pack}
 \title{Add a Pack (Circle Packing) Mark}
 \usage{
-mark_pack(chart, ...)
+mark_pack(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

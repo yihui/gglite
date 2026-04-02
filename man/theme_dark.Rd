@@ -4,7 +4,7 @@
 \alias{theme_dark}
 \title{Dark Theme}
 \usage{
-theme_dark(chart, ...)
+theme_dark(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

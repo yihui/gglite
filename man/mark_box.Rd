@@ -4,7 +4,7 @@
 \alias{mark_box}
 \title{Add a Box Mark}
 \usage{
-mark_box(chart, ...)
+mark_box(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

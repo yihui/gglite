@@ -4,7 +4,7 @@
 \alias{mark_line_x}
 \title{Add a Vertical Reference Line (lineX)}
 \usage{
-mark_line_x(chart, ...)
+mark_line_x(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

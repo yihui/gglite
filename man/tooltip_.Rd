@@ -4,7 +4,7 @@
 \alias{tooltip_}
 \title{Configure the Tooltip}
 \usage{
-tooltip_(chart, ...)
+tooltip_(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}
