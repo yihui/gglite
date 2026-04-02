@@ -502,11 +502,11 @@ tree_data = list(
         list(name = 'FastAPI', value = 30)
       ))
     )),
-    list(name = 'Data', value = 100),
-    list(name = 'DevOps', children = list(
-      list(name = 'Docker', value = 70),
-      list(name = 'K8s', value = 50)
-    ))
+    list(name = 'Data', children = list(
+      list(name = 'R', value = 100),
+      list(name = 'Julia', value = 40)
+    )),
+    list(name = 'DevOps', value = 120)
   )
 )
 g2() |>
