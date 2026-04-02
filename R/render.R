@@ -26,12 +26,21 @@ auto_mark = function(data, aesthetics, ts = FALSE) {
   coord = NULL
 
   # For categorical vs numeric: bar if categories are unique, beeswarm if
-  # repeated, and overlay boxplot when the smallest group has >= 30 values
-  cat_num_marks = function(cat_var) {
+  # repeated, and overlay density when the smallest group has >= 30 values
+  cat_num_marks = function(cat_var, cat_col, num_col) {
     if (!anyDuplicated(cat_var)) return(list(list(type = 'interval')))
     bee = list(type = 'beeswarm')
     freq = table(cat_var)
-    if (length(freq) && min(freq) >= 30) list(bee, list(type = 'boxplot'))
+    if (length(freq) && min(freq) >= 30) list(bee, list(
+      type = 'density',
+      data = list(transform = list(list(
+        type = 'kde', field = num_col,
+        groupBy = list(cat_col), size = 20L
+      ))),
+      encode = list(x = cat_col, y = 'y', size = 'size'),
+      tooltip = FALSE,
+      style = list(opacity = 0.5)
+    ))
     else list(bee)
   }
 
@@ -40,11 +49,13 @@ auto_mark = function(data, aesthetics, ts = FALSE) {
   } else if (xt == 'numeric' && yt == 'numeric') {
     list(list(type = 'point', style = list(shape = 'point')))
   } else if (xt == 'categorical' && yt == 'numeric') {
-    cat_num_marks(x)
+    cat_num_marks(x, x_col, y_col)
   } else if (xt == 'numeric' && yt == 'categorical') {
     coord = list(transform = list(list(type = 'transpose')))
     enc = list(x = y_col, y = x_col)
-    lapply(cat_num_marks(y), function(m) modifyList(m, list(encode = enc)))
+    lapply(cat_num_marks(y, y_col, x_col), function(m) {
+      if (is.null(m$encode)) modifyList(m, list(encode = enc)) else m
+    })
   } else if (xt == 'categorical' && yt == 'categorical') {
     if (is.null(aesthetics$color)) list(list(
       type = 'cell', encode = list(color = 'count'),
