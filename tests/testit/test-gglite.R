@@ -198,3 +198,130 @@ assert('build_config auto-sets time scale for Date columns', {
   config = build_config(chart)
   (config$scale$x$type %==% 'time')
 })
+
+# ---- + operator (ggplot2-style syntax) ----
+
+assert('+ operator works with mark_point()', {
+  chart = g2(mtcars, x = 'mpg', y = 'hp') + mark_point()
+  (inherits(chart, 'g2'))
+  (length(chart$layers) %==% 1L)
+  (chart$layers[[1]]$type %==% 'point')
+})
+
+assert('+ and |> produce identical results', {
+  pipe_chart = g2(mtcars, x = 'mpg', y = 'hp') |>
+    mark_point() |>
+    scale_x(type = 'log') |>
+    theme_('dark') |>
+    interact('tooltip')
+  plus_chart = g2(mtcars, x = 'mpg', y = 'hp') +
+    mark_point() +
+    scale_x(type = 'log') +
+    theme_('dark') +
+    interact('tooltip')
+  (pipe_chart$layers %==% plus_chart$layers)
+  (pipe_chart$scales %==% plus_chart$scales)
+  (pipe_chart$theme %==% plus_chart$theme)
+  (pipe_chart$interactions %==% plus_chart$interactions)
+})
+
+assert('+ works with encode()', {
+  chart = g2(mtcars) + encode(x = 'mpg', y = 'hp')
+  (chart$aesthetics$x %==% 'mpg')
+  (chart$aesthetics$y %==% 'hp')
+})
+
+assert('+ works with transform_()', {
+  chart = g2(mtcars, x = 'mpg', y = 'hp') +
+    mark_interval() + transform_('stackY')
+  (length(chart$layers[[1]]$transform) %==% 1L)
+  (chart$layers[[1]]$transform[[1]]$type %==% 'stackY')
+})
+
+assert('+ works with coord, facet, axis, legend, title, tooltip', {
+  chart = g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') +
+    coord_polar() +
+    facet_rect(x = 'Species') +
+    axis_x(title = 'Width') +
+    legend_color(position = 'right') +
+    title_('Iris') +
+    tooltip_(FALSE)
+  (chart$coords$type %==% 'polar')
+  (chart$facet$type %==% 'facetRect')
+  (chart$axes$x$title %==% 'Width')
+  (chart$legends$color$position %==% 'right')
+  (chart$chart_title %==% 'Iris')
+  (chart$tooltip_config %==% FALSE)
+})
+
+assert('+ works with animate, labels_, style_mark', {
+  chart = g2(mtcars, x = 'mpg', y = 'hp') +
+    mark_point() +
+    animate(enter = list(type = 'fadeIn')) +
+    labels_(text = 'hp') +
+    style_mark(fill = 'red')
+  (chart$layers[[1]]$animate$enter$type %==% 'fadeIn')
+  (length(chart$layers[[1]]$labels) %==% 1L)
+  (chart$layers[[1]]$style$fill %==% 'red')
+})
+
+assert('+ works with slider and scrollbar', {
+  chart = g2(mtcars, x = 'mpg', y = 'hp') +
+    slider_x() + scrollbar_y()
+  (chart$sliders$x %==% TRUE)
+  (chart$scrollbars$y %==% TRUE)
+})
+
+assert('modifier without chart returns g2_mod', {
+  mod = mark_point()
+  (inherits(mod, 'g2_mod'))
+  (is.function(mod))
+})
+
+assert('+ with non-modifier gives informative error', {
+  (has_error(g2(mtcars) + 42))
+})
+
+assert('+ works with parent functions (mark_, scale_, coord_)', {
+  chart = g2(mtcars, x = 'mpg', y = 'hp') +
+    mark_('point') + scale_('x', type = 'log') + coord_('polar')
+  (chart$layers[[1]]$type %==% 'point')
+  (chart$scales$x$type %==% 'log')
+  (chart$coords$type %==% 'polar')
+})
+
+assert('+ works with theme wrappers', {
+  chart = g2(mtcars, x = 'mpg', y = 'hp') + theme_dark()
+  (chart$theme$type %==% 'dark')
+})
+
+assert('+ works with coord_transpose', {
+  chart = g2(mtcars, x = 'mpg', y = 'hp') +
+    mark_interval() + coord_transpose()
+  (chart$coords$transform[[1]]$type %==% 'transpose')
+})
+
+# ---- mixing |> and + operators ----
+
+assert('mixing + and |> produces same result as pure |>', {
+  ref = g2(mtcars, x = 'mpg', y = 'hp') |>
+    mark_point() |> scale_x(type = 'log') |> theme_dark()
+  # + first, then |>
+  c1 = g2(mtcars, x = 'mpg', y = 'hp') + mark_point() |>
+    scale_x(type = 'log') |> theme_dark()
+  # |> first, then +
+  c2 = g2(mtcars, x = 'mpg', y = 'hp') |>
+    mark_point() + scale_x(type = 'log') |> theme_dark()
+  # interleaved: + mark |> scale + theme
+  c3 = g2(mtcars, x = 'mpg', y = 'hp') +
+    mark_point() |> scale_x(type = 'log') + theme_dark()
+  (c1$layers %==% ref$layers)
+  (c1$scales %==% ref$scales)
+  (c1$theme %==% ref$theme)
+  (c2$layers %==% ref$layers)
+  (c2$scales %==% ref$scales)
+  (c2$theme %==% ref$theme)
+  (c3$layers %==% ref$layers)
+  (c3$scales %==% ref$scales)
+  (c3$theme %==% ref$theme)
+})

@@ -4,7 +4,7 @@
 \alias{mark_line_y}
 \title{Add a Horizontal Reference Line (lineY)}
 \usage{
-mark_line_y(chart, ...)
+mark_line_y(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

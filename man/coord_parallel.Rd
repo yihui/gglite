@@ -4,7 +4,7 @@
 \alias{coord_parallel}
 \title{Parallel Coordinate System}
 \usage{
-coord_parallel(chart, ...)
+coord_parallel(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

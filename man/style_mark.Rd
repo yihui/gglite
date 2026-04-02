@@ -4,7 +4,7 @@
 \alias{style_mark}
 \title{Set Style on the Last Mark}
 \usage{
-style_mark(chart, ...)
+style_mark(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

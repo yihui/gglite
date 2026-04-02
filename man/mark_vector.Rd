@@ -4,7 +4,7 @@
 \alias{mark_vector}
 \title{Add a Vector Mark}
 \usage{
-mark_vector(chart, ...)
+mark_vector(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

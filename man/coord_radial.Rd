@@ -4,7 +4,7 @@
 \alias{coord_radial}
 \title{Radial Coordinate System}
 \usage{
-coord_radial(chart, ...)
+coord_radial(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

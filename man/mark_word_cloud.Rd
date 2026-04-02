@@ -4,7 +4,7 @@
 \alias{mark_word_cloud}
 \title{Add a Word Cloud Mark}
 \usage{
-mark_word_cloud(chart, ...)
+mark_word_cloud(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

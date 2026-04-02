@@ -4,7 +4,7 @@
 \alias{mark_node}
 \title{Add a Node Mark}
 \usage{
-mark_node(chart, ...)
+mark_node(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

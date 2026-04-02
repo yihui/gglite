@@ -4,7 +4,7 @@
 \alias{mark_tree}
 \title{Add a Tree Mark}
 \usage{
-mark_tree(chart, ...)
+mark_tree(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

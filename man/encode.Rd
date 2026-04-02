@@ -4,7 +4,7 @@
 \alias{encode}
 \title{Set Aesthetic Mappings}
 \usage{
-encode(chart, ...)
+encode(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

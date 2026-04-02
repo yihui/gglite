@@ -4,7 +4,7 @@
 \alias{scale_color}
 \title{Configure the Color Scale}
 \usage{
-scale_color(chart, ...)
+scale_color(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

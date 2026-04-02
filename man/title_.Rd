@@ -4,7 +4,7 @@
 \alias{title_}
 \title{Set the Chart Title}
 \usage{
-title_(chart, text, ...)
+title_(chart = NULL, text, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

@@ -4,7 +4,7 @@
 \alias{coord_theta}
 \title{Theta Coordinate System}
 \usage{
-coord_theta(chart, ...)
+coord_theta(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

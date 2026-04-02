@@ -4,7 +4,7 @@
 \alias{mark_gauge}
 \title{Add a Gauge Mark}
 \usage{
-mark_gauge(chart, ...)
+mark_gauge(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

@@ -4,7 +4,7 @@
 \alias{axis_}
 \title{Configure an Axis}
 \usage{
-axis_(chart, channel, ...)
+axis_(chart = NULL, channel, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

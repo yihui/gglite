@@ -4,7 +4,7 @@
 \alias{legend_}
 \title{Configure a Legend}
 \usage{
-legend_(chart, channel, ...)
+legend_(chart = NULL, channel, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

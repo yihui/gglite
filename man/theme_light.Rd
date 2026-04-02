@@ -4,7 +4,7 @@
 \alias{theme_light}
 \title{Light Theme}
 \usage{
-theme_light(chart, ...)
+theme_light(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

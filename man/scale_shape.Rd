@@ -4,7 +4,7 @@
 \alias{scale_shape}
 \title{Configure the Shape Scale}
 \usage{
-scale_shape(chart, ...)
+scale_shape(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

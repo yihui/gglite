@@ -4,7 +4,7 @@
 \alias{legend_color}
 \title{Configure the Color Legend}
 \usage{
-legend_color(chart, ...)
+legend_color(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

@@ -4,7 +4,7 @@
 \alias{mark_rect}
 \title{Add a Rect Mark}
 \usage{
-mark_rect(chart, ...)
+mark_rect(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

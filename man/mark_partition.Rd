@@ -4,7 +4,7 @@
 \alias{mark_partition}
 \title{Add a Partition (Sunburst) Mark}
 \usage{
-mark_partition(chart, ...)
+mark_partition(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

@@ -4,7 +4,7 @@
 \alias{coord_radar}
 \title{Radar Coordinate System}
 \usage{
-coord_radar(chart, ...)
+coord_radar(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

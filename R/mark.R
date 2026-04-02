@@ -11,7 +11,9 @@
 #' @export
 #' @examples
 #' g2(mtcars, x = 'mpg', y = 'hp') |> mark_('point')
-mark_ = function(chart, type, ...) {
+mark_ = function(chart = NULL, type, ...) {
+  mod = check_chart(mark_, chart, c(if (!missing(type)) list(type), list(...)))
+  if (!is.null(mod)) return(mod)
   layer = list(type = type)
   opts = list(...)
   if (length(opts)) layer = modifyList(layer, opts)
@@ -37,7 +39,7 @@ mark_ = function(chart, type, ...) {
 #' )
 #' g2(df, x = 'x', y = 'y', color = 'color') |>
 #'   mark_interval() |> transform_('stackY')
-mark_interval = function(chart, ...) mark_(chart, 'interval', ...)
+mark_interval = function(chart = NULL, ...) mark_(chart, 'interval', ...)
 
 #' Add a Line Mark
 #'
@@ -46,7 +48,7 @@ mark_interval = function(chart, ...) mark_(chart, 'interval', ...)
 #' @examples
 #' g2(data.frame(x = 1:5, y = c(3, 1, 4, 1, 5)), x = 'x', y = 'y') |>
 #'   mark_line()
-mark_line = function(chart, ...) mark_(chart, 'line', ...)
+mark_line = function(chart = NULL, ...) mark_(chart, 'line', ...)
 
 #' Add a Point Mark (Scatter Plot)
 #'
@@ -54,7 +56,7 @@ mark_line = function(chart, ...) mark_(chart, 'line', ...)
 #' @export
 #' @examples
 #' g2(mtcars, x = 'mpg', y = 'hp', color = 'cyl') |> mark_point()
-mark_point = function(chart, ...) {
+mark_point = function(chart = NULL, ...) {
   opts = modifyList(list(style = list(shape = 'point')), list(...))
   do.call(mark_, c(list(chart, 'point'), opts))
 }
@@ -66,7 +68,7 @@ mark_point = function(chart, ...) {
 #' @examples
 #' g2(data.frame(x = 1:5, y = c(3, 1, 4, 1, 5)), x = 'x', y = 'y') |>
 #'   mark_area()
-mark_area = function(chart, ...) mark_(chart, 'area', ...)
+mark_area = function(chart = NULL, ...) mark_(chart, 'area', ...)
 
 #' Add a Rect Mark
 #'
@@ -80,7 +82,7 @@ mark_area = function(chart, ...) mark_(chart, 'area', ...)
 #'   mark_rect(
 #'     transform = list(list(type = 'bin', thresholdsX = 10, thresholdsY = 10))
 #'   )
-mark_rect = function(chart, ...) mark_(chart, 'rect', ...)
+mark_rect = function(chart = NULL, ...) mark_(chart, 'rect', ...)
 
 #' Add a Cell Mark
 #'
@@ -92,7 +94,7 @@ mark_rect = function(chart, ...) mark_(chart, 'rect', ...)
 #' df = expand.grid(x = LETTERS[1:4], y = LETTERS[1:4])
 #' df$value = seq_len(nrow(df))
 #' g2(df, x = 'x', y = 'y', color = 'value') |> mark_cell()
-mark_cell = function(chart, ...) mark_(chart, 'cell', ...)
+mark_cell = function(chart = NULL, ...) mark_(chart, 'cell', ...)
 
 #' Add a Text Mark
 #'
@@ -103,7 +105,7 @@ mark_cell = function(chart, ...) mark_(chart, 'cell', ...)
 #' g2(df, x = 'x', y = 'y') |>
 #'   mark_interval() |>
 #'   mark_text(encode = list(text = 'y'))
-mark_text = function(chart, ...) mark_(chart, 'text', ...)
+mark_text = function(chart = NULL, ...) mark_(chart, 'text', ...)
 
 #' Add a Path Mark
 #'
@@ -117,7 +119,7 @@ mark_text = function(chart, ...) mark_(chart, 'text', ...)
 #' t = seq(0, 4 * pi, length.out = n)
 #' df = data.frame(x = t * cos(t), y = t * sin(t))
 #' g2(df, x = 'x', y = 'y') |> mark_path()
-mark_path = function(chart, ...) mark_(chart, 'path', ...)
+mark_path = function(chart = NULL, ...) mark_(chart, 'path', ...)
 
 #' Add a Polygon Mark
 #'
@@ -126,7 +128,7 @@ mark_path = function(chart, ...) mark_(chart, 'path', ...)
 #' @examples
 #' df = data.frame(x = c(0, 1, 0.5), y = c(0, 0, 1))
 #' g2(df, x = 'x', y = 'y') |> mark_polygon()
-mark_polygon = function(chart, ...) mark_(chart, 'polygon', ...)
+mark_polygon = function(chart = NULL, ...) mark_(chart, 'polygon', ...)
 
 #' Add an Image Mark
 #'
@@ -140,7 +142,7 @@ mark_polygon = function(chart, ...) mark_(chart, 'polygon', ...)
 #'   mark_image(style = list(
 #'     src = 'https://gw.alipayobjects.com/mdn/rms_dfc253/afts/img/A*SZGfRaFPkIoAAAAAAAAAAAAAARQnAQ'
 #'   ))
-mark_image = function(chart, ...) mark_(chart, 'image', ...)
+mark_image = function(chart = NULL, ...) mark_(chart, 'image', ...)
 
 #' Add a Link Mark
 #'
@@ -152,7 +154,7 @@ mark_image = function(chart, ...) mark_(chart, 'image', ...)
 #' df = data.frame(x = c(0, 1), y = c(0, 0), x1 = c(1, 2), y1 = c(1, 1))
 #' g2(df) |>
 #'   mark_link(encode = list(x = c('x', 'x1'), y = c('y', 'y1')))
-mark_link = function(chart, ...) mark_(chart, 'link', ...)
+mark_link = function(chart = NULL, ...) mark_(chart, 'link', ...)
 
 # ---- Reference / annotation marks ----
 
@@ -165,7 +167,7 @@ mark_link = function(chart, ...) mark_(chart, 'link', ...)
 #'   mark_point() |>
 #'   mark_line_x(data = list(list(x = 20)),
 #'     style = list(stroke = 'red', lineDash = c(4, 4)))
-mark_line_x = function(chart, ...) mark_(chart, 'lineX', ...)
+mark_line_x = function(chart = NULL, ...) mark_(chart, 'lineX', ...)
 
 #' Add a Horizontal Reference Line (lineY)
 #'
@@ -176,7 +178,7 @@ mark_line_x = function(chart, ...) mark_(chart, 'lineX', ...)
 #'   mark_point() |>
 #'   mark_line_y(data = list(list(y = 150)),
 #'     style = list(stroke = 'red', lineDash = c(4, 4)))
-mark_line_y = function(chart, ...) mark_(chart, 'lineY', ...)
+mark_line_y = function(chart = NULL, ...) mark_(chart, 'lineY', ...)
 
 #' Add a Range Mark
 #'
@@ -189,7 +191,7 @@ mark_line_y = function(chart, ...) mark_(chart, 'lineY', ...)
 #'     data = list(list(x = c(15, 25), y = c(100, 200))),
 #'     style = list(fill = 'steelblue', fillOpacity = 0.15)
 #'   )
-mark_range = function(chart, ...) mark_(chart, 'range', ...)
+mark_range = function(chart = NULL, ...) mark_(chart, 'range', ...)
 
 #' Add a Horizontal Range (rangeX)
 #'
@@ -200,7 +202,7 @@ mark_range = function(chart, ...) mark_(chart, 'range', ...)
 #'   mark_point() |>
 #'   mark_range_x(data = list(list(x = c(15, 25))),
 #'     style = list(fill = 'steelblue', fillOpacity = 0.15))
-mark_range_x = function(chart, ...) mark_(chart, 'rangeX', ...)
+mark_range_x = function(chart = NULL, ...) mark_(chart, 'rangeX', ...)
 
 #' Add a Vertical Range (rangeY)
 #'
@@ -211,7 +213,7 @@ mark_range_x = function(chart, ...) mark_(chart, 'rangeX', ...)
 #'   mark_point() |>
 #'   mark_range_y(data = list(list(y = c(100, 200))),
 #'     style = list(fill = 'orange', fillOpacity = 0.15))
-mark_range_y = function(chart, ...) mark_(chart, 'rangeY', ...)
+mark_range_y = function(chart = NULL, ...) mark_(chart, 'rangeY', ...)
 
 #' Add a Connector Mark
 #'
@@ -228,7 +230,7 @@ mark_range_y = function(chart, ...) mark_(chart, 'rangeY', ...)
 #'     encode = list(x = 'x', x1 = 'x1'),
 #'     labels = list(list(text = '+133%'))
 #'   )
-mark_connector = function(chart, ...) mark_(chart, 'connector', ...)
+mark_connector = function(chart = NULL, ...) mark_(chart, 'connector', ...)
 
 # ---- Statistical / composite marks ----
 
@@ -238,7 +240,7 @@ mark_connector = function(chart, ...) mark_(chart, 'connector', ...)
 #'
 #' @inheritParams mark_
 #' @export
-mark_box = function(chart, ...) mark_(chart, 'box', ...)
+mark_box = function(chart = NULL, ...) mark_(chart, 'box', ...)
 
 #' Add a Box Plot Mark
 #'
@@ -249,7 +251,7 @@ mark_box = function(chart, ...) mark_(chart, 'box', ...)
 #' @export
 #' @examples
 #' g2(iris, x = 'Species', y = 'Sepal.Width') |> mark_boxplot()
-mark_boxplot = function(chart, ...) mark_(chart, 'boxplot', ...)
+mark_boxplot = function(chart = NULL, ...) mark_(chart, 'boxplot', ...)
 
 #' Add a Density Mark
 #'
@@ -261,7 +263,7 @@ mark_boxplot = function(chart, ...) mark_(chart, 'boxplot', ...)
 #'
 #' @inheritParams mark_
 #' @export
-mark_density = function(chart, ...) mark_(chart, 'density', ...)
+mark_density = function(chart = NULL, ...) mark_(chart, 'density', ...)
 
 #' Add a Heatmap Mark
 #'
@@ -272,7 +274,7 @@ mark_density = function(chart, ...) mark_(chart, 'density', ...)
 #' @examples
 #' g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Petal.Length') |>
 #'   mark_heatmap()
-mark_heatmap = function(chart, ...) mark_(chart, 'heatmap', ...)
+mark_heatmap = function(chart = NULL, ...) mark_(chart, 'heatmap', ...)
 
 #' Add a Vector Mark
 #'
@@ -280,7 +282,7 @@ mark_heatmap = function(chart, ...) mark_(chart, 'heatmap', ...)
 #'
 #' @inheritParams mark_
 #' @export
-mark_vector = function(chart, ...) mark_(chart, 'vector', ...)
+mark_vector = function(chart = NULL, ...) mark_(chart, 'vector', ...)
 
 # ---- Graph marks ----
 
@@ -290,7 +292,7 @@ mark_vector = function(chart, ...) mark_(chart, 'vector', ...)
 #'
 #' @inheritParams mark_
 #' @export
-mark_node = function(chart, ...) mark_(chart, 'node', ...)
+mark_node = function(chart = NULL, ...) mark_(chart, 'node', ...)
 
 #' Add an Edge Mark
 #'
@@ -298,7 +300,7 @@ mark_node = function(chart, ...) mark_(chart, 'node', ...)
 #'
 #' @inheritParams mark_
 #' @export
-mark_edge = function(chart, ...) mark_(chart, 'edge', ...)
+mark_edge = function(chart = NULL, ...) mark_(chart, 'edge', ...)
 
 # ---- Layout marks (complex / composite) ----
 
@@ -319,7 +321,7 @@ mark_edge = function(chart, ...) mark_(chart, 'edge', ...)
 #'     encode = list(source = 'source', target = 'target', value = 'value'),
 #'     layout = list(nodeAlign = 'center')
 #'   )
-mark_sankey = function(chart, ...) mark_(chart, 'sankey', ...)
+mark_sankey = function(chart = NULL, ...) mark_(chart, 'sankey', ...)
 
 #' Add a Chord Mark
 #'
@@ -337,7 +339,7 @@ mark_sankey = function(chart, ...) mark_(chart, 'sankey', ...)
 #'   mark_chord(
 #'     encode = list(source = 'source', target = 'target', value = 'value')
 #'   )
-mark_chord = function(chart, ...) mark_(chart, 'chord', ...)
+mark_chord = function(chart = NULL, ...) mark_(chart, 'chord', ...)
 
 #' Add a Treemap Mark
 #'
@@ -359,7 +361,7 @@ mark_chord = function(chart, ...) mark_(chart, 'chord', ...)
 #'     data = list(value = tree_data),
 #'     encode = list(value = 'value')
 #'   )
-mark_treemap = function(chart, ...) mark_(chart, 'treemap', ...)
+mark_treemap = function(chart = NULL, ...) mark_(chart, 'treemap', ...)
 
 #' Add a Pack (Circle Packing) Mark
 #'
@@ -378,7 +380,7 @@ mark_treemap = function(chart, ...) mark_(chart, 'treemap', ...)
 #'     data = list(value = tree_data),
 #'     encode = list(value = 'value', color = 'name')
 #'   )
-mark_pack = function(chart, ...) mark_(chart, 'pack', ...)
+mark_pack = function(chart = NULL, ...) mark_(chart, 'pack', ...)
 
 #' Add a Force Graph Mark
 #'
@@ -386,7 +388,7 @@ mark_pack = function(chart, ...) mark_(chart, 'pack', ...)
 #'
 #' @inheritParams mark_
 #' @export
-mark_force_graph = function(chart, ...) mark_(chart, 'forceGraph', ...)
+mark_force_graph = function(chart = NULL, ...) mark_(chart, 'forceGraph', ...)
 
 #' Add a Tree Mark
 #'
@@ -394,7 +396,7 @@ mark_force_graph = function(chart, ...) mark_(chart, 'forceGraph', ...)
 #'
 #' @inheritParams mark_
 #' @export
-mark_tree = function(chart, ...) mark_(chart, 'tree', ...)
+mark_tree = function(chart = NULL, ...) mark_(chart, 'tree', ...)
 
 #' Add a Word Cloud Mark
 #'
@@ -407,13 +409,13 @@ mark_tree = function(chart, ...) mark_(chart, 'tree', ...)
 #' )
 #' g2(df) |>
 #'   mark_word_cloud(encode = list(text = 'text', value = 'value', color = 'text'))
-mark_word_cloud = function(chart, ...) mark_(chart, 'wordCloud', ...)
+mark_word_cloud = function(chart = NULL, ...) mark_(chart, 'wordCloud', ...)
 
 #' Add a Gauge Mark
 #'
 #' @inheritParams mark_
 #' @export
-mark_gauge = function(chart, ...) mark_(chart, 'gauge', ...)
+mark_gauge = function(chart = NULL, ...) mark_(chart, 'gauge', ...)
 
 #' Add a Liquid Mark
 #'
@@ -426,7 +428,7 @@ mark_gauge = function(chart, ...) mark_(chart, 'gauge', ...)
 #'   mark_liquid(data = list(list(value = 0.3)),
 #'     encode = list(y = 'value'),
 #'     style = list(textContent = '30%'))
-mark_liquid = function(chart, ...) mark_(chart, 'liquid', ...)
+mark_liquid = function(chart = NULL, ...) mark_(chart, 'liquid', ...)
 
 #' Add a Shape Mark
 #'
@@ -434,7 +436,7 @@ mark_liquid = function(chart, ...) mark_(chart, 'liquid', ...)
 #'
 #' @inheritParams mark_
 #' @export
-mark_shape = function(chart, ...) mark_(chart, 'shape', ...)
+mark_shape = function(chart = NULL, ...) mark_(chart, 'shape', ...)
 
 #' Add a Partition (Sunburst) Mark
 #'
@@ -446,4 +448,4 @@ mark_shape = function(chart, ...) mark_(chart, 'shape', ...)
 #'
 #' @inheritParams mark_
 #' @export
-mark_partition = function(chart, ...) mark_(chart, 'partition', ...)
+mark_partition = function(chart = NULL, ...) mark_(chart, 'partition', ...)

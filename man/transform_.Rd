@@ -4,7 +4,7 @@
 \alias{transform_}
 \title{Add a Data Transform to the Last Mark}
 \usage{
-transform_(chart, type, ...)
+transform_(chart = NULL, type, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

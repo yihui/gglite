@@ -4,7 +4,7 @@
 \alias{mark_density}
 \title{Add a Density Mark}
 \usage{
-mark_density(chart, ...)
+mark_density(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

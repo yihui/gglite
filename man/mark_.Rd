@@ -4,7 +4,7 @@
 \alias{mark_}
 \title{Add a Geometry Layer (Mark)}
 \usage{
-mark_(chart, type, ...)
+mark_(chart = NULL, type, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

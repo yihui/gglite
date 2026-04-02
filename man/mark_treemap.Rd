@@ -4,7 +4,7 @@
 \alias{mark_treemap}
 \title{Add a Treemap Mark}
 \usage{
-mark_treemap(chart, ...)
+mark_treemap(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

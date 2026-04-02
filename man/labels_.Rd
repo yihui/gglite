@@ -4,7 +4,7 @@
 \alias{labels_}
 \title{Add Labels to the Last Mark}
 \usage{
-labels_(chart, ...)
+labels_(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

@@ -25,7 +25,9 @@
 #' # Ordinal colour palette
 #' g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
 #'   scale_('color', palette = 'category10')
-scale_ = function(chart, field, ...) {
+scale_ = function(chart = NULL, field, ...) {
+  mod = check_chart(scale_, chart, c(if (!missing(field)) list(field), list(...)))
+  if (!is.null(mod)) return(mod)
   chart$scales[[field]] = list(...)
   chart
 }
@@ -37,7 +39,7 @@ scale_ = function(chart, field, ...) {
 #' @examples
 #' g2(mtcars, x = 'mpg', y = 'hp') |>
 #'   scale_x(type = 'log')
-scale_x = function(chart, ...) scale_(chart, 'x', ...)
+scale_x = function(chart = NULL, ...) scale_(chart, 'x', ...)
 
 #' Configure the Y Scale
 #'
@@ -46,7 +48,7 @@ scale_x = function(chart, ...) scale_(chart, 'x', ...)
 #' @examples
 #' g2(mtcars, x = 'mpg', y = 'hp') |>
 #'   scale_y(type = 'sqrt')
-scale_y = function(chart, ...) scale_(chart, 'y', ...)
+scale_y = function(chart = NULL, ...) scale_(chart, 'y', ...)
 
 #' Configure the Color Scale
 #'
@@ -55,7 +57,7 @@ scale_y = function(chart, ...) scale_(chart, 'y', ...)
 #' @examples
 #' g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
 #'   scale_color(palette = 'category10')
-scale_color = function(chart, ...) scale_(chart, 'color', ...)
+scale_color = function(chart = NULL, ...) scale_(chart, 'color', ...)
 
 #' Configure the Size Scale
 #'
@@ -64,7 +66,7 @@ scale_color = function(chart, ...) scale_(chart, 'color', ...)
 #' @examples
 #' g2(mtcars, x = 'mpg', y = 'hp', size = 'wt') |>
 #'   scale_size(range = c(2, 10))
-scale_size = function(chart, ...) scale_(chart, 'size', ...)
+scale_size = function(chart = NULL, ...) scale_(chart, 'size', ...)
 
 #' Configure the Shape Scale
 #'
@@ -73,7 +75,7 @@ scale_size = function(chart, ...) scale_(chart, 'size', ...)
 #' @examples
 #' g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', shape = 'Species') |>
 #'   scale_shape(range = c('circle', 'square', 'triangle'))
-scale_shape = function(chart, ...) scale_(chart, 'shape', ...)
+scale_shape = function(chart = NULL, ...) scale_(chart, 'shape', ...)
 
 #' Configure the Opacity Scale
 #'
@@ -82,4 +84,4 @@ scale_shape = function(chart, ...) scale_(chart, 'shape', ...)
 #' @examples
 #' g2(mtcars, x = 'mpg', y = 'hp', opacity = 'wt') |>
 #'   scale_opacity(range = c(0.2, 1))
-scale_opacity = function(chart, ...) scale_(chart, 'opacity', ...)
+scale_opacity = function(chart = NULL, ...) scale_(chart, 'opacity', ...)

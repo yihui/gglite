@@ -4,7 +4,7 @@
 \alias{legend_shape}
 \title{Configure the Shape Legend}
 \usage{
-legend_shape(chart, ...)
+legend_shape(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

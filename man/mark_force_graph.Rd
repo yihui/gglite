@@ -4,7 +4,7 @@
 \alias{mark_force_graph}
 \title{Add a Force Graph Mark}
 \usage{
-mark_force_graph(chart, ...)
+mark_force_graph(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

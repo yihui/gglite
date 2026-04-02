@@ -4,7 +4,7 @@
 \alias{mark_polygon}
 \title{Add a Polygon Mark}
 \usage{
-mark_polygon(chart, ...)
+mark_polygon(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

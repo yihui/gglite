@@ -4,7 +4,7 @@
 \alias{mark_connector}
 \title{Add a Connector Mark}
 \usage{
-mark_connector(chart, ...)
+mark_connector(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

@@ -4,7 +4,7 @@
 \alias{mark_path}
 \title{Add a Path Mark}
 \usage{
-mark_path(chart, ...)
+mark_path(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

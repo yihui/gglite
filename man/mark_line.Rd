@@ -4,7 +4,7 @@
 \alias{mark_line}
 \title{Add a Line Mark}
 \usage{
-mark_line(chart, ...)
+mark_line(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

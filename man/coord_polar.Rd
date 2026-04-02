@@ -4,7 +4,7 @@
 \alias{coord_polar}
 \title{Polar Coordinate System}
 \usage{
-coord_polar(chart, ...)
+coord_polar(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

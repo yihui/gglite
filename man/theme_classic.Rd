@@ -4,7 +4,7 @@
 \alias{theme_classic}
 \title{Classic Theme}
 \usage{
-theme_classic(chart, ...)
+theme_classic(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

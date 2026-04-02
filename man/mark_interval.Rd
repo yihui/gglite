@@ -4,7 +4,7 @@
 \alias{mark_interval}
 \title{Add an Interval Mark (Bar / Column Chart)}
 \usage{
-mark_interval(chart, ...)
+mark_interval(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

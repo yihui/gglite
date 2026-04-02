@@ -4,7 +4,7 @@
 \alias{mark_range_y}
 \title{Add a Vertical Range (rangeY)}
 \usage{
-mark_range_y(chart, ...)
+mark_range_y(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

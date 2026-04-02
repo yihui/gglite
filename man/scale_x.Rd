@@ -4,7 +4,7 @@
 \alias{scale_x}
 \title{Configure the X Scale}
 \usage{
-scale_x(chart, ...)
+scale_x(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

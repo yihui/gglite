@@ -4,7 +4,7 @@
 \alias{mark_cell}
 \title{Add a Cell Mark}
 \usage{
-mark_cell(chart, ...)
+mark_cell(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

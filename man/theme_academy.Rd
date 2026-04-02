@@ -4,7 +4,7 @@
 \alias{theme_academy}
 \title{Academy Theme}
 \usage{
-theme_academy(chart, ...)
+theme_academy(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}

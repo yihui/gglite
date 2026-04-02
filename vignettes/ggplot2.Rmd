@@ -1,5 +1,13 @@
 ---
 title: "gglite for ggplot2 Users"
+output:
+  html:
+    meta:
+      css: ['@default', '@article', '@copy-button', '@heading-anchor', '@pages']
+      js: ['@sidenotes', '@appendix', '@toc-highlight', '@copy-button', '@heading-anchor', '@pages']
+    options:
+      toc: true
+      number_sections: true
 vignette: >
   %\VignetteIndexEntry{gglite for ggplot2 Users}
   %\VignetteEngine{litedown::vignette}
@@ -17,7 +25,7 @@ you can get started quickly.
 | ggplot2 | gglite | Notes |
 |:--------|:-------|:------|
 | `ggplot(data, aes(x, y))` | `g2(data, x = 'x', y = 'y')` | Column names are **character strings**, not bare symbols |
-| `+` operator | `\|>` pipe | gglite uses the native pipe |
+| `+` operator | `\|>` or `+` | gglite supports both |
 | `geom_point()` | `mark_point()` | "geom" → "mark" |
 | `scale_x_log10()` | `scale_x(type = 'log')` | Helper functions for each channel |
 | `coord_flip()` | `coord_transpose()` | |
@@ -307,6 +315,28 @@ especially useful for presentations and dashboards.
 gglite generates self-contained HTML with no R runtime dependency. The output
 works in any modern browser, making it easy to share via email, embed in
 websites, or include in R Markdown / litedown documents.
+
+## Using `+` instead of `|>`
+
+If you are used to ggplot2's `+` operator, you can use it in gglite too. Both
+operators produce identical results, and you can even mix them freely in the
+same expression:
+
+```r
+# ggplot2 style (+ operator)
+g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') +
+  scale_color(palette = 'set2') +
+  title_('Iris Dataset')
+
+# Pipe style (|> operator)
+g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
+  scale_color(palette = 'set2') |>
+  title_('Iris Dataset')
+
+# Mixed (both work fine together)
+g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
+  scale_color(palette = 'set2') + title_('Iris Dataset')
+```
 
 ## Quick-reference cheat sheet
 
