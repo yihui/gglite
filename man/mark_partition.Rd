@@ -13,6 +13,9 @@ mark_partition(chart, ...)
 \code{transform}, \code{style}, \code{animate}, \code{labels}, \code{tooltip}, \code{axis}, \code{legend}.}
 }
 \description{
-Note: the \code{partition} mark may not work correctly in G2 v5. Consider using
-\code{\link[=mark_treemap]{mark_treemap()}} as an alternative for hierarchical data visualization.
+A composite mark for hierarchical partition (sunburst/icicle) visualization.
+The data should be a nested tree structure wrapped in a list (i.e., the
+\code{value} in \code{data = list(type = 'inline', value = list(tree))} should be a
+list containing the root node). Use \code{coordinate = list(type = 'theta')} for
+a sunburst layout, or the default Cartesian coordinates for an icicle chart.
 }

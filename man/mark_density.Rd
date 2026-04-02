@@ -13,7 +13,9 @@ mark_density(chart, ...)
 \code{transform}, \code{style}, \code{animate}, \code{labels}, \code{tooltip}, \code{axis}, \code{legend}.}
 }
 \description{
-A composite mark for kernel density estimation visualization. Note that
-G2 v5 does not support the \code{kde} transform; use \code{\link[=mark_heatmap]{mark_heatmap()}} as an
-alternative for 2-D density visualizations.
+A composite mark for univariate kernel density estimation visualization.
+The data should contain a numeric column for density estimation and
+optionally categorical columns for grouping. A \code{kde} (Kernel Density
+Estimation) data transform is required to compute the density curve from
+the raw data.
 }

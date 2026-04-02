@@ -253,9 +253,11 @@ mark_boxplot = function(chart, ...) mark_(chart, 'boxplot', ...)
 
 #' Add a Density Mark
 #'
-#' A composite mark for kernel density estimation visualization. Note that
-#' G2 v5 does not support the `kde` transform; use [mark_heatmap()] as an
-#' alternative for 2-D density visualizations.
+#' A composite mark for univariate kernel density estimation visualization.
+#' The data should contain a numeric column for density estimation and
+#' optionally categorical columns for grouping. A `kde` (Kernel Density
+#' Estimation) data transform is required to compute the density curve from
+#' the raw data.
 #'
 #' @inheritParams mark_
 #' @export
@@ -436,8 +438,11 @@ mark_shape = function(chart, ...) mark_(chart, 'shape', ...)
 
 #' Add a Partition (Sunburst) Mark
 #'
-#' Note: the `partition` mark may not work correctly in G2 v5. Consider using
-#' [mark_treemap()] as an alternative for hierarchical data visualization.
+#' A composite mark for hierarchical partition (sunburst/icicle) visualization.
+#' The data should be a nested tree structure wrapped in a list (i.e., the
+#' `value` in `data = list(type = 'inline', value = list(tree))` should be a
+#' list containing the root node). Use `coordinate = list(type = 'theta')` for
+#' a sunburst layout, or the default Cartesian coordinates for an icicle chart.
 #'
 #' @inheritParams mark_
 #' @export

@@ -447,36 +447,63 @@ g2() |>
 
 ## Density Mark
 
-The `density` mark requires a KDE transform that is not available in
-G2 v5. Use `mark_heatmap()` as an alternative for 2-D density
-visualizations.
+The `density` mark visualizes the probability density distribution of a
+continuous variable using kernel density estimation (KDE). The data
+should be in long format with a numeric column for density estimation
+and categorical columns for grouping. A `kde` data transform computes
+the density curve.
 
-```{r, eval=FALSE}
-g2(iris, x = 'Sepal.Width', y = 'Sepal.Length') |>
+```{r}
+iris_long = cbind(
+  stack(iris[, 1:4]),
+  species = rep(iris$Species, 4)
+)
+names(iris_long) = c('y', 'x', 'species')
+g2(iris_long) |>
   mark_density(
-    transform = list(list(type = 'kde')),
-    style = list(fill = 'steelblue', fillOpacity = 0.5)
+    data = list(
+      transform = list(list(
+        type = 'kde', field = 'y',
+        groupBy = list('x', 'species'), size = 20L
+      ))
+    ),
+    encode = list(
+      x = 'x', y = 'y', series = 'species',
+      color = 'species', size = 'size'
+    ),
+    tooltip = FALSE
   )
 ```
 
 ## Partition (Sunburst) Mark
 
-The `partition` mark does not work correctly in G2 v5. Use
-`mark_treemap()` or `mark_pack()` as alternatives for hierarchical data.
+The `partition` mark displays hierarchical data as an icicle chart (in
+Cartesian coordinates) or a sunburst chart (in polar coordinates). The
+data must be a nested tree wrapped in a list (array).
 
-```{r, eval=FALSE}
+```{r}
 tree_data = list(
   name = 'root', children = list(
-    list(name = 'A', value = 10, children = list(
-      list(name = 'A1', value = 5), list(name = 'A2', value = 5)
+    list(name = 'Frontend', children = list(
+      list(name = 'React', value = 180),
+      list(name = 'Vue', value = 120),
+      list(name = 'Angular', value = 80)
     )),
-    list(name = 'B', value = 20)
+    list(name = 'Backend', children = list(
+      list(name = 'Node.js', value = 150),
+      list(name = 'Python', value = 130),
+      list(name = 'Go', value = 90)
+    )),
+    list(name = 'Data', children = list(
+      list(name = 'R', value = 100),
+      list(name = 'Julia', value = 40)
+    ))
   )
 )
 g2() |>
   mark_partition(
-    data = list(value = tree_data),
+    data = list(type = 'inline', value = list(tree_data)),
     encode = list(value = 'value'),
-    coordinate = list(type = 'theta', innerRadius = 0.3)
+    style = list(inset = 0.5)
   )
 ```
