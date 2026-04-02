@@ -300,3 +300,28 @@ assert('+ works with coord_transpose', {
     mark_interval() + coord_transpose()
   (chart$coords$transform[[1]]$type %==% 'transpose')
 })
+
+# ---- mixing |> and + operators ----
+
+assert('mixing + and |> produces same result as pure |>', {
+  ref = g2(mtcars, x = 'mpg', y = 'hp') |>
+    mark_point() |> scale_x(type = 'log') |> theme_dark()
+  # + first, then |>
+  c1 = g2(mtcars, x = 'mpg', y = 'hp') + mark_point() |>
+    scale_x(type = 'log') |> theme_dark()
+  # |> first, then +
+  c2 = g2(mtcars, x = 'mpg', y = 'hp') |>
+    mark_point() + scale_x(type = 'log') |> theme_dark()
+  # interleaved: + mark |> scale + theme
+  c3 = g2(mtcars, x = 'mpg', y = 'hp') +
+    mark_point() |> scale_x(type = 'log') + theme_dark()
+  (c1$layers %==% ref$layers)
+  (c1$scales %==% ref$scales)
+  (c1$theme %==% ref$theme)
+  (c2$layers %==% ref$layers)
+  (c2$scales %==% ref$scales)
+  (c2$theme %==% ref$theme)
+  (c3$layers %==% ref$layers)
+  (c3$scales %==% ref$scales)
+  (c3$theme %==% ref$theme)
+})

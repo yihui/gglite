@@ -39,8 +39,9 @@ g2_mod = function(fn, args = list()) {
 #' Check Chart and Defer if Needed
 #'
 #' If `chart` is a `g2` object, return `NULL` so the caller proceeds normally.
-#' Otherwise, capture the arguments into a [g2_mod()] closure for later
-#' application via `+`.
+#' If `chart` is a `g2_mod` (from a piped modifier), compose the two modifiers
+#' so that mixing `|>` and `+` operators works correctly. Otherwise, capture
+#' the arguments into a [g2_mod()] closure for later application via `+`.
 #'
 #' @param fn The modifier function to defer to.
 #' @param chart The `chart` argument from the modifier.
@@ -49,6 +50,13 @@ g2_mod = function(fn, args = list()) {
 #' @noRd
 check_chart = function(fn, chart, args) {
   if (inherits(chart, 'g2')) return()
+  if (inherits(chart, 'g2_mod')) {
+    prev = chart
+    this = g2_mod(fn, args)
+    f = function(c) this(prev(c))
+    class(f) = 'g2_mod'
+    return(f)
+  }
   g2_mod(fn, c(if (!is.null(chart)) list(chart), args))
 }
 

@@ -459,3 +459,16 @@ g2(df, x = 'x', y = 'y', color = 'x') +
   title_('Polar Bar Chart') +
   theme_academy()
 ```
+
+You can even freely mix `+` and `|>` in the same expression---due to R's
+operator precedence (`|>` binds tighter than `+`), any combination produces
+the same result:
+
+```{r}
+# These are all equivalent:
+g2(mtcars, x = 'mpg', y = 'hp') |>
+  mark_point() |> scale_x(type = 'log') + theme_dark()
+
+g2(mtcars, x = 'mpg', y = 'hp') +
+  mark_point() |> scale_x(type = 'log') + theme_dark()
+```
