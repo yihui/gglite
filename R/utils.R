@@ -98,7 +98,7 @@ extract_terms = function(expr) {
 #'   `NULL`).
 #' @noRd
 parse_formula = function(f) {
-  lhs = if (length(f) == 3) f[[2]]
+  lhs = if (length(f) == 3) f[[2]] else NULL
   rhs = if (length(f) == 3) f[[3]] else f[[2]]
 
   # Extract conditioning (facet) variables from |

@@ -150,7 +150,7 @@ mark based on the types of the `x` and `y` variables:
 | Date | numeric | `line` | Line chart |
 | numeric | _(none)_ | `interval` + `binX` | Histogram |
 | categorical | _(none)_ | `interval` + `groupX` | Count bar chart |
-| _(position)_ | | `line` + parallel | Parallel coordinates |
+| _(position)_ | _(none)_ | `line` + parallel | Parallel coordinates |
 
 This means you can often skip the mark entirely:
 
