@@ -4,6 +4,8 @@ vignette: >
   %\VignetteIndexEntry{Introduction to gglite}
   %\VignetteEngine{litedown::vignette}
   %\VignetteEncoding{UTF-8}
+css: ['@default', '@article', '@copy-button', '@heading-anchor', '@pages']
+js: ['@sidenotes', '@appendix', '@toc-highlight', '@copy-button', '@heading-anchor', '@pages']
 ---
 
 ```{r, setup, include = FALSE}
@@ -435,7 +437,6 @@ produce identical charts:
 ```{r}
 # Pipe style
 g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
-  mark_point() |>
   scale_color(palette = 'set2') |>
   title_('Iris Dataset')
 ```
@@ -443,7 +444,6 @@ g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
 ```{r}
 # ggplot2 style
 g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') +
-  mark_point() +
   scale_color(palette = 'set2') +
   title_('Iris Dataset')
 ```
@@ -467,8 +467,8 @@ the same result:
 ```{r}
 # These are all equivalent:
 g2(mtcars, x = 'mpg', y = 'hp') |>
-  mark_point() |> scale_x(type = 'log') + theme_dark()
+  scale_x(type = 'log') + theme_dark()
 
 g2(mtcars, x = 'mpg', y = 'hp') +
-  mark_point() |> scale_x(type = 'log') + theme_dark()
+  scale_x(type = 'log') + theme_dark()
 ```
