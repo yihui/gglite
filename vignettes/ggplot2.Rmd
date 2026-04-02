@@ -22,7 +22,7 @@ you can get started quickly.
 | ggplot2 | gglite | Notes |
 |:--------|:-------|:------|
 | `ggplot(data, aes(x, y))` | `g2(data, x = 'x', y = 'y')` | Column names are **character strings**, not bare symbols |
-| `+` operator | `\|>` or `+` | gglite supports both; `\|>` is idiomatic R (>= 4.1) |
+| `+` operator | `\|>` or `+` | gglite supports both |
 | `geom_point()` | `mark_point()` | "geom" → "mark" |
 | `scale_x_log10()` | `scale_x(type = 'log')` | Helper functions for each channel |
 | `coord_flip()` | `coord_transpose()` | |
