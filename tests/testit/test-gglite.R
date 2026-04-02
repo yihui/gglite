@@ -103,3 +103,71 @@ assert('g2() formula ~ x1 + x2 + x3 sets position encoding', {
     c('Sepal.Length', 'Sepal.Width', 'Petal.Length'))
   (is.null(chart$aesthetics$x))
 })
+
+# ---- interact() uses named list (object) format ----
+
+assert('interact() stores interaction as named list', {
+  chart = g2() |> interact('legendHighlight')
+  (is.list(chart$interactions))
+  (!is.null(names(chart$interactions)))
+  (chart$interactions$legendHighlight %==% TRUE)
+})
+
+assert('interact() with options stores them correctly', {
+  chart = g2() |> interact('tooltip', shared = TRUE)
+  (is.list(chart$interactions$tooltip))
+  (chart$interactions$tooltip$shared %==% TRUE)
+})
+
+assert('multiple interact() calls merge into one named list', {
+  chart = g2() |> interact('tooltip') |>
+    interact('legendFilter') |> interact('brushHighlight')
+  (length(chart$interactions) %==% 3L)
+  (chart$interactions$tooltip %==% TRUE)
+  (chart$interactions$legendFilter %==% TRUE)
+  (chart$interactions$brushHighlight %==% TRUE)
+})
+
+# ---- legend title fix ----
+
+assert('legend_ transforms title string to showTitle + titleText', {
+  chart = g2() |> legend_color(position = 'right', title = 'My Title')
+  leg = chart$legends$color
+  (leg$showTitle %==% TRUE)
+  (leg$titleText %==% 'My Title')
+})
+
+assert('legend_ without title does not set showTitle', {
+  chart = g2() |> legend_color(position = 'right')
+  (is.null(chart$legends$color$showTitle))
+})
+
+# ---- Date/POSIXt conversion ----
+
+assert('annotate_df converts Date columns to millisecond timestamps', {
+  df = data.frame(d = as.Date('2024-01-01'), v = 1)
+  config = list(data = df)
+  res = annotate_df(config)
+  (res$data$type %==% 'column')
+  (is.numeric(res$data$value$d))
+  # 2024-01-01 UTC = 1704067200000 ms
+  (res$data$value$d %==% (as.numeric(as.Date('2024-01-01')) * 86400000))
+})
+
+assert('annotate_df converts POSIXt columns to millisecond timestamps', {
+  t = as.POSIXct('2024-01-01 12:00:00', tz = 'UTC')
+  df = data.frame(t = t, v = 1)
+  config = list(data = df)
+  res = annotate_df(config)
+  (is.numeric(res$data$value$t))
+  (res$data$value$t %==% (as.numeric(t) * 1000))
+})
+
+# ---- Auto time scale detection ----
+
+assert('build_config auto-sets time scale for Date columns', {
+  df = data.frame(d = Sys.Date() + 0:2, v = 1:3)
+  chart = g2(df, x = 'd', y = 'v')
+  config = build_config(chart)
+  (config$scale$x$type %==% 'time')
+})
