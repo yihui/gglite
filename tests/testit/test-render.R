@@ -87,10 +87,20 @@ assert('auto_mark: numeric x + categorical y -> interval + transpose', {
   (res$coord$transform[[1]]$type %==% 'transpose')
 })
 
-assert('auto_mark: categorical x + categorical y -> cell', {
+assert('auto_mark: categorical x + categorical y -> cell with group count', {
   df = data.frame(a = c('x', 'y'), b = c('m', 'n'))
   res = auto_mark(df, list(x = 'a', y = 'b'))
   (res$mark$type %==% 'cell')
+  (res$mark$encode$color %==% 'count')
+  (res$mark$transform[[1]]$type %==% 'group')
+})
+
+assert('auto_mark: cat x + cat y with existing color -> plain cell', {
+  df = data.frame(a = c('x', 'y'), b = c('m', 'n'))
+  res = auto_mark(df, list(x = 'a', y = 'b', color = 'a'))
+  (res$mark$type %==% 'cell')
+  (is.null(res$mark$encode))
+  (is.null(res$mark$transform))
 })
 
 assert('auto_mark: date x + numeric y -> line', {

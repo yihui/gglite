@@ -180,6 +180,8 @@ Before submitting changes:
    `type="module"` for inline scripts, `defer` for external scripts.
 10. **Implicit NULL**: Don't write `if (cond) foo else NULL`; the `else NULL`
     is unnecessary since R's `if` without `else` already returns `NULL`.
+11. **Return NULL**: Never write `return(NULL)`; use `return()` instead since
+    R functions return `NULL` by default when no value is given.
 
 ### Variables Are Character Strings
 

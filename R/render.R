@@ -10,7 +10,7 @@
 #'   list or `NULL`), or `NULL`.
 #' @noRd
 auto_mark = function(data, aesthetics) {
-  if (is.null(data) || !is.data.frame(data)) return(NULL)
+  if (is.null(data) || !is.data.frame(data)) return()
 
   # Multi-field position encoding → line mark + parallel coordinates
   if (length(aesthetics$position) > 1)
@@ -31,7 +31,10 @@ auto_mark = function(data, aesthetics) {
     coord = list(transform = list(list(type = 'transpose')))
     list(type = 'interval', encode = list(x = y_col, y = x_col))
   } else if (xt == 'categorical' && yt == 'categorical') {
-    list(type = 'cell')
+    if (is.null(aesthetics$color)) list(
+      type = 'cell', encode = list(color = 'count'),
+      transform = list(list(type = 'group', color = 'count'))
+    ) else list(type = 'cell')
   } else if (xt == 'date' && yt == 'numeric') {
     list(type = 'line')
   } else if (xt == 'numeric' && yt == 'none') {
@@ -78,8 +81,10 @@ build_config = function(chart) {
     if (!is.null(auto)) {
       m = list(type = auto$mark$type)
       enc = chart$aesthetics
+      if (!is.null(auto$mark$encode))
+        enc = modifyList(enc, auto$mark$encode)
       if (length(enc)) m$encode = enc
-      extra = auto$mark[setdiff(names(auto$mark), 'type')]
+      extra = auto$mark[setdiff(names(auto$mark), c('type', 'encode'))]
       if (length(extra)) m = modifyList(m, extra)
       marks = list(m)
       if (!is.null(auto$coord) && is.null(chart$coords))

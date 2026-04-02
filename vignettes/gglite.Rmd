@@ -51,26 +51,25 @@ You can use R formulas as a shorthand for aesthetic mappings. The left-hand
 side maps to `y` and the right-hand side maps to `x`:
 
 ```{r}
-g2(mtcars, hp ~ mpg) |> mark_point()
+g2(mtcars, hp ~ mpg)
 ```
 
 Additional aesthetics like `color` can be passed alongside the formula:
 
 ```{r}
-g2(iris, Sepal.Length ~ Sepal.Width, color = 'Species') |> mark_point()
+g2(iris, Sepal.Length ~ Sepal.Width, color = 'Species')
 ```
 
 Use `|` for faceting:
 
 ```{r}
-g2(iris, Sepal.Length ~ Sepal.Width | Species) |> mark_point()
+g2(iris, Sepal.Length ~ Sepal.Width | Species)
 ```
 
 A one-sided formula maps only `x` (useful for histograms or counts):
 
 ```{r}
-g2(mtcars, ~ mpg) |>
-  mark_interval(transform = list(list(type = 'binX', y = 'count')))
+g2(mtcars, ~ mpg)
 ```
 
 Use `+` on the right-hand side for multiple position fields (parallel
@@ -78,9 +77,7 @@ coordinates):
 
 ```{r}
 g2(iris, ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width,
-  color = 'Species') |>
-  mark_line() |>
-  coord_parallel()
+  color = 'Species')
 ```
 
 ## Marks (geometries)
@@ -146,7 +143,7 @@ mark based on the types of the `x` and `y` variables:
 | numeric | numeric | `point` | Scatter plot |
 | categorical | numeric | `interval` | Bar chart |
 | numeric | categorical | `interval` (transposed) | Horizontal bar |
-| categorical | categorical | `cell` | Heatmap |
+| categorical | categorical | `cell` + `group` | Contingency table |
 | Date | numeric | `line` | Line chart |
 | numeric | _(none)_ | `interval` + `binX` | Histogram |
 | categorical | _(none)_ | `interval` + `groupX` | Count bar chart |
@@ -154,32 +151,64 @@ mark based on the types of the `x` and `y` variables:
 
 This means you can often skip the mark entirely:
 
-```{r}
-# Scatter plot (numeric x, numeric y)
-g2(mtcars, hp ~ mpg)
-```
+### Scatter plot (numeric × numeric)
 
 ```{r}
-# Bar chart (categorical x, numeric y)
-g2(iris, Sepal.Width ~ Species)
+g2(mtcars, hp ~ mpg, color = 'cyl')
 ```
 
+### Bar chart (categorical × numeric)
+
 ```{r}
-# Line chart (Date x, numeric y)
+df = data.frame(x = c('A', 'B', 'C', 'D'), y = c(3, 7, 2, 5))
+g2(df, y ~ x)
+```
+
+### Horizontal bar (numeric × categorical)
+
+```{r}
+g2(df, y ~ x, x = 'y', y = 'x')
+```
+
+### Contingency table (categorical × categorical)
+
+Cells are automatically colored by the count of each combination:
+
+```{r}
+g2(mtcars, x = 'gear', y = 'cyl')
+```
+
+### Line chart (Date × numeric)
+
+```{r}
 df = data.frame(date = Sys.Date() + 0:9, value = cumsum(rnorm(10)))
 g2(df, value ~ date)
 ```
 
+### Histogram (numeric only)
+
 ```{r}
-# Histogram (numeric x, no y)
 g2(mtcars, ~ mpg)
+```
+
+### Count bar chart (categorical only)
+
+```{r}
+g2(iris, ~ Species)
+```
+
+### Parallel coordinates (multiple position fields)
+
+```{r}
+g2(iris, ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width,
+  color = 'Species')
 ```
 
 You can still add scales, themes, titles, and other components as usual:
 
 ```{r}
 g2(mtcars, hp ~ mpg, color = 'cyl') |>
-  scale_color(palette = 'tableau10') |>
+  scale_color(type = 'ordinal') |>
   title_('Motor Trend Cars')
 ```
 
