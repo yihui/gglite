@@ -34,6 +34,7 @@ jobs:
           site-dir: 'site'
 
       - if: github.event_name == 'pull_request'
+        id: upload
         uses: actions/upload-artifact@HEAD
         with:
           name: site-preview
@@ -43,7 +44,7 @@ jobs:
         uses: actions/github-script@HEAD
         with:
           script: |
-            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const runUrl = `${{ steps.upload.outputs.artifact-url }}`;
             await github.rest.repos.createCommitStatus({
               owner: context.repo.owner,
               repo: context.repo.repo,
