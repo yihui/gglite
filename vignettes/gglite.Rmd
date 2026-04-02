@@ -45,6 +45,44 @@ You can also set encodings later with `encode()`:
 g2(mtcars) |> encode(x = 'mpg', y = 'hp', color = 'cyl') |> mark_point()
 ```
 
+### Formula interface
+
+You can use R formulas as a shorthand for aesthetic mappings. The left-hand
+side maps to `y` and the right-hand side maps to `x`:
+
+```{r}
+g2(mtcars, hp ~ mpg) |> mark_point()
+```
+
+Additional aesthetics like `color` can be passed alongside the formula:
+
+```{r}
+g2(iris, Sepal.Length ~ Sepal.Width, color = 'Species') |> mark_point()
+```
+
+Use `|` for faceting:
+
+```{r}
+g2(iris, Sepal.Length ~ Sepal.Width | Species) |> mark_point()
+```
+
+A one-sided formula maps only `x` (useful for histograms or counts):
+
+```{r}
+g2(mtcars, ~ mpg) |>
+  mark_interval(transform = list(list(type = 'binX', y = 'count')))
+```
+
+Use `+` on the right-hand side for multiple position fields (parallel
+coordinates):
+
+```{r}
+g2(iris, ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width,
+  color = 'Species') |>
+  mark_line() |>
+  coord_parallel()
+```
+
 ## Marks (geometries)
 
 Marks are the visual building blocks. gglite provides 35+ mark types. Here are
@@ -97,6 +135,56 @@ g2(df, x = 'x', y = 'y') |>
   mark_interval() |>
   mark_text(encode = list(text = 'y'))
 ```
+
+## Automatic marks
+
+When no `mark_*()` is added to the pipeline, gglite automatically chooses a
+mark based on the types of the `x` and `y` variables:
+
+| `x` type | `y` type | Mark | Chart type |
+|-----------|----------|------|------------|
+| numeric | numeric | `point` | Scatter plot |
+| categorical | numeric | `interval` | Bar chart |
+| numeric | categorical | `interval` (transposed) | Horizontal bar |
+| categorical | categorical | `cell` | Heatmap |
+| Date | numeric | `line` | Line chart |
+| numeric | _(none)_ | `interval` + `binX` | Histogram |
+| categorical | _(none)_ | `interval` + `groupX` | Count bar chart |
+| _(position)_ | | `line` + parallel | Parallel coordinates |
+
+This means you can often skip the mark entirely:
+
+```{r}
+# Scatter plot (numeric x, numeric y)
+g2(mtcars, hp ~ mpg)
+```
+
+```{r}
+# Bar chart (categorical x, numeric y)
+g2(iris, Sepal.Width ~ Species)
+```
+
+```{r}
+# Line chart (Date x, numeric y)
+df = data.frame(date = Sys.Date() + 0:9, value = cumsum(rnorm(10)))
+g2(df, value ~ date)
+```
+
+```{r}
+# Histogram (numeric x, no y)
+g2(mtcars, ~ mpg)
+```
+
+You can still add scales, themes, titles, and other components as usual:
+
+```{r}
+g2(mtcars, hp ~ mpg, color = 'cyl') |>
+  scale_color(palette = 'tableau10') |>
+  title_('Motor Trend Cars')
+```
+
+If you add any `mark_*()`, automatic detection is skipped entirely, so explicit
+marks always take priority.
 
 ## Scales
 

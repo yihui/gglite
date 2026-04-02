@@ -1,20 +1,3 @@
-# ---- Auto mark helpers ----
-
-#' Classify a Variable's Type
-#'
-#' Returns `'date'`, `'categorical'`, or `'numeric'` for a given vector, or
-#' `'none'` when `NULL`.
-#'
-#' @param x A vector (or `NULL`).
-#' @return A single character string.
-#' @noRd
-var_type = function(x) {
-  if (is.null(x)) return('none')
-  if (inherits(x, 'Date') || inherits(x, 'POSIXt')) return('date')
-  if (is.character(x) || is.factor(x) || is.logical(x)) return('categorical')
-  'numeric'
-}
-
 #' Choose a Mark Automatically
 #'
 #' Inspect the types of the `x` and `y` columns referenced in `aesthetics` and
@@ -28,6 +11,14 @@ var_type = function(x) {
 #' @noRd
 auto_mark = function(data, aesthetics) {
   if (is.null(data) || !is.data.frame(data)) return(NULL)
+
+  # Multi-field position encoding → line mark + parallel coordinates
+  if (length(aesthetics$position) > 1)
+    return(list(
+      mark = list(type = 'line'),
+      coord = list(type = 'parallel')
+    ))
+
   x_col = aesthetics$x
   y_col = aesthetics$y
   x = if (!is.null(x_col) && x_col %in% names(data)) data[[x_col]]
@@ -43,7 +34,7 @@ auto_mark = function(data, aesthetics) {
   } else if (xt == 'numeric' && yt == 'categorical') {
     mark = list(type = 'interval',
       encode = list(x = y_col, y = x_col))
-    coord = list(type = 'transpose')
+    coord = list(transform = list(list(type = 'transpose')))
   } else if (xt == 'categorical' && yt == 'categorical') {
     mark = list(type = 'cell')
   } else if (xt == 'date' && yt == 'numeric') {
