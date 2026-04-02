@@ -15,7 +15,8 @@ gg(
   main = NULL,
   sub = NULL,
   by = NULL,
-  facet = NULL
+  facet = NULL,
+  alpha = NULL
 )
 }
 \arguments{
@@ -48,6 +49,11 @@ inspired by tinyplot's \code{by} argument. Equivalent to passing
 column faceting, \code{y ~ x} for grid faceting), or a character string
 naming the faceting variable. Inspired by tinyplot's \code{facet} argument.
 For more control, use \code{\link[=facet_rect]{facet_rect()}} or \code{\link[=facet_circle]{facet_circle()}} instead.}
+
+\item{alpha}{Numeric in \verb{[0, 1]} controlling the fill and stroke opacity
+of marks. A convenient alternative to calling
+\code{style_mark(fillOpacity = ..., strokeOpacity = ...)}. Inspired by
+tinyplot's \code{alpha} argument.}
 }
 \description{
 \code{gg()} is a convenient shorthand for \code{\link[=g2]{g2()}}, inspired by tinyplot's \code{plt()}

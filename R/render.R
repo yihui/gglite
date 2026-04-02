@@ -97,6 +97,17 @@ build_config = function(chart) {
 
   if (length(marks)) config$children = marks
 
+  # Apply chart-level alpha to all marks
+  if (!is.null(chart$alpha)) {
+    a = chart$alpha
+    for (i in seq_along(config$children)) {
+      s = config$children[[i]]$style
+      if (is.null(s$fillOpacity)) s$fillOpacity = a
+      if (is.null(s$strokeOpacity)) s$strokeOpacity = a
+      config$children[[i]]$style = s
+    }
+  }
+
   # Chart-wide config
   if (length(chart$scales)) config$scale = chart$scales
   if (!is.null(chart$coords)) config$coordinate = chart$coords

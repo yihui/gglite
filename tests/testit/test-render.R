@@ -215,3 +215,18 @@ assert('build_config ts y-axis title does not override user title', {
   config = build_config(chart)
   (config$axis$y$title %==% 'My Title')
 })
+
+assert('build_config applies alpha to mark styles', {
+  chart = g2(mtcars, x = 'mpg', y = 'hp', alpha = 0.3) |> mark_point()
+  config = build_config(chart)
+  (config$children[[1]]$style$fillOpacity %==% 0.3)
+  (config$children[[1]]$style$strokeOpacity %==% 0.3)
+})
+
+assert('build_config alpha does not override explicit mark style opacity', {
+  chart = g2(mtcars, x = 'mpg', y = 'hp', alpha = 0.3) |>
+    mark_point() |> style_mark(fillOpacity = 0.8)
+  config = build_config(chart)
+  (config$children[[1]]$style$fillOpacity %==% 0.8)
+  (config$children[[1]]$style$strokeOpacity %==% 0.3)
+})

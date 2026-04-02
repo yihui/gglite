@@ -15,7 +15,8 @@ g2(
   main = NULL,
   sub = NULL,
   by = NULL,
-  facet = NULL
+  facet = NULL,
+  alpha = NULL
 )
 }
 \arguments{
@@ -48,6 +49,11 @@ inspired by tinyplot's \code{by} argument. Equivalent to passing
 column faceting, \code{y ~ x} for grid faceting), or a character string
 naming the faceting variable. Inspired by tinyplot's \code{facet} argument.
 For more control, use \code{\link[=facet_rect]{facet_rect()}} or \code{\link[=facet_circle]{facet_circle()}} instead.}
+
+\item{alpha}{Numeric in \verb{[0, 1]} controlling the fill and stroke opacity
+of marks. A convenient alternative to calling
+\code{style_mark(fillOpacity = ..., strokeOpacity = ...)}. Inspired by
+tinyplot's \code{alpha} argument.}
 }
 \value{
 A \code{g2} object (S3 class).
@@ -97,4 +103,7 @@ g2(iris, Sepal.Length ~ Sepal.Width | Species)
 # Faceting via the facet argument (like tinyplot)
 g2(iris, Sepal.Length ~ Sepal.Width, facet = ~Species)
 g2(mtcars, hp ~ mpg, facet = gear ~ cyl)
+
+# Adjust opacity (like tinyplot's alpha)
+g2(iris, Sepal.Length ~ Sepal.Width | Species, alpha = 0.5)
 }

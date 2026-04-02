@@ -62,6 +62,10 @@ g2_patches_cdn = 'https://cdn.jsdelivr.net/npm/@xiee/utils@v1.14.30/js/g2-patche
 #'   column faceting, `y ~ x` for grid faceting), or a character string
 #'   naming the faceting variable. Inspired by tinyplot's `facet` argument.
 #'   For more control, use [facet_rect()] or [facet_circle()] instead.
+#' @param alpha Numeric in `[0, 1]` controlling the fill and stroke opacity
+#'   of marks. A convenient alternative to calling
+#'   `style_mark(fillOpacity = ..., strokeOpacity = ...)`. Inspired by
+#'   tinyplot's `alpha` argument.
 #' @return A `g2` object (S3 class).
 #' @import stats utils
 #' @export
@@ -89,10 +93,13 @@ g2_patches_cdn = 'https://cdn.jsdelivr.net/npm/@xiee/utils@v1.14.30/js/g2-patche
 #' # Faceting via the facet argument (like tinyplot)
 #' g2(iris, Sepal.Length ~ Sepal.Width, facet = ~Species)
 #' g2(mtcars, hp ~ mpg, facet = gear ~ cyl)
+#'
+#' # Adjust opacity (like tinyplot's alpha)
+#' g2(iris, Sepal.Length ~ Sepal.Width | Species, alpha = 0.5)
 g2 = function(
   data = NULL, ..., width = 640, height = 480,
   padding = NULL, margin = NULL, inset = NULL,
-  main = NULL, sub = NULL, by = NULL, facet = NULL
+  main = NULL, sub = NULL, by = NULL, facet = NULL, alpha = NULL
 ) {
   dots = list(...)
   by_from_formula = NULL
@@ -139,6 +146,7 @@ g2 = function(
       if (!is.null(sub)) list(title = main, subtitle = sub) else main
     },
     facet = facet_config,
+    alpha = alpha,
     layout = c(
       process_layout('padding', padding),
       process_layout('margin', margin),
