@@ -496,8 +496,11 @@ mark_shape = function(chart = NULL, ...) mark_(chart, 'shape', ...)
 #' @export
 #' @examples
 #' tree = list(name = 'root', children = list(
-#'   list(name = 'A', value = 10, children = list(
-#'     list(name = 'A1', value = 5), list(name = 'A2', value = 5)
+#'   list(name = 'A', children = list(
+#'     list(name = 'A1', value = 10),
+#'     list(name = 'A2', children = list(
+#'       list(name = 'A2a', value = 3), list(name = 'A2b', value = 5)
+#'     ))
 #'   )),
 #'   list(name = 'B', value = 20)
 #' ))
@@ -529,4 +532,15 @@ mark_sunburst = function(chart = NULL, ...) {
 #'
 #' @inheritParams mark_
 #' @export
+#' @examples
+#' tree = list(name = 'root', children = list(
+#'   list(name = 'A', value = 10),
+#'   list(name = 'B', value = 20),
+#'   list(name = 'C', value = 15)
+#' ))
+#' g2() |>
+#'   mark_partition(
+#'     data = list(type = 'inline', value = list(tree)),
+#'     encode = list(value = 'value')
+#'   )
 mark_partition = function(chart = NULL, ...) mark_(chart, 'partition', ...)
