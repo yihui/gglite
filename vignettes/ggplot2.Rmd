@@ -176,7 +176,6 @@ ggplot(mtcars, aes(mpg, hp)) +
 ```r
 # gglite
 g2(mtcars, x = 'mpg', y = 'hp') |>
-  mark_point() |>
   scale_y(type = 'log')
 ```
 :::
@@ -187,7 +186,6 @@ Custom color palettes:
 # gglite
 g2(iris, x = 'Sepal.Width', y = 'Sepal.Length',
    color = 'Species') |>
-  mark_point() |>
   scale_color(range = c('#e41a1c', '#377eb8', '#4daf4a'))
 ```
 
@@ -236,7 +234,6 @@ ggplot(iris, aes(Sepal.Width, Sepal.Length)) +
 ```r
 # gglite
 g2(iris, x = 'Sepal.Width', y = 'Sepal.Length') |>
-  mark_point() |>
   facet_rect(x = 'Species')
 ```
 :::
@@ -256,7 +253,6 @@ ggplot2 uses `theme_*()` functions; gglite also provides `theme_*()` shortcuts:
 ```r
 # gglite
 g2(mtcars, x = 'mpg', y = 'hp') |>
-  mark_point() |>
   theme_academy()
 ```
 
@@ -276,7 +272,6 @@ ggplot(mtcars, aes(mpg, hp)) +
 ```r
 # gglite
 g2(mtcars, x = 'mpg', y = 'hp') |>
-  mark_point() |>
   title_('Motor Trend Cars',
     subtitle = 'mpg vs horsepower')
 ```
@@ -295,7 +290,6 @@ Add tooltips, brushing, and filtering with `interact()`:
 # gglite
 g2(iris, x = 'Sepal.Width', y = 'Sepal.Length',
    color = 'Species') |>
-  mark_point() |>
   interact('tooltip') |>
   interact('legendFilter')
 ```

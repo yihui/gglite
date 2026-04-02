@@ -43,13 +43,13 @@ non-standard evaluation):
 
 ```{r}
 library(gglite)
-g2(mtcars, x = 'mpg', y = 'hp') |> mark_point()
+g2(mtcars, x = 'mpg', y = 'hp')
 ```
 
 You can also set encodings later with `encode()`:
 
 ```{r}
-g2(mtcars) |> encode(x = 'mpg', y = 'hp', color = 'cyl') |> mark_point()
+g2(mtcars) |> encode(x = 'mpg', y = 'hp', color = 'cyl')
 ```
 
 ### Formula interface
@@ -245,7 +245,6 @@ Scales control how data values map to visual properties. Use helpers like
 
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp', color = 'wt') |>
-  mark_point() |>
   scale_y(type = 'log') |>
   scale_color(palette = 'viridis')
 ```
@@ -254,7 +253,6 @@ Custom domain and range:
 
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
-  mark_point() |>
   scale_x(domain = c(10, 35)) |>
   scale_y(domain = c(0, 400))
 ```
@@ -335,7 +333,6 @@ Faceting splits data into panels. Use `facet_rect()` for a grid layout:
 
 ```{r}
 g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
-  mark_point() |>
   facet_rect(x = 'Species')
 ```
 
@@ -347,7 +344,6 @@ Themes change the overall look. Built-in themes include `theme_classic()`
 
 ```{r}
 g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
-  mark_point() |>
   theme_academy()
 ```
 
@@ -360,7 +356,6 @@ legends, and labels.
 
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
-  mark_point() |>
   title_('Motor Trend Cars', subtitle = 'mpg vs horsepower')
 ```
 
@@ -368,7 +363,6 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
 
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
-  mark_point() |>
   tooltip_(crosshairs = TRUE)
 ```
 
@@ -387,7 +381,6 @@ Interactions add user-driven behaviors like hovering, brushing, and filtering:
 
 ```{r}
 g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
-  mark_point() |>
   interact('tooltip') |>
   interact('legendFilter') |>
   interact('brushHighlight')

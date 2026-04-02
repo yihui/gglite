@@ -17,6 +17,5 @@ Configure the Shape Scale
 }
 \examples{
 g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', shape = 'Species') |>
-  mark_point() |>
   scale_shape(range = c('circle', 'square', 'triangle'))
 }

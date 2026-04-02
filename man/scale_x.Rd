@@ -16,6 +16,6 @@ scale_x(chart, ...)
 Configure the X Scale
 }
 \examples{
-g2(mtcars, x = 'mpg', y = 'hp') |> mark_point() |>
+g2(mtcars, x = 'mpg', y = 'hp') |>
   scale_x(type = 'log')
 }

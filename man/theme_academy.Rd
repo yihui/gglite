@@ -15,5 +15,5 @@ theme_academy(chart, ...)
 Shortcut for \code{theme_(chart, 'academy', ...)}.
 }
 \examples{
-g2(mtcars, x = 'mpg', y = 'hp') |> mark_point() |> theme_academy()
+g2(mtcars, x = 'mpg', y = 'hp') |> theme_academy()
 }

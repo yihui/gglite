@@ -14,7 +14,6 @@ and `theme_academy()` to set a built-in theme.
 
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
-  mark_point() |>
   theme_classic()
 ```
 
@@ -22,7 +21,6 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
 
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
-  mark_point() |>
   theme_classicDark()
 ```
 
@@ -30,7 +28,6 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
 
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
-  mark_point() |>
   theme_light()
 ```
 
@@ -38,7 +35,6 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
 
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
-  mark_point() |>
   theme_dark()
 ```
 
@@ -46,7 +42,6 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
 
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
-  mark_point() |>
   theme_academy()
 ```
 

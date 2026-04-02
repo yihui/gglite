@@ -12,7 +12,6 @@ library(gglite)
 
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
-  mark_point() |>
   axis_x(title = 'Miles per Gallon') |>
   axis_y(title = 'Horsepower')
 ```
@@ -21,7 +20,6 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
 
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
-  mark_point() |>
   axis_y(FALSE)
 ```
 
@@ -29,7 +27,6 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
 
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
-  mark_point() |>
   axis_x(FALSE) |>
   axis_y(FALSE)
 ```
@@ -38,7 +35,6 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
 
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
-  mark_point() |>
   axis_x(grid = TRUE) |>
   axis_y(grid = TRUE)
 ```
@@ -47,7 +43,6 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
 
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
-  mark_point() |>
   axis_x(tickCount = 5) |>
   axis_y(tickCount = 8)
 ```
@@ -58,7 +53,6 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
 
 ```{r}
 g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
-  mark_point() |>
   legend_color(position = 'right')
 ```
 
@@ -66,7 +60,6 @@ g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
 
 ```{r}
 g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
-  mark_point() |>
   legend_color(position = 'top')
 ```
 
@@ -74,7 +67,6 @@ g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
 
 ```{r}
 g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
-  mark_point() |>
   legend_color(position = 'bottom')
 ```
 
@@ -82,7 +74,6 @@ g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
 
 ```{r}
 g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
-  mark_point() |>
   legend_color(position = 'left')
 ```
 
@@ -90,7 +81,6 @@ g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
 
 ```{r}
 g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
-  mark_point() |>
   legend_color(FALSE)
 ```
 
@@ -98,6 +88,5 @@ g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
 
 ```{r}
 g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
-  mark_point() |>
   legend_color(position = 'right', title = 'Iris Species')
 ```

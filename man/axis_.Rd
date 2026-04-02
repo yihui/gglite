@@ -23,7 +23,6 @@ Customise the axis for a positional channel (\code{'x'} or \code{'y'}). Set to
 }
 \examples{
 g2(mtcars, x = 'mpg', y = 'hp') |>
-  mark_point() |>
   axis_('x', title = 'Miles per Gallon') |>
   axis_('y', title = 'Horsepower')
 }

@@ -13,7 +13,6 @@ circular faceting.
 
 ```{r}
 g2(iris, x = 'Sepal.Width', y = 'Sepal.Length') |>
-  mark_point() |>
   facet_rect(x = 'Species')
 ```
 
@@ -21,7 +20,6 @@ g2(iris, x = 'Sepal.Width', y = 'Sepal.Length') |>
 
 ```{r}
 g2(iris, x = 'Sepal.Width', y = 'Sepal.Length') |>
-  mark_point() |>
   facet_rect(y = 'Species')
 ```
 
@@ -34,7 +32,6 @@ df = data.frame(
   b = sample(c('X', 'Y'), 200, replace = TRUE)
 )
 g2(df, x = 'x', y = 'y') |>
-  mark_point() |>
   facet_rect(x = 'a', y = 'b')
 ```
 
@@ -42,7 +39,6 @@ g2(df, x = 'x', y = 'y') |>
 
 ```{r}
 g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
-  mark_point() |>
   facet_rect(x = 'Species')
 ```
 
@@ -50,6 +46,5 @@ g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
 
 ```{r}
 g2(iris, x = 'Sepal.Width', y = 'Sepal.Length') |>
-  mark_point() |>
   facet_circle(position = 'Species')
 ```

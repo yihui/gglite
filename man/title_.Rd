@@ -21,6 +21,5 @@ Set the Chart Title
 }
 \examples{
 g2(mtcars, x = 'mpg', y = 'hp') |>
-  mark_point() |>
   title_('Motor Trend Cars', subtitle = 'mpg vs hp')
 }

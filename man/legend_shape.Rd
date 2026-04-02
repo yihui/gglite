@@ -17,6 +17,5 @@ Configure the Shape Legend
 }
 \examples{
 g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', shape = 'Species') |>
-  mark_point() |>
   legend_shape(position = 'bottom')
 }

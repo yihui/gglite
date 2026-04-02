@@ -15,5 +15,5 @@ theme_light(chart, ...)
 Shortcut for \code{theme_(chart, 'light', ...)}.
 }
 \examples{
-g2(mtcars, x = 'mpg', y = 'hp') |> mark_point() |> theme_light()
+g2(mtcars, x = 'mpg', y = 'hp') |> theme_light()
 }

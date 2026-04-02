@@ -17,6 +17,5 @@ Configure the X Axis
 }
 \examples{
 g2(mtcars, x = 'mpg', y = 'hp') |>
-  mark_point() |>
   axis_x(title = 'Miles per Gallon')
 }

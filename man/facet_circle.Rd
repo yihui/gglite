@@ -20,6 +20,5 @@ Facet in a Circular Layout
 }
 \examples{
 g2(iris, x = 'Sepal.Width', y = 'Sepal.Length') |>
-  mark_point() |>
   facet_circle(position = 'Species')
 }

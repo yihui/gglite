@@ -17,6 +17,5 @@ Configure the Color Scale
 }
 \examples{
 g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
-  mark_point() |>
   scale_color(palette = 'category10')
 }

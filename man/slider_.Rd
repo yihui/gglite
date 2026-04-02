@@ -21,6 +21,5 @@ Add a range slider to a positional channel for zooming/panning.
 }
 \examples{
 g2(mtcars, x = 'mpg', y = 'hp') |>
-  mark_point() |>
   slider_('x')
 }

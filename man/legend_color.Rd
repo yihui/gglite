@@ -17,6 +17,5 @@ Configure the Color Legend
 }
 \examples{
 g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
-  mark_point() |>
   legend_color(position = 'right')
 }

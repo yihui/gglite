@@ -15,5 +15,5 @@ theme_dark(chart, ...)
 Shortcut for \code{theme_(chart, 'dark', ...)}.
 }
 \examples{
-g2(mtcars, x = 'mpg', y = 'hp') |> mark_point() |> theme_dark()
+g2(mtcars, x = 'mpg', y = 'hp') |> theme_dark()
 }

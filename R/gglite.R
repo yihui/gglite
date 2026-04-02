@@ -56,7 +56,7 @@ g2_patches_cdn = 'https://cdn.jsdelivr.net/npm/@xiee/utils@v1.14.30/js/g2-patche
 #' @import stats utils
 #' @export
 #' @examples
-#' g2(mtcars, x = 'mpg', y = 'hp') |> mark_point()
+#' g2(mtcars, x = 'mpg', y = 'hp')
 #'
 #' # Formula interface
 #' g2(mtcars, hp ~ mpg)
@@ -122,7 +122,7 @@ g2 = function(
 #' @return The modified `g2` object.
 #' @export
 #' @examples
-#' g2(mtcars) |> encode(x = 'mpg', y = 'hp') |> mark_point()
+#' g2(mtcars) |> encode(x = 'mpg', y = 'hp')
 encode = function(chart, ...) {
   chart$aesthetics = modifyList(chart$aesthetics, list(...))
   chart

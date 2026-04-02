@@ -22,6 +22,5 @@ similar to ggplot2's \code{facet_grid()} / \code{facet_wrap()}. Use the \code{x}
 }
 \examples{
 g2(iris, x = 'Sepal.Width', y = 'Sepal.Length') |>
-  mark_point() |>
   facet_rect(x = 'Species')
 }

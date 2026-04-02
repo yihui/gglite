@@ -15,16 +15,15 @@
 #' @export
 #' @examples
 #' # Log-scaled x axis
-#' g2(mtcars, x = 'mpg', y = 'hp') |> mark_point() |>
+#' g2(mtcars, x = 'mpg', y = 'hp') |>
 #'   scale_('x', type = 'log')
 #'
 #' # Square-root scale on y
-#' g2(mtcars, x = 'mpg', y = 'hp') |> mark_point() |>
+#' g2(mtcars, x = 'mpg', y = 'hp') |>
 #'   scale_('y', type = 'sqrt')
 #'
 #' # Ordinal colour palette
 #' g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
-#'   mark_point() |>
 #'   scale_('color', palette = 'category10')
 scale_ = function(chart, field, ...) {
   chart$scales[[field]] = list(...)
@@ -36,7 +35,7 @@ scale_ = function(chart, field, ...) {
 #' @inheritParams scale_
 #' @export
 #' @examples
-#' g2(mtcars, x = 'mpg', y = 'hp') |> mark_point() |>
+#' g2(mtcars, x = 'mpg', y = 'hp') |>
 #'   scale_x(type = 'log')
 scale_x = function(chart, ...) scale_(chart, 'x', ...)
 
@@ -45,7 +44,7 @@ scale_x = function(chart, ...) scale_(chart, 'x', ...)
 #' @inheritParams scale_
 #' @export
 #' @examples
-#' g2(mtcars, x = 'mpg', y = 'hp') |> mark_point() |>
+#' g2(mtcars, x = 'mpg', y = 'hp') |>
 #'   scale_y(type = 'sqrt')
 scale_y = function(chart, ...) scale_(chart, 'y', ...)
 
@@ -55,7 +54,6 @@ scale_y = function(chart, ...) scale_(chart, 'y', ...)
 #' @export
 #' @examples
 #' g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
-#'   mark_point() |>
 #'   scale_color(palette = 'category10')
 scale_color = function(chart, ...) scale_(chart, 'color', ...)
 
@@ -65,7 +63,6 @@ scale_color = function(chart, ...) scale_(chart, 'color', ...)
 #' @export
 #' @examples
 #' g2(mtcars, x = 'mpg', y = 'hp', size = 'wt') |>
-#'   mark_point() |>
 #'   scale_size(range = c(2, 10))
 scale_size = function(chart, ...) scale_(chart, 'size', ...)
 
@@ -75,7 +72,6 @@ scale_size = function(chart, ...) scale_(chart, 'size', ...)
 #' @export
 #' @examples
 #' g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', shape = 'Species') |>
-#'   mark_point() |>
 #'   scale_shape(range = c('circle', 'square', 'triangle'))
 scale_shape = function(chart, ...) scale_(chart, 'shape', ...)
 
@@ -85,6 +81,5 @@ scale_shape = function(chart, ...) scale_(chart, 'shape', ...)
 #' @export
 #' @examples
 #' g2(mtcars, x = 'mpg', y = 'hp', opacity = 'wt') |>
-#'   mark_point() |>
 #'   scale_opacity(range = c(0.2, 1))
 scale_opacity = function(chart, ...) scale_(chart, 'opacity', ...)
