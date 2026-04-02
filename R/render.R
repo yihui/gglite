@@ -101,7 +101,8 @@ build_config = function(chart) {
   if (!is.null(chart$alpha)) {
     a = chart$alpha
     for (i in seq_along(config$children)) {
-      s = config$children[[i]]$style
+      s = if (is.null(config$children[[i]]$style)) list() else
+        config$children[[i]]$style
       if (is.null(s$fillOpacity)) s$fillOpacity = a
       if (is.null(s$strokeOpacity)) s$strokeOpacity = a
       config$children[[i]]$style = s

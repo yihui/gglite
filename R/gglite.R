@@ -163,7 +163,7 @@ g2 = function(
   ), class = 'g2')
   if (length(dots)) chart$aesthetics = modifyList(chart$aesthetics, dots)
   # by argument (explicit or from formula |) sets color grouping
-  if (is.null(by) && !is.null(by_from_formula)) by = by_from_formula
+  if (is.null(by)) by = by_from_formula
   if (!is.null(by)) chart$aesthetics$color = by
   if (!is.null(palette)) chart$scales$color = list(palette = palette)
   chart

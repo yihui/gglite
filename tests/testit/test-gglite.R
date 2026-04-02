@@ -121,6 +121,12 @@ assert('gg() is a shorthand alias for g2()', {
   (inherits(chart, 'g2'))
   (chart$aesthetics$x %==% 'mpg')
   (chart$aesthetics$y %==% 'hp')
+  # gg() passes through all parameters
+  chart2 = gg(iris, Sepal.Length ~ Sepal.Width, by = 'Species',
+    main = 'Test', alpha = 0.5)
+  (chart2$aesthetics$color %==% 'Species')
+  (chart2$chart_title %==% 'Test')
+  (chart2$alpha %==% 0.5)
 })
 
 assert('g2() main argument sets chart title', {
