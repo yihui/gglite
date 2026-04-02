@@ -135,7 +135,7 @@ check_chart = function(fn, chart, args) {
 #' # Title and subtitle
 #' g2(mtcars, hp ~ mpg, title = 'Motor Trend Cars', subtitle = 'mpg vs hp')
 g2 = function(
-  data = NULL, ..., width = 640, height = 480,
+  data = NULL, ..., width = NULL, height = 480,
   padding = NULL, margin = NULL, inset = NULL,
   title = NULL, subtitle = NULL
 ) {
@@ -157,7 +157,7 @@ g2 = function(
   }
   chart = structure(list(
     data = data,
-    options = list(width = width, height = height, autoFit = TRUE),
+    options = list(width = width, height = height, autoFit = if (is.null(width)) TRUE),
     layers = list(),
     scales = list(),
     coords = NULL,

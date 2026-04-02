@@ -7,7 +7,7 @@
 g2(
   data = NULL,
   ...,
-  width = 640,
+  width = NULL,
   height = 480,
   padding = NULL,
   margin = NULL,

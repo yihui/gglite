@@ -196,7 +196,7 @@ build_config = function(chart) {
 chart_html = function(chart, id = NULL, width = NULL, height = NULL) {
   if (is.null(id)) id = paste0('gglite-', as.integer(Sys.time()), '-',
                                 sample.int(1e6, 1))
-  ctor = chart$options
+  ctor = dropNulls(chart$options)
   ctor$container = id
   spec = build_config(chart)
   defer_opt = getOption('gglite.defer_render')
