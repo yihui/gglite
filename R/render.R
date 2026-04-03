@@ -41,7 +41,7 @@ auto_mark = function(data, aesthetics, ts = FALSE) {
       ))),
       encode = list(x = cat_col, y = 'y', size = 'size'),
       tooltip = FALSE,
-      style = list(opacity = 0.5)
+      style = list(opacity = 0.5, pointerEvents = 'none')
     ))
     else list(bee)
   }
@@ -113,6 +113,13 @@ build_config = function(chart) {
   if (!length(marks) && !is.null(chart$data)) {
     auto = auto_mark(chart$data, chart$aesthetics, ts = isTRUE(chart$ts_origin))
     if (!is.null(auto)) {
+      # Drop rows with NA in aesthetic columns for auto-detected marks
+      cols = unlist(chart$aesthetics[c('x', 'y')])
+      cols = cols[cols %in% names(config$data)]
+      if (length(cols)) {
+        ok = complete.cases(config$data[cols])
+        if (any(!ok)) config$data = config$data[ok, , drop = FALSE]
+      }
       marks = lapply(auto$marks, function(am) {
         m = list(type = am$type)
         enc = chart$aesthetics
