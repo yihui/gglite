@@ -304,6 +304,10 @@ mark_density = function(chart = NULL, ...) {
         tooltip = FALSE
       )
       chart$aesthetics$x = NULL
+      # Default axis titles: x = grouping variable, y = numeric field
+      if (is.null(chart$axes$x$title))
+        chart$axes$x$title = if (!is.null(color)) color else field
+      if (is.null(chart$axes$y$title)) chart$axes$y$title = field
       if (length(opts)) layer = modifyList(layer, opts)
       chart$layers = c(chart$layers, list(layer))
       return(chart)

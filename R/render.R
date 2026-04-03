@@ -31,7 +31,9 @@ auto_mark = function(data, aesthetics, ts = FALSE) {
     if (!anyDuplicated(cat_var)) return(list(list(type = 'interval')))
     bee = list(type = 'beeswarm')
     freq = table(cat_var)
-    if (length(freq) && min(freq) >= 30) list(bee, list(
+    if (length(freq) && min(freq) >= 30) list(
+      modifyList(bee, list(encode = list(size = 2))),
+      list(
       type = 'density',
       data = list(transform = list(list(
         type = 'kde', field = num_col,
@@ -39,7 +41,7 @@ auto_mark = function(data, aesthetics, ts = FALSE) {
       ))),
       encode = list(x = cat_col, y = 'y', size = 'size'),
       tooltip = FALSE,
-      style = list(opacity = 0.5)
+      style = list(opacity = 0.5, pointerEvents = 'none')
     ))
     else list(bee)
   }
@@ -54,7 +56,9 @@ auto_mark = function(data, aesthetics, ts = FALSE) {
     coord = list(transform = list(list(type = 'transpose')))
     enc = list(x = y_col, y = x_col)
     lapply(cat_num_marks(y, y_col, x_col), function(m) {
-      if (is.null(m$encode)) modifyList(m, list(encode = enc)) else m
+      if (is.null(m$encode)) m$encode = enc
+      else if (is.null(m$encode$x)) m$encode = modifyList(enc, m$encode)
+      m
     })
   } else if (xt == 'categorical' && yt == 'categorical') {
     if (is.null(aesthetics$color)) list(list(
@@ -109,6 +113,13 @@ build_config = function(chart) {
   if (!length(marks) && !is.null(chart$data)) {
     auto = auto_mark(chart$data, chart$aesthetics, ts = isTRUE(chart$ts_origin))
     if (!is.null(auto)) {
+      # Drop rows with NA in aesthetic columns for auto-detected marks
+      cols = unlist(chart$aesthetics[c('x', 'y')])
+      cols = cols[cols %in% names(config$data)]
+      if (length(cols)) {
+        ok = complete.cases(config$data[cols])
+        if (any(!ok)) config$data = config$data[ok, , drop = FALSE]
+      }
       marks = lapply(auto$marks, function(am) {
         m = list(type = am$type)
         enc = chart$aesthetics

@@ -6,7 +6,7 @@ title: Marks (Geometry Layers)
 library(gglite)
 ```
 
-## Point Mark (Scatter Plot)
+## Point (Scatter Plot)
 
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |> mark_point()
@@ -39,7 +39,7 @@ g2(mtcars, x = 'mpg', y = 'hp', size = 10) |>
   mark_point(style = list(fill = 'lightyellow', stroke = 'steelblue', lineWidth = 2))
 ```
 
-## Line Mark
+## Line
 
 ```{r}
 df = data.frame(x = 1:10, y = cumsum(rnorm(10)))
@@ -56,7 +56,7 @@ df = data.frame(
 g2(df, x = 'x', y = 'y', color = 'group') |> mark_line()
 ```
 
-## Interval Mark (Bar Chart)
+## Interval (Bar Chart)
 
 ```{r}
 df = data.frame(x = c('A', 'B', 'C', 'D'), y = c(3, 7, 2, 5))
@@ -81,7 +81,7 @@ g2(df, x = 'x', y = 'y', color = 'color') |>
   mark_interval() |> transform_('dodgeX')
 ```
 
-## Area Mark
+## Area
 
 ```{r}
 df = data.frame(x = 1:10, y = c(3, 1, 4, 1, 5, 9, 2, 6, 5, 3))
@@ -99,7 +99,7 @@ g2(df, x = 'x', y = 'y', color = 'group') |>
   mark_area() |> transform_('stackY')
 ```
 
-## Rect Mark
+## Rect
 
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
@@ -108,7 +108,7 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
   )
 ```
 
-## Cell Mark
+## Cell
 
 ```{r}
 df = expand.grid(x = LETTERS[1:5], y = LETTERS[1:5])
@@ -116,7 +116,7 @@ df$value = seq_len(nrow(df))
 g2(df, x = 'x', y = 'y', color = 'value') |> mark_cell()
 ```
 
-## Text Mark
+## Text
 
 ```{r}
 df = data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2))
@@ -125,7 +125,7 @@ g2(df, x = 'x', y = 'y') |>
   mark_text(encode = list(text = 'y'))
 ```
 
-## Path Mark
+## Path
 
 The `path` mark in G2 uses an SVG-like `d` channel to draw arbitrary
 shapes. It does not use x/y data coordinates like `mark_line()`. Use
@@ -144,7 +144,7 @@ df = data.frame(x = t * cos(t), y = t * sin(t))
 g2(df, x = 'x', y = 'y') |> mark_line()
 ```
 
-## Polygon Mark
+## Polygon
 
 The `polygon` mark draws filled polygons. Use list columns to store
 vertex coordinates for each polygon.
@@ -157,7 +157,7 @@ g2(df, color = 'group') |>
   mark_polygon(encode = list(x = 'x', y = 'y'))
 ```
 
-## Link Mark
+## Link
 
 ```{r}
 df = data.frame(
@@ -197,7 +197,7 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
   )
 ```
 
-## Range Marks
+## Range
 
 ### Full range
 
@@ -235,7 +235,7 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
   )
 ```
 
-## Connector Mark
+## Connector
 
 ```{r}
 df = data.frame(x = c('A', 'B'), y = c(3, 7))
@@ -248,13 +248,13 @@ g2(df, x = 'x', y = 'y') |>
   )
 ```
 
-## Box Plot Mark
+## Box Plot
 
 ```{r}
 g2(iris, x = 'Species', y = 'Sepal.Width') |> mark_boxplot()
 ```
 
-## Beeswarm Mark
+## Beeswarm
 
 The `beeswarm` mark uses force simulation to arrange individual data points
 without overlap, creating a beeswarm layout useful for visualizing distributions
@@ -275,10 +275,10 @@ g2(iris, x = 'Species', y = 'Sepal.Width', color = 'Species') |>
 
 ```{r}
 g2(iris, x = 'Species', y = 'Sepal.Width') |>
-  mark_beeswarm() |> mark_boxplot()
+  mark_beeswarm() |> mark_boxplot(style = list(boxFillOpacity = 0.15))
 ```
 
-## Liquid Mark
+## Liquid
 
 ```{r}
 g2() |>
@@ -289,14 +289,14 @@ g2() |>
   )
 ```
 
-## Heatmap Mark
+## Heatmap
 
 ```{r}
 g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Petal.Length') |>
   mark_heatmap()
 ```
 
-## Image Mark
+## Image
 
 The `image` mark places images at data coordinates.
 
@@ -311,7 +311,7 @@ g2(df, x = 'x', y = 'y') |>
   mark_image(encode = list(src = 'url'), style = list(width = 30, height = 30))
 ```
 
-## Word Cloud Mark
+## Word Cloud
 
 ```{r}
 df = data.frame(
@@ -324,7 +324,7 @@ g2(df) |>
   )
 ```
 
-## Sankey Mark
+## Sankey
 
 ```{r}
 df = data.frame(
@@ -340,7 +340,7 @@ g2(df) |>
   )
 ```
 
-## Chord Mark
+## Chord
 
 ```{r}
 df = data.frame(
@@ -354,7 +354,7 @@ g2(df) |>
   )
 ```
 
-## Treemap Mark
+## Treemap
 
 ```{r}
 tree_data = list(
@@ -382,7 +382,7 @@ g2() |>
   )
 ```
 
-## Pack (Circle Packing) Mark
+## Pack (Circle Packing)
 
 ```{r}
 g2() |>
@@ -398,7 +398,7 @@ g2() |>
   )
 ```
 
-## Gauge Mark
+## Gauge
 
 ```{r}
 g2() |>
@@ -410,7 +410,7 @@ g2() |>
   )
 ```
 
-## Force Graph Mark
+## Force Graph
 
 ```{r}
 g2() |>
@@ -443,7 +443,7 @@ g2() |>
   )
 ```
 
-## Tree Mark
+## Tree
 
 ```{r}
 g2() |>
@@ -469,7 +469,7 @@ g2() |>
   )
 ```
 
-## Density Mark
+## Density
 
 The density mark computes kernel density estimation (KDE) automatically
 from the `x` aesthetic. Map `color` for grouped density curves.
@@ -478,7 +478,7 @@ from the `x` aesthetic. Map `color` for grouped density curves.
 g2(iris, x = 'Sepal.Width', color = 'Species') |> mark_density()
 ```
 
-## Sunburst Mark
+## Sunburst
 
 ```{r}
 tree_data = list(
