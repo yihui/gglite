@@ -199,7 +199,7 @@ g2(df, y ~ x)
 When categories are repeated, individual points are shown in a beeswarm layout:
 
 ```{r}
-g2(iris, Sepal.Width ~ Species)
+g2(chickwts, weight ~ feed)
 ```
 
 ### Beeswarm + density (categorical × numeric, large groups)

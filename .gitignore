@@ -7,3 +7,5 @@ test-all.mjs
 .Rproj.user
 examples/*.html
 G2/
+node_modules/
+vignettes/*.html
