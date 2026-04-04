@@ -4,6 +4,7 @@ title: Scales
 
 ```{r}
 library(gglite)
+p = g2(mtcars, x = 'mpg', y = 'hp')
 ```
 
 Scales control how data values map to visual properties. Use helpers like
@@ -13,29 +14,25 @@ the scale for a given channel.
 ## Linear Scale (default for numeric)
 
 ```{r}
-g2(mtcars, x = 'mpg', y = 'hp') |>
-  scale_x(type = 'linear')
+p |> scale_x(type = 'linear')
 ```
 
 ## Log Scale
 
 ```{r}
-g2(mtcars, x = 'mpg', y = 'hp') |>
-  scale_y(type = 'log')
+p |> scale_y(type = 'log')
 ```
 
 ## Power Scale
 
 ```{r}
-g2(mtcars, x = 'mpg', y = 'hp') |>
-  scale_y(type = 'pow')
+p |> scale_y(type = 'pow')
 ```
 
 ## Square Root Scale
 
 ```{r}
-g2(mtcars, x = 'mpg', y = 'hp') |>
-  scale_y(type = 'sqrt')
+p |> scale_y(type = 'sqrt')
 ```
 
 ## Point Scale (for categorical axes)
@@ -46,7 +43,8 @@ such as color or shape.)
 
 ```{r}
 df = data.frame(x = c('A', 'B', 'C', 'D'), y = c(3, 7, 2, 5))
-g2(df, x = 'x', y = 'y') |>
+p_cat = g2(df, x = 'x', y = 'y')
+p_cat |>
   mark_point() |>
   scale_x(type = 'point')
 ```
@@ -54,8 +52,7 @@ g2(df, x = 'x', y = 'y') |>
 ## Band Scale
 
 ```{r}
-g2(df, x = 'x', y = 'y') |>
-  scale_x(type = 'band')
+p_cat |> scale_x(type = 'band')
 ```
 
 ## Time Scale
@@ -72,7 +69,7 @@ g2(df, x = 'date', y = 'value') |>
 ## Custom Domain and Range
 
 ```{r}
-g2(mtcars, x = 'mpg', y = 'hp') |>
+p |>
   scale_x(domain = c(10, 35)) |>
   scale_y(domain = c(0, 400))
 ```
@@ -80,7 +77,7 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
 ## Nice Rounding
 
 ```{r}
-g2(mtcars, x = 'mpg', y = 'hp') |>
+p |>
   scale_x(nice = TRUE) |>
   scale_y(nice = TRUE)
 ```
@@ -88,22 +85,20 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
 ## Zero Inclusion
 
 ```{r}
-g2(mtcars, x = 'mpg', y = 'hp') |>
-  scale_y(zero = TRUE)
+p |> scale_y(zero = TRUE)
 ```
 
 ## Color Palette
 
 ```{r}
-g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
-  scale_color(palette = 'category10')
+p_iris = g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species')
+p_iris |> scale_color(palette = 'category10')
 ```
 
 ### Custom color range
 
 ```{r}
-g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
-  scale_color(range = c('#e41a1c', '#377eb8', '#4daf4a'))
+p_iris |> scale_color(range = c('#e41a1c', '#377eb8', '#4daf4a'))
 ```
 
 ## Identity Scale

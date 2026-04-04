@@ -4,6 +4,7 @@ title: Themes
 
 ```{r}
 library(gglite)
+p = g2(mtcars, x = 'mpg', y = 'hp')
 ```
 
 Themes control the overall visual appearance of the chart. Use helpers like
@@ -13,36 +14,31 @@ and `theme_academy()` to set a built-in theme.
 ## Classic Theme (default)
 
 ```{r}
-g2(mtcars, x = 'mpg', y = 'hp') |>
-  theme_classic()
+p |> theme_classic()
 ```
 
 ## Classic Dark Theme
 
 ```{r}
-g2(mtcars, x = 'mpg', y = 'hp') |>
-  theme_classicDark()
+p |> theme_classicDark()
 ```
 
 ## Light Theme
 
 ```{r}
-g2(mtcars, x = 'mpg', y = 'hp') |>
-  theme_light()
+p |> theme_light()
 ```
 
 ## Dark Theme
 
 ```{r}
-g2(mtcars, x = 'mpg', y = 'hp') |>
-  theme_dark()
+p |> theme_dark()
 ```
 
 ## Academy Theme
 
 ```{r}
-g2(mtcars, x = 'mpg', y = 'hp') |>
-  theme_academy()
+p |> theme_academy()
 ```
 
 ## Theme on a bar chart

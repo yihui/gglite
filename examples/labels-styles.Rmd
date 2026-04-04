@@ -4,6 +4,8 @@ title: Labels and Styles
 
 ```{r}
 library(gglite)
+df = data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2))
+p  = g2(df, x = 'x', y = 'y')
 ```
 
 ## Labels
@@ -13,38 +15,33 @@ Labels add text annotations to marks. Use `labels_()` to configure them.
 ### Basic labels on bars
 
 ```{r}
-df = data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2))
-g2(df, x = 'x', y = 'y') |>
-  labels_(text = 'y')
+p |> labels_(text = 'y')
 ```
 
 ### Label position: inside
 
 ```{r}
-g2(df, x = 'x', y = 'y') |>
-  labels_(text = 'y', position = 'inside')
+p |> labels_(text = 'y', position = 'inside')
 ```
 
 ### Label position: top
 
 ```{r}
-g2(df, x = 'x', y = 'y') |>
-  labels_(text = 'y', position = 'top')
+p |> labels_(text = 'y', position = 'top')
 ```
 
 ### Labels on a scatter plot
 
 ```{r}
-df = data.frame(x = 1:5, y = c(3, 7, 2, 9, 5), label = c('a', 'b', 'c', 'd', 'e'))
-g2(df, x = 'x', y = 'y') |>
+df_pt = data.frame(x = 1:5, y = c(3, 7, 2, 9, 5), label = c('a', 'b', 'c', 'd', 'e'))
+g2(df_pt, x = 'x', y = 'y') |>
   labels_(text = 'label')
 ```
 
 ### Multiple label layers
 
 ```{r}
-df = data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2))
-g2(df, x = 'x', y = 'y') |>
+p |>
   labels_(text = 'x', position = 'inside') |>
   labels_(text = 'y', position = 'top')
 ```
@@ -63,16 +60,14 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
 ### Custom fill on bars
 
 ```{r}
-df = data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2))
-g2(df, x = 'x', y = 'y') |>
-  style_mark(fill = 'coral', stroke = '#333', lineWidth = 0.5)
+p |> style_mark(fill = 'coral', stroke = '#333', lineWidth = 0.5)
 ```
 
 ### Semi-transparent area
 
 ```{r}
-df = data.frame(x = 1:10, y = c(3, 1, 4, 1, 5, 9, 2, 6, 5, 3))
-g2(df, x = 'x', y = 'y') |>
+df_line = data.frame(x = 1:10, y = c(3, 1, 4, 1, 5, 9, 2, 6, 5, 3))
+g2(df_line, x = 'x', y = 'y') |>
   mark_area() |>
   style_mark(fill = 'steelblue', fillOpacity = 0.3)
 ```
@@ -80,16 +75,13 @@ g2(df, x = 'x', y = 'y') |>
 ### Line with custom stroke
 
 ```{r}
-df = data.frame(x = 1:10, y = cumsum(rnorm(10)))
-g2(df, x = 'x', y = 'y') |>
-  mark_line() |>
-  style_mark(stroke = 'tomato', lineWidth = 3)
+df_line = data.frame(x = 1:10, y = cumsum(rnorm(10)))
+p_line = g2(df_line, x = 'x', y = 'y') |> mark_line()
+p_line |> style_mark(stroke = 'tomato', lineWidth = 3)
 ```
 
 ### Dashed line
 
 ```{r}
-g2(df, x = 'x', y = 'y') |>
-  mark_line() |>
-  style_mark(stroke = 'steelblue', lineDash = c(6, 3))
+p_line |> style_mark(stroke = 'steelblue', lineDash = c(6, 3))
 ```

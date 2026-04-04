@@ -20,57 +20,51 @@ may want to use shorter durations and omit `options(gglite.defer_render = TRUE)`
 
 ```{r}
 df = data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2))
-g2(df, x = 'x', y = 'y') |>
-  animate(enter = list(type = 'fadeIn', duration = 2000))
+p = g2(df, x = 'x', y = 'y')
+p |> animate(enter = list(type = 'fadeIn', duration = 2000))
 ```
 
 ## Wave-in Animation
 
 ```{r}
-g2(df, x = 'x', y = 'y') |>
-  animate(enter = list(type = 'waveIn', duration = 1600))
+p |> animate(enter = list(type = 'waveIn', duration = 1600))
 ```
 
 ## Grow-in-Y Animation
 
 ```{r}
-g2(df, x = 'x', y = 'y') |>
-  animate(enter = list(type = 'growInY', duration = 2000))
+p |> animate(enter = list(type = 'growInY', duration = 2000))
 ```
 
 ## Scale-in-X Animation
 
 ```{r}
-g2(df, x = 'x', y = 'y') |>
-  animate(enter = list(type = 'scaleInX', duration = 1600))
+p |> animate(enter = list(type = 'scaleInX', duration = 1600))
 ```
 
 ## Scale-in-Y Animation
 
 ```{r}
-g2(df, x = 'x', y = 'y') |>
-  animate(enter = list(type = 'scaleInY', duration = 1600))
+p |> animate(enter = list(type = 'scaleInY', duration = 1600))
 ```
 
 ## Zoom-in Animation
 
 ```{r}
-g2(mtcars, x = 'mpg', y = 'hp') |>
-  animate(enter = list(type = 'zoomIn', duration = 1200))
+pm = g2(mtcars, x = 'mpg', y = 'hp')
+pm |> animate(enter = list(type = 'zoomIn', duration = 1200))
 ```
 
 ## Custom Duration and Delay
 
 ```{r}
-g2(df, x = 'x', y = 'y') |>
-  animate(enter = list(type = 'fadeIn', duration = 3000, delay = 1000))
+p |> animate(enter = list(type = 'fadeIn', duration = 3000, delay = 1000))
 ```
 
 ## Disable Animation
 
 ```{r}
-g2(mtcars, x = 'mpg', y = 'hp') |>
-  animate(FALSE)
+pm |> animate(FALSE)
 ```
 
 ## Animation on a line chart

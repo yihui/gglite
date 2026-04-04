@@ -18,9 +18,8 @@ df = data.frame(
   x = rep(c('A', 'B', 'C'), each = 2), y = c(3, 2, 5, 4, 1, 6),
   color = rep(c('a', 'b'), 3)
 )
-g2(df, x = 'x', y = 'y', color = 'color') |>
-  mark_interval() |>
-  transform_('stackY')
+p = g2(df, x = 'x', y = 'y', color = 'color') |> mark_interval()
+p |> transform_('stackY')
 ```
 
 ### Stacked area chart
@@ -40,13 +39,7 @@ g2(df, x = 'x', y = 'y', color = 'group') |>
 Place bars side by side.
 
 ```{r}
-df = data.frame(
-  x = rep(c('A', 'B', 'C'), each = 2), y = c(3, 2, 5, 4, 1, 6),
-  color = rep(c('a', 'b'), 3)
-)
-g2(df, x = 'x', y = 'y', color = 'color') |>
-  mark_interval() |>
-  transform_('dodgeX')
+p |> transform_('dodgeX')
 ```
 
 ## normalizeY (position_fill)
@@ -54,8 +47,7 @@ g2(df, x = 'x', y = 'y', color = 'color') |>
 Normalize to 100% (percent-stacked chart).
 
 ```{r}
-g2(df, x = 'x', y = 'y', color = 'color') |>
-  mark_interval() |>
+p |>
   transform_('stackY') |>
   transform_('normalizeY')
 ```
@@ -128,12 +120,7 @@ g2(df, x = 'x', y = 'y') |>
 Transforms can be chained. Order matters.
 
 ```{r}
-df = data.frame(
-  x = rep(c('A', 'B', 'C'), each = 2), y = c(3, 2, 5, 4, 1, 6),
-  color = rep(c('a', 'b'), 3)
-)
-g2(df, x = 'x', y = 'y', color = 'color') |>
-  mark_interval() |>
+p |>
   transform_('stackY') |>
   transform_('normalizeY') |>
   coord_transpose()

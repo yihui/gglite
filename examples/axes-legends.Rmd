@@ -4,6 +4,7 @@ title: Axes and Legends
 
 ```{r}
 library(gglite)
+p = g2(mtcars, x = 'mpg', y = 'hp')
 ```
 
 ## Axis Customization
@@ -11,7 +12,7 @@ library(gglite)
 ### Axis titles
 
 ```{r}
-g2(mtcars, x = 'mpg', y = 'hp') |>
+p |>
   axis_x(title = 'Miles per Gallon') |>
   axis_y(title = 'Horsepower')
 ```
@@ -19,14 +20,13 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
 ### Hide an axis
 
 ```{r}
-g2(mtcars, x = 'mpg', y = 'hp') |>
-  axis_y(FALSE)
+p |> axis_y(FALSE)
 ```
 
 ### Hide both axes
 
 ```{r}
-g2(mtcars, x = 'mpg', y = 'hp') |>
+p |>
   axis_x(FALSE) |>
   axis_y(FALSE)
 ```
@@ -34,7 +34,7 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
 ### Axis with grid
 
 ```{r}
-g2(mtcars, x = 'mpg', y = 'hp') |>
+p |>
   axis_x(grid = TRUE) |>
   axis_y(grid = TRUE)
 ```
@@ -42,51 +42,49 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
 ### Axis tick count
 
 ```{r}
-g2(mtcars, x = 'mpg', y = 'hp') |>
+p |>
   axis_x(tickCount = 5) |>
   axis_y(tickCount = 8)
 ```
 
 ## Legend Customization
 
+```{r}
+p2 = g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species')
+```
+
 ### Legend position
 
 ```{r}
-g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
-  legend_color(position = 'right')
+p2 |> legend_color(position = 'right')
 ```
 
 ### Legend at the top
 
 ```{r}
-g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
-  legend_color(position = 'top')
+p2 |> legend_color(position = 'top')
 ```
 
 ### Legend at the bottom
 
 ```{r}
-g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
-  legend_color(position = 'bottom')
+p2 |> legend_color(position = 'bottom')
 ```
 
 ### Legend at the left
 
 ```{r}
-g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
-  legend_color(position = 'left')
+p2 |> legend_color(position = 'left')
 ```
 
 ### Hide a legend
 
 ```{r}
-g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
-  legend_color(FALSE)
+p2 |> legend_color(FALSE)
 ```
 
 ### Legend with title
 
 ```{r}
-g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
-  legend_color(position = 'right', title = 'Iris Species')
+p2 |> legend_color(position = 'right', title = 'Iris Species')
 ```

@@ -4,6 +4,7 @@ title: Interactions
 
 ```{r}
 library(gglite)
+p = g2(mtcars, x = 'mpg', y = 'hp')
 ```
 
 Interactions enable user-driven behaviors such as tooltips, brushing, and
@@ -12,8 +13,7 @@ highlighting. Use `interact()` to add them.
 ## Tooltip
 
 ```{r}
-g2(mtcars, x = 'mpg', y = 'hp') |>
-  interact('tooltip')
+p |> interact('tooltip')
 ```
 
 ## Element Highlight
@@ -21,8 +21,8 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
 Highlight individual elements on hover.
 
 ```{r}
-g2(mtcars, x = 'mpg', y = 'hp', color = 'cyl') |>
-  interact('elementHighlight')
+pc = g2(mtcars, x = 'mpg', y = 'hp', color = 'cyl')
+pc |> interact('elementHighlight')
 ```
 
 ## Element Highlight by X
@@ -34,19 +34,16 @@ df = data.frame(
   x = rep(c('A', 'B', 'C'), each = 2), y = c(3, 2, 5, 4, 1, 6),
   color = rep(c('a', 'b'), 3)
 )
-g2(df, x = 'x', y = 'y', color = 'color') |>
+pd = g2(df, x = 'x', y = 'y', color = 'color') |>
   mark_interval() |>
-  transform_('dodgeX') |>
-  interact('elementHighlightByX')
+  transform_('dodgeX')
+pd |> interact('elementHighlightByX')
 ```
 
 ## Element Highlight by Color
 
 ```{r}
-g2(df, x = 'x', y = 'y', color = 'color') |>
-  mark_interval() |>
-  transform_('dodgeX') |>
-  interact('elementHighlightByColor')
+pd |> interact('elementHighlightByColor')
 ```
 
 ## Element Select
@@ -54,8 +51,7 @@ g2(df, x = 'x', y = 'y', color = 'color') |>
 Click to select individual elements.
 
 ```{r}
-g2(mtcars, x = 'mpg', y = 'hp', color = 'cyl') |>
-  interact('elementSelect')
+pc |> interact('elementSelect')
 ```
 
 ## Brush Highlight
@@ -63,8 +59,7 @@ g2(mtcars, x = 'mpg', y = 'hp', color = 'cyl') |>
 Drag to brush and highlight a rectangular region.
 
 ```{r}
-g2(mtcars, x = 'mpg', y = 'hp') |>
-  interact('brushHighlight')
+p |> interact('brushHighlight')
 ```
 
 ## Brush X Highlight
@@ -72,8 +67,7 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
 Brush only along the x axis.
 
 ```{r}
-g2(mtcars, x = 'mpg', y = 'hp') |>
-  interact('brushXHighlight')
+p |> interact('brushXHighlight')
 ```
 
 ## Brush Y Highlight
@@ -81,8 +75,7 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
 Brush only along the y axis.
 
 ```{r}
-g2(mtcars, x = 'mpg', y = 'hp') |>
-  interact('brushYHighlight')
+p |> interact('brushYHighlight')
 ```
 
 ## Brush Filter
@@ -90,8 +83,7 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
 Drag to filter the visible data.
 
 ```{r}
-g2(mtcars, x = 'mpg', y = 'hp') |>
-  interact('brushFilter')
+p |> interact('brushFilter')
 ```
 
 ## Legend Filter
@@ -99,8 +91,8 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
 Click legend entries to filter data.
 
 ```{r}
-g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
-  interact('legendFilter')
+p_iris = g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species')
+p_iris |> interact('legendFilter')
 ```
 
 ## Legend Highlight
@@ -108,8 +100,7 @@ g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
 Hover over legend entries to highlight.
 
 ```{r}
-g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
-  interact('legendHighlight')
+p_iris |> interact('legendHighlight')
 ```
 
 ## Multiple Interactions
@@ -117,7 +108,7 @@ g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
 You can combine several interactions.
 
 ```{r}
-g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
+p_iris |>
   interact('tooltip') |>
   interact('legendFilter') |>
   interact('brushHighlight')

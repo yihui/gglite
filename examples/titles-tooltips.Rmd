@@ -4,6 +4,7 @@ title: Titles and Tooltips
 
 ```{r}
 library(gglite)
+p = g2(mtcars, x = 'mpg', y = 'hp')
 ```
 
 ## Chart Title
@@ -18,22 +19,19 @@ g2(mtcars, x = 'mpg', y = 'hp',
 ### Simple title
 
 ```{r}
-g2(mtcars, x = 'mpg', y = 'hp') |>
-  title_('Motor Trend Cars')
+p |> title_('Motor Trend Cars')
 ```
 
 ### Title with subtitle
 
 ```{r}
-g2(mtcars, x = 'mpg', y = 'hp') |>
-  title_('Motor Trend Cars', subtitle = 'mpg vs horsepower')
+p |> title_('Motor Trend Cars', subtitle = 'mpg vs horsepower')
 ```
 
 ### Title alignment
 
 ```{r}
-g2(mtcars, x = 'mpg', y = 'hp') |>
-  title_('Right-aligned Title', align = 'right')
+p |> title_('Right-aligned Title', align = 'right')
 ```
 
 ### Title on a bar chart
@@ -49,8 +47,7 @@ g2(df, x = 'x', y = 'y') |>
 ### Enable crosshairs
 
 ```{r}
-g2(mtcars, x = 'mpg', y = 'hp') |>
-  tooltip_(crosshairs = TRUE)
+p |> tooltip_(crosshairs = TRUE)
 ```
 
 ### Shared tooltip (useful for multi-series)
@@ -68,6 +65,5 @@ g2(df, x = 'x', y = 'y', color = 'group') |>
 ### Disable tooltip
 
 ```{r}
-g2(mtcars, x = 'mpg', y = 'hp') |>
-  tooltip_(FALSE)
+p |> tooltip_(FALSE)
 ```
