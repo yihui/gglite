@@ -6,6 +6,13 @@ title: Marks (Geometry Layers)
 library(gglite)
 ```
 
+gglite can automatically infer the mark type from your data and aesthetic
+mappings in many cases — for example, numeric × numeric data defaults to
+`mark_point()`, and categorical × unique numeric data defaults to
+`mark_interval()`. This means you can often omit the `mark_*()` call
+entirely. All marks are specified explicitly on this page because the purpose
+here is to document each mark type individually.
+
 ## Point (Scatter Plot)
 
 ```{r}
