@@ -484,25 +484,54 @@ g2(iris, x = 'Sepal.Width', color = 'Species') |> mark_density()
 tree_data = list(
   name = 'root', children = list(
     list(name = 'Frontend', children = list(
-      list(name = 'React', value = 180),
+      list(name = 'React', children = list(
+        list(name = 'Hooks', value = 80),
+        list(name = 'JSX', children = list(
+          list(name = 'Components', value = 40),
+          list(name = 'Fragments', value = 20)
+        ))
+      )),
       list(name = 'Vue', value = 120),
       list(name = 'Angular', value = 80)
     )),
     list(name = 'Backend', children = list(
       list(name = 'Node.js', value = 150),
-      list(name = 'Python', value = 130),
-      list(name = 'Go', value = 90)
+      list(name = 'Python', children = list(
+        list(name = 'Django', value = 60),
+        list(name = 'Flask', value = 40),
+        list(name = 'FastAPI', value = 30)
+      ))
     )),
     list(name = 'Data', children = list(
       list(name = 'R', value = 100),
       list(name = 'Julia', value = 40)
-    ))
+    )),
+    list(name = 'DevOps', value = 120)
   )
 )
 g2() |>
   mark_sunburst(
     data = list(type = 'inline', value = list(tree_data)),
-    encode = list(value = 'value'),
-    style = list(inset = 0.5)
+    encode = list(value = 'value', color = 'name'),
+    style = list(inset = 0.5),
+    labels = list(list(
+      text = 'name',
+      transform = list(list(type = 'overflowHide'))
+    ))
+  )
+```
+
+## Partition (Icicle) Mark
+
+```{r}
+g2() |>
+  mark_partition(
+    data = list(type = 'inline', value = list(tree_data)),
+    encode = list(value = 'value', color = 'name'),
+    style = list(inset = 0.5),
+    labels = list(list(
+      text = 'name', position = 'left', dx = 8,
+      transform = list(list(type = 'overflowHide'))
+    ))
   )
 ```

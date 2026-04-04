@@ -18,3 +18,16 @@ A composite mark for hierarchical icicle chart visualization. For a radial
 nested tree structure wrapped in a list, e.g.,
 \code{data = list(type = 'inline', value = list(tree))}.
 }
+\examples{
+tree = list(name = 'root', children = list(
+  list(name = 'A', value = 10),
+  list(name = 'B', value = 20),
+  list(name = 'C', value = 15)
+))
+g2() |>
+  mark_partition(
+    data = list(type = 'inline', value = list(tree)),
+    encode = list(value = 'value', color = 'name'),
+    labels = list(list(text = 'name', position = 'left'))
+  )
+}

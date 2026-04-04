@@ -20,13 +20,17 @@ The data should be a nested tree structure wrapped in a list, e.g.,
 }
 \examples{
 tree = list(name = 'root', children = list(
-  list(name = 'A', value = 10, children = list(
-    list(name = 'A1', value = 5), list(name = 'A2', value = 5)
+  list(name = 'A', children = list(
+    list(name = 'A1', value = 10),
+    list(name = 'A2', children = list(
+      list(name = 'A2a', value = 3), list(name = 'A2b', value = 5)
+    ))
   )),
   list(name = 'B', value = 20)
 ))
 g2() |> mark_sunburst(
   data = list(type = 'inline', value = list(tree)),
-  encode = list(value = 'value')
+  encode = list(value = 'value', color = 'name'),
+  labels = list(list(text = 'name'))
 )
 }

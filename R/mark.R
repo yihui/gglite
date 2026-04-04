@@ -500,14 +500,18 @@ mark_shape = function(chart = NULL, ...) mark_(chart, 'shape', ...)
 #' @export
 #' @examples
 #' tree = list(name = 'root', children = list(
-#'   list(name = 'A', value = 10, children = list(
-#'     list(name = 'A1', value = 5), list(name = 'A2', value = 5)
+#'   list(name = 'A', children = list(
+#'     list(name = 'A1', value = 10),
+#'     list(name = 'A2', children = list(
+#'       list(name = 'A2a', value = 3), list(name = 'A2b', value = 5)
+#'     ))
 #'   )),
 #'   list(name = 'B', value = 20)
 #' ))
 #' g2() |> mark_sunburst(
 #'   data = list(type = 'inline', value = list(tree)),
-#'   encode = list(value = 'value')
+#'   encode = list(value = 'value', color = 'name'),
+#'   labels = list(list(text = 'name'))
 #' )
 mark_sunburst = function(chart = NULL, ...) {
   mod = check_chart(mark_sunburst, chart, list(...))
@@ -533,4 +537,26 @@ mark_sunburst = function(chart = NULL, ...) {
 #'
 #' @inheritParams mark_
 #' @export
-mark_partition = function(chart = NULL, ...) mark_(chart, 'partition', ...)
+#' @examples
+#' tree = list(name = 'root', children = list(
+#'   list(name = 'A', value = 10),
+#'   list(name = 'B', value = 20),
+#'   list(name = 'C', value = 15)
+#' ))
+#' g2() |>
+#'   mark_partition(
+#'     data = list(type = 'inline', value = list(tree)),
+#'     encode = list(value = 'value', color = 'name'),
+#'     labels = list(list(text = 'name', position = 'left'))
+#'   )
+mark_partition = function(chart = NULL, ...) {
+  mod = check_chart(mark_partition, chart, list(...))
+  if (!is.null(mod)) return(mod)
+  opts = list(...)
+  if (is.null(opts$axis)) opts$axis = FALSE
+  if (is.null(opts$legend)) opts$legend = FALSE
+  layer = list(type = 'partition')
+  if (length(opts)) layer = modifyList(layer, opts)
+  chart$layers = c(chart$layers, list(layer))
+  chart
+}
