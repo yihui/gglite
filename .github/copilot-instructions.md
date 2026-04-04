@@ -184,6 +184,9 @@ Before submitting changes:
     is unnecessary since R's `if` without `else` already returns `NULL`.
 11. **Return NULL**: Never write `return(NULL)`; use `return()` instead since
     R functions return `NULL` by default when no value is given.
+12. **US spelling**: Use US spelling throughout all documentation, code
+    comments, and example text (e.g., "color" not "colour", "center" not
+    "centre", "summarize" not "summarise").
 
 ### Variables Are Character Strings
 
