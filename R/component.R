@@ -173,13 +173,13 @@ tooltip_ = function(chart = NULL, ...) {
 #' @examples
 #' df = data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2))
 #' g2(df, x = 'x', y = 'y') |>
-#'   mark_interval() |>
 #'   labels_(text = 'y', position = 'inside')
 labels_ = function(chart = NULL, ...) {
   mod = check_chart(labels_, chart, list(...))
   if (!is.null(mod)) return(mod)
-  n = length(chart$layers)
-  if (n == 0) stop('add a mark before setting labels')
+  was_empty = !length(chart$layers)
+  if (was_empty) chart = ensure_mark(chart)
+  n = if (was_empty) 1L else length(chart$layers)
   chart$layers[[n]]$labels = c(chart$layers[[n]]$labels, list(list(...)))
   chart
 }
@@ -193,13 +193,13 @@ labels_ = function(chart = NULL, ...) {
 #' @export
 #' @examples
 #' g2(mtcars, x = 'mpg', y = 'hp') |>
-#'   mark_point() |>
 #'   style_mark(fill = 'steelblue', stroke = 'white', lineWidth = 1)
 style_mark = function(chart = NULL, ...) {
   mod = check_chart(style_mark, chart, list(...))
   if (!is.null(mod)) return(mod)
-  n = length(chart$layers)
-  if (n == 0) stop('add a mark before setting style')
+  was_empty = !length(chart$layers)
+  if (was_empty) chart = ensure_mark(chart)
+  n = if (was_empty) 1L else length(chart$layers)
   chart$layers[[n]]$style = list(...)
   chart
 }

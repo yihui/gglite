@@ -42,7 +42,6 @@
 #'
 #' # Jitter on a scatter plot
 #' g2(mtcars, x = 'cyl', y = 'hp') |>
-#'   mark_point() |>
 #'   transform_('jitterX')
 #'
 #' # Histogram using binX
@@ -52,8 +51,9 @@
 transform_ = function(chart = NULL, type, ...) {
   mod = check_chart(transform_, chart, c(if (!missing(type)) list(type), list(...)))
   if (!is.null(mod)) return(mod)
-  n = length(chart$layers)
-  if (n == 0) stop('add a mark before setting transforms')
+  was_empty = !length(chart$layers)
+  if (was_empty) chart = ensure_mark(chart)
+  n = if (was_empty) 1L else length(chart$layers)
   t = c(list(type = type), list(...))
   chart$layers[[n]]$transform = c(chart$layers[[n]]$transform, list(t))
   chart

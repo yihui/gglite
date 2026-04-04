@@ -20,24 +20,20 @@
 #' # Polar coordinate (rose chart)
 #' df = data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2))
 #' g2(df, x = 'x', y = 'y') |>
-#'   mark_interval() |>
 #'   coord_polar()
 #'
 #' # Theta coordinate (pie / donut chart)
 #' g2(df, x = 'x', y = 'y', color = 'x') |>
-#'   mark_interval() |>
 #'   transform_('stackY') |>
 #'   coord_theta()
 #'
 #' # Radial coordinate (radial bar chart)
 #' g2(df, x = 'x', y = 'y', color = 'x') |>
-#'   mark_interval() |>
 #'   coord_radial()
 #'
 #' # Parallel coordinate (uses position encoding)
 #' g2(iris, position = names(iris)[-5], color = 'Species',
 #'   padding = c(30, NA, NA, NA)) |>
-#'   mark_line() |>
 #'   coord_parallel() |>
 #'   legend_color(position = 'bottom')
 #'
@@ -72,7 +68,6 @@ coord_ = function(chart = NULL, type, ...) {
 #' @examples
 #' # Horizontal bar chart (coord_flip equivalent)
 #' g2(data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2)), x = 'x', y = 'y') |>
-#'   mark_interval() |>
 #'   coord_transpose()
 coord_transpose = function(chart = NULL) {
   mod = check_chart(coord_transpose, chart, list())
@@ -93,7 +88,7 @@ coord_transpose = function(chart = NULL) {
 #' @examples
 #' g2(data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2)),
 #'   x = 'x', y = 'y', color = 'x') |>
-#'   mark_interval() |> coord_polar()
+#'   coord_polar()
 coord_polar = function(chart = NULL, ...) coord_(chart, 'polar', ...)
 
 #' Theta Coordinate System
@@ -106,7 +101,7 @@ coord_polar = function(chart = NULL, ...) coord_(chart, 'polar', ...)
 #' @examples
 #' g2(data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2)),
 #'   x = 'x', y = 'y', color = 'x') |>
-#'   mark_interval() |> transform_('stackY') |>
+#'   transform_('stackY') |>
 #'   coord_theta(innerRadius = 0.5)
 coord_theta = function(chart = NULL, ...) coord_(chart, 'theta', ...)
 
@@ -120,7 +115,7 @@ coord_theta = function(chart = NULL, ...) coord_(chart, 'theta', ...)
 #' @examples
 #' g2(data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2)),
 #'   x = 'x', y = 'y', color = 'x') |>
-#'   mark_interval() |> coord_radial()
+#'   coord_radial()
 coord_radial = function(chart = NULL, ...) coord_(chart, 'radial', ...)
 
 #' Radar Coordinate System
