@@ -424,3 +424,61 @@ assert('knitr dispatches knit_print to knit_print.g2', {
   out = knitr::knit_print(chart)
   (inherits(out, 'knit_asis'))
 })
+
+# ---- scale_mark_ / axis_mark_ ----
+
+assert('scale_mark_ sets scale on the last mark', {
+  chart = g2(mtcars, x = 'mpg', y = 'hp') |>
+    mark_point() |>
+    scale_mark_y(independent = TRUE)
+  (chart$layers[[1]]$scale$y %==% list(independent = TRUE))
+})
+
+assert('axis_mark_ sets axis on the last mark', {
+  chart = g2(mtcars, x = 'mpg', y = 'hp') |>
+    mark_point() |>
+    axis_mark_y(position = 'right', grid = FALSE)
+  (chart$layers[[1]]$axis$y$position %==% 'right')
+  (isFALSE(chart$layers[[1]]$axis$y$grid))
+})
+
+assert('axis_mark_ with FALSE hides axis on the last mark', {
+  chart = g2(mtcars, x = 'mpg', y = 'hp') |>
+    mark_point() |>
+    axis_mark_y(FALSE)
+  (isFALSE(chart$layers[[1]]$axis$y))
+})
+
+assert('scale_mark_ and axis_mark_ target the last of multiple marks', {
+  chart = g2(mtcars, x = 'mpg') |>
+    mark_interval(encode = list(y = 'hp')) |>
+    mark_line(encode = list(y = 'wt')) |>
+    scale_mark_y(independent = TRUE) |>
+    axis_mark_y(position = 'right', grid = FALSE)
+  (is.null(chart$layers[[1]]$scale))
+  (is.null(chart$layers[[1]]$axis))
+  (chart$layers[[2]]$scale$y %==% list(independent = TRUE))
+  (chart$layers[[2]]$axis$y$position %==% 'right')
+})
+
+assert('dual-axis chart builds valid config', {
+  air = aggregate(cbind(Temp, Wind) ~ Month, data = airquality, FUN = mean)
+  air$Month = month.abb[air$Month]
+  chart = g2(air, x = 'Month') |>
+    mark_interval(encode = list(y = 'Temp')) |>
+    style_mark(fill = '#85C5A6', fillOpacity = 0.7) |>
+    axis_y(title = 'Temperature (°F)', titleFill = '#85C5A6') |>
+    mark_line(encode = list(y = 'Wind')) |>
+    style_mark(stroke = 'steelblue', lineWidth = 2) |>
+    scale_mark_y(independent = TRUE) |>
+    axis_mark_y(
+      position = 'right', grid = FALSE,
+      title = 'Wind Speed (mph)', titleFill = 'steelblue'
+    )
+  cfg = build_config(chart)
+  (length(cfg$children) %==% 2L)
+  (cfg$children[[1]]$encode$y %==% 'Temp')
+  (cfg$children[[2]]$encode$y %==% 'Wind')
+  (isTRUE(cfg$children[[2]]$scale$y$independent))
+  (cfg$children[[2]]$axis$y$position %==% 'right')
+})

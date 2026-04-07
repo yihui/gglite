@@ -20,6 +20,5 @@ Set Style on the Last Mark
 }
 \examples{
 g2(mtcars, x = 'mpg', y = 'hp') |>
-  mark_point() |>
   style_mark(fill = 'steelblue', stroke = 'white', lineWidth = 1)
 }

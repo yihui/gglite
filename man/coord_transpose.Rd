@@ -19,6 +19,5 @@ Swap x and y axes, equivalent to ggplot2's \code{coord_flip()}. This adds a
 \examples{
 # Horizontal bar chart (coord_flip equivalent)
 g2(data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2)), x = 'x', y = 'y') |>
-  mark_interval() |>
   coord_transpose()
 }

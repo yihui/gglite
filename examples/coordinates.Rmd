@@ -102,8 +102,8 @@ df_radar = data.frame(
   team = rep(c('A', 'B'), each = 5)
 )
 g2(df_radar, x = 'item', y = 'score', color = 'team') |>
-  mark_area(style = list(fillOpacity = 0.5)) |>
-  mark_line(style = list(lineWidth = 2)) |>
+  mark_area() |> style_mark(fillOpacity = 0.5) |>
+  mark_line() |> style_mark(lineWidth = 2) |>
   mark_point() |>
   coord_polar() |>
   scale_x(padding = 0.5, align = 0) |>
