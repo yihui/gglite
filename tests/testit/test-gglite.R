@@ -391,6 +391,20 @@ assert('cdn_scripts returns two <script> tags', {
   (all(grepl('^<script src=".+" defer></script>$', s)))
 })
 
+assert('chart_html uses class-based container when id is NULL', {
+  html = chart_html(g2(mtcars, x = 'mpg', y = 'hp') |> mark_point())
+  (grepl('<div class="gglite"', html, fixed = TRUE))
+  (!grepl('<div id=', html, fixed = TRUE))
+  (grepl('querySelector(".gglite:not([data-gglite-bound])")', html, fixed = TRUE))
+  (grepl('setAttribute("data-gglite-bound", "")', html, fixed = TRUE))
+})
+
+assert('chart_html uses id-based container when id is provided', {
+  html = chart_html(g2(mtcars, x = 'mpg', y = 'hp') |> mark_point(), id = 'my-chart')
+  (grepl('<div id="my-chart"', html, fixed = TRUE))
+  (!grepl('querySelector', html, fixed = TRUE))
+})
+
 assert('knit_print.g2 returns a knit_asis object containing chart HTML', {
   chart = g2(iris, Sepal.Length ~ Sepal.Width)
   out = knit_print.g2(chart)

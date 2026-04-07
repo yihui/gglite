@@ -88,3 +88,31 @@ p2 |> legend_color(FALSE)
 ```{r}
 p2 |> legend_color(position = 'right', title = 'Iris Species')
 ```
+
+## Dual Y-Axis
+
+Two marks can share the same x-axis but each have their own independent y-axis.
+Set `scale = list(y = list(independent = TRUE))` on the second mark and place
+its axis on the right with `axis = list(y = list(position = 'right'))`.
+
+```{r}
+# Monthly averages of temperature (°F) and wind speed (mph) from airquality
+air = aggregate(cbind(Temp, Wind) ~ Month, data = airquality, FUN = mean)
+air$Month = month.abb[air$Month]
+
+g2(air, x = 'Month') |>
+  mark_interval(
+    encode = list(y = 'Temp'),
+    style = list(fill = '#85C5A6', fillOpacity = 0.7),
+    axis = list(y = list(title = 'Temperature (°F)', titleFill = '#85C5A6'))
+  ) |>
+  mark_line(
+    encode = list(y = 'Wind'),
+    style = list(stroke = 'steelblue', lineWidth = 2),
+    scale = list(y = list(independent = TRUE)),
+    axis = list(y = list(
+      position = 'right', grid = FALSE,
+      title = 'Wind Speed (mph)', titleFill = 'steelblue'
+    ))
+  )
+```
