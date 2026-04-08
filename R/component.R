@@ -14,13 +14,13 @@
 #' @export
 #' @examples
 #' # Chart-level axis titles (no marks yet)
-#' g2(mtcars, x = 'mpg', y = 'hp') |>
+#' g2(mtcars, hp ~ mpg) |>
 #'   axis_('x', title = 'Miles per Gallon') |>
 #'   axis_('y', title = 'Horsepower')
 #'
 #' # Mark-level axis for dual-axis chart
 #' df = data.frame(x = 1:5, a = c(1, 4, 2, 5, 3), b = c(100, 200, 150, 300, 250))
-#' g2(df, x = 'x') |>
+#' g2(df, ~ x) |>
 #'   mark_interval(encode = list(y = 'a')) |>
 #'   mark_line(encode = list(y = 'b')) |>
 #'   scale_y(independent = TRUE) |>
@@ -44,7 +44,7 @@ axis_ = function(chart = NULL, channel, ...) {
 #' @inheritParams axis_
 #' @export
 #' @examples
-#' g2(mtcars, x = 'mpg', y = 'hp') |>
+#' g2(mtcars, hp ~ mpg) |>
 #'   axis_x(title = 'Miles per Gallon')
 axis_x = function(chart = NULL, ...) axis_(chart, 'x', ...)
 
@@ -53,7 +53,7 @@ axis_x = function(chart = NULL, ...) axis_(chart, 'x', ...)
 #' @inheritParams axis_
 #' @export
 #' @examples
-#' g2(mtcars, x = 'mpg', y = 'hp') |>
+#' g2(mtcars, hp ~ mpg) |>
 #'   axis_y(title = 'Horsepower')
 axis_y = function(chart = NULL, ...) axis_(chart, 'y', ...)
 
@@ -69,7 +69,7 @@ axis_y = function(chart = NULL, ...) axis_(chart, 'y', ...)
 #' @return The modified `g2` object.
 #' @export
 #' @examples
-#' g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
+#' g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species) |>
 #'   legend_('color', position = 'right')
 legend_ = function(chart = NULL, channel, ...) {
   mod = check_chart(legend_, chart, c(if (!missing(channel)) list(channel), list(...)))
@@ -96,7 +96,7 @@ legend_ = function(chart = NULL, channel, ...) {
 #' @inheritParams legend_
 #' @export
 #' @examples
-#' g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
+#' g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species) |>
 #'   legend_color(position = 'right')
 legend_color = function(chart = NULL, ...) legend_(chart, 'color', ...)
 
@@ -105,7 +105,7 @@ legend_color = function(chart = NULL, ...) legend_(chart, 'color', ...)
 #' @inheritParams legend_
 #' @export
 #' @examples
-#' g2(mtcars, x = 'mpg', y = 'hp', size = 'wt') |>
+#' g2(mtcars, hp ~ mpg, size = ~ wt) |>
 #'   legend_size(position = 'bottom')
 legend_size = function(chart = NULL, ...) legend_(chart, 'size', ...)
 
@@ -114,7 +114,7 @@ legend_size = function(chart = NULL, ...) legend_(chart, 'size', ...)
 #' @inheritParams legend_
 #' @export
 #' @examples
-#' g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', shape = 'Species') |>
+#' g2(iris, Sepal.Length ~ Sepal.Width, shape = ~ Species) |>
 #'   legend_shape(position = 'bottom')
 legend_shape = function(chart = NULL, ...) legend_(chart, 'shape', ...)
 
@@ -123,7 +123,7 @@ legend_shape = function(chart = NULL, ...) legend_(chart, 'shape', ...)
 #' @inheritParams legend_
 #' @export
 #' @examples
-#' g2(mtcars, x = 'mpg', y = 'hp', opacity = 'wt') |>
+#' g2(mtcars, hp ~ mpg, opacity = ~ wt) |>
 #'   legend_opacity(position = 'bottom')
 legend_opacity = function(chart = NULL, ...) legend_(chart, 'opacity', ...)
 
@@ -135,7 +135,7 @@ legend_opacity = function(chart = NULL, ...) legend_(chart, 'opacity', ...)
 #' @return The modified `g2` object.
 #' @export
 #' @examples
-#' g2(mtcars, x = 'mpg', y = 'hp') |>
+#' g2(mtcars, hp ~ mpg) |>
 #'   title_('Motor Trend Cars', subtitle = 'mpg vs hp')
 title_ = function(chart = NULL, text, ...) {
   mod = check_chart(title_, chart, c(if (!missing(text)) list(text), list(...)))
@@ -160,7 +160,7 @@ title_ = function(chart = NULL, text, ...) {
 #' @return The modified `g2` object.
 #' @export
 #' @examples
-#' g2(mtcars, x = 'mpg', y = 'hp') |>
+#' g2(mtcars, hp ~ mpg) |>
 #'   tooltip_(crosshairs = TRUE)
 tooltip_ = function(chart = NULL, ...) {
   mod = check_chart(tooltip_, chart, list(...))
@@ -180,21 +180,21 @@ tooltip_ = function(chart = NULL, ...) {
 #' multiple times to add several label layers.
 #'
 #' @param chart A `g2` object.
-#' @param ... Label options such as `text` (channel name), `position`,
-#'   `formatter`, `style`.
+#' @param ... Label options such as `text` (channel name as `~col` or
+#'   `'col'`), `position`, `formatter`, `style`.
 #' @return The modified `g2` object.
 #' @export
 #' @examples
 #' df = data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2))
-#' g2(df, x = 'x', y = 'y') |>
-#'   labels_(text = 'y', position = 'inside')
+#' g2(df, y ~ x) |>
+#'   labels_(text = ~ y, position = 'inside')
 labels_ = function(chart = NULL, ...) {
   mod = check_chart(labels_, chart, list(...))
   if (!is.null(mod)) return(mod)
   was_empty = !length(chart$layers)
   if (was_empty) chart = ensure_mark(chart)
   n = if (was_empty) 1L else length(chart$layers)
-  chart$layers[[n]]$labels = c(chart$layers[[n]]$labels, list(list(...)))
+  chart$layers[[n]]$labels = c(chart$layers[[n]]$labels, list(as_vars(list(...))))
   chart
 }
 
@@ -206,7 +206,7 @@ labels_ = function(chart = NULL, ...) {
 #' @return The modified `g2` object.
 #' @export
 #' @examples
-#' g2(mtcars, x = 'mpg', y = 'hp') |>
+#' g2(mtcars, hp ~ mpg) |>
 #'   style_mark(fill = 'steelblue', stroke = 'white', lineWidth = 1)
 style_mark = function(chart = NULL, ...) {
   mod = check_chart(style_mark, chart, list(...))
@@ -228,7 +228,7 @@ style_mark = function(chart = NULL, ...) {
 #' @return The modified `g2` object.
 #' @export
 #' @examples
-#' g2(mtcars, x = 'mpg', y = 'hp') |>
+#' g2(mtcars, hp ~ mpg) |>
 #'   slider_('x')
 slider_ = function(chart = NULL, channel, ...) {
   mod = check_chart(slider_, chart, c(if (!missing(channel)) list(channel), list(...)))
@@ -244,7 +244,7 @@ slider_ = function(chart = NULL, channel, ...) {
 #' @inheritParams slider_
 #' @export
 #' @examples
-#' g2(mtcars, x = 'mpg', y = 'hp') |>
+#' g2(mtcars, hp ~ mpg) |>
 #'   slider_x()
 slider_x = function(chart = NULL, ...) slider_(chart, 'x', ...)
 
@@ -253,7 +253,7 @@ slider_x = function(chart = NULL, ...) slider_(chart, 'x', ...)
 #' @inheritParams slider_
 #' @export
 #' @examples
-#' g2(mtcars, x = 'mpg', y = 'hp') |>
+#' g2(mtcars, hp ~ mpg) |>
 #'   slider_y()
 slider_y = function(chart = NULL, ...) slider_(chart, 'y', ...)
 
@@ -266,7 +266,7 @@ slider_y = function(chart = NULL, ...) slider_(chart, 'y', ...)
 #' @export
 #' @examples
 #' df = data.frame(x = 1:100, y = cumsum(rnorm(100)))
-#' g2(df, x = 'x', y = 'y') |>
+#' g2(df, y ~ x) |>
 #'   mark_line() |>
 #'   scrollbar_('x')
 scrollbar_ = function(chart = NULL, channel, ...) {
@@ -284,7 +284,7 @@ scrollbar_ = function(chart = NULL, channel, ...) {
 #' @export
 #' @examples
 #' df = data.frame(x = 1:100, y = cumsum(rnorm(100)))
-#' g2(df, x = 'x', y = 'y') |>
+#' g2(df, y ~ x) |>
 #'   mark_line() |>
 #'   scrollbar_x()
 scrollbar_x = function(chart = NULL, ...) scrollbar_(chart, 'x', ...)
@@ -295,7 +295,7 @@ scrollbar_x = function(chart = NULL, ...) scrollbar_(chart, 'x', ...)
 #' @export
 #' @examples
 #' df = data.frame(x = 1:100, y = cumsum(rnorm(100)))
-#' g2(df, x = 'x', y = 'y') |>
+#' g2(df, y ~ x) |>
 #'   mark_line() |>
 #'   scrollbar_y()
 scrollbar_y = function(chart = NULL, ...) scrollbar_(chart, 'y', ...)

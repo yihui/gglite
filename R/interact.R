@@ -16,19 +16,19 @@
 #' @export
 #' @examples
 #' # Tooltip on scatter plot
-#' g2(mtcars, x = 'mpg', y = 'hp') |>
+#' g2(mtcars, hp ~ mpg) |>
 #'   interact('tooltip')
 #'
 #' # Highlight elements on hover
-#' g2(mtcars, x = 'mpg', y = 'hp', color = 'cyl') |>
+#' g2(mtcars, hp ~ mpg, color = ~ cyl) |>
 #'   interact('elementHighlight')
 #'
 #' # Brush to highlight a region
-#' g2(mtcars, x = 'mpg', y = 'hp') |>
+#' g2(mtcars, hp ~ mpg) |>
 #'   interact('brushHighlight')
 #'
 #' # Legend filter
-#' g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
+#' g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species) |>
 #'   interact('legendFilter')
 interact = function(chart = NULL, type, ...) {
   mod = check_chart(interact, chart, c(if (!missing(type)) list(type), list(...)))

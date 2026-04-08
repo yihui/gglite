@@ -12,15 +12,15 @@
 #' @export
 #' @examples
 #' # Fade-in animation on bars
-#' g2(data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2)), x = 'x', y = 'y') |>
+#' g2(data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2)), y ~ x) |>
 #'   animate(enter = list(type = 'fadeIn', duration = 1000))
 #'
 #' # Wave-in animation
-#' g2(data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2)), x = 'x', y = 'y') |>
+#' g2(data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2)), y ~ x) |>
 #'   animate(enter = list(type = 'waveIn', duration = 800))
 #'
 #' # Disable animation
-#' g2(mtcars, x = 'mpg', y = 'hp') |>
+#' g2(mtcars, hp ~ mpg) |>
 #'   animate(FALSE)
 animate = function(chart = NULL, ...) {
   mod = check_chart(animate, chart, list(...))

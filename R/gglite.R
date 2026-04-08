@@ -81,8 +81,8 @@ check_chart = function(fn, chart, args) {
 #' @export
 #' @examples
 #' # These two are equivalent:
-#' g2(mtcars, x = 'mpg', y = 'hp') |> mark_point() |> theme_('dark')
-#' g2(mtcars, x = 'mpg', y = 'hp') + mark_point() + theme_('dark')
+#' g2(mtcars, hp ~ mpg) |> mark_point() |> theme_('dark')
+#' g2(mtcars, hp ~ mpg) + mark_point() + theme_('dark')
 `+.g2` = function(e1, e2) {
   if (inherits(e2, 'g2_mod')) return(e2(e1))
   stop(
@@ -94,30 +94,28 @@ check_chart = function(fn, chart, args) {
 #' Create a G2 Chart Object
 #'
 #' Construct a base chart object, optionally with data and aesthetic mappings.
-#' Column names are passed as character strings. You can also use a formula
-#' (e.g., `y ~ x`) to specify the mappings (see **Formula Interface**).
+#' Use R formulas for aesthetic mappings (see **Formula Interface**).
 #'
 #' @section Formula Interface:
-#' Instead of named aesthetic arguments, you can pass a formula as the first
-#' argument after `data`:
+#' Aesthetic mappings use R formulas as a shorthand for column names:
 #' \describe{
-#'   \item{`y ~ x`}{Maps `x` and `y` to the named columns.}
-#'   \item{`~ x`}{Maps only `x` (e.g., for histograms or bar counts).}
+#'   \item{`y ~ x`}{Sets `x` and `y` as the first positional argument.}
+#'   \item{`~ x`}{Sets only `x` (e.g., for histograms or bar counts).}
 #'   \item{`~ x1 + x2 + x3`}{Creates a `position` encoding with multiple
 #'     fields (for parallel coordinates).}
 #'   \item{`y ~ x | z`}{Facets the chart by `z` (column direction).}
 #'   \item{`y ~ x | z1 + z2`}{Facets by `z1` (columns) and `z2` (rows).}
+#'   \item{`color = ~ var`}{Maps the `color` channel to `var` (one-sided
+#'     formula in a named argument). Works for any aesthetic channel.}
 #' }
-#' Additional aesthetics (e.g., `color`, `size`) can still be passed as named
-#' arguments alongside the formula.
 #'
 #' @param data A data frame, a `ts`/`mts` time series object, or `NULL`. Time
 #'   series objects are automatically converted to data frames (with columns
 #'   `time` and `value` for univariate series, or `time`, `series`, and `value`
 #'   for multivariate series) and default aesthetic mappings are set
 #'   accordingly.
-#' @param ... Aesthetic mappings as `name = 'column'` pairs (character strings),
-#'   or a formula followed by optional named aesthetics.
+#' @param ... Aesthetic mappings as `name = ~column` formulas or a positional
+#'   formula for `x`/`y`. Character strings are also accepted.
 #' @param width,height Width and height of the chart in pixels.
 #' @param padding,margin,inset Layout spacing in pixels. Each can be a scalar
 #'   (applied to all sides) or a length-4 vector `c(top, right, bottom, left)`;
@@ -130,11 +128,8 @@ check_chart = function(fn, chart, args) {
 #' @import stats utils
 #' @export
 #' @examples
-#' g2(mtcars, x = 'mpg', y = 'hp')
-#'
-#' # Formula interface
 #' g2(mtcars, hp ~ mpg)
-#' g2(mtcars, hp ~ mpg, color = 'cyl')
+#' g2(mtcars, hp ~ mpg, color = ~ cyl)
 #' g2(mtcars, ~ mpg)
 #'
 #' # Time series
@@ -149,11 +144,17 @@ g2 = function(
   title = NULL, subtitle = NULL
 ) {
   dots = list(...)
-  has_formula = length(dots) && inherits(dots[[1]], 'formula')
+  # A positional (unnamed) formula like `hp ~ mpg` or `~ mpg` as the first arg
+  has_formula = length(dots) &&
+    (is.null(names(dots)) || !nzchar(names(dots)[1])) &&
+    inherits(dots[[1]], 'formula')
   facet_from_formula = if (has_formula) {
     parsed = parse_formula(dots[[1]])
-    dots = c(parsed$aesthetics, dots[-1])
+    dots = c(parsed$aesthetics, as_vars(dots[-1]))
     parsed$facet
+  } else {
+    dots = as_vars(dots)
+    NULL
   }
   # Convert time series to data frame with default aesthetics
   ts_aes = NULL
@@ -192,20 +193,19 @@ g2 = function(
 #' Set Aesthetic Mappings
 #'
 #' Map data columns to visual channels (x, y, color, size, shape, etc.).
-#' Column names are specified as character strings.
+#' Use formulas (e.g., `x = ~ col`) or character strings (e.g., `x = 'col'`).
 #'
 #' @param chart A `g2` object.
-#' @param ... Named mappings as character strings, e.g.,
-#'   `x = 'col1', color = 'col2'`.
+#' @param ... Named mappings as `name = ~column` formulas or character strings,
+#'   e.g., `x = ~ col1, color = ~ col2`.
 #' @return The modified `g2` object.
 #' @export
 #' @examples
-#' g2(mtcars) |> encode(x = 'mpg', y = 'hp')
+#' g2(mtcars) |> encode(x = ~ mpg, y = ~ hp)
 encode = function(chart = NULL, ...) {
   mod = check_chart(encode, chart, list(...))
   if (!is.null(mod)) return(mod)
-  chart$aesthetics = modifyList(chart$aesthetics, list(...))
+  chart$aesthetics = modifyList(chart$aesthetics, as_vars(list(...)))
   chart
 }
-
 

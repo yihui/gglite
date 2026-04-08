@@ -19,20 +19,20 @@
 #' @examples
 #' # Polar coordinate (rose chart)
 #' df = data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2))
-#' g2(df, x = 'x', y = 'y') |>
+#' g2(df, y ~ x) |>
 #'   coord_polar()
 #'
 #' # Theta coordinate (pie / donut chart)
-#' g2(df, x = 'x', y = 'y', color = 'x') |>
+#' g2(df, y ~ x, color = ~ x) |>
 #'   transform_('stackY') |>
 #'   coord_theta()
 #'
 #' # Radial coordinate (radial bar chart)
-#' g2(df, x = 'x', y = 'y', color = 'x') |>
+#' g2(df, y ~ x, color = ~ x) |>
 #'   coord_radial()
 #'
 #' # Parallel coordinate (uses position encoding)
-#' g2(iris, position = names(iris)[-5], color = 'Species',
+#' g2(iris, position = names(iris)[-5], color = ~ Species,
 #'   padding = c(30, NA, NA, NA)) |>
 #'   coord_parallel() |>
 #'   legend_color(position = 'bottom')
@@ -43,7 +43,7 @@
 #'   score = c(80, 90, 65, 75, 85, 60, 70, 85, 80, 70),
 #'   team = rep(c('A', 'B'), each = 5)
 #' )
-#' g2(df2, x = 'item', y = 'score', color = 'team') |>
+#' g2(df2, score ~ item, color = ~ team) |>
 #'   mark_area(style = list(fillOpacity = 0.5)) |>
 #'   mark_line(style = list(lineWidth = 2)) |>
 #'   coord_polar() |>
@@ -68,7 +68,7 @@ coord_ = function(chart = NULL, type, ...) {
 #' @export
 #' @examples
 #' # Horizontal bar chart (coord_flip equivalent)
-#' g2(data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2)), x = 'x', y = 'y') |>
+#' g2(data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2)), y ~ x) |>
 #'   coord_transpose()
 coord_transpose = function(chart = NULL) {
   mod = check_chart(coord_transpose, chart, list())
@@ -88,8 +88,7 @@ coord_transpose = function(chart = NULL) {
 #' @inheritParams coord_
 #' @export
 #' @examples
-#' g2(data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2)),
-#'   x = 'x', y = 'y', color = 'x') |>
+#' g2(data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2)), y ~ x, color = ~ x) |>
 #'   coord_polar()
 coord_polar = function(chart = NULL, ...) coord_(chart, 'polar', ...)
 
@@ -101,8 +100,7 @@ coord_polar = function(chart = NULL, ...) coord_(chart, 'polar', ...)
 #' @inheritParams coord_
 #' @export
 #' @examples
-#' g2(data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2)),
-#'   x = 'x', y = 'y', color = 'x') |>
+#' g2(data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2)), y ~ x, color = ~ x) |>
 #'   transform_('stackY') |>
 #'   coord_theta(innerRadius = 0.5)
 coord_theta = function(chart = NULL, ...) coord_(chart, 'theta', ...)
@@ -115,8 +113,7 @@ coord_theta = function(chart = NULL, ...) coord_(chart, 'theta', ...)
 #' @inheritParams coord_
 #' @export
 #' @examples
-#' g2(data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2)),
-#'   x = 'x', y = 'y', color = 'x') |>
+#' g2(data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2)), y ~ x, color = ~ x) |>
 #'   coord_radial()
 coord_radial = function(chart = NULL, ...) coord_(chart, 'radial', ...)
 

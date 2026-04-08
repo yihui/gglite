@@ -20,20 +20,20 @@
 #' @export
 #' @examples
 #' # Log-scaled x axis (chart-level, before marks)
-#' g2(mtcars, x = 'mpg', y = 'hp') |>
+#' g2(mtcars, hp ~ mpg) |>
 #'   scale_('x', type = 'log')
 #'
 #' # Square-root scale on y (chart-level)
-#' g2(mtcars, x = 'mpg', y = 'hp') |>
+#' g2(mtcars, hp ~ mpg) |>
 #'   scale_('y', type = 'sqrt')
 #'
 #' # Ordinal colour palette (chart-level)
-#' g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
+#' g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species) |>
 #'   scale_('color', palette = 'category10')
 #'
 #' # Mark-level independent y scale for dual-axis charts
 #' df = data.frame(x = 1:5, a = c(1, 4, 2, 5, 3), b = c(100, 200, 150, 300, 250))
-#' g2(df, x = 'x') |>
+#' g2(df, ~ x) |>
 #'   mark_interval(encode = list(y = 'a')) |>
 #'   mark_line(encode = list(y = 'b')) |>
 #'   scale_y(independent = TRUE) |>
@@ -54,7 +54,7 @@ scale_ = function(chart = NULL, field, ...) {
 #' @inheritParams scale_
 #' @export
 #' @examples
-#' g2(mtcars, x = 'mpg', y = 'hp') |>
+#' g2(mtcars, hp ~ mpg) |>
 #'   scale_x(type = 'log')
 scale_x = function(chart = NULL, ...) scale_(chart, 'x', ...)
 
@@ -63,7 +63,7 @@ scale_x = function(chart = NULL, ...) scale_(chart, 'x', ...)
 #' @inheritParams scale_
 #' @export
 #' @examples
-#' g2(mtcars, x = 'mpg', y = 'hp') |>
+#' g2(mtcars, hp ~ mpg) |>
 #'   scale_y(type = 'sqrt')
 scale_y = function(chart = NULL, ...) scale_(chart, 'y', ...)
 
@@ -72,7 +72,7 @@ scale_y = function(chart = NULL, ...) scale_(chart, 'y', ...)
 #' @inheritParams scale_
 #' @export
 #' @examples
-#' g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
+#' g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species) |>
 #'   scale_color(palette = 'category10')
 scale_color = function(chart = NULL, ...) scale_(chart, 'color', ...)
 
@@ -81,7 +81,7 @@ scale_color = function(chart = NULL, ...) scale_(chart, 'color', ...)
 #' @inheritParams scale_
 #' @export
 #' @examples
-#' g2(mtcars, x = 'mpg', y = 'hp', size = 'wt') |>
+#' g2(mtcars, hp ~ mpg, size = ~ wt) |>
 #'   scale_size(range = c(2, 10))
 scale_size = function(chart = NULL, ...) scale_(chart, 'size', ...)
 
@@ -90,7 +90,7 @@ scale_size = function(chart = NULL, ...) scale_(chart, 'size', ...)
 #' @inheritParams scale_
 #' @export
 #' @examples
-#' g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', shape = 'Species') |>
+#' g2(iris, Sepal.Length ~ Sepal.Width, shape = ~ Species) |>
 #'   scale_shape(range = c('circle', 'square', 'triangle'))
 scale_shape = function(chart = NULL, ...) scale_(chart, 'shape', ...)
 
@@ -99,6 +99,6 @@ scale_shape = function(chart = NULL, ...) scale_(chart, 'shape', ...)
 #' @inheritParams scale_
 #' @export
 #' @examples
-#' g2(mtcars, x = 'mpg', y = 'hp', opacity = 'wt') |>
+#' g2(mtcars, hp ~ mpg, opacity = ~ wt) |>
 #'   scale_opacity(range = c(0.2, 1))
 scale_opacity = function(chart = NULL, ...) scale_(chart, 'opacity', ...)

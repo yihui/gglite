@@ -25,27 +25,27 @@
 #'   x = rep(c('A', 'B'), each = 2), y = c(3, 2, 5, 4),
 #'   color = rep(c('a', 'b'), 2)
 #' )
-#' g2(df, x = 'x', y = 'y', color = 'color') |>
+#' g2(df, y ~ x, color = ~ color) |>
 #'   mark_interval() |>
 #'   transform_('stackY')
 #'
 #' # Grouped (dodged) bar chart
-#' g2(df, x = 'x', y = 'y', color = 'color') |>
+#' g2(df, y ~ x, color = ~ color) |>
 #'   mark_interval() |>
 #'   transform_('dodgeX')
 #'
 #' # Percent stacked bar (normalizeY + stackY)
-#' g2(df, x = 'x', y = 'y', color = 'color') |>
+#' g2(df, y ~ x, color = ~ color) |>
 #'   mark_interval() |>
 #'   transform_('stackY') |>
 #'   transform_('normalizeY')
 #'
 #' # Jitter on a scatter plot
-#' g2(mtcars, x = 'cyl', y = 'hp') |>
+#' g2(mtcars, hp ~ cyl) |>
 #'   transform_('jitterX')
 #'
 #' # Histogram using binX
-#' g2(mtcars, x = 'mpg') |>
+#' g2(mtcars, ~ mpg) |>
 #'   mark_interval(encode = list(y = 'count')) |>
 #'   transform_('binX', thresholds = 15)
 transform_ = function(chart = NULL, type, ...) {

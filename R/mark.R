@@ -10,7 +10,7 @@
 #' @return The modified `g2` object.
 #' @export
 #' @examples
-#' g2(mtcars, x = 'mpg', y = 'hp') |> mark_('point')
+#' g2(mtcars, hp ~ mpg) |> mark_('point')
 mark_ = function(chart = NULL, type, ...) {
   mod = check_chart(mark_, chart, c(if (!missing(type)) list(type), list(...)))
   if (!is.null(mod)) return(mod)
@@ -30,7 +30,7 @@ mark_ = function(chart = NULL, type, ...) {
 #' @export
 #' @examples
 #' # Bar chart
-#' g2(data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2)), x = 'x', y = 'y') |>
+#' g2(data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2)), y ~ x) |>
 #'   mark_interval()
 #'
 #' # Stacked bar chart (using transform)
@@ -38,7 +38,7 @@ mark_ = function(chart = NULL, type, ...) {
 #'   x = rep(c('A', 'B'), each = 2), y = c(3, 2, 5, 4),
 #'   color = rep(c('a', 'b'), 2)
 #' )
-#' g2(df, x = 'x', y = 'y', color = 'color') |>
+#' g2(df, y ~ x, color = ~ color) |>
 #'   mark_interval() |> transform_('stackY')
 mark_interval = function(chart = NULL, ...) mark_(chart, 'interval', ...)
 
@@ -47,7 +47,7 @@ mark_interval = function(chart = NULL, ...) mark_(chart, 'interval', ...)
 #' @inheritParams mark_
 #' @export
 #' @examples
-#' g2(data.frame(x = 1:5, y = c(3, 1, 4, 1, 5)), x = 'x', y = 'y') |>
+#' g2(data.frame(x = 1:5, y = c(3, 1, 4, 1, 5)), y ~ x) |>
 #'   mark_line()
 mark_line = function(chart = NULL, ...) mark_(chart, 'line', ...)
 
@@ -56,7 +56,7 @@ mark_line = function(chart = NULL, ...) mark_(chart, 'line', ...)
 #' @inheritParams mark_
 #' @export
 #' @examples
-#' g2(mtcars, x = 'mpg', y = 'hp', color = 'cyl') |> mark_point()
+#' g2(mtcars, hp ~ mpg, color = ~ cyl) |> mark_point()
 mark_point = function(chart = NULL, ...) {
   opts = modifyList(list(style = list(shape = 'point')), list(...))
   do.call(mark_, c(list(chart, 'point'), opts))
@@ -67,7 +67,7 @@ mark_point = function(chart = NULL, ...) {
 #' @inheritParams mark_
 #' @export
 #' @examples
-#' g2(data.frame(x = 1:5, y = c(3, 1, 4, 1, 5)), x = 'x', y = 'y') |>
+#' g2(data.frame(x = 1:5, y = c(3, 1, 4, 1, 5)), y ~ x) |>
 #'   mark_area()
 mark_area = function(chart = NULL, ...) mark_(chart, 'area', ...)
 
@@ -79,7 +79,7 @@ mark_area = function(chart = NULL, ...) mark_(chart, 'area', ...)
 #' @export
 #' @examples
 #' # 2-D histogram using bin transform
-#' g2(mtcars, x = 'mpg', y = 'hp') |>
+#' g2(mtcars, hp ~ mpg) |>
 #'   mark_rect(
 #'     transform = list(list(type = 'bin', thresholdsX = 10, thresholdsY = 10))
 #'   )
@@ -94,7 +94,7 @@ mark_rect = function(chart = NULL, ...) mark_(chart, 'rect', ...)
 #' @examples
 #' df = expand.grid(x = LETTERS[1:4], y = LETTERS[1:4])
 #' df$value = seq_len(nrow(df))
-#' g2(df, x = 'x', y = 'y', color = 'value') |> mark_cell()
+#' g2(df, y ~ x, color = ~ value) |> mark_cell()
 mark_cell = function(chart = NULL, ...) mark_(chart, 'cell', ...)
 
 #' Add a Text Mark
@@ -103,7 +103,7 @@ mark_cell = function(chart = NULL, ...) mark_(chart, 'cell', ...)
 #' @export
 #' @examples
 #' df = data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2))
-#' g2(df, x = 'x', y = 'y') |>
+#' g2(df, y ~ x) |>
 #'   mark_interval() |>
 #'   mark_text(encode = list(text = 'y'))
 mark_text = function(chart = NULL, ...) mark_(chart, 'text', ...)
@@ -119,7 +119,7 @@ mark_text = function(chart = NULL, ...) mark_(chart, 'text', ...)
 #' n = 100
 #' t = seq(0, 4 * pi, length.out = n)
 #' df = data.frame(x = t * cos(t), y = t * sin(t))
-#' g2(df, x = 'x', y = 'y') |> mark_path()
+#' g2(df, y ~ x) |> mark_path()
 mark_path = function(chart = NULL, ...) mark_(chart, 'path', ...)
 
 #' Add a Polygon Mark
@@ -128,7 +128,7 @@ mark_path = function(chart = NULL, ...) mark_(chart, 'path', ...)
 #' @export
 #' @examples
 #' df = data.frame(x = c(0, 1, 0.5), y = c(0, 0, 1))
-#' g2(df, x = 'x', y = 'y') |> mark_polygon()
+#' g2(df, y ~ x) |> mark_polygon()
 mark_polygon = function(chart = NULL, ...) mark_(chart, 'polygon', ...)
 
 #' Add an Image Mark
@@ -139,7 +139,7 @@ mark_polygon = function(chart = NULL, ...) mark_(chart, 'polygon', ...)
 #' @export
 #' @examples
 #' df = data.frame(x = 1:2, y = 1:2)
-#' g2(df, x = 'x', y = 'y') |>
+#' g2(df, y ~ x) |>
 #'   mark_image(style = list(
 #'     src = 'https://gw.alipayobjects.com/mdn/rms_dfc253/afts/img/A*SZGfRaFPkIoAAAAAAAAAAAAAARQnAQ'
 #'   ))
@@ -164,7 +164,7 @@ mark_link = function(chart = NULL, ...) mark_(chart, 'link', ...)
 #' @inheritParams mark_
 #' @export
 #' @examples
-#' g2(mtcars, x = 'mpg', y = 'hp') |>
+#' g2(mtcars, hp ~ mpg) |>
 #'   mark_point() |>
 #'   mark_line_x(data = list(list(x = 20)),
 #'     style = list(stroke = 'red', lineDash = c(4, 4)))
@@ -175,7 +175,7 @@ mark_line_x = function(chart = NULL, ...) mark_(chart, 'lineX', ...)
 #' @inheritParams mark_
 #' @export
 #' @examples
-#' g2(mtcars, x = 'mpg', y = 'hp') |>
+#' g2(mtcars, hp ~ mpg) |>
 #'   mark_point() |>
 #'   mark_line_y(data = list(list(y = 150)),
 #'     style = list(stroke = 'red', lineDash = c(4, 4)))
@@ -186,7 +186,7 @@ mark_line_y = function(chart = NULL, ...) mark_(chart, 'lineY', ...)
 #' @inheritParams mark_
 #' @export
 #' @examples
-#' g2(mtcars, x = 'mpg', y = 'hp') |>
+#' g2(mtcars, hp ~ mpg) |>
 #'   mark_point() |>
 #'   mark_range(
 #'     data = list(list(x = c(15, 25), y = c(100, 200))),
@@ -199,7 +199,7 @@ mark_range = function(chart = NULL, ...) mark_(chart, 'range', ...)
 #' @inheritParams mark_
 #' @export
 #' @examples
-#' g2(mtcars, x = 'mpg', y = 'hp') |>
+#' g2(mtcars, hp ~ mpg) |>
 #'   mark_point() |>
 #'   mark_range_x(data = list(list(x = c(15, 25))),
 #'     style = list(fill = 'steelblue', fillOpacity = 0.15))
@@ -210,7 +210,7 @@ mark_range_x = function(chart = NULL, ...) mark_(chart, 'rangeX', ...)
 #' @inheritParams mark_
 #' @export
 #' @examples
-#' g2(mtcars, x = 'mpg', y = 'hp') |>
+#' g2(mtcars, hp ~ mpg) |>
 #'   mark_point() |>
 #'   mark_range_y(data = list(list(y = c(100, 200))),
 #'     style = list(fill = 'orange', fillOpacity = 0.15))
@@ -224,7 +224,7 @@ mark_range_y = function(chart = NULL, ...) mark_(chart, 'rangeY', ...)
 #' @export
 #' @examples
 #' df = data.frame(x = c('A', 'B'), y = c(3, 7))
-#' g2(df, x = 'x', y = 'y') |>
+#' g2(df, y ~ x) |>
 #'   mark_interval() |>
 #'   mark_connector(
 #'     data = list(list(x = 'A', x1 = 'B')),
@@ -251,7 +251,7 @@ mark_box = function(chart = NULL, ...) mark_(chart, 'box', ...)
 #' @inheritParams mark_
 #' @export
 #' @examples
-#' g2(iris, x = 'Species', y = 'Sepal.Width') |> mark_boxplot()
+#' g2(iris, Sepal.Width ~ Species) |> mark_boxplot()
 mark_boxplot = function(chart = NULL, ...) mark_(chart, 'boxplot', ...)
 
 #' Add a Beeswarm Mark
@@ -263,7 +263,7 @@ mark_boxplot = function(chart = NULL, ...) mark_(chart, 'boxplot', ...)
 #' @inheritParams mark_
 #' @export
 #' @examples
-#' g2(iris, x = 'Species', y = 'Sepal.Width') |> mark_beeswarm()
+#' g2(iris, Sepal.Width ~ Species) |> mark_beeswarm()
 mark_beeswarm = function(chart, ...) mark_(chart, 'beeswarm', ...)
 
 #' Add a Density Mark
@@ -277,7 +277,7 @@ mark_beeswarm = function(chart, ...) mark_(chart, 'beeswarm', ...)
 #' @inheritParams mark_
 #' @export
 #' @examples
-#' g2(iris, x = 'Sepal.Width', color = 'Species') |> mark_density()
+#' g2(iris, ~ Sepal.Width, color = ~ Species) |> mark_density()
 mark_density = function(chart = NULL, ...) {
   mod = check_chart(mark_density, chart, list(...))
   if (!is.null(mod)) return(mod)
@@ -324,7 +324,7 @@ mark_density = function(chart = NULL, ...) {
 #' @inheritParams mark_
 #' @export
 #' @examples
-#' g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Petal.Length') |>
+#' g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Petal.Length) |>
 #'   mark_heatmap()
 mark_heatmap = function(chart = NULL, ...) mark_(chart, 'heatmap', ...)
 
