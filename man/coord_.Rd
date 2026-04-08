@@ -2,9 +2,27 @@
 % Please edit documentation in R/coordinate.R
 \name{coord_}
 \alias{coord_}
+\alias{coord_polar}
+\alias{coord_theta}
+\alias{coord_radial}
+\alias{coord_radar}
+\alias{coord_helix}
+\alias{coord_parallel}
 \title{Set the Coordinate System}
 \usage{
 coord_(chart = NULL, type, ...)
+
+coord_polar(chart = NULL, ...)
+
+coord_theta(chart = NULL, ...)
+
+coord_radial(chart = NULL, ...)
+
+coord_radar(chart = NULL, ...)
+
+coord_helix(chart = NULL, ...)
+
+coord_parallel(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}
@@ -23,6 +41,22 @@ types: \code{'cartesian'} (default), \code{'polar'}, \code{'theta'}, \code{'radi
 \code{'helix'}, \code{'parallel'}. Use the \code{transform} argument to apply coordinate
 transforms such as \code{'transpose'} (equivalent to ggplot2's \code{coord_flip()}) or
 \code{'fisheye'}.
+
+Shortcut for \code{coord_(chart, 'polar', ...)}.
+
+Shortcut for \code{coord_(chart, 'theta', ...)}. Used for pie and donut
+charts.
+
+Shortcut for \code{coord_(chart, 'radial', ...)}. Suitable for radial bar
+charts.
+
+Shortcut for \code{coord_(chart, 'radar', ...)}. Used with \code{position}
+encoding for radar (spider) charts.
+
+Shortcut for \code{coord_(chart, 'helix', ...)}.
+
+Shortcut for \code{coord_(chart, 'parallel', ...)}. Used with \code{position}
+encoding for parallel coordinate plots.
 }
 \details{
 The \code{'parallel'} coordinate requires a \code{position} encoding (a character
@@ -63,4 +97,11 @@ g2(df2, score ~ item, color = ~ team) |>
   scale_x(padding = 0.5, align = 0) |>
   scale_y(domainMin = 0, domainMax = 100) |>
   axis_x(grid = TRUE)
+g2(data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2)), y ~ x, color = ~ x) |>
+  coord_polar()
+g2(data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2)), y ~ x, color = ~ x) |>
+  transform_('stackY') |>
+  coord_theta(innerRadius = 0.5)
+g2(data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2)), y ~ x, color = ~ x) |>
+  coord_radial()
 }

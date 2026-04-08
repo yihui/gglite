@@ -85,7 +85,7 @@ coord_transpose = function(chart = NULL) {
 #'
 #' Shortcut for `coord_(chart, 'polar', ...)`.
 #'
-#' @inheritParams coord_
+#' @rdname coord_
 #' @export
 #' @examples
 #' g2(data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2)), y ~ x, color = ~ x) |>
@@ -97,7 +97,7 @@ coord_polar = function(chart = NULL, ...) coord_(chart, 'polar', ...)
 #' Shortcut for `coord_(chart, 'theta', ...)`. Used for pie and donut
 #' charts.
 #'
-#' @inheritParams coord_
+#' @rdname coord_
 #' @export
 #' @examples
 #' g2(data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2)), y ~ x, color = ~ x) |>
@@ -110,7 +110,7 @@ coord_theta = function(chart = NULL, ...) coord_(chart, 'theta', ...)
 #' Shortcut for `coord_(chart, 'radial', ...)`. Suitable for radial bar
 #' charts.
 #'
-#' @inheritParams coord_
+#' @rdname coord_
 #' @export
 #' @examples
 #' g2(data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2)), y ~ x, color = ~ x) |>
@@ -122,7 +122,7 @@ coord_radial = function(chart = NULL, ...) coord_(chart, 'radial', ...)
 #' Shortcut for `coord_(chart, 'radar', ...)`. Used with `position`
 #' encoding for radar (spider) charts.
 #'
-#' @inheritParams coord_
+#' @rdname coord_
 #' @export
 coord_radar = function(chart = NULL, ...) coord_(chart, 'radar', ...)
 
@@ -130,7 +130,7 @@ coord_radar = function(chart = NULL, ...) coord_(chart, 'radar', ...)
 #'
 #' Shortcut for `coord_(chart, 'helix', ...)`.
 #'
-#' @inheritParams coord_
+#' @rdname coord_
 #' @export
 coord_helix = function(chart = NULL, ...) coord_(chart, 'helix', ...)
 
@@ -139,6 +139,6 @@ coord_helix = function(chart = NULL, ...) coord_(chart, 'helix', ...)
 #' Shortcut for `coord_(chart, 'parallel', ...)`. Used with `position`
 #' encoding for parallel coordinate plots.
 #'
-#' @inheritParams coord_
+#' @rdname coord_
 #' @export
 coord_parallel = function(chart = NULL, ...) coord_(chart, 'parallel', ...)

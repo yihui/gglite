@@ -46,7 +46,7 @@ theme_ = function(chart = NULL, type, ...) {
 #'
 #' Shortcut for `theme_(chart, 'classic', ...)`. This is the default theme.
 #'
-#' @inheritParams theme_
+#' @rdname theme_
 #' @export
 #' @examples
 #' g2(mtcars, hp ~ mpg) |> theme_classic()
@@ -56,7 +56,7 @@ theme_classic = function(chart = NULL, ...) theme_(chart, 'classic', ...)
 #'
 #' Shortcut for `theme_(chart, 'classicDark', ...)`.
 #'
-#' @inheritParams theme_
+#' @rdname theme_
 #' @export
 #' @examples
 #' g2(mtcars, hp ~ mpg) |> theme_classicDark()
@@ -66,7 +66,7 @@ theme_classicDark = function(chart = NULL, ...) theme_(chart, 'classicDark', ...
 #'
 #' Shortcut for `theme_(chart, 'light', ...)`.
 #'
-#' @inheritParams theme_
+#' @rdname theme_
 #' @export
 #' @examples
 #' g2(mtcars, hp ~ mpg) |> theme_light()
@@ -76,7 +76,7 @@ theme_light = function(chart = NULL, ...) theme_(chart, 'light', ...)
 #'
 #' Shortcut for `theme_(chart, 'dark', ...)`.
 #'
-#' @inheritParams theme_
+#' @rdname theme_
 #' @export
 #' @examples
 #' g2(mtcars, hp ~ mpg) |> theme_dark()
@@ -86,7 +86,7 @@ theme_dark = function(chart = NULL, ...) theme_(chart, 'dark', ...)
 #'
 #' Shortcut for `theme_(chart, 'academy', ...)`.
 #'
-#' @inheritParams theme_
+#' @rdname theme_
 #' @export
 #' @examples
 #' g2(mtcars, hp ~ mpg) |> theme_academy()

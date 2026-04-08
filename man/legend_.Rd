@@ -2,9 +2,21 @@
 % Please edit documentation in R/component.R
 \name{legend_}
 \alias{legend_}
+\alias{legend_color}
+\alias{legend_size}
+\alias{legend_shape}
+\alias{legend_opacity}
 \title{Configure a Legend}
 \usage{
 legend_(chart = NULL, channel, ...)
+
+legend_color(chart = NULL, ...)
+
+legend_size(chart = NULL, ...)
+
+legend_shape(chart = NULL, ...)
+
+legend_opacity(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}
@@ -24,4 +36,12 @@ Customise the legend for a visual channel (\code{'color'}, \code{'size'}, \code{
 \examples{
 g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species) |>
   legend_('color', position = 'right')
+g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species) |>
+  legend_color(position = 'right')
+g2(mtcars, hp ~ mpg, size = ~ wt) |>
+  legend_size(position = 'bottom')
+g2(iris, Sepal.Length ~ Sepal.Width, shape = ~ Species) |>
+  legend_shape(position = 'bottom')
+g2(mtcars, hp ~ mpg, opacity = ~ wt) |>
+  legend_opacity(position = 'bottom')
 }

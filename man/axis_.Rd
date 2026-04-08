@@ -2,9 +2,15 @@
 % Please edit documentation in R/component.R
 \name{axis_}
 \alias{axis_}
+\alias{axis_x}
+\alias{axis_y}
 \title{Configure an Axis}
 \usage{
 axis_(chart = NULL, channel, ...)
+
+axis_x(chart = NULL, ...)
+
+axis_y(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}
@@ -37,4 +43,8 @@ g2(df, ~ x) |>
   mark_line(encode = list(y = 'b')) |>
   scale_y(independent = TRUE) |>
   axis_y(position = 'right', grid = FALSE)
+g2(mtcars, hp ~ mpg) |>
+  axis_x(title = 'Miles per Gallon')
+g2(mtcars, hp ~ mpg) |>
+  axis_y(title = 'Horsepower')
 }

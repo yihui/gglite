@@ -2,9 +2,120 @@
 % Please edit documentation in R/mark.R
 \name{mark_}
 \alias{mark_}
+\alias{mark_interval}
+\alias{mark_line}
+\alias{mark_point}
+\alias{mark_area}
+\alias{mark_rect}
+\alias{mark_cell}
+\alias{mark_text}
+\alias{mark_path}
+\alias{mark_polygon}
+\alias{mark_image}
+\alias{mark_link}
+\alias{mark_line_x}
+\alias{mark_line_y}
+\alias{mark_range}
+\alias{mark_range_x}
+\alias{mark_range_y}
+\alias{mark_connector}
+\alias{mark_box}
+\alias{mark_boxplot}
+\alias{mark_beeswarm}
+\alias{mark_density}
+\alias{mark_heatmap}
+\alias{mark_vector}
+\alias{mark_node}
+\alias{mark_edge}
+\alias{mark_sankey}
+\alias{mark_chord}
+\alias{mark_treemap}
+\alias{mark_pack}
+\alias{mark_force_graph}
+\alias{mark_tree}
+\alias{mark_word_cloud}
+\alias{mark_gauge}
+\alias{mark_liquid}
+\alias{mark_shape}
+\alias{mark_sunburst}
+\alias{mark_partition}
 \title{Add a Geometry Layer (Mark)}
 \usage{
 mark_(chart = NULL, type, ...)
+
+mark_interval(chart = NULL, ...)
+
+mark_line(chart = NULL, ...)
+
+mark_point(chart = NULL, ...)
+
+mark_area(chart = NULL, ...)
+
+mark_rect(chart = NULL, ...)
+
+mark_cell(chart = NULL, ...)
+
+mark_text(chart = NULL, ...)
+
+mark_path(chart = NULL, ...)
+
+mark_polygon(chart = NULL, ...)
+
+mark_image(chart = NULL, ...)
+
+mark_link(chart = NULL, ...)
+
+mark_line_x(chart = NULL, ...)
+
+mark_line_y(chart = NULL, ...)
+
+mark_range(chart = NULL, ...)
+
+mark_range_x(chart = NULL, ...)
+
+mark_range_y(chart = NULL, ...)
+
+mark_connector(chart = NULL, ...)
+
+mark_box(chart = NULL, ...)
+
+mark_boxplot(chart = NULL, ...)
+
+mark_beeswarm(chart, ...)
+
+mark_density(chart = NULL, ...)
+
+mark_heatmap(chart = NULL, ...)
+
+mark_vector(chart = NULL, ...)
+
+mark_node(chart = NULL, ...)
+
+mark_edge(chart = NULL, ...)
+
+mark_sankey(chart = NULL, ...)
+
+mark_chord(chart = NULL, ...)
+
+mark_treemap(chart = NULL, ...)
+
+mark_pack(chart = NULL, ...)
+
+mark_force_graph(chart = NULL, ...)
+
+mark_tree(chart = NULL, ...)
+
+mark_word_cloud(chart = NULL, ...)
+
+mark_gauge(chart = NULL, ...)
+
+mark_liquid(chart = NULL, ...)
+
+mark_shape(chart = NULL, ...)
+
+mark_sunburst(chart = NULL, ...)
+
+mark_partition(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}
@@ -22,7 +133,208 @@ The modified \code{g2} object.
 \description{
 Generic function to add a mark (geometry layer) to the chart. Use the
 specific \verb{mark_*()} wrappers for convenience.
+
+Draws rectangles. Commonly used with a \code{bin} transform for 2-D histograms.
+
+Draws rectangular cells, commonly used for heatmaps and calendar charts.
+
+Connects points in data order (unlike line, which sorts by x).
+
+Places images at data coordinates. Requires an \code{src} encoding for image URLs.
+
+Draws links (lines) between pairs of points.
+
+Draws a connector line with optional labels between two data points.
+
+Draws pre-computed box elements (for custom box plots).
+
+A composite mark that automatically computes box plot statistics (median,
+quartiles, whiskers) from raw data.
+
+Displays individual data points using force simulation to avoid overlapping,
+creating a beeswarm layout. Particularly useful for visualizing distributions
+within categories.
+
+Visualize probability density distribution using kernel density estimation
+(KDE). When the chart has a numeric \code{x} aesthetic, the KDE transform and
+encodings are configured automatically: the density is computed for the \code{x}
+column, and if \code{color} is also mapped, separate density curves are drawn for
+each group. Explicit \code{data}/\code{encode} in \code{...} bypass this auto-configuration.
+
+A composite mark for rendering heatmaps from point data.
+
+Draws arrows or vectors. Useful for wind or flow field visualizations.
+
+Used in graph visualizations together with \code{\link[=mark_edge]{mark_edge()}}.
+
+Used in graph visualizations together with \code{\link[=mark_node]{mark_node()}}.
+
+Draws a Sankey diagram. Data should have \code{source}, \code{target}, and \code{value}
+columns.
+
+Draws a chord diagram. Data should have \code{source}, \code{target}, and \code{value}
+columns.
+
+Draws a treemap layout. Data should be hierarchical (a nested list with
+\code{name}, \code{value}, and optionally \code{children} fields).
+
+Draws a force-directed graph layout.
+
+Draws a tree layout.
+
+Draws a liquid fill gauge.
+
+A custom mark whose rendering is controlled by a JavaScript render function.
+
+A composite mark for sunburst (radial partition) visualization of
+hierarchical data. This wraps the partition mark with polar coordinates.
+The data should be a nested tree structure wrapped in a list, e.g.,
+\code{data = list(type = 'inline', value = list(tree))}.
+
+A composite mark for hierarchical icicle chart visualization. For a radial
+(sunburst) layout, use \code{\link[=mark_sunburst]{mark_sunburst()}} instead. The data should be a
+nested tree structure wrapped in a list, e.g.,
+\code{data = list(type = 'inline', value = list(tree))}.
 }
 \examples{
 g2(mtcars, hp ~ mpg) |> mark_('point')
+# Bar chart
+g2(data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2)), y ~ x) |>
+  mark_interval()
+
+# Stacked bar chart (using transform)
+df = data.frame(
+  x = rep(c('A', 'B'), each = 2), y = c(3, 2, 5, 4),
+  color = rep(c('a', 'b'), 2)
+)
+g2(df, y ~ x, color = ~ color) |>
+  mark_interval() |> transform_('stackY')
+g2(data.frame(x = 1:5, y = c(3, 1, 4, 1, 5)), y ~ x) |>
+  mark_line()
+g2(mtcars, hp ~ mpg, color = ~ cyl) |> mark_point()
+g2(data.frame(x = 1:5, y = c(3, 1, 4, 1, 5)), y ~ x) |>
+  mark_area()
+# 2-D histogram using bin transform
+g2(mtcars, hp ~ mpg) |>
+  mark_rect(
+    transform = list(list(type = 'bin', thresholdsX = 10, thresholdsY = 10))
+  )
+df = expand.grid(x = LETTERS[1:4], y = LETTERS[1:4])
+df$value = seq_len(nrow(df))
+g2(df, y ~ x, color = ~ value) |> mark_cell()
+df = data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2))
+g2(df, y ~ x) |>
+  mark_interval() |>
+  mark_text(encode = list(text = 'y'))
+# A spiral path
+n = 100
+t = seq(0, 4 * pi, length.out = n)
+df = data.frame(x = t * cos(t), y = t * sin(t))
+g2(df, y ~ x) |> mark_path()
+df = data.frame(x = c(0, 1, 0.5), y = c(0, 0, 1))
+g2(df, y ~ x) |> mark_polygon()
+df = data.frame(x = 1:2, y = 1:2)
+g2(df, y ~ x) |>
+  mark_image(style = list(
+    src = 'https://gw.alipayobjects.com/mdn/rms_dfc253/afts/img/A*SZGfRaFPkIoAAAAAAAAAAAAAARQnAQ'
+  ))
+df = data.frame(x = c(0, 1), y = c(0, 0), x1 = c(1, 2), y1 = c(1, 1))
+g2(df) |>
+  mark_link(encode = list(x = c('x', 'x1'), y = c('y', 'y1')))
+g2(mtcars, hp ~ mpg) |>
+  mark_point() |>
+  mark_line_x(data = list(list(x = 20)),
+    style = list(stroke = 'red', lineDash = c(4, 4)))
+g2(mtcars, hp ~ mpg) |>
+  mark_point() |>
+  mark_line_y(data = list(list(y = 150)),
+    style = list(stroke = 'red', lineDash = c(4, 4)))
+g2(mtcars, hp ~ mpg) |>
+  mark_point() |>
+  mark_range(
+    data = list(list(x = c(15, 25), y = c(100, 200))),
+    style = list(fill = 'steelblue', fillOpacity = 0.15)
+  )
+g2(mtcars, hp ~ mpg) |>
+  mark_point() |>
+  mark_range_x(data = list(list(x = c(15, 25))),
+    style = list(fill = 'steelblue', fillOpacity = 0.15))
+g2(mtcars, hp ~ mpg) |>
+  mark_point() |>
+  mark_range_y(data = list(list(y = c(100, 200))),
+    style = list(fill = 'orange', fillOpacity = 0.15))
+df = data.frame(x = c('A', 'B'), y = c(3, 7))
+g2(df, y ~ x) |>
+  mark_interval() |>
+  mark_connector(
+    data = list(list(x = 'A', x1 = 'B')),
+    encode = list(x = 'x', x1 = 'x1'),
+    labels = list(list(text = '+133\%'))
+  )
+g2(iris, Sepal.Width ~ Species) |> mark_boxplot()
+g2(iris, Sepal.Width ~ Species) |> mark_beeswarm()
+g2(iris, ~ Sepal.Width, color = ~ Species) |> mark_density()
+g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Petal.Length) |>
+  mark_heatmap()
+df = data.frame(
+  source = c('A', 'A', 'B'), target = c('B', 'C', 'C'),
+  value = c(5, 3, 2)
+)
+g2(df) |>
+  mark_sankey(
+    encode = list(source = 'source', target = 'target', value = 'value'),
+    layout = list(nodeAlign = 'center')
+  )
+df = data.frame(
+  source = c('A', 'A', 'B'), target = c('B', 'C', 'C'),
+  value = c(5, 3, 2)
+)
+g2(df) |>
+  mark_chord(
+    encode = list(source = 'source', target = 'target', value = 'value')
+  )
+tree_data = list(
+  name = 'root', children = list(
+    list(name = 'A', value = 10),
+    list(name = 'B', value = 20),
+    list(name = 'C', value = 15)
+  )
+)
+g2() |>
+  mark_treemap(
+    data = list(value = tree_data),
+    encode = list(value = 'value')
+  )
+tree_data = list(
+  name = 'root', children = list(
+    list(name = 'A', value = 10),
+    list(name = 'B', value = 20),
+    list(name = 'C', value = 15)
+  )
+)
+g2() |>
+  mark_pack(
+    data = list(value = tree_data),
+    encode = list(value = 'value', color = 'name')
+  )
+df = data.frame(
+  text = c('Hello', 'Data', 'Science', 'R', 'G2', 'Chart'),
+  value = c(30, 25, 20, 15, 10, 5)
+)
+g2(df) |>
+  mark_word_cloud(encode = list(text = 'text', value = 'value', color = 'text'))
+g2() |>
+  mark_liquid(data = list(list(value = 0.3)),
+    encode = list(y = 'value'),
+    style = list(textContent = '30\%'))
+tree = list(name = 'root', children = list(
+  list(name = 'A', value = 10, children = list(
+    list(name = 'A1', value = 5), list(name = 'A2', value = 5)
+  )),
+  list(name = 'B', value = 20)
+))
+g2() |> mark_sunburst(
+  data = list(type = 'inline', value = list(tree)),
+  encode = list(value = 'value')
+)
 }

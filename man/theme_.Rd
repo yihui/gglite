@@ -2,9 +2,24 @@
 % Please edit documentation in R/theme.R
 \name{theme_}
 \alias{theme_}
+\alias{theme_classic}
+\alias{theme_classicDark}
+\alias{theme_light}
+\alias{theme_dark}
+\alias{theme_academy}
 \title{Set the Chart Theme}
 \usage{
 theme_(chart = NULL, type, ...)
+
+theme_classic(chart = NULL, ...)
+
+theme_classicDark(chart = NULL, ...)
+
+theme_light(chart = NULL, ...)
+
+theme_dark(chart = NULL, ...)
+
+theme_academy(chart = NULL, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}
@@ -19,6 +34,16 @@ The modified \code{g2} object.
 \description{
 G2 built-in themes: \code{'classic'} (default), \code{'classicDark'}, \code{'light'},
 \code{'dark'}, \code{'academy'}.
+
+Shortcut for \code{theme_(chart, 'classic', ...)}. This is the default theme.
+
+Shortcut for \code{theme_(chart, 'classicDark', ...)}.
+
+Shortcut for \code{theme_(chart, 'light', ...)}.
+
+Shortcut for \code{theme_(chart, 'dark', ...)}.
+
+Shortcut for \code{theme_(chart, 'academy', ...)}.
 }
 \details{
 To set global theme options for all charts, use \code{options(gglite.theme = list(...))}. This is useful for changing default font sizes, grid line
@@ -42,4 +67,9 @@ g2(mtcars, hp ~ mpg) |>
 # Academy theme
 g2(mtcars, hp ~ mpg) |>
   theme_('academy')
+g2(mtcars, hp ~ mpg) |> theme_classic()
+g2(mtcars, hp ~ mpg) |> theme_classicDark()
+g2(mtcars, hp ~ mpg) |> theme_light()
+g2(mtcars, hp ~ mpg) |> theme_dark()
+g2(mtcars, hp ~ mpg) |> theme_academy()
 }

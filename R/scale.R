@@ -51,7 +51,7 @@ scale_ = function(chart = NULL, field, ...) {
 
 #' Configure the X Scale
 #'
-#' @inheritParams scale_
+#' @rdname scale_
 #' @export
 #' @examples
 #' g2(mtcars, hp ~ mpg) |>
@@ -60,7 +60,7 @@ scale_x = function(chart = NULL, ...) scale_(chart, 'x', ...)
 
 #' Configure the Y Scale
 #'
-#' @inheritParams scale_
+#' @rdname scale_
 #' @export
 #' @examples
 #' g2(mtcars, hp ~ mpg) |>
@@ -69,7 +69,7 @@ scale_y = function(chart = NULL, ...) scale_(chart, 'y', ...)
 
 #' Configure the Color Scale
 #'
-#' @inheritParams scale_
+#' @rdname scale_
 #' @export
 #' @examples
 #' g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species) |>
@@ -78,7 +78,7 @@ scale_color = function(chart = NULL, ...) scale_(chart, 'color', ...)
 
 #' Configure the Size Scale
 #'
-#' @inheritParams scale_
+#' @rdname scale_
 #' @export
 #' @examples
 #' g2(mtcars, hp ~ mpg, size = ~ wt) |>
@@ -87,7 +87,7 @@ scale_size = function(chart = NULL, ...) scale_(chart, 'size', ...)
 
 #' Configure the Shape Scale
 #'
-#' @inheritParams scale_
+#' @rdname scale_
 #' @export
 #' @examples
 #' g2(iris, Sepal.Length ~ Sepal.Width, shape = ~ Species) |>
@@ -96,7 +96,7 @@ scale_shape = function(chart = NULL, ...) scale_(chart, 'shape', ...)
 
 #' Configure the Opacity Scale
 #'
-#' @inheritParams scale_
+#' @rdname scale_
 #' @export
 #' @examples
 #' g2(mtcars, hp ~ mpg, opacity = ~ wt) |>

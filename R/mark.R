@@ -28,7 +28,7 @@ mark_ = function(chart = NULL, type, ...) {
 
 #' Add an Interval Mark (Bar / Column Chart)
 #'
-#' @inheritParams mark_
+#' @rdname mark_
 #' @export
 #' @examples
 #' # Bar chart
@@ -46,7 +46,7 @@ mark_interval = function(chart = NULL, ...) mark_(chart, 'interval', ...)
 
 #' Add a Line Mark
 #'
-#' @inheritParams mark_
+#' @rdname mark_
 #' @export
 #' @examples
 #' g2(data.frame(x = 1:5, y = c(3, 1, 4, 1, 5)), y ~ x) |>
@@ -55,7 +55,7 @@ mark_line = function(chart = NULL, ...) mark_(chart, 'line', ...)
 
 #' Add a Point Mark (Scatter Plot)
 #'
-#' @inheritParams mark_
+#' @rdname mark_
 #' @export
 #' @examples
 #' g2(mtcars, hp ~ mpg, color = ~ cyl) |> mark_point()
@@ -66,7 +66,7 @@ mark_point = function(chart = NULL, ...) {
 
 #' Add an Area Mark
 #'
-#' @inheritParams mark_
+#' @rdname mark_
 #' @export
 #' @examples
 #' g2(data.frame(x = 1:5, y = c(3, 1, 4, 1, 5)), y ~ x) |>
@@ -77,7 +77,7 @@ mark_area = function(chart = NULL, ...) mark_(chart, 'area', ...)
 #'
 #' Draws rectangles. Commonly used with a `bin` transform for 2-D histograms.
 #'
-#' @inheritParams mark_
+#' @rdname mark_
 #' @export
 #' @examples
 #' # 2-D histogram using bin transform
@@ -91,7 +91,7 @@ mark_rect = function(chart = NULL, ...) mark_(chart, 'rect', ...)
 #'
 #' Draws rectangular cells, commonly used for heatmaps and calendar charts.
 #'
-#' @inheritParams mark_
+#' @rdname mark_
 #' @export
 #' @examples
 #' df = expand.grid(x = LETTERS[1:4], y = LETTERS[1:4])
@@ -101,7 +101,7 @@ mark_cell = function(chart = NULL, ...) mark_(chart, 'cell', ...)
 
 #' Add a Text Mark
 #'
-#' @inheritParams mark_
+#' @rdname mark_
 #' @export
 #' @examples
 #' df = data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2))
@@ -114,7 +114,7 @@ mark_text = function(chart = NULL, ...) mark_(chart, 'text', ...)
 #'
 #' Connects points in data order (unlike line, which sorts by x).
 #'
-#' @inheritParams mark_
+#' @rdname mark_
 #' @export
 #' @examples
 #' # A spiral path
@@ -126,7 +126,7 @@ mark_path = function(chart = NULL, ...) mark_(chart, 'path', ...)
 
 #' Add a Polygon Mark
 #'
-#' @inheritParams mark_
+#' @rdname mark_
 #' @export
 #' @examples
 #' df = data.frame(x = c(0, 1, 0.5), y = c(0, 0, 1))
@@ -137,7 +137,7 @@ mark_polygon = function(chart = NULL, ...) mark_(chart, 'polygon', ...)
 #'
 #' Places images at data coordinates. Requires an `src` encoding for image URLs.
 #'
-#' @inheritParams mark_
+#' @rdname mark_
 #' @export
 #' @examples
 #' df = data.frame(x = 1:2, y = 1:2)
@@ -151,7 +151,7 @@ mark_image = function(chart = NULL, ...) mark_(chart, 'image', ...)
 #'
 #' Draws links (lines) between pairs of points.
 #'
-#' @inheritParams mark_
+#' @rdname mark_
 #' @export
 #' @examples
 #' df = data.frame(x = c(0, 1), y = c(0, 0), x1 = c(1, 2), y1 = c(1, 1))
@@ -163,7 +163,7 @@ mark_link = function(chart = NULL, ...) mark_(chart, 'link', ...)
 
 #' Add a Vertical Reference Line (lineX)
 #'
-#' @inheritParams mark_
+#' @rdname mark_
 #' @export
 #' @examples
 #' g2(mtcars, hp ~ mpg) |>
@@ -174,7 +174,7 @@ mark_line_x = function(chart = NULL, ...) mark_(chart, 'lineX', ...)
 
 #' Add a Horizontal Reference Line (lineY)
 #'
-#' @inheritParams mark_
+#' @rdname mark_
 #' @export
 #' @examples
 #' g2(mtcars, hp ~ mpg) |>
@@ -185,7 +185,7 @@ mark_line_y = function(chart = NULL, ...) mark_(chart, 'lineY', ...)
 
 #' Add a Range Mark
 #'
-#' @inheritParams mark_
+#' @rdname mark_
 #' @export
 #' @examples
 #' g2(mtcars, hp ~ mpg) |>
@@ -198,7 +198,7 @@ mark_range = function(chart = NULL, ...) mark_(chart, 'range', ...)
 
 #' Add a Horizontal Range (rangeX)
 #'
-#' @inheritParams mark_
+#' @rdname mark_
 #' @export
 #' @examples
 #' g2(mtcars, hp ~ mpg) |>
@@ -209,7 +209,7 @@ mark_range_x = function(chart = NULL, ...) mark_(chart, 'rangeX', ...)
 
 #' Add a Vertical Range (rangeY)
 #'
-#' @inheritParams mark_
+#' @rdname mark_
 #' @export
 #' @examples
 #' g2(mtcars, hp ~ mpg) |>
@@ -222,7 +222,7 @@ mark_range_y = function(chart = NULL, ...) mark_(chart, 'rangeY', ...)
 #'
 #' Draws a connector line with optional labels between two data points.
 #'
-#' @inheritParams mark_
+#' @rdname mark_
 #' @export
 #' @examples
 #' df = data.frame(x = c('A', 'B'), y = c(3, 7))
@@ -241,7 +241,7 @@ mark_connector = function(chart = NULL, ...) mark_(chart, 'connector', ...)
 #'
 #' Draws pre-computed box elements (for custom box plots).
 #'
-#' @inheritParams mark_
+#' @rdname mark_
 #' @export
 mark_box = function(chart = NULL, ...) mark_(chart, 'box', ...)
 
@@ -250,7 +250,7 @@ mark_box = function(chart = NULL, ...) mark_(chart, 'box', ...)
 #' A composite mark that automatically computes box plot statistics (median,
 #' quartiles, whiskers) from raw data.
 #'
-#' @inheritParams mark_
+#' @rdname mark_
 #' @export
 #' @examples
 #' g2(iris, Sepal.Width ~ Species) |> mark_boxplot()
@@ -262,7 +262,7 @@ mark_boxplot = function(chart = NULL, ...) mark_(chart, 'boxplot', ...)
 #' creating a beeswarm layout. Particularly useful for visualizing distributions
 #' within categories.
 #'
-#' @inheritParams mark_
+#' @rdname mark_
 #' @export
 #' @examples
 #' g2(iris, Sepal.Width ~ Species) |> mark_beeswarm()
@@ -276,7 +276,7 @@ mark_beeswarm = function(chart, ...) mark_(chart, 'beeswarm', ...)
 #' column, and if `color` is also mapped, separate density curves are drawn for
 #' each group. Explicit `data`/`encode` in `...` bypass this auto-configuration.
 #'
-#' @inheritParams mark_
+#' @rdname mark_
 #' @export
 #' @examples
 #' g2(iris, ~ Sepal.Width, color = ~ Species) |> mark_density()
@@ -323,7 +323,7 @@ mark_density = function(chart = NULL, ...) {
 #'
 #' A composite mark for rendering heatmaps from point data.
 #'
-#' @inheritParams mark_
+#' @rdname mark_
 #' @export
 #' @examples
 #' g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Petal.Length) |>
@@ -334,7 +334,7 @@ mark_heatmap = function(chart = NULL, ...) mark_(chart, 'heatmap', ...)
 #'
 #' Draws arrows or vectors. Useful for wind or flow field visualizations.
 #'
-#' @inheritParams mark_
+#' @rdname mark_
 #' @export
 mark_vector = function(chart = NULL, ...) mark_(chart, 'vector', ...)
 
@@ -344,7 +344,7 @@ mark_vector = function(chart = NULL, ...) mark_(chart, 'vector', ...)
 #'
 #' Used in graph visualizations together with [mark_edge()].
 #'
-#' @inheritParams mark_
+#' @rdname mark_
 #' @export
 mark_node = function(chart = NULL, ...) mark_(chart, 'node', ...)
 
@@ -352,7 +352,7 @@ mark_node = function(chart = NULL, ...) mark_(chart, 'node', ...)
 #'
 #' Used in graph visualizations together with [mark_node()].
 #'
-#' @inheritParams mark_
+#' @rdname mark_
 #' @export
 mark_edge = function(chart = NULL, ...) mark_(chart, 'edge', ...)
 
@@ -363,7 +363,7 @@ mark_edge = function(chart = NULL, ...) mark_(chart, 'edge', ...)
 #' Draws a Sankey diagram. Data should have `source`, `target`, and `value`
 #' columns.
 #'
-#' @inheritParams mark_
+#' @rdname mark_
 #' @export
 #' @examples
 #' df = data.frame(
@@ -382,7 +382,7 @@ mark_sankey = function(chart = NULL, ...) mark_(chart, 'sankey', ...)
 #' Draws a chord diagram. Data should have `source`, `target`, and `value`
 #' columns.
 #'
-#' @inheritParams mark_
+#' @rdname mark_
 #' @export
 #' @examples
 #' df = data.frame(
@@ -400,7 +400,7 @@ mark_chord = function(chart = NULL, ...) mark_(chart, 'chord', ...)
 #' Draws a treemap layout. Data should be hierarchical (a nested list with
 #' `name`, `value`, and optionally `children` fields).
 #'
-#' @inheritParams mark_
+#' @rdname mark_
 #' @export
 #' @examples
 #' tree_data = list(
@@ -419,7 +419,7 @@ mark_treemap = function(chart = NULL, ...) mark_(chart, 'treemap', ...)
 
 #' Add a Pack (Circle Packing) Mark
 #'
-#' @inheritParams mark_
+#' @rdname mark_
 #' @export
 #' @examples
 #' tree_data = list(
@@ -440,7 +440,7 @@ mark_pack = function(chart = NULL, ...) mark_(chart, 'pack', ...)
 #'
 #' Draws a force-directed graph layout.
 #'
-#' @inheritParams mark_
+#' @rdname mark_
 #' @export
 mark_force_graph = function(chart = NULL, ...) mark_(chart, 'forceGraph', ...)
 
@@ -448,13 +448,13 @@ mark_force_graph = function(chart = NULL, ...) mark_(chart, 'forceGraph', ...)
 #'
 #' Draws a tree layout.
 #'
-#' @inheritParams mark_
+#' @rdname mark_
 #' @export
 mark_tree = function(chart = NULL, ...) mark_(chart, 'tree', ...)
 
 #' Add a Word Cloud Mark
 #'
-#' @inheritParams mark_
+#' @rdname mark_
 #' @export
 #' @examples
 #' df = data.frame(
@@ -467,7 +467,7 @@ mark_word_cloud = function(chart = NULL, ...) mark_(chart, 'wordCloud', ...)
 
 #' Add a Gauge Mark
 #'
-#' @inheritParams mark_
+#' @rdname mark_
 #' @export
 mark_gauge = function(chart = NULL, ...) mark_(chart, 'gauge', ...)
 
@@ -475,7 +475,7 @@ mark_gauge = function(chart = NULL, ...) mark_(chart, 'gauge', ...)
 #'
 #' Draws a liquid fill gauge.
 #'
-#' @inheritParams mark_
+#' @rdname mark_
 #' @export
 #' @examples
 #' g2() |>
@@ -488,7 +488,7 @@ mark_liquid = function(chart = NULL, ...) mark_(chart, 'liquid', ...)
 #'
 #' A custom mark whose rendering is controlled by a JavaScript render function.
 #'
-#' @inheritParams mark_
+#' @rdname mark_
 #' @export
 mark_shape = function(chart = NULL, ...) mark_(chart, 'shape', ...)
 
@@ -499,7 +499,7 @@ mark_shape = function(chart = NULL, ...) mark_(chart, 'shape', ...)
 #' The data should be a nested tree structure wrapped in a list, e.g.,
 #' `data = list(type = 'inline', value = list(tree))`.
 #'
-#' @inheritParams mark_
+#' @rdname mark_
 #' @export
 #' @examples
 #' tree = list(name = 'root', children = list(
@@ -534,6 +534,6 @@ mark_sunburst = function(chart = NULL, ...) {
 #' nested tree structure wrapped in a list, e.g.,
 #' `data = list(type = 'inline', value = list(tree))`.
 #'
-#' @inheritParams mark_
+#' @rdname mark_
 #' @export
 mark_partition = function(chart = NULL, ...) mark_(chart, 'partition', ...)

@@ -41,7 +41,7 @@ axis_ = function(chart = NULL, channel, ...) {
 
 #' Configure the X Axis
 #'
-#' @inheritParams axis_
+#' @rdname axis_
 #' @export
 #' @examples
 #' g2(mtcars, hp ~ mpg) |>
@@ -50,7 +50,7 @@ axis_x = function(chart = NULL, ...) axis_(chart, 'x', ...)
 
 #' Configure the Y Axis
 #'
-#' @inheritParams axis_
+#' @rdname axis_
 #' @export
 #' @examples
 #' g2(mtcars, hp ~ mpg) |>
@@ -93,7 +93,7 @@ legend_ = function(chart = NULL, channel, ...) {
 
 #' Configure the Color Legend
 #'
-#' @inheritParams legend_
+#' @rdname legend_
 #' @export
 #' @examples
 #' g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species) |>
@@ -102,7 +102,7 @@ legend_color = function(chart = NULL, ...) legend_(chart, 'color', ...)
 
 #' Configure the Size Legend
 #'
-#' @inheritParams legend_
+#' @rdname legend_
 #' @export
 #' @examples
 #' g2(mtcars, hp ~ mpg, size = ~ wt) |>
@@ -111,7 +111,7 @@ legend_size = function(chart = NULL, ...) legend_(chart, 'size', ...)
 
 #' Configure the Shape Legend
 #'
-#' @inheritParams legend_
+#' @rdname legend_
 #' @export
 #' @examples
 #' g2(iris, Sepal.Length ~ Sepal.Width, shape = ~ Species) |>
@@ -120,7 +120,7 @@ legend_shape = function(chart = NULL, ...) legend_(chart, 'shape', ...)
 
 #' Configure the Opacity Legend
 #'
-#' @inheritParams legend_
+#' @rdname legend_
 #' @export
 #' @examples
 #' g2(mtcars, hp ~ mpg, opacity = ~ wt) |>
@@ -241,7 +241,7 @@ slider_ = function(chart = NULL, channel, ...) {
 
 #' Add an X Slider
 #'
-#' @inheritParams slider_
+#' @rdname slider_
 #' @export
 #' @examples
 #' g2(mtcars, hp ~ mpg) |>
@@ -250,7 +250,7 @@ slider_x = function(chart = NULL, ...) slider_(chart, 'x', ...)
 
 #' Add a Y Slider
 #'
-#' @inheritParams slider_
+#' @rdname slider_
 #' @export
 #' @examples
 #' g2(mtcars, hp ~ mpg) |>
@@ -280,7 +280,7 @@ scrollbar_ = function(chart = NULL, channel, ...) {
 
 #' Add an X Scrollbar
 #'
-#' @inheritParams scrollbar_
+#' @rdname scrollbar_
 #' @export
 #' @examples
 #' df = data.frame(x = 1:100, y = cumsum(rnorm(100)))
@@ -291,7 +291,7 @@ scrollbar_x = function(chart = NULL, ...) scrollbar_(chart, 'x', ...)
 
 #' Add a Y Scrollbar
 #'
-#' @inheritParams scrollbar_
+#' @rdname scrollbar_
 #' @export
 #' @examples
 #' df = data.frame(x = 1:100, y = cumsum(rnorm(100)))
