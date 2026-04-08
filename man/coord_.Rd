@@ -71,6 +71,7 @@ g2(df, y ~ x) |> coord_polar()
 
 # Theta coordinate (pie / donut chart)
 p |> transform_('stackY') |> coord_theta()
+p |> transform_('stackY') |> coord_theta(innerRadius = 0.5)
 
 # Radial coordinate (radial bar chart)
 p |> coord_radial()
@@ -94,5 +95,4 @@ g2(df2, score ~ item, color = ~ team) |>
   scale_x(padding = 0.5, align = 0) |>
   scale_y(domainMin = 0, domainMax = 100) |>
   axis_x(grid = TRUE)
-p |> transform_('stackY') |> coord_theta(innerRadius = 0.5)
 }

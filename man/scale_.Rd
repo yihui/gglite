@@ -80,14 +80,26 @@ g2(df, ~ x) |>
   mark_line(encode = list(y = 'b')) |>
   scale_y(independent = TRUE) |>
   axis_y(position = 'right', grid = FALSE)
+
+# Log-scaled x axis
 p |> scale_x(type = 'log')
+
+# Square-root y axis
 p |> scale_y(type = 'sqrt')
+
+# Ordinal color palette
 g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species) |>
   scale_color(palette = 'category10')
+
+# Size scale with custom range
 g2(mtcars, hp ~ mpg, size = ~ wt) |>
   scale_size(range = c(2, 10))
+
+# Custom shape range
 g2(iris, Sepal.Length ~ Sepal.Width, shape = ~ Species) |>
   scale_shape(range = c('circle', 'square', 'triangle'))
+
+# Opacity scale with custom range
 g2(mtcars, hp ~ mpg, opacity = ~ wt) |>
   scale_opacity(range = c(0.2, 1))
 }

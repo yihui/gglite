@@ -24,6 +24,7 @@
 #'
 #' # Theta coordinate (pie / donut chart)
 #' p |> transform_('stackY') |> coord_theta()
+#' p |> transform_('stackY') |> coord_theta(innerRadius = 0.5)
 #'
 #' # Radial coordinate (radial bar chart)
 #' p |> coord_radial()
@@ -65,7 +66,8 @@ coord_ = function(chart = NULL, type, ...) {
 #' @export
 #' @examples
 #' # Horizontal bar chart (coord_flip equivalent)
-#' g2(data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2)), y ~ x) |>
+#' df = data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2))
+#' g2(df, y ~ x) |>
 #'   coord_transpose()
 coord_transpose = function(chart = NULL) {
   mod = check_chart(coord_transpose, chart, list())
@@ -87,8 +89,6 @@ coord_polar = function(chart = NULL, ...) coord_(chart, 'polar', ...)
 #'   pie and donut charts.
 #' @rdname coord_
 #' @export
-#' @examples
-#' p |> transform_('stackY') |> coord_theta(innerRadius = 0.5)
 coord_theta = function(chart = NULL, ...) coord_(chart, 'theta', ...)
 
 #' @details `coord_radial()`: Shortcut for `coord_(chart, 'radial', ...)`. Suitable

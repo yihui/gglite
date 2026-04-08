@@ -34,6 +34,8 @@ Add a scrollbar to a positional channel for zooming/panning.
 df = data.frame(x = 1:100, y = cumsum(rnorm(100)))
 p = g2(df, y ~ x) |> mark_line()
 p |> scrollbar_('x')
+
+# Scrollbar shortcuts
 p |> scrollbar_x()
 p |> scrollbar_y()
 }

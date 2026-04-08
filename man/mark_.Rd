@@ -143,51 +143,51 @@ specific \verb{mark_*()} wrappers for convenience.
 
 \code{mark_area()}: Add an area mark (filled region under the line).
 
-\code{mark_rect()}: Draws rectangles. Commonly used with a \code{bin}
+\code{mark_rect()}: Draw rectangles. Commonly used with a \code{bin}
 transform for 2-D histograms.
 
-\code{mark_cell()}: Draws rectangular cells, commonly used for heatmaps
+\code{mark_cell()}: Draw rectangular cells, commonly used for heatmaps
 and calendar charts.
 
-\code{mark_text()}: Places text labels at data coordinates.
+\code{mark_text()}: Place text labels at data coordinates.
 
-\code{mark_path()}: Connects points in data order (unlike line, which
+\code{mark_path()}: Connect points in data order (unlike line, which
 sorts by x).
 
-\code{mark_polygon()}: Draws filled polygon shapes.
+\code{mark_polygon()}: Draw filled polygon shapes.
 
-\code{mark_image()}: Places images at data coordinates. Requires an
+\code{mark_image()}: Place images at data coordinates. Requires an
 \code{src} encoding for image URLs.
 
-\code{mark_link()}: Draws links (lines) between pairs of points.
+\code{mark_link()}: Draw links (lines) between pairs of points.
 
-\code{mark_line_x()}: Draws a vertical reference line at a given x
+\code{mark_line_x()}: Draw a vertical reference line at a given x
 position.
 
-\code{mark_line_y()}: Draws a horizontal reference line at a given y
+\code{mark_line_y()}: Draw a horizontal reference line at a given y
 position.
 
-\code{mark_range()}: Shades a rectangular region defined by x and y
+\code{mark_range()}: Shade a rectangular region defined by x and y
 intervals.
 
-\code{mark_range_x()}: Shades a vertical band defined by an x interval.
+\code{mark_range_x()}: Shade a vertical band defined by an x interval.
 
-\code{mark_range_y()}: Shades a horizontal band defined by a y interval.
+\code{mark_range_y()}: Shade a horizontal band defined by a y interval.
 
-\code{mark_connector()}: Draws a connector line with optional labels
+\code{mark_connector()}: Draw a connector line with optional labels
 between two data points.
 
-\code{mark_box()}: Draws pre-computed box elements (for custom box
+\code{mark_box()}: Draw pre-computed box elements (for custom box
 plots).
 
 \code{mark_boxplot()}: A composite mark that automatically computes box
 plot statistics (median, quartiles, whiskers) from raw data.
 
-\code{mark_beeswarm()}: Displays individual data points using force
+\code{mark_beeswarm()}: Display individual data points using force
 simulation to avoid overlapping. Particularly useful for visualizing
 distributions within categories.
 
-\code{mark_density()}: Visualizes probability density using kernel
+\code{mark_density()}: Visualize probability density using kernel
 density estimation (KDE). When the chart has a numeric \code{x} aesthetic, the
 KDE transform and encodings are configured automatically: the density is
 computed for the \code{x} column, and if \code{color} is also mapped, separate
@@ -197,7 +197,7 @@ bypass this auto-configuration.
 \code{mark_heatmap()}: A composite mark for rendering heatmaps from
 point data.
 
-\code{mark_vector()}: Draws arrows or vectors. Useful for wind or flow
+\code{mark_vector()}: Draw arrows or vectors. Useful for wind or flow
 field visualizations.
 
 \code{mark_node()}: Used in graph visualizations together with
@@ -206,28 +206,28 @@ field visualizations.
 \code{mark_edge()}: Used in graph visualizations together with
 \code{\link[=mark_node]{mark_node()}}.
 
-\code{mark_sankey()}: Draws a Sankey diagram. Data should have
+\code{mark_sankey()}: Draw a Sankey diagram. Data should have
 \code{source}, \code{target}, and \code{value} columns.
 
-\code{mark_chord()}: Draws a chord diagram. Data should have \code{source},
+\code{mark_chord()}: Draw a chord diagram. Data should have \code{source},
 \code{target}, and \code{value} columns.
 
-\code{mark_treemap()}: Draws a treemap layout. Data should be
+\code{mark_treemap()}: Draw a treemap layout. Data should be
 hierarchical (a nested list with \code{name}, \code{value}, and optionally
 \code{children} fields).
 
-\code{mark_pack()}: Draws a circle packing layout. Data format is the
+\code{mark_pack()}: Draw a circle packing layout. Data format is the
 same as \code{mark_treemap()}.
 
-\code{mark_force_graph()}: Draws a force-directed graph layout.
+\code{mark_force_graph()}: Draw a force-directed graph layout.
 
-\code{mark_tree()}: Draws a tree layout.
+\code{mark_tree()}: Draw a tree layout.
 
-\code{mark_word_cloud()}: Draws a word cloud.
+\code{mark_word_cloud()}: Draw a word cloud.
 
-\code{mark_gauge()}: Draws a gauge (speedometer) chart.
+\code{mark_gauge()}: Draw a gauge (speedometer) chart.
 
-\code{mark_liquid()}: Draws a liquid fill gauge.
+\code{mark_liquid()}: Draw a liquid fill gauge.
 
 \code{mark_shape()}: A custom mark whose rendering is controlled by a
 JavaScript render function.
@@ -244,49 +244,70 @@ e.g., \code{data = list(type = 'inline', value = list(tree))}.
 }
 \examples{
 g2(mtcars, hp ~ mpg) |> mark_('point')
-# Bar chart
-g2(data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2)), y ~ x) |>
-  mark_interval()
 
-# Stacked bar chart (using transform)
+# Bar chart
+df = data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2))
+g2(df, y ~ x) |> mark_interval()
+
+# Stacked bar chart
 df = data.frame(
   x = rep(c('A', 'B'), each = 2), y = c(3, 2, 5, 4),
   color = rep(c('a', 'b'), 2)
 )
 g2(df, y ~ x, color = ~ color) |>
   mark_interval() |> transform_('stackY')
+
+# Line and area chart
 df = data.frame(x = 1:5, y = c(3, 1, 4, 1, 5))
 p = g2(df, y ~ x)
 p |> mark_line()
+
+# Scatter plot
 g2(mtcars, hp ~ mpg, color = ~ cyl) |> mark_point()
+
+# Area chart
 p |> mark_area()
+
 # 2-D histogram using bin transform
 g2(mtcars, hp ~ mpg) |>
   mark_rect(
     transform = list(list(type = 'bin', thresholdsX = 10, thresholdsY = 10))
   )
+
+# Heatmap cells
 df = expand.grid(x = LETTERS[1:4], y = LETTERS[1:4])
 df$value = seq_len(nrow(df))
 g2(df, y ~ x, color = ~ value) |> mark_cell()
+
+# Bar chart with text labels
 df = data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2))
 g2(df, y ~ x) |>
   mark_interval() |>
   mark_text(encode = list(text = 'y'))
-# A spiral path
+
+# Spiral path (points connected in data order)
 n = 100
 t = seq(0, 4 * pi, length.out = n)
 df = data.frame(x = t * cos(t), y = t * sin(t))
 g2(df, y ~ x) |> mark_path()
+
+# Triangle polygon
 df = data.frame(x = c(0, 1, 0.5), y = c(0, 0, 1))
 g2(df, y ~ x) |> mark_polygon()
+
+# Image mark at two data points
 df = data.frame(x = 1:2, y = 1:2)
 g2(df, y ~ x) |>
   mark_image(style = list(
     src = 'https://gw.alipayobjects.com/mdn/rms_dfc253/afts/img/A*SZGfRaFPkIoAAAAAAAAAAAAAARQnAQ'
   ))
+
+# Link mark connecting pairs of points
 df = data.frame(x = c(0, 1), y = c(0, 0), x1 = c(1, 2), y1 = c(1, 1))
 g2(df) |>
   mark_link(encode = list(x = c('x', 'x1'), y = c('y', 'y1')))
+
+# Scatter plot with reference lines and shaded regions
 p = g2(mtcars, hp ~ mpg) |> mark_point()
 p |> mark_line_x(data = list(list(x = 20)),
   style = list(stroke = 'red', lineDash = c(4, 4)))
@@ -300,6 +321,8 @@ p |> mark_range_x(data = list(list(x = c(15, 25))),
   style = list(fill = 'steelblue', fillOpacity = 0.15))
 p |> mark_range_y(data = list(list(y = c(100, 200))),
   style = list(fill = 'orange', fillOpacity = 0.15))
+
+# Bar chart with connector annotation
 df = data.frame(x = c('A', 'B'), y = c(3, 7))
 g2(df, y ~ x) |>
   mark_interval() |>
@@ -308,12 +331,20 @@ g2(df, y ~ x) |>
     encode = list(x = 'x', x1 = 'x1'),
     labels = list(list(text = '+133\%'))
   )
+
+# Box plot and beeswarm
 p = g2(iris, Sepal.Width ~ Species)
 p |> mark_boxplot()
 p |> mark_beeswarm()
+
+# Density plot by species
 g2(iris, ~ Sepal.Width, color = ~ Species) |> mark_density()
+
+# Heatmap from point data
 g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Petal.Length) |>
   mark_heatmap()
+
+# Sankey and chord diagrams
 df = data.frame(
   source = c('A', 'A', 'B'), target = c('B', 'C', 'C'),
   value = c(5, 3, 2)
@@ -327,6 +358,8 @@ g2(df) |>
   mark_chord(
     encode = list(source = 'source', target = 'target', value = 'value')
   )
+
+# Treemap and circle packing
 tree_data = list(
   name = 'root', children = list(
     list(name = 'A', value = 10),
@@ -344,16 +377,22 @@ g2() |>
     data = list(value = tree_data),
     encode = list(value = 'value', color = 'name')
   )
+
+# Word cloud
 df = data.frame(
   text = c('Hello', 'Data', 'Science', 'R', 'G2', 'Chart'),
   value = c(30, 25, 20, 15, 10, 5)
 )
 g2(df) |>
   mark_word_cloud(encode = list(text = 'text', value = 'value', color = 'text'))
+
+# Liquid fill gauge
 g2() |>
   mark_liquid(data = list(list(value = 0.3)),
     encode = list(y = 'value'),
     style = list(textContent = '30\%'))
+
+# Sunburst chart (hierarchical radial partition)
 tree = list(name = 'root', children = list(
   list(name = 'A', value = 10, children = list(
     list(name = 'A1', value = 5), list(name = 'A2', value = 5)

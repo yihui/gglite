@@ -43,6 +43,8 @@ theme_ = function(chart = NULL, type, ...) {
 #' @rdname theme_
 #' @export
 #' @examples
+#'
+#' # Classic (default) theme
 #' p |> theme_classic()
 theme_classic = function(chart = NULL, ...) theme_(chart, 'classic', ...)
 
@@ -50,6 +52,8 @@ theme_classic = function(chart = NULL, ...) theme_(chart, 'classic', ...)
 #' @rdname theme_
 #' @export
 #' @examples
+#'
+#' # Classic dark theme
 #' p |> theme_classicDark()
 theme_classicDark = function(chart = NULL, ...) theme_(chart, 'classicDark', ...)
 
@@ -57,6 +61,8 @@ theme_classicDark = function(chart = NULL, ...) theme_(chart, 'classicDark', ...
 #' @rdname theme_
 #' @export
 #' @examples
+#'
+#' # Light theme
 #' p |> theme_light()
 theme_light = function(chart = NULL, ...) theme_(chart, 'light', ...)
 
@@ -64,6 +70,8 @@ theme_light = function(chart = NULL, ...) theme_(chart, 'light', ...)
 #' @rdname theme_
 #' @export
 #' @examples
+#'
+#' # Dark theme
 #' p |> theme_dark()
 theme_dark = function(chart = NULL, ...) theme_(chart, 'dark', ...)
 
@@ -71,5 +79,7 @@ theme_dark = function(chart = NULL, ...) theme_(chart, 'dark', ...)
 #' @rdname theme_
 #' @export
 #' @examples
+#'
+#' # Academy theme
 #' p |> theme_academy()
 theme_academy = function(chart = NULL, ...) theme_(chart, 'academy', ...)

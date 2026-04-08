@@ -87,6 +87,8 @@ legend_ = function(chart = NULL, channel, ...) {
 #' @rdname legend_
 #' @export
 #' @examples
+#'
+#' # Color legend via shortcut
 #' p |> legend_color(position = 'right')
 legend_color = function(chart = NULL, ...) legend_(chart, 'color', ...)
 
@@ -94,6 +96,8 @@ legend_color = function(chart = NULL, ...) legend_(chart, 'color', ...)
 #' @rdname legend_
 #' @export
 #' @examples
+#'
+#' # Size legend
 #' g2(mtcars, hp ~ mpg, size = ~ wt) |>
 #'   legend_size(position = 'bottom')
 legend_size = function(chart = NULL, ...) legend_(chart, 'size', ...)
@@ -102,6 +106,8 @@ legend_size = function(chart = NULL, ...) legend_(chart, 'size', ...)
 #' @rdname legend_
 #' @export
 #' @examples
+#'
+#' # Shape legend
 #' p = g2(iris, Sepal.Length ~ Sepal.Width, shape = ~ Species)
 #' p |> legend_shape(position = 'bottom')
 legend_shape = function(chart = NULL, ...) legend_(chart, 'shape', ...)
@@ -110,6 +116,8 @@ legend_shape = function(chart = NULL, ...) legend_(chart, 'shape', ...)
 #' @rdname legend_
 #' @export
 #' @examples
+#'
+#' # Opacity legend
 #' g2(mtcars, hp ~ mpg, opacity = ~ wt) |>
 #'   legend_opacity(position = 'bottom')
 legend_opacity = function(chart = NULL, ...) legend_(chart, 'opacity', ...)
@@ -230,6 +238,8 @@ slider_ = function(chart = NULL, channel, ...) {
 #' @rdname slider_
 #' @export
 #' @examples
+#'
+#' # Slider shortcuts
 #' p |> slider_x()
 slider_x = function(chart = NULL, ...) slider_(chart, 'x', ...)
 
@@ -266,6 +276,8 @@ scrollbar_ = function(chart = NULL, channel, ...) {
 #' @rdname scrollbar_
 #' @export
 #' @examples
+#'
+#' # Scrollbar shortcuts
 #' p |> scrollbar_x()
 scrollbar_x = function(chart = NULL, ...) scrollbar_(chart, 'x', ...)
 

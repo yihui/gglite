@@ -52,6 +52,8 @@ scale_ = function(chart = NULL, field, ...) {
 #' @rdname scale_
 #' @export
 #' @examples
+#'
+#' # Log-scaled x axis
 #' p |> scale_x(type = 'log')
 scale_x = function(chart = NULL, ...) scale_(chart, 'x', ...)
 
@@ -59,6 +61,8 @@ scale_x = function(chart = NULL, ...) scale_(chart, 'x', ...)
 #' @rdname scale_
 #' @export
 #' @examples
+#'
+#' # Square-root y axis
 #' p |> scale_y(type = 'sqrt')
 scale_y = function(chart = NULL, ...) scale_(chart, 'y', ...)
 
@@ -66,6 +70,8 @@ scale_y = function(chart = NULL, ...) scale_(chart, 'y', ...)
 #' @rdname scale_
 #' @export
 #' @examples
+#'
+#' # Ordinal color palette
 #' g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species) |>
 #'   scale_color(palette = 'category10')
 scale_color = function(chart = NULL, ...) scale_(chart, 'color', ...)
@@ -74,6 +80,8 @@ scale_color = function(chart = NULL, ...) scale_(chart, 'color', ...)
 #' @rdname scale_
 #' @export
 #' @examples
+#'
+#' # Size scale with custom range
 #' g2(mtcars, hp ~ mpg, size = ~ wt) |>
 #'   scale_size(range = c(2, 10))
 scale_size = function(chart = NULL, ...) scale_(chart, 'size', ...)
@@ -82,6 +90,8 @@ scale_size = function(chart = NULL, ...) scale_(chart, 'size', ...)
 #' @rdname scale_
 #' @export
 #' @examples
+#'
+#' # Custom shape range
 #' g2(iris, Sepal.Length ~ Sepal.Width, shape = ~ Species) |>
 #'   scale_shape(range = c('circle', 'square', 'triangle'))
 scale_shape = function(chart = NULL, ...) scale_(chart, 'shape', ...)
@@ -90,6 +100,8 @@ scale_shape = function(chart = NULL, ...) scale_(chart, 'shape', ...)
 #' @rdname scale_
 #' @export
 #' @examples
+#'
+#' # Opacity scale with custom range
 #' g2(mtcars, hp ~ mpg, opacity = ~ wt) |>
 #'   scale_opacity(range = c(0.2, 1))
 scale_opacity = function(chart = NULL, ...) scale_(chart, 'opacity', ...)

@@ -64,9 +64,19 @@ Per-chart \code{theme_()} settings are merged on top of the global option.
 p = g2(mtcars, hp ~ mpg)
 p |> theme_('dark')
 p |> theme_('academy')
+
+# Classic (default) theme
 p |> theme_classic()
+
+# Classic dark theme
 p |> theme_classicDark()
+
+# Light theme
 p |> theme_light()
+
+# Dark theme
 p |> theme_dark()
+
+# Academy theme
 p |> theme_academy()
 }
