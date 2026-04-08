@@ -21,14 +21,11 @@
 #' @export
 g2Output = function(outputId, width = '100%', height = '480px') {
   dep_g2 = htmltools::htmlDependency(
-    'g2', '5',
-    src = c(href = 'https://unpkg.com/@antv/g2@5/dist'),
-    script = 'g2.min.js'
+    'g2', '5', src = c(href = dirname(g2_cdn())), script = basename(g2_cdn())
   )
   dep_col = htmltools::htmlDependency(
-    'g2-column', '1',
-    src = c(href = 'https://cdn.jsdelivr.net/npm/@xiee/utils/js'),
-    script = 'g2-column.min.js'
+    'g2-patches', '1',
+    src = c(href = dirname(g2_patches_cdn)), script = basename(g2_patches_cdn)
   )
   dep_binding = htmltools::htmlDependency(
     'g2-binding', as.character(utils::packageVersion('gglite')),
