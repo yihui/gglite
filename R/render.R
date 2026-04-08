@@ -112,8 +112,11 @@ ensure_mark = function(chart) {
 build_config = function(chart) {
   config = list()
 
+  # Collect all variables referenced in the chart for data trimming
+  all_vars = collect_vars(chart)
+
   # Data (column-major; annotate_df wraps it)
-  if (!is.null(chart$data)) config$data = chart$data
+  if (!is.null(chart$data)) config$data = trim_data(chart$data, all_vars)
 
   # Build marks (layers)
   marks = lapply(chart$layers, function(layer) {
@@ -124,6 +127,12 @@ build_config = function(chart) {
     # Layer-specific properties (may override encode, add style, transform, etc.)
     extra = layer[setdiff(names(layer), 'type')]
     if (length(extra)) m = modifyList(m, extra)
+    # Trim mark-level data frames (merge chart aesthetics + layer encode +
+    # labels text for vars)
+    if (is.data.frame(m$data)) {
+      lv = c(chart$aesthetics, layer$encode, lapply(layer$labels, `[[`, 'text'))
+      m$data = trim_data(m$data, lv)
+    }
     m
   })
 

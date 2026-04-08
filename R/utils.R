@@ -71,6 +71,68 @@ process_layout = function(name, value) {
   dropNulls(lapply(res, function(v) if (is.na(v)) NULL else v))
 }
 
+#' Extract Column References from a G2 Inline Data Transform Spec
+#'
+#' When a layer's `data` is a list with a `transform` key (rather than a data
+#' frame), the transform entries can reference data columns via `field`,
+#' `fields`, `groupBy`, or `by`. This helper extracts those names so they can
+#' be included in the trimming allowlist.
+#'
+#' @param data A layer `data` value.
+#' @return A list of referenced column names, or `NULL`.
+#' @noRd
+data_transform_vars = function(data) {
+  if (!is.list(data) || is.data.frame(data) || is.null(data$transform)) return()
+  lapply(data$transform, `[`, c('field', 'fields', 'groupBy', 'by'))
+}
+
+#' Collect Variable Names Used in a Chart
+#'
+#' Gathers all column names referenced by the chart's aesthetic mappings,
+#' facet encodings, and the encode, label text, and inline transform fields of
+#' any layer that reads from the chart-level data (i.e., layers that do not
+#' supply their own data frame).
+#'
+#' @param chart A `g2` object.
+#' @return A list of variable names.
+#' @noRd
+collect_vars = function(chart) {
+  vars = c(chart$aesthetics, chart$facet$encode)
+  # Include vars for layers that use the chart-level data. Layers with their
+  # own data *frame* bring their own source; layers with a G2 transform spec
+  # (a list) or no data at all still read from the chart-level data frame.
+  vars2 = lapply(chart$layers, function(layer) {
+    if (!is.data.frame(layer$data)) c(
+      layer$encode, lapply(layer$labels, `[[`, 'text'),
+      data_transform_vars(layer$data)
+    )
+  })
+  unlist(c(vars, vars2))
+}
+
+#' Trim a Data Frame to Used Columns
+#'
+#' Restricts a data frame to only the columns listed in `vars`. If `data` is
+#' wrapped in [I()], the `AsIs` class is stripped and the data is returned
+#' untrimmed (all columns preserved) — this lets callers opt out of trimming
+#' when variables are referenced outside the visible spec, e.g. inside inline
+#' JavaScript functions.
+#'
+#' @param data A data frame (possibly with class `AsIs`), or any other value.
+#' @param vars Character vector of column names to keep.
+#' @return The (possibly trimmed) data frame, or `data` unchanged when it is
+#'   not a data frame or when trimming is not applicable.
+#' @noRd
+trim_data = function(data, vars) {
+  if (inherits(data, 'AsIs'))
+    return(structure(data, class = setdiff(class(data), 'AsIs')))
+  vars = unlist(vars)
+  if (!is.data.frame(data) || !length(vars)) return(data)
+  keep = intersect(vars, names(data))
+  if (!length(keep) || length(keep) == ncol(data)) return(data)
+  data[, keep, drop = FALSE]
+}
+
 #' Annotate Data Frames for Column-Major JSON
 #'
 #' Recursively walks a nested list and wraps any data frame found in a `data`
@@ -119,20 +181,6 @@ extract_terms = function(expr) {
   deparse(expr)
 }
 
-#' Parse a Formula into Aesthetic and Facet Mappings
-#'
-#' Interprets an R formula as chart aesthetic mappings:
-#' - `y ~ x` maps to `list(x = 'x', y = 'y')`
-#' - `~ x` maps to `list(x = 'x')`
-#' - `~ x1 + x2 + x3` maps to `list(position = c('x1', 'x2', 'x3'))`
-#' - `y ~ x | z` adds faceting by `z` (columns)
-#' - `y ~ x | 0 + z` adds faceting by `z` (rows)
-#' - `y ~ x | z1 + z2` adds faceting by `z1` (columns) and `z2` (rows)
-#'
-#' @param f A formula object.
-#' @return A list with `aesthetics` (named list) and `facet` (a facet list or
-#'   `NULL`).
-#' @noRd
 #' Convert a One-Sided Formula to a Variable Name
 #'
 #' Converts a one-sided formula of the form `~ var` to the character string
@@ -157,6 +205,20 @@ as_var = function(x) {
 #' @noRd
 as_vars = function(x) lapply(x, as_var)
 
+#' Parse a Formula into Aesthetic and Facet Mappings
+#'
+#' Interprets an R formula as chart aesthetic mappings:
+#' - `y ~ x` maps to `list(x = 'x', y = 'y')`
+#' - `~ x` maps to `list(x = 'x')`
+#' - `~ x1 + x2 + x3` maps to `list(position = c('x1', 'x2', 'x3'))`
+#' - `y ~ x | z` adds faceting by `z` (columns)
+#' - `y ~ x | 0 + z` adds faceting by `z` (rows)
+#' - `y ~ x | z1 + z2` adds faceting by `z1` (columns) and `z2` (rows)
+#'
+#' @param f A formula object.
+#' @return A list with `aesthetics` (named list) and `facet` (a facet list or
+#'   `NULL`).
+#' @noRd
 parse_formula = function(f) {
   lhs = if (length(f) == 3) f[[2]]
   rhs = if (length(f) == 3) f[[3]] else f[[2]]

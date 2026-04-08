@@ -10,7 +10,9 @@ mark_range_y(chart = NULL, ...)
 \item{chart}{A \code{g2} object.}
 
 \item{...}{Mark-level options passed to G2, such as \code{data}, \code{encode},
-\code{transform}, \code{style}, \code{animate}, \code{labels}, \code{tooltip}, \code{axis}, \code{legend}.}
+\code{transform}, \code{style}, \code{animate}, \code{labels}, \code{tooltip}, \code{axis}, \code{legend}.
+When \code{data} is a data frame, only columns referenced by the chart or
+mark-level encodings are kept. Wrap it in \code{\link[=I]{I()}} to preserve all columns.}
 }
 \description{
 Add a Vertical Range (rangeY)

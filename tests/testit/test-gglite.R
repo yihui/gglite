@@ -570,3 +570,138 @@ assert('dual-axis chart builds valid config', {
   (isTRUE(cfg$children[[2]]$scale$y$independent))
   (cfg$children[[2]]$axis$y$position %==% 'right')
 })
+
+# ---- Data trimming ----
+
+assert('collect_vars returns chart-level aesthetics', {
+  chart = g2(iris, x = 'Sepal.Length', y = 'Sepal.Width', color = 'Species')
+  vars = collect_vars(chart)
+  ('Sepal.Length' %in% vars)
+  ('Sepal.Width' %in% vars)
+  ('Species' %in% vars)
+  (!('Petal.Length' %in% vars))
+})
+
+assert('collect_vars includes facet encode vars', {
+  chart = g2(iris, Sepal.Length ~ Sepal.Width | Species)
+  vars = collect_vars(chart)
+  ('Species' %in% vars)
+})
+
+assert('collect_vars includes layer encode vars when layer has no own data', {
+  chart = g2(mtcars, x = 'mpg') |>
+    mark_interval(encode = list(y = 'hp')) |>
+    mark_line(encode = list(y = 'wt'))
+  vars = collect_vars(chart)
+  ('mpg' %in% vars)
+  ('hp' %in% vars)
+  ('wt' %in% vars)
+})
+
+assert('collect_vars excludes layer encode vars when layer has own data', {
+  df2 = data.frame(x = 1:3, z = 4:6)
+  chart = g2(mtcars, x = 'mpg', y = 'hp') |>
+    mark_line(data = df2, encode = list(y = 'z'))
+  vars = collect_vars(chart)
+  ('mpg' %in% vars)
+  ('hp' %in% vars)
+  (!('z' %in% vars))
+})
+
+assert('collect_vars includes layer encode vars when layer data is a transform spec', {
+  chart = g2(iris, ~ Sepal.Width, color = ~ Species) |> mark_density()
+  vars = collect_vars(chart)
+  # KDE field + groupBy come from the transform spec inside layer$data
+  ('Sepal.Width' %in% vars)
+  ('Species' %in% vars)
+  ('.x' %in% vars)
+})
+
+assert('collect_vars includes labels text vars for layers without own data', {
+  chart = g2(iris, Sepal.Length ~ Sepal.Width) |>
+    mark_point() |>
+    labels_(text = ~ Petal.Length)
+  vars = collect_vars(chart)
+  ('Sepal.Length' %in% vars)
+  ('Sepal.Width' %in% vars)
+  ('Petal.Length' %in% vars)
+  (!('Petal.Width' %in% vars))
+})
+
+assert('collect_vars excludes labels text vars when layer has own data', {
+  df2 = data.frame(x = 1:3, y = 4:6, label = c('a', 'b', 'c'))
+  chart = g2(mtcars, hp ~ mpg) |>
+    mark_point(data = df2, encode = list(x = 'x', y = 'y')) |>
+    labels_(text = ~ label)
+  vars = collect_vars(chart)
+  ('mpg' %in% vars)
+  ('hp' %in% vars)
+  (!('label' %in% vars))
+})
+
+assert('trim_data removes unused columns', {
+  df = iris
+  result = trim_data(df, c('Sepal.Length', 'Species'))
+  (ncol(result) %==% 2L)
+  (names(result) %==% c('Sepal.Length', 'Species'))
+})
+
+assert('trim_data keeps all columns when vars is empty', {
+  df = iris
+  result = trim_data(df, character(0))
+  (ncol(result) %==% ncol(df))
+})
+
+assert('trim_data does not trim when vars match all columns', {
+  df = iris[, 1:2]
+  result = trim_data(df, c('Sepal.Length', 'Sepal.Width'))
+  (ncol(result) %==% 2L)
+})
+
+assert('trim_data does not trim I()-wrapped data frames', {
+  df = I(iris)
+  result = trim_data(df, c('Sepal.Length'))
+  (ncol(result) %==% ncol(iris))
+  (!inherits(result, 'AsIs'))
+})
+
+assert('build_config trims chart-level data to used columns', {
+  chart = g2(iris, x = 'Sepal.Length', y = 'Sepal.Width') |> mark_point()
+  cfg = build_config(chart)
+  (names(cfg$data$value) %==% c('Sepal.Length', 'Sepal.Width'))
+})
+
+assert('build_config keeps all columns when data is I()-wrapped', {
+  chart = g2(I(iris), x = 'Sepal.Length', y = 'Sepal.Width') |> mark_point()
+  cfg = build_config(chart)
+  (length(names(cfg$data$value)) %==% ncol(iris))
+})
+
+assert('build_config trims mark-level data frames', {
+  df = data.frame(a = 1:3, b = 4:6, c = 7:9)
+  chart = g2() |> mark_point(data = df, encode = list(x = 'a', y = 'b'))
+  cfg = build_config(chart)
+  mark_data = cfg$children[[1]]$data$value
+  (names(mark_data) %==% c('a', 'b'))
+})
+
+assert('build_config preserves labels text column in mark-level data', {
+  df = data.frame(x = 1:3, y = 4:6, lbl = c('p', 'q', 'r'), z = 7:9)
+  chart = g2() |>
+    mark_point(data = df, encode = list(x = 'x', y = 'y')) |>
+    labels_(text = ~ lbl)
+  cfg = build_config(chart)
+  mark_data = cfg$children[[1]]$data$value
+  ('x' %in% names(mark_data))
+  ('y' %in% names(mark_data))
+  ('lbl' %in% names(mark_data))
+  (!('z' %in% names(mark_data)))
+})
+
+assert('build_config does not trim I()-wrapped mark-level data', {
+  df = data.frame(a = 1:3, b = 4:6, c = 7:9)
+  chart = g2() |> mark_point(data = I(df), encode = list(x = 'a', y = 'b'))
+  cfg = build_config(chart)
+  mark_data = cfg$children[[1]]$data$value
+  (length(names(mark_data)) %==% 3L)
+})

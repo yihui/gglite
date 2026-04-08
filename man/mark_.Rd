@@ -12,7 +12,9 @@ mark_(chart = NULL, type, ...)
 \item{type}{Character string for the G2 mark type.}
 
 \item{...}{Mark-level options passed to G2, such as \code{data}, \code{encode},
-\code{transform}, \code{style}, \code{animate}, \code{labels}, \code{tooltip}, \code{axis}, \code{legend}.}
+\code{transform}, \code{style}, \code{animate}, \code{labels}, \code{tooltip}, \code{axis}, \code{legend}.
+When \code{data} is a data frame, only columns referenced by the chart or
+mark-level encodings are kept. Wrap it in \code{\link[=I]{I()}} to preserve all columns.}
 }
 \value{
 The modified \code{g2} object.

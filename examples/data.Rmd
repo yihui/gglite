@@ -1,0 +1,165 @@
+---
+title: Data
+---
+
+```{r}
+library(gglite)
+```
+
+Data can be provided at the chart level, at the mark level, or not at all
+(for marks that generate their own data from transforms or inline values).
+
+## Chart-Level Data
+
+Pass a data frame to `g2()` and it becomes the default data source for all
+marks in the chart.
+
+```{r}
+g2(mtcars, hp ~ mpg) |> mark_point()
+```
+
+Multiple marks can share the same chart-level data frame:
+
+```{r}
+g2(mtcars, hp ~ mpg) |>
+  mark_point() |>
+  mark_line()
+```
+
+## Mark-Level Data
+
+Supply a data frame directly to a mark to override or supplement the
+chart-level data for that mark only. This is useful for annotation layers
+or overlays that use a different data source.
+
+```{r}
+# Mark-level data for an annotation line
+g2(mtcars, hp ~ mpg) |>
+  mark_point() |>
+  mark_line_y(
+    data = data.frame(y = 150),
+    encode = list(y = 'y'),
+    style = list(stroke = 'red', lineDash = c(4, 4))
+  )
+```
+
+Marks can have entirely independent data:
+
+```{r}
+df1 = data.frame(x = 1:5, y = c(2, 4, 3, 5, 1))
+df2 = data.frame(x = 1:5, y = c(1, 3, 5, 2, 4))
+g2() |>
+  mark_line(data = df1, encode = list(x = 'x', y = 'y')) |>
+  mark_point(data = df2, encode = list(x = 'x', y = 'y'))
+```
+
+## Inline List Data
+
+For marks that do not work with data frames — such as reference lines,
+annotations, or hierarchical charts — pass data as a list of records or as
+a nested list structure.
+
+```{r}
+# A single reference line at y = 150
+g2(mtcars, hp ~ mpg) |>
+  mark_point() |>
+  mark_line_y(
+    data = list(list(y = 150)),
+    encode = list(y = 'y'),
+    style = list(stroke = 'tomato', lineWidth = 2)
+  )
+```
+
+```{r}
+# A shaded region between x = 15 and x = 25
+g2(mtcars, hp ~ mpg) |>
+  mark_point() |>
+  mark_range_x(
+    data = list(list(x = c(15, 25))),
+    encode = list(x = 'x'),
+    style = list(fill = 'steelblue', fillOpacity = 0.15)
+  )
+```
+
+## Fetching Remote Data
+
+G2 can fetch data directly from a URL. Pass `data = list(type = 'fetch',
+value = '<url>')` to any mark to load JSON or CSV data client-side.
+
+```{r}
+g2() |> mark_point(
+  data = list(
+    type = 'fetch',
+    value = 'https://gw.alipayobjects.com/os/antvdemo/assets/data/scatter.json'
+  ),
+  encode = list(x = 'weight', y = 'height', color = 'gender')
+)
+```
+
+## Column Trimming
+
+gglite automatically trims data frame columns to only those referenced by
+the chart before serializing to JSON. This keeps the HTML output compact
+when working with wide data frames that have many unused columns.
+
+The `iris` dataset has five columns: `Sepal.Length`, `Sepal.Width`,
+`Petal.Length`, `Petal.Width`, and `Species`. When only two columns are
+mapped, only those two columns end up in the generated HTML.
+
+```{r}
+# Only Sepal.Length and Sepal.Width are serialized
+g2(iris, Sepal.Length ~ Sepal.Width) |> mark_point()
+```
+
+Additional aesthetic channels count as used columns too:
+
+```{r}
+# Sepal.Length, Sepal.Width, and Species are included; Petal.* are dropped
+g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species) |> mark_point()
+```
+
+Trimming also applies to labels: the `text` column referenced by `labels_()`
+is automatically preserved.
+
+```{r}
+df = data.frame(
+  x = c('A', 'B', 'C'), y = c(3, 7, 2),
+  label = c('low', 'high', 'mid'), extra = 1:3
+)
+# label is kept (used by labels_()); extra is trimmed
+g2(df, y ~ x) |>
+  mark_interval() |>
+  labels_(text = ~ label, position = 'inside')
+```
+
+## Opting Out with `I()`
+
+Some configurations reference columns inside inline JavaScript functions
+that gglite cannot detect statically. A common case is a custom `style`
+callback that reads a field from the data row directly:
+
+```{r}
+# Species is used in the JS fill callback but is not listed in encode.
+# Without I(), Species would be trimmed and the callback would not work.
+g2(I(iris), Sepal.Length ~ Sepal.Width) |>
+  mark_point(style = list(
+    fill = js('(d) => d.Species === "setosa" ? "steelblue" : "tomato"')
+  ))
+```
+
+Wrapping the data in `I()` tells gglite to preserve all columns and skip
+trimming. The `AsIs` class is stripped before JSON serialization, so the
+chart works exactly as if the data were passed directly — but with all
+columns available to JavaScript.
+
+The same applies to mark-level data:
+
+```{r}
+df = data.frame(x = 1:5, y = c(2, 4, 3, 5, 1), label = c('a', 'b', 'c', 'd', 'e'))
+# label is referenced in a JS tooltip callback, not in encode
+g2() |> mark_point(
+  data = I(df),
+  encode = list(x = 'x', y = 'y'),
+  tooltip = list(items = list(js('(d) => ({ name: "label", value: d.label })')))
+)
+```

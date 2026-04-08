@@ -18,7 +18,7 @@ g2_cdn = function() {
   getOption('gglite.g2_cdn', 'https://unpkg.com/@antv/g2@5/dist/g2.min.js')
 }
 
-g2_patches_cdn = 'https://cdn.jsdelivr.net/npm/@xiee/utils@v1.14.31/js/g2-patches.min.js'
+g2_patches_cdn = 'https://cdn.jsdelivr.net/npm/@xiee/utils@v1.14.32/js/g2-patches.min.js'
 
 #' @importFrom xfun js
 #' @export
@@ -113,7 +113,10 @@ check_chart = function(fn, chart, args) {
 #'   series objects are automatically converted to data frames (with columns
 #'   `time` and `value` for univariate series, or `time`, `series`, and `value`
 #'   for multivariate series) and default aesthetic mappings are set
-#'   accordingly.
+#'   accordingly. By default, only the columns actually referenced by the chart
+#'   are included in the HTML output. Wrap `data` in [I()] to opt out of
+#'   trimming and preserve all columns — useful when extra columns are accessed
+#'   inside inline JavaScript functions that cannot be statically detected.
 #' @param ... Aesthetic mappings as `name = ~column` formulas or a positional
 #'   formula for `x`/`y`. Character strings are also accepted.
 #' @param width,height Width and height of the chart in pixels.

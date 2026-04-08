@@ -21,7 +21,10 @@ g2(
 series objects are automatically converted to data frames (with columns
 \code{time} and \code{value} for univariate series, or \code{time}, \code{series}, and \code{value}
 for multivariate series) and default aesthetic mappings are set
-accordingly.}
+accordingly. By default, only the columns actually referenced by the chart
+are included in the HTML output. Wrap \code{data} in \code{\link[=I]{I()}} to opt out of
+trimming and preserve all columns — useful when extra columns are accessed
+inside inline JavaScript functions that cannot be statically detected.}
 
 \item{...}{Aesthetic mappings as \code{name = ~column} formulas or a positional
 formula for \code{x}/\code{y}. Character strings are also accepted.}

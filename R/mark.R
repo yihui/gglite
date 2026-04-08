@@ -7,6 +7,8 @@
 #' @param type Character string for the G2 mark type.
 #' @param ... Mark-level options passed to G2, such as `data`, `encode`,
 #'   `transform`, `style`, `animate`, `labels`, `tooltip`, `axis`, `legend`.
+#'   When `data` is a data frame, only columns referenced by the chart or
+#'   mark-level encodings are kept. Wrap it in [I()] to preserve all columns.
 #' @return The modified `g2` object.
 #' @export
 #' @examples
