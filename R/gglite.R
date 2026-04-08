@@ -20,6 +20,35 @@ g2_cdn = function() {
 
 g2_patches_cdn = 'https://cdn.jsdelivr.net/npm/@xiee/utils@v1.14.31/js/g2-patches.min.js'
 
+#' Literal JavaScript Code
+#'
+#' A re-export of [xfun::js()] for convenience. Marks a character string as
+#' raw JavaScript code for direct inclusion in chart options without JSON
+#' quoting. Use this when a chart option expects a JavaScript expression rather
+#' than a data value.
+#'
+#' @param x A character string of JavaScript code.
+#' @return An object of class `JS_EVAL`.
+#' @importFrom xfun js
+#' @export
+#' @examples
+#' # Custom rotate function for a word cloud
+#' df = data.frame(
+#'   text = c('Hello', 'World', 'R', 'G2'),
+#'   value = c(30, 25, 20, 15)
+#' )
+#' g2(df) |>
+#'   mark_word_cloud(
+#'     encode = list(text = 'text', value = 'value', color = 'text'),
+#'     style = list(rotate = js('() => Math.random() * 90 - 45'))
+#'   )
+js = xfun::js
+
+# Returns TRUE when scale_/axis_ should target the last mark rather than the
+# chart: only when the user just added a mark AND there are multiple marks
+# (so single-mark charts always use chart-level scale/axis for compatibility).
+mark_ctx = function(chart) isTRUE(chart$last_op == 'mark') && length(chart$layers) > 1
+
 #' Create a Deferred Chart Modifier
 #'
 #' Wrap a modifier function and its arguments into a closure that can be applied

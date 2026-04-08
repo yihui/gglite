@@ -92,8 +92,10 @@ p2 |> legend_color(position = 'right', title = 'Iris Species')
 ## Dual Y-Axis
 
 Two marks can share the same x-axis but each have their own independent y-axis.
-Use `scale_mark_y(independent = TRUE)` on the second mark and
-`axis_mark_y(position = 'right')` to place its axis on the right.
+When `scale_y()` or `axis_y()` follows the second (or later) mark in a chain,
+they automatically apply to that mark rather than the whole chart. Place the
+first mark's axis call before adding the second mark to target the chart-level
+axis; then configure the second mark's axis right after adding it.
 
 ```{r}
 # Monthly averages of temperature (°F) and wind speed (mph) from airquality
@@ -106,8 +108,8 @@ g2(air, x = 'Month') |>
   axis_y(title = 'Temperature (°F)', titleFill = '#85C5A6') |>
   mark_line(encode = list(y = 'Wind')) |>
   style_mark(stroke = 'steelblue', lineWidth = 2) |>
-  scale_mark_y(independent = TRUE) |>
-  axis_mark_y(
+  scale_y(independent = TRUE) |>
+  axis_y(
     position = 'right', grid = FALSE,
     title = 'Wind Speed (mph)', titleFill = 'steelblue'
   )

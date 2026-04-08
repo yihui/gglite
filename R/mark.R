@@ -18,6 +18,7 @@ mark_ = function(chart = NULL, type, ...) {
   opts = list(...)
   if (length(opts)) layer = modifyList(layer, opts)
   chart$layers = c(chart$layers, list(layer))
+  chart$last_op = 'mark'
   chart
 }
 

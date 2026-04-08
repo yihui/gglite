@@ -394,7 +394,7 @@ g2() |>
     encode = list(value = 'value', color = 'depth'),
     legend = FALSE
   ) |>
-  style_mark(labelText = xfun::js(
+  style_mark(labelText = js(
     '(d) => d.r >= 10 && d.height === 0 ? d.data.name : ""'
   ))
 ```

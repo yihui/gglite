@@ -236,7 +236,6 @@ build_config = function(chart) {
 #' @export
 chart_html = function(chart, id = NULL, width = NULL, height = NULL) {
   ctor = dropNulls(chart$options)
-  if (!is.null(id)) ctor$container = id
   spec = build_config(chart)
   defer_opt = getOption('gglite.defer_render')
   threshold = if (isTRUE(defer_opt)) 0.5 else if (is.numeric(defer_opt)) defer_opt
@@ -275,17 +274,18 @@ chart_html = function(chart, id = NULL, width = NULL, height = NULL) {
   if (nzchar(style)) style = paste0(' style="', style, '"')
 
   if (is.null(id)) {
-    div = paste0('<div class="gglite"', style, '></div>\n')
-    ctor_js = paste0(
-      'const el = document.querySelector(".gglite:not([data-gglite-bound])");\n',
-      'el.setAttribute("data-gglite-bound", "");\n',
-      'const chart = new G2.Chart(Object.assign({container: el}, ',
-      xfun::tojson(ctor), '));\n'
+    div = paste0('<div data-gglite-container', style, '></div>\n')
+    ctor$container = js('el')
+    el_js = paste0(
+      'const el = document.querySelector("[data-gglite-container]");\n',
+      'el.removeAttribute("data-gglite-container");\n'
     )
   } else {
     div = paste0('<div id="', id, '"', style, '></div>\n')
-    ctor_js = paste0('const chart = new G2.Chart(', xfun::tojson(ctor), ');\n')
+    ctor$container = id
+    el_js = ''
   }
+  ctor_js = paste0(el_js, 'const chart = new G2.Chart(', xfun::tojson(ctor), ');\n')
 
   paste0(div, '<script type="module">\n', spec_js, ctor_js, options_js, render_js, '</script>')
 }

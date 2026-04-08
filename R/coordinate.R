@@ -54,6 +54,7 @@ coord_ = function(chart = NULL, type, ...) {
   mod = check_chart(coord_, chart, c(if (!missing(type)) list(type), list(...)))
   if (!is.null(mod)) return(mod)
   chart$coords = c(list(type = type), list(...))
+  chart$last_op = NULL
   chart
 }
 
@@ -76,6 +77,7 @@ coord_transpose = function(chart = NULL) {
   chart$coords$transform = c(
     chart$coords$transform, list(list(type = 'transpose'))
   )
+  chart$last_op = NULL
   chart
 }
 
