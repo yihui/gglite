@@ -65,6 +65,7 @@ g2(mtcars, hp ~ mpg) |>
   mark_point() |>
   mark_line_y(
     data = list(list(y = 150)),
+    encode = list(y = 'y'),
     style = list(stroke = 'tomato', lineWidth = 2)
   )
 ```
