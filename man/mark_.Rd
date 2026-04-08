@@ -255,7 +255,8 @@ df = data.frame(
 )
 g2(df, y ~ x, color = ~ color) |>
   mark_interval() |> transform_('stackY')
-p = g2(data.frame(x = 1:5, y = c(3, 1, 4, 1, 5)), y ~ x)
+df = data.frame(x = 1:5, y = c(3, 1, 4, 1, 5))
+p = g2(df, y ~ x)
 p |> mark_line()
 g2(mtcars, hp ~ mpg, color = ~ cyl) |> mark_point()
 p |> mark_area()

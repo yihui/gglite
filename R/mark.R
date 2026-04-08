@@ -47,7 +47,8 @@ mark_interval = function(chart = NULL, ...) mark_(chart, 'interval', ...)
 #' @rdname mark_
 #' @export
 #' @examples
-#' p = g2(data.frame(x = 1:5, y = c(3, 1, 4, 1, 5)), y ~ x)
+#' df = data.frame(x = 1:5, y = c(3, 1, 4, 1, 5))
+#' p = g2(df, y ~ x)
 #' p |> mark_line()
 mark_line = function(chart = NULL, ...) mark_(chart, 'line', ...)
 
