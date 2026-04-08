@@ -130,7 +130,7 @@ build_config = function(chart) {
     # Trim mark-level data frames (merge chart aesthetics + layer encode +
     # labels text for vars)
     if (is.data.frame(m$data)) {
-      lv = unlist(c(chart$aesthetics, layer$encode, lapply(layer$labels, `[[`, 'text')))
+      lv = c(chart$aesthetics, layer$encode, lapply(layer$labels, `[[`, 'text'))
       m$data = trim_data(m$data, lv)
     }
     m

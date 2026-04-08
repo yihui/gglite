@@ -83,10 +83,7 @@ process_layout = function(name, value) {
 #' @noRd
 data_transform_vars = function(data) {
   if (!is.list(data) || is.data.frame(data) || is.null(data$transform)) return()
-  vars = NULL
-  for (t in data$transform)
-    vars = c(vars, t$field, t$fields, t$groupBy, t$by)
-  vars
+  lapply(data$transform, `[`, c('field', 'fields', 'groupBy', 'by'))
 }
 
 #' Collect Variable Names Used in a Chart
@@ -97,23 +94,20 @@ data_transform_vars = function(data) {
 #' supply their own data frame).
 #'
 #' @param chart A `g2` object.
-#' @return A character vector of unique variable names.
+#' @return A list of variable names.
 #' @noRd
 collect_vars = function(chart) {
-  vars = NULL
-  vars = c(vars, chart$aesthetics)
-  vars = c(vars, chart$facet$encode)
+  vars = c(chart$aesthetics, chart$facet$encode)
   # Include vars for layers that use the chart-level data. Layers with their
   # own data *frame* bring their own source; layers with a G2 transform spec
   # (a list) or no data at all still read from the chart-level data frame.
-  for (layer in chart$layers) {
-    if (!is.data.frame(layer$data)) {
-      vars = c(vars, layer$encode)
-      vars = c(vars, lapply(layer$labels, `[[`, 'text'))
-      vars = c(vars, data_transform_vars(layer$data))
-    }
-  }
-  unique(unlist(vars))
+  vars2 = lapply(chart$layers, function(layer) {
+    if (!is.data.frame(layer$data)) c(
+      layer$encode, lapply(layer$labels, `[[`, 'text'),
+      data_transform_vars(layer$data)
+    )
+  })
+  unlist(c(vars, vars2))
 }
 
 #' Trim a Data Frame to Used Columns
@@ -132,6 +126,7 @@ collect_vars = function(chart) {
 trim_data = function(data, vars) {
   if (inherits(data, 'AsIs'))
     return(structure(data, class = setdiff(class(data), 'AsIs')))
+  vars = unlist(vars)
   if (!is.data.frame(data) || !length(vars)) return(data)
   keep = intersect(vars, names(data))
   if (!length(keep) || length(keep) == ncol(data)) return(data)
