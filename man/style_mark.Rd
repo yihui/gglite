@@ -19,6 +19,6 @@ The modified \code{g2} object.
 Set Style on the Last Mark
 }
 \examples{
-g2(mtcars, x = 'mpg', y = 'hp') |>
+g2(mtcars, hp ~ mpg) |>
   style_mark(fill = 'steelblue', stroke = 'white', lineWidth = 1)
 }

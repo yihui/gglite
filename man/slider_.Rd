@@ -20,6 +20,6 @@ The modified \code{g2} object.
 Add a range slider to a positional channel for zooming/panning.
 }
 \examples{
-g2(mtcars, x = 'mpg', y = 'hp') |>
+g2(mtcars, hp ~ mpg) |>
   slider_('x')
 }

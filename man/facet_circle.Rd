@@ -9,8 +9,8 @@ facet_circle(chart = NULL, ...)
 \arguments{
 \item{chart}{A \code{g2} object.}
 
-\item{...}{Facet encoding and options. Pass \code{position = 'var'} to specify
-the faceting variable.}
+\item{...}{Facet encoding and options. Pass \code{position = ~var} to specify
+the faceting variable. Character strings are also accepted.}
 }
 \value{
 The modified \code{g2} object.
@@ -19,6 +19,6 @@ The modified \code{g2} object.
 Facet in a Circular Layout
 }
 \examples{
-g2(iris, x = 'Sepal.Width', y = 'Sepal.Length') |>
-  facet_circle(position = 'Species')
+g2(iris, Sepal.Length ~ Sepal.Width) |>
+  facet_circle(position = ~ Species)
 }

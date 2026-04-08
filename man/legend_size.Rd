@@ -16,6 +16,6 @@ legend_size(chart = NULL, ...)
 Configure the Size Legend
 }
 \examples{
-g2(mtcars, x = 'mpg', y = 'hp', size = 'wt') |>
+g2(mtcars, hp ~ mpg, size = ~ wt) |>
   legend_size(position = 'bottom')
 }

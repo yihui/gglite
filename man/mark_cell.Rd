@@ -18,5 +18,5 @@ Draws rectangular cells, commonly used for heatmaps and calendar charts.
 \examples{
 df = expand.grid(x = LETTERS[1:4], y = LETTERS[1:4])
 df$value = seq_len(nrow(df))
-g2(df, x = 'x', y = 'y', color = 'value') |> mark_cell()
+g2(df, y ~ x, color = ~ value) |> mark_cell()
 }

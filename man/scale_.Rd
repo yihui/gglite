@@ -33,20 +33,20 @@ G2 scale types: \code{'linear'}, \code{'ordinal'}, \code{'band'}, \code{'point'}
 }
 \examples{
 # Log-scaled x axis (chart-level, before marks)
-g2(mtcars, x = 'mpg', y = 'hp') |>
+g2(mtcars, hp ~ mpg) |>
   scale_('x', type = 'log')
 
 # Square-root scale on y (chart-level)
-g2(mtcars, x = 'mpg', y = 'hp') |>
+g2(mtcars, hp ~ mpg) |>
   scale_('y', type = 'sqrt')
 
 # Ordinal colour palette (chart-level)
-g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
+g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species) |>
   scale_('color', palette = 'category10')
 
 # Mark-level independent y scale for dual-axis charts
 df = data.frame(x = 1:5, a = c(1, 4, 2, 5, 3), b = c(100, 200, 150, 300, 250))
-g2(df, x = 'x') |>
+g2(df, ~ x) |>
   mark_interval(encode = list(y = 'a')) |>
   mark_line(encode = list(y = 'b')) |>
   scale_y(independent = TRUE) |>

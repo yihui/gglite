@@ -16,7 +16,7 @@ Add an X Scrollbar
 }
 \examples{
 df = data.frame(x = 1:100, y = cumsum(rnorm(100)))
-g2(df, x = 'x', y = 'y') |>
+g2(df, y ~ x) |>
   mark_line() |>
   scrollbar_x()
 }

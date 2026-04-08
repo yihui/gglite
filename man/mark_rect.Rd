@@ -17,7 +17,7 @@ Draws rectangles. Commonly used with a \code{bin} transform for 2-D histograms.
 }
 \examples{
 # 2-D histogram using bin transform
-g2(mtcars, x = 'mpg', y = 'hp') |>
+g2(mtcars, hp ~ mpg) |>
   mark_rect(
     transform = list(list(type = 'bin', thresholdsX = 10, thresholdsY = 10))
   )

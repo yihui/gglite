@@ -16,7 +16,6 @@ coord_polar(chart = NULL, ...)
 Shortcut for \code{coord_(chart, 'polar', ...)}.
 }
 \examples{
-g2(data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2)),
-  x = 'x', y = 'y', color = 'x') |>
+g2(data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2)), y ~ x, color = ~ x) |>
   coord_polar()
 }

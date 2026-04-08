@@ -16,6 +16,6 @@ scale_shape(chart = NULL, ...)
 Configure the Shape Scale
 }
 \examples{
-g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', shape = 'Species') |>
+g2(iris, Sepal.Length ~ Sepal.Width, shape = ~ Species) |>
   scale_shape(range = c('circle', 'square', 'triangle'))
 }

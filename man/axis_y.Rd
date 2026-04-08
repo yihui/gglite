@@ -16,6 +16,6 @@ axis_y(chart = NULL, ...)
 Configure the Y Axis
 }
 \examples{
-g2(mtcars, x = 'mpg', y = 'hp') |>
+g2(mtcars, hp ~ mpg) |>
   axis_y(title = 'Horsepower')
 }

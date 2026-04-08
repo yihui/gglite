@@ -16,6 +16,6 @@ mark_area(chart = NULL, ...)
 Add an Area Mark
 }
 \examples{
-g2(data.frame(x = 1:5, y = c(3, 1, 4, 1, 5)), x = 'x', y = 'y') |>
+g2(data.frame(x = 1:5, y = c(3, 1, 4, 1, 5)), y ~ x) |>
   mark_area()
 }

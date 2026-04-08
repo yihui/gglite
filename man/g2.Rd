@@ -23,8 +23,8 @@ series objects are automatically converted to data frames (with columns
 for multivariate series) and default aesthetic mappings are set
 accordingly.}
 
-\item{...}{Aesthetic mappings as \code{name = 'column'} pairs (character strings),
-or a formula followed by optional named aesthetics.}
+\item{...}{Aesthetic mappings as \code{name = ~column} formulas or a positional
+formula for \code{x}/\code{y}. Character strings are also accepted.}
 
 \item{width, height}{Width and height of the chart in pixels.}
 
@@ -43,31 +43,26 @@ A \code{g2} object (S3 class).
 }
 \description{
 Construct a base chart object, optionally with data and aesthetic mappings.
-Column names are passed as character strings. You can also use a formula
-(e.g., \code{y ~ x}) to specify the mappings (see \strong{Formula Interface}).
+Use R formulas for aesthetic mappings (see \strong{Formula Interface}).
 }
 \section{Formula Interface}{
 
-Instead of named aesthetic arguments, you can pass a formula as the first
-argument after \code{data}:
+Aesthetic mappings use R formulas as a shorthand for column names:
 \describe{
-\item{\code{y ~ x}}{Maps \code{x} and \code{y} to the named columns.}
-\item{\code{~ x}}{Maps only \code{x} (e.g., for histograms or bar counts).}
+\item{\code{y ~ x}}{Sets \code{x} and \code{y} as the first positional argument.}
+\item{\code{~ x}}{Sets only \code{x} (e.g., for histograms or bar counts).}
 \item{\code{~ x1 + x2 + x3}}{Creates a \code{position} encoding with multiple
 fields (for parallel coordinates).}
 \item{\code{y ~ x | z}}{Facets the chart by \code{z} (column direction).}
 \item{\code{y ~ x | z1 + z2}}{Facets by \code{z1} (columns) and \code{z2} (rows).}
+\item{\code{color = ~ var}}{Maps the \code{color} channel to \code{var} (one-sided
+formula in a named argument). Works for any aesthetic channel.}
 }
-Additional aesthetics (e.g., \code{color}, \code{size}) can still be passed as named
-arguments alongside the formula.
 }
 
 \examples{
-g2(mtcars, x = 'mpg', y = 'hp')
-
-# Formula interface
 g2(mtcars, hp ~ mpg)
-g2(mtcars, hp ~ mpg, color = 'cyl')
+g2(mtcars, hp ~ mpg, color = ~ cyl)
 g2(mtcars, ~ mpg)
 
 # Time series

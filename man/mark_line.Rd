@@ -16,6 +16,6 @@ mark_line(chart = NULL, ...)
 Add a Line Mark
 }
 \examples{
-g2(data.frame(x = 1:5, y = c(3, 1, 4, 1, 5)), x = 'x', y = 'y') |>
+g2(data.frame(x = 1:5, y = c(3, 1, 4, 1, 5)), y ~ x) |>
   mark_line()
 }

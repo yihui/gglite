@@ -20,5 +20,5 @@ column, and if \code{color} is also mapped, separate density curves are drawn fo
 each group. Explicit \code{data}/\code{encode} in \code{...} bypass this auto-configuration.
 }
 \examples{
-g2(iris, x = 'Sepal.Width', color = 'Species') |> mark_density()
+g2(iris, ~ Sepal.Width, color = ~ Species) |> mark_density()
 }

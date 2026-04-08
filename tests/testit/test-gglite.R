@@ -20,6 +20,13 @@ assert('encode() maps column names to aesthetics', {
   (chart$aesthetics$color %==% 'baz')
 })
 
+assert('encode() accepts formula aesthetics', {
+  chart = g2() |> encode(x = ~ mpg, y = ~ hp, color = ~ cyl)
+  (chart$aesthetics$x %==% 'mpg')
+  (chart$aesthetics$y %==% 'hp')
+  (chart$aesthetics$color %==% 'cyl')
+})
+
 assert('pipe chaining works end-to-end', {
   chart = g2(mtcars, x = 'mpg', y = 'hp') |>
     mark_point() |>
@@ -82,6 +89,20 @@ assert('g2() formula with extra aesthetics', {
   (chart$aesthetics$color %==% 'Species')
 })
 
+assert('g2() formula aesthetics: color = ~ Species', {
+  chart = g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species)
+  (chart$aesthetics$x %==% 'Sepal.Width')
+  (chart$aesthetics$y %==% 'Sepal.Length')
+  (chart$aesthetics$color %==% 'Species')
+})
+
+assert('g2() all named formula aesthetics (no positional formula)', {
+  chart = g2(mtcars, x = ~ mpg, y = ~ hp, color = ~ cyl)
+  (chart$aesthetics$x %==% 'mpg')
+  (chart$aesthetics$y %==% 'hp')
+  (chart$aesthetics$color %==% 'cyl')
+})
+
 assert('g2() formula with faceting y ~ x | z', {
   chart = g2(iris, Sepal.Length ~ Sepal.Width | Species)
   (chart$aesthetics$x %==% 'Sepal.Width')
@@ -102,6 +123,10 @@ assert('g2() formula ~ x1 + x2 + x3 sets position encoding', {
   (chart$aesthetics$position %==%
     c('Sepal.Length', 'Sepal.Width', 'Petal.Length'))
   (is.null(chart$aesthetics$x))
+})
+
+assert('as_var() rejects multi-term one-sided formula', {
+  (has_error(g2(mtcars, hp ~ mpg, color = ~ a + b)))
 })
 
 assert('g2() title argument sets chart title', {
@@ -309,6 +334,28 @@ assert('+ works with coord, facet, axis, legend, title, tooltip', {
   (chart$legends$color$position %==% 'right')
   (chart$chart_title %==% 'Iris')
   (chart$tooltip_config %==% FALSE)
+})
+
+assert('facet_rect() accepts formula variables', {
+  chart = g2(iris, Sepal.Length ~ Sepal.Width) |>
+    facet_rect(x = ~ Species)
+  (chart$facet$type %==% 'facetRect')
+  (chart$facet$encode$x %==% 'Species')
+})
+
+assert('facet_circle() accepts formula variables', {
+  chart = g2(iris, Sepal.Length ~ Sepal.Width) |>
+    facet_circle(position = ~ Species)
+  (chart$facet$type %==% 'facetCircle')
+  (chart$facet$encode$position %==% 'Species')
+})
+
+assert('labels_() accepts formula for text', {
+  df = data.frame(x = c('A', 'B'), y = c(1, 2))
+  chart = g2(df, y ~ x) |>
+    mark_interval() |>
+    labels_(text = ~ y)
+  (chart$layers[[1]]$labels[[1]]$text %==% 'y')
 })
 
 assert('+ works with animate, labels_, style_mark', {

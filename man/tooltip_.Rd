@@ -20,6 +20,6 @@ Set chart-level tooltip options. Mark-level tooltips can be passed via \code{...
 in \verb{mark_*()} functions.
 }
 \examples{
-g2(mtcars, x = 'mpg', y = 'hp') |>
+g2(mtcars, hp ~ mpg) |>
   tooltip_(crosshairs = TRUE)
 }

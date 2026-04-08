@@ -16,6 +16,6 @@ scale_x(chart = NULL, ...)
 Configure the X Scale
 }
 \examples{
-g2(mtcars, x = 'mpg', y = 'hp') |>
+g2(mtcars, hp ~ mpg) |>
   scale_x(type = 'log')
 }

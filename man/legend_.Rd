@@ -22,6 +22,6 @@ Customise the legend for a visual channel (\code{'color'}, \code{'size'}, \code{
 \code{'opacity'}). Set to \code{FALSE} to hide.
 }
 \examples{
-g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
+g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species) |>
   legend_('color', position = 'right')
 }

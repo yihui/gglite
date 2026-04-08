@@ -17,7 +17,7 @@ Add an Interval Mark (Bar / Column Chart)
 }
 \examples{
 # Bar chart
-g2(data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2)), x = 'x', y = 'y') |>
+g2(data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2)), y ~ x) |>
   mark_interval()
 
 # Stacked bar chart (using transform)
@@ -25,6 +25,6 @@ df = data.frame(
   x = rep(c('A', 'B'), each = 2), y = c(3, 2, 5, 4),
   color = rep(c('a', 'b'), 2)
 )
-g2(df, x = 'x', y = 'y', color = 'color') |>
+g2(df, y ~ x, color = ~ color) |>
   mark_interval() |> transform_('stackY')
 }

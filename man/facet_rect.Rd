@@ -9,8 +9,8 @@ facet_rect(chart = NULL, ...)
 \arguments{
 \item{chart}{A \code{g2} object.}
 
-\item{...}{Facet encoding and options. Pass \code{x = 'var'} and/or \code{y = 'var'}
-to specify the faceting variable(s).}
+\item{...}{Facet encoding and options. Pass \code{x = ~var} and/or \code{y = ~var}
+to specify the faceting variable(s). Character strings are also accepted.}
 }
 \value{
 The modified \code{g2} object.
@@ -21,6 +21,6 @@ similar to ggplot2's \code{facet_grid()} / \code{facet_wrap()}. Use the \code{x}
 \code{y} arguments to specify faceting variables.
 }
 \examples{
-g2(iris, x = 'Sepal.Width', y = 'Sepal.Length') |>
-  facet_rect(x = 'Species')
+g2(iris, Sepal.Length ~ Sepal.Width) |>
+  facet_rect(x = ~ Species)
 }

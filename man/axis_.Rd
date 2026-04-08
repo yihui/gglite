@@ -26,13 +26,13 @@ y-axis for a dual-axis chart). Otherwise it applies at the chart level.
 }
 \examples{
 # Chart-level axis titles (no marks yet)
-g2(mtcars, x = 'mpg', y = 'hp') |>
+g2(mtcars, hp ~ mpg) |>
   axis_('x', title = 'Miles per Gallon') |>
   axis_('y', title = 'Horsepower')
 
 # Mark-level axis for dual-axis chart
 df = data.frame(x = 1:5, a = c(1, 4, 2, 5, 3), b = c(100, 200, 150, 300, 250))
-g2(df, x = 'x') |>
+g2(df, ~ x) |>
   mark_interval(encode = list(y = 'a')) |>
   mark_line(encode = list(y = 'b')) |>
   scale_y(independent = TRUE) |>

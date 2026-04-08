@@ -21,6 +21,6 @@ a chart argument (e.g., \code{mark_point()}, \code{theme_('dark')}).
 }
 \examples{
 # These two are equivalent:
-g2(mtcars, x = 'mpg', y = 'hp') |> mark_point() |> theme_('dark')
-g2(mtcars, x = 'mpg', y = 'hp') + mark_point() + theme_('dark')
+g2(mtcars, hp ~ mpg) |> mark_point() |> theme_('dark')
+g2(mtcars, hp ~ mpg) + mark_point() + theme_('dark')
 }

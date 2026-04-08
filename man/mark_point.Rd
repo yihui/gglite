@@ -16,5 +16,5 @@ mark_point(chart = NULL, ...)
 Add a Point Mark (Scatter Plot)
 }
 \examples{
-g2(mtcars, x = 'mpg', y = 'hp', color = 'cyl') |> mark_point()
+g2(mtcars, hp ~ mpg, color = ~ cyl) |> mark_point()
 }

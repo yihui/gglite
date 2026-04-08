@@ -18,5 +18,5 @@ creating a beeswarm layout. Particularly useful for visualizing distributions
 within categories.
 }
 \examples{
-g2(iris, x = 'Species', y = 'Sepal.Width') |> mark_beeswarm()
+g2(iris, Sepal.Width ~ Species) |> mark_beeswarm()
 }

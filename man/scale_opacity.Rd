@@ -16,6 +16,6 @@ scale_opacity(chart = NULL, ...)
 Configure the Opacity Scale
 }
 \examples{
-g2(mtcars, x = 'mpg', y = 'hp', opacity = 'wt') |>
+g2(mtcars, hp ~ mpg, opacity = ~ wt) |>
   scale_opacity(range = c(0.2, 1))
 }

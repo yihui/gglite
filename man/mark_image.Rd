@@ -17,7 +17,7 @@ Places images at data coordinates. Requires an \code{src} encoding for image URL
 }
 \examples{
 df = data.frame(x = 1:2, y = 1:2)
-g2(df, x = 'x', y = 'y') |>
+g2(df, y ~ x) |>
   mark_image(style = list(
     src = 'https://gw.alipayobjects.com/mdn/rms_dfc253/afts/img/A*SZGfRaFPkIoAAAAAAAAAAAAAARQnAQ'
   ))

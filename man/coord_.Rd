@@ -32,20 +32,20 @@ charts, use the \code{'polar'} coordinate with long-format data (x/y/color).
 \examples{
 # Polar coordinate (rose chart)
 df = data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2))
-g2(df, x = 'x', y = 'y') |>
+g2(df, y ~ x) |>
   coord_polar()
 
 # Theta coordinate (pie / donut chart)
-g2(df, x = 'x', y = 'y', color = 'x') |>
+g2(df, y ~ x, color = ~ x) |>
   transform_('stackY') |>
   coord_theta()
 
 # Radial coordinate (radial bar chart)
-g2(df, x = 'x', y = 'y', color = 'x') |>
+g2(df, y ~ x, color = ~ x) |>
   coord_radial()
 
 # Parallel coordinate (uses position encoding)
-g2(iris, position = names(iris)[-5], color = 'Species',
+g2(iris, position = names(iris)[-5], color = ~ Species,
   padding = c(30, NA, NA, NA)) |>
   coord_parallel() |>
   legend_color(position = 'bottom')
@@ -56,7 +56,7 @@ df2 = data.frame(
   score = c(80, 90, 65, 75, 85, 60, 70, 85, 80, 70),
   team = rep(c('A', 'B'), each = 5)
 )
-g2(df2, x = 'item', y = 'score', color = 'team') |>
+g2(df2, score ~ item, color = ~ team) |>
   mark_area(style = list(fillOpacity = 0.5)) |>
   mark_line(style = list(lineWidth = 2)) |>
   coord_polar() |>

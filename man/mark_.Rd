@@ -22,5 +22,5 @@ Generic function to add a mark (geometry layer) to the chart. Use the
 specific \verb{mark_*()} wrappers for convenience.
 }
 \examples{
-g2(mtcars, x = 'mpg', y = 'hp') |> mark_('point')
+g2(mtcars, hp ~ mpg) |> mark_('point')
 }

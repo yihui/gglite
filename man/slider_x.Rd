@@ -15,6 +15,6 @@ slider_x(chart = NULL, ...)
 Add an X Slider
 }
 \examples{
-g2(mtcars, x = 'mpg', y = 'hp') |>
+g2(mtcars, hp ~ mpg) |>
   slider_x()
 }

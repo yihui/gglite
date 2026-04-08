@@ -16,6 +16,6 @@ scale_size(chart = NULL, ...)
 Configure the Size Scale
 }
 \examples{
-g2(mtcars, x = 'mpg', y = 'hp', size = 'wt') |>
+g2(mtcars, hp ~ mpg, size = ~ wt) |>
   scale_size(range = c(2, 10))
 }

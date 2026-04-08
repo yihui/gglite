@@ -20,6 +20,6 @@ The modified \code{g2} object.
 Set the Chart Title
 }
 \examples{
-g2(mtcars, x = 'mpg', y = 'hp') |>
+g2(mtcars, hp ~ mpg) |>
   title_('Motor Trend Cars', subtitle = 'mpg vs hp')
 }

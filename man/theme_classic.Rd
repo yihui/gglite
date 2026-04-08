@@ -15,5 +15,5 @@ theme_classic(chart = NULL, ...)
 Shortcut for \code{theme_(chart, 'classic', ...)}. This is the default theme.
 }
 \examples{
-g2(mtcars, x = 'mpg', y = 'hp') |> theme_classic()
+g2(mtcars, hp ~ mpg) |> theme_classic()
 }

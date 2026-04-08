@@ -16,6 +16,6 @@ legend_color(chart = NULL, ...)
 Configure the Color Legend
 }
 \examples{
-g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
+g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species) |>
   legend_color(position = 'right')
 }

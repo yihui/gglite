@@ -20,5 +20,5 @@ Connects points in data order (unlike line, which sorts by x).
 n = 100
 t = seq(0, 4 * pi, length.out = n)
 df = data.frame(x = t * cos(t), y = t * sin(t))
-g2(df, x = 'x', y = 'y') |> mark_path()
+g2(df, y ~ x) |> mark_path()
 }

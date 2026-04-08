@@ -17,7 +17,7 @@ Draws a connector line with optional labels between two data points.
 }
 \examples{
 df = data.frame(x = c('A', 'B'), y = c(3, 7))
-g2(df, x = 'x', y = 'y') |>
+g2(df, y ~ x) |>
   mark_interval() |>
   mark_connector(
     data = list(list(x = 'A', x1 = 'B')),

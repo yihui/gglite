@@ -17,7 +17,6 @@ Shortcut for \code{coord_(chart, 'radial', ...)}. Suitable for radial bar
 charts.
 }
 \examples{
-g2(data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2)),
-  x = 'x', y = 'y', color = 'x') |>
+g2(data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2)), y ~ x, color = ~ x) |>
   coord_radial()
 }

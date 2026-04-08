@@ -16,6 +16,6 @@ legend_shape(chart = NULL, ...)
 Configure the Shape Legend
 }
 \examples{
-g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', shape = 'Species') |>
+g2(iris, Sepal.Length ~ Sepal.Width, shape = ~ Species) |>
   legend_shape(position = 'bottom')
 }

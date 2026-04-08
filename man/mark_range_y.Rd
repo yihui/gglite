@@ -16,7 +16,7 @@ mark_range_y(chart = NULL, ...)
 Add a Vertical Range (rangeY)
 }
 \examples{
-g2(mtcars, x = 'mpg', y = 'hp') |>
+g2(mtcars, hp ~ mpg) |>
   mark_point() |>
   mark_range_y(data = list(list(y = c(100, 200))),
     style = list(fill = 'orange', fillOpacity = 0.15))

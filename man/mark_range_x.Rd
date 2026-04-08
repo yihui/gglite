@@ -16,7 +16,7 @@ mark_range_x(chart = NULL, ...)
 Add a Horizontal Range (rangeX)
 }
 \examples{
-g2(mtcars, x = 'mpg', y = 'hp') |>
+g2(mtcars, hp ~ mpg) |>
   mark_point() |>
   mark_range_x(data = list(list(x = c(15, 25))),
     style = list(fill = 'steelblue', fillOpacity = 0.15))

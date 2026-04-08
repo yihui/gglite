@@ -17,5 +17,5 @@ Add a Polygon Mark
 }
 \examples{
 df = data.frame(x = c(0, 1, 0.5), y = c(0, 0, 1))
-g2(df, x = 'x', y = 'y') |> mark_polygon()
+g2(df, y ~ x) |> mark_polygon()
 }

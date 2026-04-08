@@ -17,5 +17,5 @@ A composite mark that automatically computes box plot statistics (median,
 quartiles, whiskers) from raw data.
 }
 \examples{
-g2(iris, x = 'Species', y = 'Sepal.Width') |> mark_boxplot()
+g2(iris, Sepal.Width ~ Species) |> mark_boxplot()
 }

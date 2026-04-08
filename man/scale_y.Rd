@@ -16,6 +16,6 @@ scale_y(chart = NULL, ...)
 Configure the Y Scale
 }
 \examples{
-g2(mtcars, x = 'mpg', y = 'hp') |>
+g2(mtcars, hp ~ mpg) |>
   scale_y(type = 'sqrt')
 }

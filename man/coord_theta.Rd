@@ -17,8 +17,7 @@ Shortcut for \code{coord_(chart, 'theta', ...)}. Used for pie and donut
 charts.
 }
 \examples{
-g2(data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2)),
-  x = 'x', y = 'y', color = 'x') |>
+g2(data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2)), y ~ x, color = ~ x) |>
   transform_('stackY') |>
   coord_theta(innerRadius = 0.5)
 }

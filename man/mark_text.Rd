@@ -17,7 +17,7 @@ Add a Text Mark
 }
 \examples{
 df = data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2))
-g2(df, x = 'x', y = 'y') |>
+g2(df, y ~ x) |>
   mark_interval() |>
   mark_text(encode = list(text = 'y'))
 }

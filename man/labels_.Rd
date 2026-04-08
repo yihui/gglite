@@ -9,8 +9,8 @@ labels_(chart = NULL, ...)
 \arguments{
 \item{chart}{A \code{g2} object.}
 
-\item{...}{Label options such as \code{text} (channel name), \code{position},
-\code{formatter}, \code{style}.}
+\item{...}{Label options such as \code{text} (channel name as \code{~col} or
+\code{'col'}), \code{position}, \code{formatter}, \code{style}.}
 }
 \value{
 The modified \code{g2} object.
@@ -21,6 +21,6 @@ multiple times to add several label layers.
 }
 \examples{
 df = data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2))
-g2(df, x = 'x', y = 'y') |>
-  labels_(text = 'y', position = 'inside')
+g2(df, y ~ x) |>
+  labels_(text = ~ y, position = 'inside')
 }

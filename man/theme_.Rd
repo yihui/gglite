@@ -36,10 +36,10 @@ Per-chart \code{theme_()} settings are merged on top of the global option.
 }
 \examples{
 # Dark theme
-g2(mtcars, x = 'mpg', y = 'hp') |>
+g2(mtcars, hp ~ mpg) |>
   theme_('dark')
 
 # Academy theme
-g2(mtcars, x = 'mpg', y = 'hp') |>
+g2(mtcars, hp ~ mpg) |>
   theme_('academy')
 }

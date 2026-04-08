@@ -9,16 +9,16 @@ encode(chart = NULL, ...)
 \arguments{
 \item{chart}{A \code{g2} object.}
 
-\item{...}{Named mappings as character strings, e.g.,
-\verb{x = 'col1', color = 'col2'}.}
+\item{...}{Named mappings as \code{name = ~column} formulas or character strings,
+e.g., \verb{x = ~ col1, color = ~ col2}.}
 }
 \value{
 The modified \code{g2} object.
 }
 \description{
 Map data columns to visual channels (x, y, color, size, shape, etc.).
-Column names are specified as character strings.
+Use formulas (e.g., \code{x = ~ col}) or character strings (e.g., \code{x = 'col'}).
 }
 \examples{
-g2(mtcars) |> encode(x = 'mpg', y = 'hp')
+g2(mtcars) |> encode(x = ~ mpg, y = ~ hp)
 }

@@ -16,6 +16,6 @@ legend_opacity(chart = NULL, ...)
 Configure the Opacity Legend
 }
 \examples{
-g2(mtcars, x = 'mpg', y = 'hp', opacity = 'wt') |>
+g2(mtcars, hp ~ mpg, opacity = ~ wt) |>
   legend_opacity(position = 'bottom')
 }
