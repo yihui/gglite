@@ -19,7 +19,12 @@ scale_(chart = NULL, field, ...)
 The modified \code{g2} object.
 }
 \description{
-Add or modify scale settings for a given aesthetic channel.
+Add or modify scale settings for a given aesthetic channel. When called
+immediately after a \verb{mark_*()} function (or after \code{style_mark()},
+\code{labels_()}, etc. that target the last mark), the scale is applied to that
+mark only. Otherwise it is applied at the chart level and affects all marks.
+This context-sensitivity enables dual-axis charts: add marks and pipe
+\code{scale_y(independent = TRUE)} to give one mark its own y scale.
 }
 \details{
 G2 scale types: \code{'linear'}, \code{'ordinal'}, \code{'band'}, \code{'point'}, \code{'time'},
@@ -27,15 +32,23 @@ G2 scale types: \code{'linear'}, \code{'ordinal'}, \code{'band'}, \code{'point'}
 \code{'sequential'}, \code{'identity'}, \code{'constant'}.
 }
 \examples{
-# Log-scaled x axis
+# Log-scaled x axis (chart-level, before marks)
 g2(mtcars, x = 'mpg', y = 'hp') |>
   scale_('x', type = 'log')
 
-# Square-root scale on y
+# Square-root scale on y (chart-level)
 g2(mtcars, x = 'mpg', y = 'hp') |>
   scale_('y', type = 'sqrt')
 
-# Ordinal colour palette
+# Ordinal colour palette (chart-level)
 g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
   scale_('color', palette = 'category10')
+
+# Mark-level independent y scale for dual-axis charts
+df = data.frame(x = 1:5, a = c(1, 4, 2, 5, 3), b = c(100, 200, 150, 300, 250))
+g2(df, x = 'x') |>
+  mark_interval(encode = list(y = 'a')) |>
+  mark_line(encode = list(y = 'b')) |>
+  scale_y(independent = TRUE) |>
+  axis_y(position = 'right', grid = FALSE)
 }

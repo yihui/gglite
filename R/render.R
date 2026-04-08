@@ -229,15 +229,13 @@ build_config = function(chart) {
 #' typically needed for regular plots.
 #'
 #' @param chart A `g2` object.
-#' @param id Container element ID (auto-generated if `NULL`).
+#' @param id Optional container element ID. When `NULL` (default), a
+#'   class-based container is used instead (more git-friendly output).
 #' @param width,height Optional CSS dimensions for the container.
 #' @return A character string of HTML.
 #' @export
 chart_html = function(chart, id = NULL, width = NULL, height = NULL) {
-  if (is.null(id)) id = paste0('gglite-', as.integer(Sys.time()), '-',
-                                sample.int(1e6, 1))
   ctor = dropNulls(chart$options)
-  ctor$container = id
   spec = build_config(chart)
   defer_opt = getOption('gglite.defer_render')
   threshold = if (isTRUE(defer_opt)) 0.5 else if (is.numeric(defer_opt)) defer_opt
@@ -256,6 +254,7 @@ chart_html = function(chart, id = NULL, width = NULL, height = NULL) {
     style = paste0(w, h, bg, mh)
     spec_js = paste0('const spec = ', xfun::tojson(spec), ';\n')
     options_js = 'chart.options(spec);\n'
+    observe_target = if (is.null(id)) 'el' else paste0('document.getElementById("', id, '")')
     render_js = paste0(
       'new IntersectionObserver((entries, obs) => {\n',
       '  if (entries[0].isIntersecting) {\n',
@@ -263,7 +262,7 @@ chart_html = function(chart, id = NULL, width = NULL, height = NULL) {
       '    obs.disconnect();\n',
       '  }\n',
       '}, { threshold: ', threshold,
-      ' }).observe(document.getElementById("', id, '"));\n'
+      ' }).observe(', observe_target, ');\n'
     )
   } else {
     style = paste0(w, h, bg)
@@ -274,15 +273,21 @@ chart_html = function(chart, id = NULL, width = NULL, height = NULL) {
 
   if (nzchar(style)) style = paste0(' style="', style, '"')
 
-  paste0(
-    '<div id="', id, '"', style, '></div>\n',
-    '<script type="module">\n',
-    spec_js,
-    'const chart = new G2.Chart(', xfun::tojson(ctor), ');\n',
-    options_js,
-    render_js,
-    '</script>'
-  )
+  if (is.null(id)) {
+    div = paste0('<div data-gglite-container', style, '></div>\n')
+    ctor$container = js('el')
+    el_js = paste0(
+      'const el = document.querySelector("[data-gglite-container]");\n',
+      'el.removeAttribute("data-gglite-container");\n'
+    )
+  } else {
+    div = paste0('<div id="', id, '"', style, '></div>\n')
+    ctor$container = id
+    el_js = ''
+  }
+  ctor_js = paste0(el_js, 'const chart = new G2.Chart(', xfun::tojson(ctor), ');\n')
+
+  paste0(div, '<script type="module">\n', spec_js, ctor_js, options_js, render_js, '</script>')
 }
 
 cdn_scripts = function() {

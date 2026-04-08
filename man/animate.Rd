@@ -17,22 +17,20 @@ entirely.}
 The modified \code{g2} object.
 }
 \description{
-Configure animation for the most recently added mark. G2 supports \code{enter},
-\code{update}, and \code{exit} animations.
+Configure animation for the most recently added mark, or the
+automatically-inferred mark when none has been added explicitly. G2 supports
+\code{enter}, \code{update}, and \code{exit} animations.
 }
 \examples{
 # Fade-in animation on bars
 g2(data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2)), x = 'x', y = 'y') |>
-  mark_interval() |>
   animate(enter = list(type = 'fadeIn', duration = 1000))
 
 # Wave-in animation
 g2(data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2)), x = 'x', y = 'y') |>
-  mark_interval() |>
   animate(enter = list(type = 'waveIn', duration = 800))
 
 # Disable animation
 g2(mtcars, x = 'mpg', y = 'hp') |>
-  mark_point() |>
   animate(FALSE)
 }

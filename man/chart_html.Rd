@@ -9,7 +9,8 @@ chart_html(chart, id = NULL, width = NULL, height = NULL)
 \arguments{
 \item{chart}{A \code{g2} object.}
 
-\item{id}{Container element ID (auto-generated if \code{NULL}).}
+\item{id}{Optional container element ID. When \code{NULL} (default), a
+class-based container is used instead (more git-friendly output).}
 
 \item{width, height}{Optional CSS dimensions for the container.}
 }

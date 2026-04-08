@@ -20,6 +20,15 @@ g2_cdn = function() {
 
 g2_patches_cdn = 'https://cdn.jsdelivr.net/npm/@xiee/utils@v1.14.31/js/g2-patches.min.js'
 
+#' @importFrom xfun js
+#' @export
+xfun::js
+
+# Returns TRUE when scale_/axis_ should target the last mark rather than the
+# chart: only when the user just added a mark AND there are multiple marks
+# (so single-mark charts always use chart-level scale/axis for compatibility).
+mark_ctx = function(chart) isTRUE(chart$last_op == 'mark') && length(chart$layers) > 1
+
 #' Create a Deferred Chart Modifier
 #'
 #' Wrap a modifier function and its arguments into a closure that can be applied

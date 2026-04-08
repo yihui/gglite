@@ -23,7 +23,7 @@ g2(mtcars, x = 'mpg', y = 'hp') |> mark_point()
 
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp', color = 'wt') |>
-  mark_point(style = list(shape = 'point'))
+  mark_point()
 ```
 
 ### Size by a variable
@@ -43,7 +43,8 @@ g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', shape = 'Species') |>
 
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp', size = 10) |>
-  mark_point(style = list(fill = 'lightyellow', stroke = 'steelblue', lineWidth = 2))
+  mark_point() |>
+  style_mark(fill = 'lightyellow', stroke = 'steelblue', lineWidth = 2)
 ```
 
 ## Line
@@ -110,9 +111,8 @@ g2(df, x = 'x', y = 'y', color = 'group') |>
 
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
-  mark_rect(
-    transform = list(list(type = 'bin', thresholdsX = 10, thresholdsY = 10))
-  )
+  mark_rect() |>
+  transform_('bin', thresholdsX = 10, thresholdsY = 10)
 ```
 
 ## Cell
@@ -172,10 +172,8 @@ df = data.frame(
   x1 = c('B', 'C', 'D'), y1 = c(3, 1, 4)
 )
 g2(df) |>
-  mark_link(
-    encode = list(x = c('x', 'x1'), y = c('y', 'y1')),
-    style = list(stroke = 'steelblue', lineWidth = 2)
-  )
+  mark_link(encode = list(x = c('x', 'x1'), y = c('y', 'y1'))) |>
+  style_mark(stroke = 'steelblue', lineWidth = 2)
 ```
 
 ## Reference Lines
@@ -187,9 +185,9 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
   mark_point() |>
   mark_line_x(
     data = list(list(x = mean(mtcars$mpg))),
-    encode = list(x = 'x'),
-    style = list(stroke = 'red', lineDash = c(4, 4))
-  )
+    encode = list(x = 'x')
+  ) |>
+  style_mark(stroke = 'red', lineDash = c(4, 4))
 ```
 
 ### Horizontal reference line (lineY)
@@ -199,9 +197,9 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
   mark_point() |>
   mark_line_y(
     data = list(list(y = mean(mtcars$hp))),
-    encode = list(y = 'y'),
-    style = list(stroke = 'red', lineDash = c(4, 4))
-  )
+    encode = list(y = 'y')
+  ) |>
+  style_mark(stroke = 'red', lineDash = c(4, 4))
 ```
 
 ## Range
@@ -213,9 +211,9 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
   mark_point() |>
   mark_range(
     data = list(list(x = c(15, 25), y = c(100, 200))),
-    encode = list(x = 'x', y = 'y'),
-    style = list(fill = 'steelblue', fillOpacity = 0.15)
-  )
+    encode = list(x = 'x', y = 'y')
+  ) |>
+  style_mark(fill = 'steelblue', fillOpacity = 0.15)
 ```
 
 ### Horizontal range (rangeX)
@@ -225,9 +223,9 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
   mark_point() |>
   mark_range_x(
     data = list(list(x = c(15, 25))),
-    encode = list(x = 'x'),
-    style = list(fill = 'steelblue', fillOpacity = 0.15)
-  )
+    encode = list(x = 'x')
+  ) |>
+  style_mark(fill = 'steelblue', fillOpacity = 0.15)
 ```
 
 ### Vertical range (rangeY)
@@ -237,9 +235,9 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
   mark_point() |>
   mark_range_y(
     data = list(list(y = c(100, 200))),
-    encode = list(y = 'y'),
-    style = list(fill = 'orange', fillOpacity = 0.15)
-  )
+    encode = list(y = 'y')
+  ) |>
+  style_mark(fill = 'orange', fillOpacity = 0.15)
 ```
 
 ## Connector
@@ -250,9 +248,9 @@ g2(df, x = 'x', y = 'y') |>
   mark_interval() |>
   mark_connector(
     data = list(list(x = 'A', x1 = 'B')),
-    encode = list(x = 'x', x1 = 'x1'),
-    labels = list(list(text = '+133%'))
-  )
+    encode = list(x = 'x', x1 = 'x1')
+  ) |>
+  labels_(text = '+133%')
 ```
 
 ## Box Plot
@@ -282,18 +280,15 @@ g2(iris, x = 'Species', y = 'Sepal.Width', color = 'Species') |>
 
 ```{r}
 g2(iris, x = 'Species', y = 'Sepal.Width') |>
-  mark_beeswarm() |> mark_boxplot(style = list(boxFillOpacity = 0.15))
+  mark_beeswarm() |> mark_boxplot() |> style_mark(boxFillOpacity = 0.15)
 ```
 
 ## Liquid
 
 ```{r}
 g2() |>
-  mark_liquid(
-    data = list(value = 0.6),
-    style = list(contentText = '60%', contentFill = 'white',
-      contentFontSize = 40)
-  )
+  mark_liquid(data = list(value = 0.6)) |>
+  style_mark(contentText = '60%', contentFill = 'white', contentFontSize = 40)
 ```
 
 ## Heatmap
@@ -315,7 +310,8 @@ df = data.frame(
   )
 )
 g2(df, x = 'x', y = 'y') |>
-  mark_image(encode = list(src = 'url'), style = list(width = 30, height = 30))
+  mark_image(encode = list(src = 'url')) |>
+  style_mark(width = 30, height = 30)
 ```
 
 ## Word Cloud
@@ -396,13 +392,11 @@ g2() |>
   mark_pack(
     data = list(type = 'inline', value = tree_data),
     encode = list(value = 'value', color = 'depth'),
-    style = list(
-      labelText = xfun::js(
-        '(d) => d.r >= 10 && d.height === 0 ? d.data.name : ""'
-      )
-    ),
     legend = FALSE
-  )
+  ) |>
+  style_mark(labelText = js(
+    '(d) => d.r >= 10 && d.height === 0 ? d.data.name : ""'
+  ))
 ```
 
 ## Gauge
@@ -509,7 +503,7 @@ tree_data = list(
 g2() |>
   mark_sunburst(
     data = list(type = 'inline', value = list(tree_data)),
-    encode = list(value = 'value'),
-    style = list(inset = 0.5)
-  )
+    encode = list(value = 'value')
+  ) |>
+  style_mark(inset = 0.5)
 ```

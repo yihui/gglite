@@ -1,26 +1,40 @@
 #' Configure an Axis
 #'
 #' Customise the axis for a positional channel (`'x'` or `'y'`). Set to
-#' `FALSE` to hide the axis.
+#' `FALSE` to hide the axis. When called immediately after a `mark_*()`
+#' function (or `style_mark()`, `labels_()`, etc.), the axis is applied to
+#' that mark only, enabling per-mark axis customization (e.g., a right-side
+#' y-axis for a dual-axis chart). Otherwise it applies at the chart level.
 #'
 #' @param chart A `g2` object.
 #' @param channel Positional channel: `'x'` or `'y'`.
 #' @param ... Axis options such as `title`, `labelFormatter`, `tickCount`,
-#'   `grid`, etc., or `FALSE` to hide.
+#'   `grid`, `position`, etc., or `FALSE` to hide.
 #' @return The modified `g2` object.
 #' @export
 #' @examples
+#' # Chart-level axis titles (no marks yet)
 #' g2(mtcars, x = 'mpg', y = 'hp') |>
 #'   axis_('x', title = 'Miles per Gallon') |>
 #'   axis_('y', title = 'Horsepower')
+#'
+#' # Mark-level axis for dual-axis chart
+#' df = data.frame(x = 1:5, a = c(1, 4, 2, 5, 3), b = c(100, 200, 150, 300, 250))
+#' g2(df, x = 'x') |>
+#'   mark_interval(encode = list(y = 'a')) |>
+#'   mark_line(encode = list(y = 'b')) |>
+#'   scale_y(independent = TRUE) |>
+#'   axis_y(position = 'right', grid = FALSE)
 axis_ = function(chart = NULL, channel, ...) {
   mod = check_chart(axis_, chart, c(if (!missing(channel)) list(channel), list(...)))
   if (!is.null(mod)) return(mod)
   args = list(...)
-  if (length(args) == 1 && is.logical(args[[1]])) {
-    chart$axes[[channel]] = args[[1]]
+  is_hide = length(args) == 1 && is.logical(args[[1]])
+  val = if (is_hide) args[[1]] else args
+  if (mark_ctx(chart)) {
+    chart$layers[[length(chart$layers)]]$axis[[channel]] = val
   } else {
-    chart$axes[[channel]] = args
+    chart$axes[[channel]] = val
   }
   chart
 }

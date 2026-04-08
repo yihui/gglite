@@ -55,7 +55,6 @@ g2(df, x = 'x', y = 'y', color = 'color') |>
 
 # Jitter on a scatter plot
 g2(mtcars, x = 'cyl', y = 'hp') |>
-  mark_point() |>
   transform_('jitterX')
 
 # Histogram using binX

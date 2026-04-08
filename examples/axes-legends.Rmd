@@ -88,3 +88,29 @@ p2 |> legend_color(FALSE)
 ```{r}
 p2 |> legend_color(position = 'right', title = 'Iris Species')
 ```
+
+## Dual Y-Axis
+
+Two marks can share the same x-axis but each have their own independent y-axis.
+When `scale_y()` or `axis_y()` follows the second (or later) mark in a chain,
+they automatically apply to that mark rather than the whole chart. Place the
+first mark's axis call before adding the second mark to target the chart-level
+axis; then configure the second mark's axis right after adding it.
+
+```{r}
+# Monthly averages of temperature (°F) and wind speed (mph) from airquality
+air = aggregate(cbind(Temp, Wind) ~ Month, data = airquality, FUN = mean)
+air$Month = month.abb[air$Month]
+
+g2(air, x = 'Month') |>
+  mark_interval(encode = list(y = 'Temp')) |>
+  style_mark(fill = '#85C5A6', fillOpacity = 0.7) |>
+  axis_y(title = 'Temperature (°F)', titleFill = '#85C5A6') |>
+  mark_line(encode = list(y = 'Wind')) |>
+  style_mark(stroke = 'steelblue', lineWidth = 2) |>
+  scale_y(independent = TRUE) |>
+  axis_y(
+    position = 'right', grid = FALSE,
+    title = 'Wind Speed (mph)', titleFill = 'steelblue'
+  )
+```

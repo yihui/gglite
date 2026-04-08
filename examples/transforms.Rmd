@@ -85,9 +85,8 @@ Bin in two dimensions for heatmap-style plots.
 
 ```{r}
 g2(mtcars, x = 'mpg', y = 'hp') |>
-  mark_rect(
-    transform = list(list(type = 'bin', thresholdsX = 10, thresholdsY = 10))
-  )
+  mark_rect() |>
+  transform_('bin', thresholdsX = 10, thresholdsY = 10)
 ```
 
 ## symmetryY (mirror)

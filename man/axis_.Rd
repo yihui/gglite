@@ -12,17 +12,29 @@ axis_(chart = NULL, channel, ...)
 \item{channel}{Positional channel: \code{'x'} or \code{'y'}.}
 
 \item{...}{Axis options such as \code{title}, \code{labelFormatter}, \code{tickCount},
-\code{grid}, etc., or \code{FALSE} to hide.}
+\code{grid}, \code{position}, etc., or \code{FALSE} to hide.}
 }
 \value{
 The modified \code{g2} object.
 }
 \description{
 Customise the axis for a positional channel (\code{'x'} or \code{'y'}). Set to
-\code{FALSE} to hide the axis.
+\code{FALSE} to hide the axis. When called immediately after a \verb{mark_*()}
+function (or \code{style_mark()}, \code{labels_()}, etc.), the axis is applied to
+that mark only, enabling per-mark axis customization (e.g., a right-side
+y-axis for a dual-axis chart). Otherwise it applies at the chart level.
 }
 \examples{
+# Chart-level axis titles (no marks yet)
 g2(mtcars, x = 'mpg', y = 'hp') |>
   axis_('x', title = 'Miles per Gallon') |>
   axis_('y', title = 'Horsepower')
+
+# Mark-level axis for dual-axis chart
+df = data.frame(x = 1:5, a = c(1, 4, 2, 5, 3), b = c(100, 200, 150, 300, 250))
+g2(df, x = 'x') |>
+  mark_interval(encode = list(y = 'a')) |>
+  mark_line(encode = list(y = 'b')) |>
+  scale_y(independent = TRUE) |>
+  axis_y(position = 'right', grid = FALSE)
 }

@@ -22,6 +22,5 @@ multiple times to add several label layers.
 \examples{
 df = data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2))
 g2(df, x = 'x', y = 'y') |>
-  mark_interval() |>
   labels_(text = 'y', position = 'inside')
 }

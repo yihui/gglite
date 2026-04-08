@@ -10,7 +10,7 @@ axis_y(chart = NULL, ...)
 \item{chart}{A \code{g2} object.}
 
 \item{...}{Axis options such as \code{title}, \code{labelFormatter}, \code{tickCount},
-\code{grid}, etc., or \code{FALSE} to hide.}
+\code{grid}, \code{position}, etc., or \code{FALSE} to hide.}
 }
 \description{
 Configure the Y Axis

@@ -391,6 +391,21 @@ assert('cdn_scripts returns two <script> tags', {
   (all(grepl('^<script src=".+" defer></script>$', s)))
 })
 
+assert('chart_html uses data-gglite-container when id is NULL', {
+  html = chart_html(g2(mtcars, x = 'mpg', y = 'hp') |> mark_point())
+  (grepl('<div data-gglite-container', html, fixed = TRUE))
+  (!grepl('<div id=', html, fixed = TRUE))
+  (grepl('querySelector("[data-gglite-container]")', html, fixed = TRUE))
+  (grepl('removeAttribute("data-gglite-container")', html, fixed = TRUE))
+  (!grepl('Object.assign', html, fixed = TRUE))
+})
+
+assert('chart_html uses id-based container when id is provided', {
+  html = chart_html(g2(mtcars, x = 'mpg', y = 'hp') |> mark_point(), id = 'my-chart')
+  (grepl('<div id="my-chart"', html, fixed = TRUE))
+  (!grepl('querySelector', html, fixed = TRUE))
+})
+
 assert('knit_print.g2 returns a knit_asis object containing chart HTML', {
   chart = g2(iris, Sepal.Length ~ Sepal.Width)
   out = knit_print.g2(chart)
@@ -409,4 +424,102 @@ assert('knitr dispatches knit_print to knit_print.g2', {
   chart = g2(iris, Sepal.Length ~ Sepal.Width)
   out = knitr::knit_print(chart)
   (inherits(out, 'knit_asis'))
+})
+
+# ---- context-sensitive scale_ / axis_ ----
+
+assert('scale_y after second-or-later mark applies to that mark', {
+  chart = g2(mtcars, x = 'mpg') |>
+    mark_interval(encode = list(y = 'hp')) |>
+    mark_line(encode = list(y = 'wt')) |>
+    scale_y(independent = TRUE)
+  (chart$layers[[2]]$scale$y %==% list(independent = TRUE))
+  (is.null(chart$layers[[1]]$scale))
+  (is.null(chart$scales$y))
+})
+
+assert('scale_y after a single mark applies at chart level', {
+  chart = g2(mtcars, x = 'mpg', y = 'hp') |>
+    mark_point() |>
+    scale_y(type = 'log')
+  (chart$scales$y %==% list(type = 'log'))
+  (is.null(chart$layers[[1]]$scale))
+})
+
+assert('scale_y before marks always applies at chart level', {
+  chart = g2(mtcars, x = 'mpg', y = 'hp') |>
+    scale_y(type = 'log') |>
+    mark_point()
+  (chart$scales$y %==% list(type = 'log'))
+  (is.null(chart$layers[[1]]$scale))
+})
+
+assert('axis_y after second-or-later mark applies to that mark', {
+  chart = g2(mtcars, x = 'mpg') |>
+    mark_interval(encode = list(y = 'hp')) |>
+    mark_line(encode = list(y = 'wt')) |>
+    axis_y(position = 'right', grid = FALSE)
+  (chart$layers[[2]]$axis$y$position %==% 'right')
+  (isFALSE(chart$layers[[2]]$axis$y$grid))
+  (is.null(chart$axes$y))
+})
+
+assert('axis_y after a single mark applies at chart level', {
+  chart = g2(mtcars, x = 'mpg', y = 'hp') |>
+    mark_point() |>
+    axis_y(position = 'right')
+  (chart$axes$y$position %==% 'right')
+  (is.null(chart$layers[[1]]$axis))
+})
+
+assert('axis_y FALSE after single mark hides chart-level axis', {
+  chart = g2(mtcars, x = 'mpg', y = 'hp') |>
+    mark_point() |>
+    axis_y(FALSE)
+  (isFALSE(chart$axes$y))
+})
+
+assert('coord_ resets last_op so scale/axis become chart-level', {
+  chart = g2(mtcars, x = 'mpg', y = 'hp') |>
+    mark_point() |>
+    mark_line() |>
+    coord_polar() |>
+    scale_x(padding = 0.5)
+  (chart$scales$x %==% list(padding = 0.5))
+  (is.null(chart$layers[[1]]$scale))
+  (is.null(chart$layers[[2]]$scale))
+})
+
+assert('scale_y and axis_y target the last of multiple marks', {
+  chart = g2(mtcars, x = 'mpg') |>
+    mark_interval(encode = list(y = 'hp')) |>
+    mark_line(encode = list(y = 'wt')) |>
+    scale_y(independent = TRUE) |>
+    axis_y(position = 'right', grid = FALSE)
+  (is.null(chart$layers[[1]]$scale))
+  (is.null(chart$layers[[1]]$axis))
+  (chart$layers[[2]]$scale$y %==% list(independent = TRUE))
+  (chart$layers[[2]]$axis$y$position %==% 'right')
+})
+
+assert('dual-axis chart builds valid config', {
+  air = aggregate(cbind(Temp, Wind) ~ Month, data = airquality, FUN = mean)
+  air$Month = month.abb[air$Month]
+  chart = g2(air, x = 'Month') |>
+    mark_interval(encode = list(y = 'Temp')) |>
+    style_mark(fill = '#85C5A6', fillOpacity = 0.7) |>
+    axis_y(title = 'Temperature (°F)', titleFill = '#85C5A6') |>
+    mark_line(encode = list(y = 'Wind')) |>
+    style_mark(stroke = 'steelblue', lineWidth = 2) |>
+    scale_y(independent = TRUE) |>
+    axis_y(
+      position = 'right', grid = FALSE,
+      title = 'Wind Speed (mph)', titleFill = 'steelblue'
+    )
+  cfg = build_config(chart)
+  (length(cfg$children) %==% 2L)
+  (cfg$children[[1]]$encode$y %==% 'Temp')
+  (cfg$children[[2]]$encode$y %==% 'Wind')
+  (isTRUE(cfg$children[[2]]$scale$y$independent))
+  (cfg$children[[2]]$axis$y$position %==% 'right')
 })
