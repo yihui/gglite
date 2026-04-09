@@ -502,7 +502,7 @@ assert('repr_html.g2 returns complete HTML with CDN and chart', {
   (grepl('G2.Chart', html, fixed = TRUE))
 })
 
-if (xfun::loadable('repr')) assert('repr methods are registered when repr is loaded', {
+assert('repr methods are registered when repr is loaded', {
   loadNamespace('repr')
   chart = g2(mtcars, x = 'mpg', y = 'hp') |> mark_point()
   html = repr::repr_html(chart)

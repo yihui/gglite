@@ -385,14 +385,12 @@ record_print.g2 = function(x, ...) {
 }
 
 register_methods = function(pkgs, generics) {
-  stopifnot(length(pkgs) == length(generics))
   for (i in seq_along(pkgs)) local({
     pkg = pkgs[[i]]; generic = generics[[i]]
-    method_name = paste0(generic, '.g2')
     hook = function(...) {
       registerS3method(
         generic, 'g2',
-        get(method_name, envir = asNamespace('gglite')),
+        asNamespace('gglite')[[paste0(generic, '.g2')]],
         envir = asNamespace(pkg)
       )
     }

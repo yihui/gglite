@@ -212,6 +212,14 @@ g2(mtcars, ~ mpg)   # histogram
 g2(mtcars, ~ cyl)   # histogram (cyl is numeric in mtcars)
 ```
 
+The formula interface also works for other aesthetic channels by passing a
+one-sided formula as a named argument:
+```r
+g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species)
+g2(mtcars, hp ~ mpg, color = ~ cyl, size = ~ wt)
+g2(iris, Sepal.Length ~ Sepal.Width, shape = ~ Species)
+```
+
 **Drop explicit marks that can be automatically inferred.** gglite's
 `auto_mark()` detects the appropriate mark from the data types. Only specify
 a mark explicitly when you need a non-default one:

@@ -6,14 +6,18 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - 'tests/test-gglite.qmd'
-      - 'tests/test-gglite.ipynb'
+      - 'tests/*.qmd'
+      - 'tests/*.ipynb'
+      - 'tests/*.py'
   pull_request:
     paths:
-      - 'tests/test-gglite.qmd'
-      - 'tests/test-gglite.ipynb'
+      - 'tests/*.qmd'
+      - 'tests/*.ipynb'
+      - 'tests/*.py'
 
-permissions: read-all
+permissions:
+  contents: write
+  pull-requests: write
 
 jobs:
   test:
@@ -57,10 +61,36 @@ jobs:
         env:
           SCREENSHOT_PATH: /tmp/jupyter-test.png
 
-      - name: Upload screenshots
+      - name: Open PR to update notebook if outputs changed (main only)
+        if: github.ref == 'refs/heads/main'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python tests/normalize-notebook.py \
+            /tmp/test-gglite-executed.ipynb tests/test-gglite.ipynb
+          if git diff --quiet tests/test-gglite.ipynb; then
+            echo "Notebook outputs unchanged."
+          else
+            BRANCH="auto/update-notebook-$(date +%Y%m%d%H%M%S)"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git config user.name "github-actions[bot]"
+            git checkout -b "$BRANCH"
+            git add tests/test-gglite.ipynb
+            git commit -m "Update notebook outputs"
+            git push origin "$BRANCH"
+            gh pr create \
+              --title "Update notebook outputs" \
+              --body "Automated update of notebook cell outputs after execution on main." \
+              --base main --head "$BRANCH"
+          fi
+
+      - name: Upload artifacts
         if: always()
         uses: actions/upload-artifact@HEAD
         with:
-          name: browser-screenshots
-          path: /tmp/*.png
+          name: test-outputs
+          path: |
+            /tmp/*.png
+            tests/test-gglite.html
+            /tmp/test-gglite-executed.ipynb
 
