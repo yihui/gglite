@@ -191,10 +191,46 @@ Before submitting changes:
     appears more than once, factor it into a shared helper function. This
     applies to expressions, patterns, and multi-line blocks alike.
 
-### Variables Are Character Strings
+### Variables and Formula Interface
 
-gglite does **NOT** use non-standard evaluation (NSE). Variables are specified
-as character strings, e.g., `g2(mtcars, x = 'mpg', y = 'hp')`.
+gglite does **NOT** use non-standard evaluation (NSE). Variables can be
+specified either as character strings (`x = 'mpg'`) or via the formula
+interface (`y ~ x`). **Prefer the formula interface** in examples and
+documentation because it is more concise and readable:
+
+```r
+# Preferred: formula interface
+g2(mtcars, hp ~ mpg)
+
+# Also valid: character strings
+g2(mtcars, x = 'mpg', y = 'hp')
+```
+
+For single-variable distributions, omit the LHS:
+```r
+g2(mtcars, ~ mpg)   # histogram
+g2(mtcars, ~ cyl)   # histogram (cyl is numeric in mtcars)
+```
+
+The formula interface also works for other aesthetic channels by passing a
+one-sided formula as a named argument:
+```r
+g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species)
+g2(mtcars, hp ~ mpg, color = ~ cyl, size = ~ wt)
+g2(iris, Sepal.Length ~ Sepal.Width, shape = ~ Species)
+```
+
+**Drop explicit marks that can be automatically inferred.** gglite's
+`auto_mark()` detects the appropriate mark from the data types. Only specify
+a mark explicitly when you need a non-default one:
+
+```r
+# Preferred: auto-inferred scatter plot
+g2(mtcars, hp ~ mpg)
+
+# Only do this when you need something non-default
+g2(mtcars, hp ~ mpg) |> mark_line()
+```
 
 ### Testing Conventions
 

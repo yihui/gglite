@@ -1,0 +1,31 @@
+---
+title: "gglite in Quarto"
+format: html
+execute:
+  echo: false
+---
+
+```{r}
+library(gglite)
+```
+
+## Scatter plot
+
+```{r}
+#| label: scatter
+g2(mtcars, hp ~ mpg)
+```
+
+## Histogram
+
+```{r}
+#| label: histogram
+g2(mtcars, ~ mpg)
+```
+
+## Line chart (time series)
+
+```{r}
+#| label: line
+g2(sunspot.year)
+```

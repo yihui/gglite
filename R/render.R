@@ -69,7 +69,9 @@ auto_mark = function(data, aesthetics, ts = FALSE) {
     list(list(type = 'line'))
   } else if (xt == 'numeric' && yt == 'none') {
     list(list(
-      type = 'interval', transform = list(list(type = 'binX', y = 'count'))
+      type = 'rect',
+      transform = list(list(type = 'binX', y = 'count')),
+      style = list(stroke = 'white')
     ))
   } else if (xt == 'categorical' && yt == 'none') {
     list(list(
@@ -303,6 +305,17 @@ cdn_scripts = function() {
   sprintf('<script src="%s" defer></script>', c(g2_cdn(), g2_patches_cdn))
 }
 
+g2_html_page = function(body) {
+  paste(c(
+    '<!DOCTYPE html>', '<html>', '<head>',
+    '<meta charset="utf-8">',
+    cdn_scripts(),
+    '</head>', '<body>',
+    body,
+    '</body>', '</html>'
+  ), collapse = '\n')
+}
+
 #' Preview a Chart in the Viewer or Browser
 #'
 #' @param x A `g2` object.
@@ -310,19 +323,16 @@ cdn_scripts = function() {
 #' @return The chart object (invisibly).
 #' @export
 print.g2 = function(x, ...) {
-  body = chart_html(x, ...)
-  html = c(
-    '<!DOCTYPE html>', '<html>', '<head>',
-    '<meta charset="utf-8">',
-    cdn_scripts(),
-    '</head>', '<body>',
-    body,
-    '</body>', '</html>'
-  )
   #TODO: xfun >= 0.57.3 no longer needs paste()
-  xfun::html_view(paste(html, collapse = '\n'))
+  xfun::html_view(g2_html_page(chart_html(x, ...)))
   invisible(x)
 }
+
+# Document-scoped flag stored in opts_knit to include CDN scripts only once per
+# knit session. opts_knit is restored between documents, so the flag resets
+# automatically, which also allows Quarto (which rejects non-disk-based
+# htmltools::htmlDependency sources).
+.knitr.flag = 'gglite.scripts_added'
 
 #' Custom Printing in Knitr
 #'
@@ -330,18 +340,42 @@ print.g2 = function(x, ...) {
 #' @param ... Ignored.
 #' @return A `knit_asis` character vector.
 knit_print.g2 = function(x, ...) {
-  if (requireNamespace('htmltools', quietly = TRUE)) {
-    dep = htmltools::htmlDependency(
-      name = 'antv-g2', version = '5',
-      src = c(href = ''),
-      head = paste(cdn_scripts(), collapse = '\n')
-    )
-    knitr::knit_meta_add(list(dep))
-    structure(chart_html(x), class = c('knit_asis', 'html'))
-  } else {
-    out = paste(c(cdn_scripts(), chart_html(x)), collapse = '\n')
-    structure(out, class = c('knit_asis', 'html'))
+  html = chart_html(x)
+  if (!isTRUE(knitr::opts_knit$get(.knitr.flag))) {
+    knitr::opts_knit$set(setNames(list(TRUE), .knitr.flag))
+    html = paste(c(cdn_scripts(), html), collapse = '\n')
   }
+  structure(html, class = c('knit_asis', 'html'))
+}
+
+#' HTML Representation for Jupyter Notebooks
+#'
+#' Called by the `repr` package (used by IRkernel) to render g2 charts in
+#' Jupyter notebooks. Returns a complete HTML page so the chart is displayed
+#' inside a sandboxed output cell.
+#'
+#' @param obj A `g2` object.
+#' @param ... Ignored.
+#' @return A character string of complete HTML.
+#' @noRd
+repr_html.g2 = function(obj, ...) g2_html_page(chart_html(obj))
+
+#' Text Representation for Jupyter Notebooks
+#'
+#' Returns a brief text description so IRkernel's MIME bundle includes a
+#' non-empty `text/plain` entry, which is required before any rich display
+#' (including HTML) is sent to the Jupyter frontend.
+#'
+#' @param obj A `g2` object.
+#' @param ... Ignored.
+#' @return A character string.
+#' @noRd
+repr_text.g2 = function(obj, ...) {
+  n = if (is.data.frame(obj$data)) nrow(obj$data) else NULL
+  marks = paste(vapply(obj$layers, `[[`, '', 'type'), collapse = ', ')
+  if (!nzchar(marks)) marks = 'auto'
+  n_str = if (is.null(n)) 'no data' else as.character(n)
+  sprintf('G2 chart (%s; %s rows)', marks, n_str)
 }
 
 #' @importFrom xfun record_print
@@ -350,11 +384,24 @@ record_print.g2 = function(x, ...) {
   xfun::new_record(c(cdn_scripts(), chart_html(x, ...), ''), 'asis')
 }
 
-register_knit_print = function() {
-  registerS3method('knit_print', 'g2', knit_print.g2, envir = asNamespace('knitr'))
+register_methods = function(pkgs, generics) {
+  for (i in seq_along(pkgs)) local({
+    pkg = pkgs[[i]]; generic = generics[[i]]
+    hook = function(...) {
+      registerS3method(
+        generic, 'g2',
+        asNamespace('gglite')[[paste0(generic, '.g2')]],
+        envir = asNamespace(pkg)
+      )
+    }
+    if (isNamespaceLoaded(pkg)) hook()
+    setHook(packageEvent(pkg, 'onLoad'), hook)
+  })
 }
 
 .onLoad = function(...) {
-  if (isNamespaceLoaded('knitr')) register_knit_print()
-  setHook(packageEvent('knitr', 'onLoad'), function(...) register_knit_print())
+  register_methods(
+    c('knitr', 'repr', 'repr'),
+    c('knit_print', 'repr_html', 'repr_text')
+  )
 }

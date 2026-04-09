@@ -8,3 +8,6 @@
 ^package-lock\.json$
 ^examples$
 ^G2$
+^tests/.*\.qmd$
+^tests/.*\.ipynb$
+^tests/.*\.py$

@@ -125,10 +125,11 @@ assert('auto_mark: date x + numeric y -> line', {
   (res$marks[[1]]$type %==% 'line')
 })
 
-assert('auto_mark: numeric x + no y -> interval with binX', {
+assert('auto_mark: numeric x + no y -> rect with binX and white stroke', {
   res = auto_mark(mtcars, list(x = 'mpg'))
-  (res$marks[[1]]$type %==% 'interval')
+  (res$marks[[1]]$type %==% 'rect')
   (res$marks[[1]]$transform[[1]]$type %==% 'binX')
+  (res$marks[[1]]$style$stroke %==% 'white')
 })
 
 assert('auto_mark: categorical x + no y -> interval with groupX', {

@@ -460,17 +460,53 @@ assert('knit_print.g2 returns a knit_asis object containing chart HTML', {
   (grepl('<div', out))
 })
 
+assert('knit_print.g2 includes CDN scripts on first call and omits them on subsequent calls', {
+  # Reset the knitr flag to simulate a fresh document
+  knitr::opts_knit$delete(.knitr.flag)
+  chart = g2(iris, Sepal.Length ~ Sepal.Width)
+  out1 = knit_print.g2(chart)
+  out2 = knit_print.g2(chart)
+  # First output has CDN scripts; second does not
+  (grepl('unpkg.com', out1))
+  (!grepl('unpkg.com', out2))
+  # Reset for other tests
+  knitr::opts_knit$delete(.knitr.flag)
+})
+
 assert('knit_print.g2 does not pass knitr chunk options to chart_html', {
   chart = g2(iris, Sepal.Length ~ Sepal.Width)
   # knitr passes options = list(...) in ...; chart_html must not receive it
   (!has_error(knit_print.g2(chart, options = list(echo = TRUE))))
 })
 
-assert('knitr dispatches knit_print to knit_print.g2', {
-  loadNamespace('knitr')
+if (xfun::loadable('knitr')) assert('knitr dispatches knit_print to knit_print.g2', {
   chart = g2(iris, Sepal.Length ~ Sepal.Width)
   out = knitr::knit_print(chart)
   (inherits(out, 'knit_asis'))
+})
+
+assert('repr_text.g2 returns a non-empty description', {
+  chart = g2(mtcars, x = 'mpg', y = 'hp') |> mark_point()
+  txt = repr_text.g2(chart)
+  (nzchar(txt))
+  (grepl('point', txt))
+  (grepl('32', txt))
+})
+
+assert('repr_html.g2 returns complete HTML with CDN and chart', {
+  chart = g2(mtcars, x = 'mpg', y = 'hp') |> mark_point()
+  html = repr_html.g2(chart)
+  (grepl('<!DOCTYPE html>', html, fixed = TRUE))
+  (grepl('antv/g2', html, fixed = TRUE))
+  (grepl('G2.Chart', html, fixed = TRUE))
+})
+
+if (xfun::loadable('repr')) assert('repr methods are registered when repr is loaded', {
+  chart = g2(mtcars, x = 'mpg', y = 'hp') |> mark_point()
+  html = repr::repr_html(chart)
+  txt = repr::repr(chart, format = 'text')
+  (nzchar(txt))
+  (grepl('G2.Chart', html, fixed = TRUE))
 })
 
 # ---- context-sensitive scale_ / axis_ ----

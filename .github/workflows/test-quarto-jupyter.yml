@@ -1,0 +1,98 @@
+name: Test Quarto and Jupyter examples
+
+on:
+  schedule:
+    - cron: '0 0 * * 0'  # weekly on Sunday at midnight UTC
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'tests/*.qmd'
+      - 'tests/*.ipynb'
+      - 'tests/*.py'
+  pull_request:
+    paths:
+      - 'tests/*.qmd'
+      - 'tests/*.ipynb'
+      - 'tests/*.py'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@HEAD
+
+      - uses: r-lib/actions/setup-r@HEAD
+        with:
+          use-public-rspm: true
+
+      - uses: yihui/actions/setup-r-dependencies@HEAD
+        with:
+          extra-packages: . IRkernel rmarkdown
+
+      - name: Install Quarto
+        uses: quarto-dev/quarto-actions/setup@HEAD
+
+      - name: Install Jupyter and IRkernel
+        run: |
+          pip install jupyter nbconvert playwright
+          python -m playwright install chromium
+          Rscript -e "IRkernel::installspec()"
+
+      - name: Render Quarto example
+        run: quarto render tests/test-gglite.qmd
+
+      - name: Execute Jupyter notebook
+        run: |
+          jupyter nbconvert --to notebook --execute tests/test-gglite.ipynb \
+            --output /tmp/test-gglite-executed.ipynb
+
+      - name: Browser-test Quarto output
+        run: python tests/test-quarto.py tests/test-gglite.html
+        env:
+          SCREENSHOT_PATH: /tmp/quarto-test.png
+
+      - name: Browser-test Jupyter output
+        run: python tests/test-jupyter.py /tmp/test-gglite-executed.ipynb
+        env:
+          SCREENSHOT_PATH: /tmp/jupyter-test.png
+
+      - name: Open PR to update notebook if outputs changed (main only)
+        if: github.ref == 'refs/heads/main'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python tests/normalize-notebook.py \
+            /tmp/test-gglite-executed.ipynb /tmp/test-gglite-normalized.ipynb
+          if diff -q tests/test-gglite.ipynb /tmp/test-gglite-normalized.ipynb > /dev/null 2>&1; then
+            echo "Notebook outputs unchanged."
+          else
+            cp /tmp/test-gglite-normalized.ipynb tests/test-gglite.ipynb
+            BRANCH="auto/update-notebook-${{ github.run_id }}"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git config user.name "github-actions[bot]"
+            git checkout -b "$BRANCH"
+            git add tests/test-gglite.ipynb
+            git commit -m "Update notebook outputs"
+            git push origin "$BRANCH"
+            gh pr create \
+              --title "Update notebook outputs" \
+              --body "Automated update of notebook cell outputs after execution on main." \
+              --base main --head "$BRANCH"
+          fi
+
+      - name: Upload artifacts
+        if: always()
+        uses: actions/upload-artifact@HEAD
+        with:
+          name: test-outputs
+          path: |
+            /tmp/*.png
+            tests/test-gglite.html
+            /tmp/test-gglite-executed.ipynb

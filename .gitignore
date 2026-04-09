@@ -9,3 +9,5 @@ examples/*.html
 G2/
 node_modules/
 vignettes/*.html
+tests/*.html
+tests/*_files/
