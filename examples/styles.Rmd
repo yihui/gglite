@@ -9,12 +9,11 @@ p  = g2(df, y ~ x)
 ```
 
 Use `style_mark()` to set visual properties on the most recently added mark.
-
-## Custom Fill and Stroke on Points
+The following bar chart in its default style is used as the baseline for the
+bar examples below.
 
 ```{r}
-g2(mtcars, hp ~ mpg) |>
-  style_mark(fill = 'steelblue', stroke = 'white', lineWidth = 1)
+p
 ```
 
 ## Custom Fill on Bars
@@ -23,19 +22,24 @@ g2(mtcars, hp ~ mpg) |>
 p |> style_mark(fill = 'coral', stroke = '#333', lineWidth = 0.5)
 ```
 
+## Custom Fill and Stroke on Points
+
+```{r}
+g2(mtcars, hp ~ mpg) |>
+  style_mark(fill = 'steelblue', stroke = 'white', lineWidth = 1)
+```
+
 ## Semi-Transparent Area
 
 ```{r}
 df_line = data.frame(x = 1:10, y = c(3, 1, 4, 1, 5, 9, 2, 6, 5, 3))
-g2(df_line, y ~ x) |>
-  mark_area() |>
-  style_mark(fill = 'steelblue', fillOpacity = 0.3)
+p_area = g2(df_line, y ~ x) |> mark_area()
+p_area |> style_mark(fill = 'steelblue', fillOpacity = 0.3)
 ```
 
 ## Line with Custom Stroke
 
 ```{r}
-df_line = data.frame(x = 1:10, y = cumsum(rnorm(10)))
 p_line = g2(df_line, y ~ x) |> mark_line()
 p_line |> style_mark(stroke = 'tomato', lineWidth = 3)
 ```

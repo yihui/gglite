@@ -20,6 +20,33 @@ internal structure:
 All arguments to `tooltip_()` are passed to G2's `interaction.tooltip`. These
 options apply across all marks in the chart.
 
+| Option | Default | Description |
+|--------|---------|-------------|
+| `FALSE` | — | Disable tooltip entirely |
+| `crosshairs` | `FALSE` | Show crosshairs on both axes (series marks only) |
+| `crosshairsX` | `FALSE` | Show vertical crosshair only (series marks only) |
+| `crosshairsY` | `FALSE` | Show horizontal crosshair only (series marks only) |
+| `crosshairsStroke` | `'#aaa'` | Crosshair line color |
+| `crosshairsLineWidth` | `2` | Crosshair line width in pixels |
+| `crosshairsLineDash` | `NULL` | Dash pattern, e.g. `c(4, 4)` |
+| `shared` | `FALSE` | Show all mark values at the same x position |
+| `groupName` | auto | Show series/group name prefix in tooltip items |
+| `marker` | `TRUE` | Show the hover marker dot |
+| `markerType` | `'default'` | Marker shape; `'hollow'` gives an unfilled circle |
+| `markerFill` | auto | Marker fill color |
+| `markerStroke` | auto | Marker stroke color |
+| `markerSize` | auto | Marker size in pixels |
+| `body` | `TRUE` | Show tooltip box; `FALSE` shows only the marker |
+| `position` | `'right-bottom'` | Tooltip position: `'top'`, `'bottom'`, `'left'`, `'right'`, or a corner such as `'top-left'` |
+| `offset` | `c(10, 10)` | x/y pixel offset from the cursor |
+| `enterable` | `FALSE` | Allow the cursor to move inside the tooltip box |
+
+```{r}
+air_monthly = aggregate(Temp ~ Month, data = airquality, FUN = mean)
+air_monthly$Month = month.abb[air_monthly$Month]
+p = g2(air_monthly, Temp ~ Month) |> mark_line() |> mark_point()
+```
+
 ### Disable Tooltip
 
 Pass `FALSE` to turn off the tooltip entirely.
@@ -30,16 +57,11 @@ g2(mtcars, hp ~ mpg) |> tooltip_(FALSE)
 
 ### Crosshairs
 
-Crosshairs are reference lines that track the cursor. They work with marks that
-use the *series* tooltip path (line, area, etc.).
+Crosshairs are reference lines that track the cursor along the x and/or y axes.
+They only work with the *series* tooltip path used by line and area marks.
 
 ```{r}
-air_monthly = aggregate(Temp ~ Month, data = airquality, FUN = mean)
-air_monthly$Month = month.abb[air_monthly$Month]
-g2(air_monthly, Temp ~ Month) |>
-  mark_line() |>
-  mark_point() |>
-  tooltip_(crosshairs = TRUE)
+p |> tooltip_(crosshairs = TRUE)
 ```
 
 ### Crosshairs on One Axis Only
@@ -48,31 +70,23 @@ g2(air_monthly, Temp ~ Month) |>
 only the horizontal line.
 
 ```{r}
-g2(air_monthly, Temp ~ Month) |>
-  mark_line() |>
-  tooltip_(crosshairsX = TRUE)
+p |> tooltip_(crosshairsX = TRUE)
 ```
 
 ```{r}
-g2(air_monthly, Temp ~ Month) |>
-  mark_line() |>
-  tooltip_(crosshairsY = TRUE)
+p |> tooltip_(crosshairsY = TRUE)
 ```
 
 ### Crosshairs Style
 
 Use `crosshairsStroke`, `crosshairsLineWidth`, and `crosshairsLineDash` to
-customize the appearance of crosshairs.
+customize crosshair appearance.
 
 ```{r}
-g2(air_monthly, Temp ~ Month) |>
-  mark_line() |>
-  tooltip_(
-    crosshairs = TRUE,
-    crosshairsStroke = '#999',
-    crosshairsLineWidth = 1,
-    crosshairsLineDash = c(4, 4)
-  )
+p |> tooltip_(
+  crosshairs = TRUE, crosshairsStroke = '#999',
+  crosshairsLineWidth = 1, crosshairsLineDash = c(4, 4)
+)
 ```
 
 ### Shared Tooltip
@@ -85,29 +99,22 @@ df = data.frame(
   x = rep(1:5, 2), y = c(3, 1, 4, 1, 5, 2, 7, 1, 8, 3),
   group = rep(c('A', 'B'), each = 5)
 )
-g2(df, y ~ x, color = ~ group) |>
-  mark_line() |>
-  tooltip_(shared = TRUE)
+p2 = g2(df, y ~ x, color = ~ group) |> mark_line()
+p2 |> tooltip_(shared = TRUE)
 ```
 
 ### Marker Style
 
-The hover marker is the dot that appears on the data point. Use `marker = FALSE`
+The hover marker is the dot that snaps to the data point. Use `marker = FALSE`
 to hide it, or customize with `markerType`, `markerFill`, `markerStroke`, and
 `markerSize`.
 
 ```{r}
-# Hide the hover marker
-g2(air_monthly, Temp ~ Month) |>
-  mark_line() |>
-  tooltip_(marker = FALSE)
+p |> tooltip_(marker = FALSE)
 ```
 
 ```{r}
-# Hollow marker
-g2(air_monthly, Temp ~ Month) |>
-  mark_line() |>
-  tooltip_(markerType = 'hollow', markerSize = 8)
+p |> tooltip_(markerType = 'hollow', markerSize = 8)
 ```
 
 ### Hide Tooltip Body
@@ -115,29 +122,23 @@ g2(air_monthly, Temp ~ Month) |>
 `body = FALSE` shows only the hover marker with no tooltip box.
 
 ```{r}
-g2(air_monthly, Temp ~ Month) |>
-  mark_line() |>
-  tooltip_(body = FALSE)
+p |> tooltip_(body = FALSE)
 ```
 
 ### Tooltip Position
 
-Control where the tooltip appears relative to the cursor. Possible values:
-`'top'`, `'bottom'`, `'left'`, `'right'`, `'top-left'`, `'top-right'`,
-`'bottom-left'`, `'bottom-right'` (default: `'right-bottom'`).
+Control where the tooltip appears relative to the cursor.
 
 ```{r}
-g2(mtcars, hp ~ mpg) |>
-  tooltip_(position = 'top-left')
+p |> tooltip_(position = 'top-left')
 ```
 
 ### Tooltip Offset
 
-Adjust the tooltip's x/y offset from the cursor in pixels (default: `c(10, 10)`).
+Adjust the tooltip's x/y offset from the cursor in pixels.
 
 ```{r}
-g2(mtcars, hp ~ mpg) |>
-  tooltip_(offset = c(20, 20))
+p |> tooltip_(offset = c(30, 30))
 ```
 
 ### Group Name
@@ -145,55 +146,63 @@ g2(mtcars, hp ~ mpg) |>
 `groupName = FALSE` hides the series/group name prefix in each tooltip item.
 
 ```{r}
-g2(df, y ~ x, color = ~ group) |>
-  mark_line() |>
-  tooltip_(shared = TRUE, groupName = FALSE)
+p2 |> tooltip_(shared = TRUE, groupName = FALSE)
 ```
 
 ### Enterable Tooltip
 
-`enterable = TRUE` lets the user move the cursor inside the tooltip box
-(useful when the tooltip contains clickable links or controls).
+`enterable = TRUE` lets the user move the cursor inside the tooltip box,
+useful when the tooltip contains interactive content.
 
 ```{r}
-g2(mtcars, hp ~ mpg) |>
-  tooltip_(enterable = TRUE)
+p |> tooltip_(enterable = TRUE)
 ```
 
 ## Mark-Level Tooltip (`mark_*(tooltip = list(...))`)
 
 Pass a `tooltip` argument to any `mark_*()` call to control what data is shown
-in the tooltip for that specific mark. Options come from G2's `TooltipItem`
-type.
+in the tooltip for that specific mark.
+
+| Option | Description |
+|--------|-------------|
+| `channel` | Channel name to show, e.g. `'y'` or `'x'` |
+| `field` | Raw data field name, e.g. `'Temp'` |
+| `name` | Custom label for the tooltip item |
+| `valueFormatter` | [d3-format](https://d3js.org/d3-format) string, e.g. `'.1f'`, `'.0%'` |
+| `color` | Custom color swatch for the item |
+| `title` | Title spec: `list(channel = 'x')` or `list(field = 'Date')` |
+| `items` | List of item specs for full control over multiple items |
+| `FALSE` | Disable tooltip for this mark entirely |
+
+```{r}
+p_bar = g2(air_monthly, Temp ~ Month)
+```
 
 ### Show a Single Channel
 
-Use `channel` to restrict the tooltip to one data channel.
+Use `channel` to restrict the tooltip to one data channel. Hover over any bar
+to see only the temperature value instead of both month and temperature.
 
 ```{r}
-# Show only the y value
-g2(airquality, Temp ~ Wind) |>
-  mark_point(tooltip = list(channel = 'y'))
+p_bar |> mark_interval(tooltip = list(channel = 'y'))
 ```
 
 ### Custom Item Name
 
-Use `name` to label the tooltip item.
+Use `name` to replace the default field name with a descriptive label.
 
 ```{r}
-g2(airquality, Temp ~ Wind) |>
-  mark_point(tooltip = list(channel = 'y', name = 'Temperature (°F)'))
+p_bar |> mark_interval(tooltip = list(channel = 'y', name = 'Avg Temp (°F)'))
 ```
 
 ### Value Formatter
 
-Use `valueFormatter` with a [d3-format](https://d3js.org/d3-format) string to
-format the displayed value.
+Use `valueFormatter` with a d3-format string to format the displayed value.
 
 ```{r}
-# 1 decimal place
-g2(airquality, Temp ~ Wind) |>
-  mark_point(tooltip = list(channel = 'y', name = 'Temp', valueFormatter = '.1f'))
+p_bar |> mark_interval(
+  tooltip = list(channel = 'y', name = 'Avg Temp', valueFormatter = '.1f')
+)
 ```
 
 ```{r}
@@ -210,45 +219,54 @@ g2(wb, breaks ~ tension, color = ~ wool) |>
 
 ### Custom Item Color
 
+Use `color` to override the color swatch shown next to the tooltip item.
+
 ```{r}
-g2(airquality, Temp ~ Wind) |>
-  mark_point(tooltip = list(channel = 'y', name = 'Temp', color = 'steelblue'))
+p_bar |> mark_interval(
+  tooltip = list(channel = 'y', name = 'Avg Temp', color = 'steelblue')
+)
 ```
 
 ### Custom Title
 
-Use `title` with a `channel` to display a specific data field as the tooltip
-title.
+Use `title` with a field reference to display a specific data field as the
+tooltip title. Use `items` for full control over multiple tooltip entries.
 
 ```{r}
 air_daily = airquality[, c('Month', 'Day', 'Temp')]
 air_daily$Date = as.character(
   as.Date(paste('1973', air_daily$Month, air_daily$Day, sep = '-'))
 )
-g2(air_daily, Temp ~ Date) |>
-  mark_line() |>
-  mark_point(
-    tooltip = list(
-      title = list(channel = 'x'),
-      items = list(list(channel = 'y', name = 'Temp (°F)'))
-    )
+p_daily = g2(air_daily, Temp ~ Date) |> mark_line() |> mark_point()
+p_daily |> mark_point(
+  tooltip = list(
+    title = list(channel = 'x'),
+    items = list(list(channel = 'y', name = 'Temp (°F)'))
   )
+)
 ```
 
 ### Disable Tooltip for One Mark
 
-Set `tooltip = FALSE` on a specific mark to hide its tooltip while keeping it
-for others.
+Set `tooltip = FALSE` on a specific mark to suppress its tooltip entry while
+keeping it for others. In this dual-axis chart, the bars have no tooltip; only
+the wind speed line shows a value on hover.
 
 ```{r}
-air_monthly2 = aggregate(cbind(Temp, Wind) ~ Month, data = airquality, FUN = mean)
-air_monthly2$Month = month.abb[air_monthly2$Month]
+air_tw = aggregate(cbind(Temp, Wind) ~ Month, data = airquality, FUN = mean)
+air_tw$Month = month.abb[air_tw$Month]
 
-g2(air_monthly2, ~ Month) |>
-  mark_interval(encode = list(y = 'Temp'), tooltip = FALSE) |>
+g2(air_tw, ~ Month) |>
+  mark_interval(
+    encode = list(y = 'Temp'), tooltip = FALSE,
+    style = list(fill = '#91caff', fillOpacity = 0.8)
+  ) |>
   scale_y(independent = TRUE) |>
   axis_y(title = 'Temp (°F)') |>
-  mark_line(encode = list(y = 'Wind')) |>
+  mark_line(
+    encode = list(y = 'Wind'),
+    style = list(stroke = 'tomato', lineWidth = 2)
+  ) |>
   scale_y(independent = TRUE) |>
   axis_y(position = 'right', title = 'Wind (mph)')
 ```

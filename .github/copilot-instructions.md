@@ -209,6 +209,15 @@ Before submitting changes:
 13. **DRY (Don't Repeat Yourself)**: Never duplicate code. When the same logic
     appears more than once, factor it into a shared helper function. This
     applies to expressions, patterns, and multi-line blocks alike.
+14. **Example plot reuse**: In Rmd and Rd examples, define a base chart object
+    (e.g., `p = g2(df, y ~ x) |> mark_line()`) once and reuse it with `p |>`
+    for subsequent variations. Group related examples together so readers can
+    compare them without scrolling past unrelated chart types. Never interrupt
+    a series of bar-chart examples with a scatter-plot example.
+15. **Short pipes on one line**: When a pipe chain fits within 80 characters,
+    keep it on a single line. Only break after `|>` when the full expression
+    would exceed 80 characters. For example, write
+    `p |> slider_x() |> slider_y()` rather than splitting across three lines.
 
 ### Variables and Formula Interface
 

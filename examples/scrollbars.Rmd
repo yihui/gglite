@@ -26,7 +26,5 @@ p |> scrollbar_y()
 ## Scrollbar on Both Axes
 
 ```{r}
-p |>
-  scrollbar_x() |>
-  scrollbar_y()
+p |> scrollbar_x() |> scrollbar_y()
 ```
