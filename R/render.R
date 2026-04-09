@@ -352,6 +352,7 @@ knit_print.g2 = function(x, ...) {
 #' @param obj A `g2` object.
 #' @param ... Ignored.
 #' @return A character string of complete HTML.
+#' @noRd
 repr_html.g2 = function(obj, ...) {
   html = c(
     '<!DOCTYPE html>', '<html>', '<head>',
@@ -373,6 +374,7 @@ repr_html.g2 = function(obj, ...) {
 #' @param obj A `g2` object.
 #' @param ... Ignored.
 #' @return A character string.
+#' @noRd
 repr_text.g2 = function(obj, ...) {
   n = if (is.data.frame(obj$data)) nrow(obj$data) else NULL
   marks = paste(vapply(obj$layers, `[[`, '', 'type'), collapse = ', ')
