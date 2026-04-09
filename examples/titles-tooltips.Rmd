@@ -46,11 +46,18 @@ g2(df, y ~ x) |>
 
 ### Enable crosshairs
 
+Crosshairs are lines that track the cursor position. Pass `crosshairs = TRUE`
+to enable them.
+
 ```{r}
-p |> tooltip_(crosshairs = TRUE)
+g2(mtcars, hp ~ mpg) |>
+  mark_point() |>
+  tooltip_(crosshairs = TRUE)
 ```
 
 ### Shared tooltip (useful for multi-series)
+
+A shared tooltip shows values from all series at the current x position.
 
 ```{r}
 df = data.frame(
@@ -60,6 +67,41 @@ df = data.frame(
 g2(df, y ~ x, color = ~ group) |>
   mark_line() |>
   tooltip_(shared = TRUE)
+```
+
+### Crosshairs with custom style
+
+```{r}
+g2(mtcars, hp ~ mpg) |>
+  mark_point() |>
+  tooltip_(crosshairs = TRUE, crosshairsStroke = '#aaa', crosshairsLineWidth = 1)
+```
+
+### Format tooltip values
+
+Use `valueFormatter` with a
+[d3-format](https://d3js.org/d3-format) string to format the displayed value.
+Call `tooltip_()` **after** the mark.
+
+```{r}
+g2(mtcars, hp ~ mpg) |>
+  mark_point() |>
+  tooltip_(channel = 'y', valueFormatter = '.0f')
+```
+
+### Format tooltip values in a normalized stacked bar chart
+
+```{r}
+data(diamonds, package = 'ggplot2')
+aggregate(data = diamonds, price ~ cut + clarity, FUN = mean) |>
+  g2(price ~ clarity, color = ~ cut) |>
+  mark_interval() |>
+  transform_('stackY') |>
+  transform_('normalizeY') |>
+  scale_('color', palette = 'puRd') |>
+  axis_y(labelFormatter = '.0%') |>
+  tooltip_(channel = 'y', valueFormatter = '.1%') |>
+  legend_color(position = 'right')
 ```
 
 ### Disable tooltip

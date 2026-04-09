@@ -144,27 +144,68 @@ title_ = function(chart = NULL, text, ...) {
   chart
 }
 
+# Keys that configure the tooltip interaction (e.g., crosshairs, shared) rather
+# than the tooltip data items (e.g., channel, valueFormatter). Used by tooltip_()
+# to route args to the correct G2 spec location.
+.tooltip_interact_keys = c(
+  'shared', 'series', 'facet', 'body', 'crosshairs', 'marker',
+  'groupName', 'disableNative', 'disableAutoHide', 'offset',
+  'position', 'bounding', 'mount', 'css', 'enterable', 'sort',
+  'filter', 'render'
+)
+
 #' Configure the Tooltip
 #'
-#' Set chart-level tooltip options. Mark-level tooltips can be passed via `...`
-#' in `mark_*()` functions.
+#' Configure tooltip behavior and data display. Behavior options such as
+#' `crosshairs` and `shared` are applied to the tooltip interaction
+#' (`interaction.tooltip` in G2). Data display options such as `channel` and
+#' `valueFormatter` are applied to the last mark's tooltip (call after adding
+#' marks). Pass `FALSE` to disable the tooltip entirely.
 #'
 #' @param chart A `g2` object.
-#' @param ... Tooltip options such as `shared`, `crosshairs`, `marker`, or
-#'   `FALSE` to disable.
+#' @param ... Tooltip options. Behavior options: `shared`, `crosshairs`,
+#'   `marker`, `series`, `facet`, `groupName`, and all `crosshairs*`/`marker*`
+#'   style props. Data options (applied to the last mark): `channel`,
+#'   `valueFormatter`, `title`, `items`, `name`, `color`. Or `FALSE` to
+#'   disable.
 #' @return The modified `g2` object.
 #' @export
 #' @examples
+#' # Enable crosshairs
 #' g2(mtcars, hp ~ mpg) |>
 #'   tooltip_(crosshairs = TRUE)
+#'
+#' # Format y-axis values in tooltip (call after mark)
+#' g2(mtcars, hp ~ mpg) |>
+#'   mark_point() |>
+#'   tooltip_(channel = 'y', valueFormatter = '.0f')
+#'
+#' # Disable tooltip
+#' g2(mtcars, hp ~ mpg) |>
+#'   tooltip_(FALSE)
 tooltip_ = function(chart = NULL, ...) {
   mod = check_chart(tooltip_, chart, list(...))
   if (!is.null(mod)) return(mod)
   args = list(...)
-  if (length(args) == 1 && is.logical(args[[1]])) {
-    chart$tooltip_config = args[[1]]
-  } else {
-    chart$tooltip_config = args
+  if (length(args) == 1 && is.null(names(args)) && is.logical(args[[1]])) {
+    chart$interactions[['tooltip']] = args[[1]]
+    return(chart)
+  }
+  keys = names(args)
+  is_int = keys %in% .tooltip_interact_keys | grepl('^crosshairs|^marker', keys)
+  if (any(is_int)) {
+    cur = if (is.list(chart$interactions[['tooltip']])) chart$interactions[['tooltip']] else list()
+    chart$interactions[['tooltip']] = modifyList(cur, args[is_int])
+  }
+  data_args = args[!is_int]
+  if (length(data_args)) {
+    if (length(chart$layers)) {
+      n = length(chart$layers)
+      cur = if (is.list(chart$layers[[n]]$tooltip)) chart$layers[[n]]$tooltip else list()
+      chart$layers[[n]]$tooltip = modifyList(cur, data_args)
+    } else {
+      chart$tooltip_config = modifyList(as.list(chart$tooltip_config), data_args)
+    }
   }
   chart
 }

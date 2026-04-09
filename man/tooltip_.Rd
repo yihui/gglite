@@ -9,17 +9,33 @@ tooltip_(chart = NULL, ...)
 \arguments{
 \item{chart}{A \code{g2} object.}
 
-\item{...}{Tooltip options such as \code{shared}, \code{crosshairs}, \code{marker}, or
-\code{FALSE} to disable.}
+\item{...}{Tooltip options. Behavior options: \code{shared}, \code{crosshairs},
+\code{marker}, \code{series}, \code{facet}, \code{groupName}, and all \verb{crosshairs*}/\verb{marker*}
+style props. Data options (applied to the last mark): \code{channel},
+\code{valueFormatter}, \code{title}, \code{items}, \code{name}, \code{color}. Or \code{FALSE} to
+disable.}
 }
 \value{
 The modified \code{g2} object.
 }
 \description{
-Set chart-level tooltip options. Mark-level tooltips can be passed via \code{...}
-in \verb{mark_*()} functions.
+Configure tooltip behavior and data display. Behavior options such as
+\code{crosshairs} and \code{shared} are applied to the tooltip interaction
+(\code{interaction.tooltip} in G2). Data display options such as \code{channel} and
+\code{valueFormatter} are applied to the last mark's tooltip (call after adding
+marks). Pass \code{FALSE} to disable the tooltip entirely.
 }
 \examples{
+# Enable crosshairs
 g2(mtcars, hp ~ mpg) |>
   tooltip_(crosshairs = TRUE)
+
+# Format y-axis values in tooltip (call after mark)
+g2(mtcars, hp ~ mpg) |>
+  mark_point() |>
+  tooltip_(channel = 'y', valueFormatter = '.0f')
+
+# Disable tooltip
+g2(mtcars, hp ~ mpg) |>
+  tooltip_(FALSE)
 }

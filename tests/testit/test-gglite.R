@@ -333,7 +333,23 @@ assert('+ works with coord, facet, axis, legend, title, tooltip', {
   (chart$axes$x$title %==% 'Width')
   (chart$legends$color$position %==% 'right')
   (chart$chart_title %==% 'Iris')
-  (chart$tooltip_config %==% FALSE)
+  (chart$interactions[['tooltip']] %==% FALSE)
+})
+
+assert('tooltip_() routes args correctly', {
+  # FALSE -> interaction level
+  chart1 = g2(mtcars, hp ~ mpg) |> tooltip_(FALSE)
+  (chart1$interactions[['tooltip']] %==% FALSE)
+  # interaction keys -> interaction.tooltip
+  chart2 = g2(mtcars, hp ~ mpg) |> tooltip_(crosshairs = TRUE, shared = TRUE)
+  (chart2$interactions[['tooltip']]$crosshairs %==% TRUE)
+  (chart2$interactions[['tooltip']]$shared %==% TRUE)
+  # data keys -> last mark's tooltip
+  chart3 = g2(mtcars, hp ~ mpg) |>
+    mark_point() |>
+    tooltip_(channel = 'y', valueFormatter = '.0f')
+  (chart3$layers[[1]]$tooltip$channel %==% 'y')
+  (chart3$layers[[1]]$tooltip$valueFormatter %==% '.0f')
 })
 
 assert('facet_rect() accepts formula variables', {
