@@ -4,9 +4,9 @@ Version: 0.0.22
 Authors@R: person("Yihui", "Xie", role = c("aut", "cre"), email = "xie@yihui.name",
     comment = c(ORCID = "0000-0003-0645-5666"))
 Description: A lightweight R interface to the AntV G2 JavaScript visualization
-    library with a ggplot2-style API. Supports rendering in R Markdown, Quarto,
-    Jupyter notebooks (via the R kernel), Shiny, and standalone HTML previews.
-    Depends only on 'xfun' for JSON serialization.
+    library with a ggplot2-style API. Supports rendering in litedown, R Markdown,
+    Quarto, Jupyter notebooks (via the R kernel), Shiny, and standalone HTML
+    previews.
 License: MIT + file LICENSE
 URL: https://github.com/yihui/gglite
 BugReports: https://github.com/yihui/gglite/issues
