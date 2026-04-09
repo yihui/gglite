@@ -11,3 +11,4 @@
 ^tests/.*\.qmd$
 ^tests/.*\.ipynb$
 ^tests/.*\.py$
+^playground$
