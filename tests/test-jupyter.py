@@ -50,14 +50,19 @@ async def test(nb_path: str, min_charts: int = 3) -> None:
         page.on('pageerror', lambda e: errors.append(str(e)))
 
         await page.goto(f'file://{wrapper}')
-        await page.wait_for_timeout(8000)
 
+        # Poll for canvases in iframes (CDN scripts load asynchronously)
         iframe_canvases = 0
-        for iframe_el in await page.query_selector_all('iframe'):
-            frame = await iframe_el.content_frame()
-            if frame:
-                cs = await frame.query_selector_all('canvas')
-                iframe_canvases += len(cs)
+        for _ in range(12):
+            iframe_canvases = 0
+            for iframe_el in await page.query_selector_all('iframe'):
+                frame = await iframe_el.content_frame()
+                if frame:
+                    cs = await frame.query_selector_all('canvas')
+                    iframe_canvases += len(cs)
+            if iframe_canvases >= min_charts:
+                break
+            await page.wait_for_timeout(1000)
 
         print(f'Jupyter: {iframe_canvases} canvas elements across iframes')
 

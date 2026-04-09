@@ -17,7 +17,7 @@ async def test(html_path: str, min_canvases: int = 3) -> None:
         page.on('pageerror', lambda e: g2_errors.append(str(e)))
 
         await page.goto(f'file://{os.path.abspath(html_path)}')
-        await page.wait_for_timeout(6000)
+        await page.wait_for_selector('canvas', timeout=10000)
 
         canvases = await page.query_selector_all('canvas')
         print(f'Quarto: {len(canvases)} canvas elements')
