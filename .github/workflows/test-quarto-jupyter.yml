@@ -28,7 +28,7 @@ jobs:
 
       - uses: yihui/actions/setup-r-dependencies@HEAD
         with:
-          extra-packages: . IRkernel
+          extra-packages: . IRkernel rmarkdown
 
       - name: Install Quarto
         uses: quarto-dev/quarto-actions/setup@HEAD
