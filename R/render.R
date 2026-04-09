@@ -377,7 +377,8 @@ repr_text.g2 = function(obj, ...) {
   n = if (is.data.frame(obj$data)) nrow(obj$data) else NULL
   marks = paste(vapply(obj$layers, `[[`, '', 'type'), collapse = ', ')
   if (!nzchar(marks)) marks = 'auto'
-  sprintf('G2 chart (%s; %s rows)', marks, if (is.null(n)) 'no data' else n)
+  n_str = if (is.null(n)) 'no data' else as.character(n)
+  sprintf('G2 chart (%s; %s rows)', marks, n_str)
 }
 
 #' @importFrom xfun record_print
