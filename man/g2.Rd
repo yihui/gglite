@@ -4,17 +4,7 @@
 \alias{g2}
 \title{Create a G2 Chart Object}
 \usage{
-g2(
-  data = NULL,
-  ...,
-  width = NULL,
-  height = 480,
-  padding = NULL,
-  margin = NULL,
-  inset = NULL,
-  title = NULL,
-  subtitle = NULL
-)
+g2(data = NULL, ..., title = NULL, subtitle = NULL)
 }
 \arguments{
 \item{data}{A data frame, a \code{ts}/\code{mts} time series object, or \code{NULL}. Time
@@ -28,13 +18,6 @@ inside inline JavaScript functions that cannot be statically detected.}
 
 \item{...}{Aesthetic mappings as \code{name = ~column} formulas or a positional
 formula for \code{x}/\code{y}. Character strings are also accepted.}
-
-\item{width, height}{Width and height of the chart in pixels.}
-
-\item{padding, margin, inset}{Layout spacing in pixels. Each can be a scalar
-(applied to all sides) or a length-4 vector \code{c(top, right, bottom, left)};
-use \code{NA} to skip individual sides. \code{NULL} (the default) leaves the value
-unset.}
 
 \item{title}{Chart title string, a convenient alternative to piping into
 \code{\link[=title_]{title_()}} separately.}

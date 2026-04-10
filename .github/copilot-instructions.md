@@ -79,23 +79,61 @@ Since gglite generates HTML/JavaScript visualizations, **plots must be tested in
 headless browsers** to make sure they can be rendered correctly and produce no
 errors in the browser console. The workflow is:
 
-1.  **Render the Rmd to HTML first** using litedown (see above).
-2.  **Serve the output HTML from a local HTTP server** (<file://> URLs don't
-    work in this environment). Start `python3 -m http.server` pointing at the
-    directory of the .html file, then navigate Playwright to
-    `http://127.0.0.1:<port>/foo.html`.
-3.  Verify that:
+1.  **Render to a full HTML page** — both `.Rmd` and `.R` files can be rendered
+    to `.html` via `litedown::fuse()`.
+
+2.  **Serve via a local HTTP server** (`file://` URLs don't work).
+
+    ``` bash
+    cd /path/to/html/dir
+    python3 -m http.server 8765 --bind 127.0.0.1 &
+    ```
+
+3.  **Open with Chromium under Xvfb** and enable remote debugging:
+
+    ``` bash
+    Xvfb :99 -screen 0 1280x1024x24 &
+    DISPLAY=:99 chromium --no-sandbox --disable-gpu \
+      --disable-dev-shm-usage --no-zygote \
+      --remote-debugging-port=9222 \
+      "http://127.0.0.1:8765/foo.html" &
+    sleep 4   # wait for page + JS to execute
+    ```
+
+    > **Important:** The `playwright-browser_*` tools are sandboxed from the
+    > loopback interface and will return `ERR_CONNECTION_REFUSED` for
+    > `127.0.0.1` URLs. Do **not** use them for local serving. Use the
+    > Chromium + CDP approach above instead.
+
+4.  **Query the live DOM via CDP** (Chrome DevTools Protocol):
+
+    ``` bash
+    # Get the WebSocket debugger URL
+    WS=$(curl -s http://127.0.0.1:9222/json | \
+      python3 -c "import sys,json; print(json.load(sys.stdin)[0]['webSocketDebuggerUrl'])")
+
+    # Evaluate JS in the page (e.g., count SVG elements)
+    node -e "
+    const ws = new (require('ws'))(process.env.WS);
+    ws.on('open', () => {
+      ws.send(JSON.stringify({id:1, method:'Runtime.evaluate',
+        params:{expression:'document.querySelectorAll(\"svg\").length'}}));
+    });
+    ws.on('message', d => { console.log(JSON.parse(d).result.result.value); process.exit(0); });
+    " WS="$WS"
+    ```
+
+5.  Verify:
+
     -   The chart container element exists in the DOM.
-    -   The G2 chart renders without JavaScript errors.
+    -   The G2 chart renders without JavaScript errors (check `console.error`).
     -   No warnings or errors appear in the browser console.
-    -   If a chart involves interaction (e.g., hover or click), interact with it
-        and verify behavior.
 
 ### Submitting Plot Changes in PRs
 
 When fixing or changing plot examples, **always submit screenshots** of the
 plots as PR comments so reviewers can see the visual results. Take screenshots
-in headless browsers (Playwright or Puppeteer) and attach them to the PR.
+in headless browsers (Chromium via CDP) and attach them to the PR.
 
 ### G2 Reference
 

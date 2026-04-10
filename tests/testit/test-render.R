@@ -53,14 +53,115 @@ assert('gglite.theme merges with per-chart theme_()', {
 })
 
 assert('build_config includes layout options', {
-  chart = g2(data.frame(x = 1, y = 2), x = 'x', y = 'y',
-    padding = 20, inset = c(5, NA, 5, NA)) |>
+  chart = g2(data.frame(x = 1, y = 2), x = 'x', y = 'y') |>
+    canvas(padding = 20, inset = c(5, NA, 5, NA)) |>
     mark_point()
   config = build_config(chart)
   (config$padding %==% 20)
   (config$insetTop %==% 5)
   (config$insetBottom %==% 5)
   (is.null(config$insetRight))
+})
+
+# ---- canvas() and renderer ----
+
+assert('canvas() sets dimensions in options', {
+  chart = g2() |> canvas(width = 600, height = 400)
+  (chart$options$width %==% 600)
+  (chart$options$height %==% 400)
+  (is.null(chart$options$autoFit))
+})
+
+assert('canvas() default height and autoFit when width is NULL', {
+  chart = g2() |> canvas()
+  (chart$options$height %==% 480)
+  (chart$options$autoFit %==% TRUE)
+  (is.null(chart$options$width))
+})
+
+assert('canvas() sets renderer (case-insensitive)', {
+  chart = g2() |> canvas(renderer = 'SVG')
+  (chart$renderer %==% 'svg')
+  chart2 = g2() |> canvas(renderer = 'WebGL')
+  (chart2$renderer %==% 'webgl')
+})
+
+assert('canvas() passes extra args to canvas_extra', {
+  chart = g2() |> canvas(clip = TRUE)
+  (isTRUE(chart$canvas_extra$clip))
+})
+
+assert('chart_html() injects renderer JS for svg', {
+  chart = g2() |> canvas(renderer = 'svg') |> mark_point()
+  html = chart_html(chart)
+  (grepl('window.G.SVG.Renderer', html, fixed = TRUE))
+})
+
+assert('chart_html() injects renderer JS for webgl', {
+  chart = g2() |> canvas(renderer = 'webgl') |> mark_point()
+  html = chart_html(chart)
+  (grepl('window.G.WebGL.Renderer', html, fixed = TRUE))
+})
+
+assert('chart_html() no renderer JS for default canvas', {
+  chart = g2() |> mark_point()
+  html = chart_html(chart)
+  (!grepl('window.G', html, fixed = TRUE))
+})
+
+assert('effective_renderer() defaults to canvas', {
+  chart = g2()
+  (effective_renderer(chart) %==% 'canvas')
+})
+
+assert('effective_renderer() respects per-chart setting', {
+  chart = g2() |> canvas(renderer = 'webgl')
+  (effective_renderer(chart) %==% 'webgl')
+})
+
+assert('effective_renderer() respects global option', {
+  old = options(gglite.renderer = 'svg')
+  chart = g2()
+  r = effective_renderer(chart)
+  options(old)
+  (r %==% 'svg')
+})
+
+assert('effective_renderer() per-chart overrides global', {
+  old = options(gglite.renderer = 'svg')
+  chart = g2() |> canvas(renderer = 'webgl')
+  r = effective_renderer(chart)
+  options(old)
+  (r %==% 'webgl')
+})
+
+assert('cdn_scripts() returns g2.min.js for canvas', {
+  scripts = cdn_scripts(g2())
+  (any(grepl('g2.min.js', scripts, fixed = TRUE)))
+  (!any(grepl('g2.lite.min.js', scripts, fixed = TRUE)))
+})
+
+assert('cdn_scripts() returns g2.lite.min.js for svg', {
+  scripts = cdn_scripts(g2() |> canvas(renderer = 'svg'))
+  (any(grepl('g2.lite.min.js', scripts, fixed = TRUE)))
+  (any(grepl('@antv/g-svg', scripts, fixed = TRUE)))
+  (!any(grepl('g2.min.js"', scripts, fixed = TRUE)))
+})
+
+assert('cdn_scripts() returns g2.lite.min.js when global renderer is set', {
+  old = options(gglite.renderer = 'canvas')
+  scripts = cdn_scripts(g2())
+  options(old)
+  (any(grepl('g2.lite.min.js', scripts, fixed = TRUE)))
+  (any(grepl('@antv/g-canvas', scripts, fixed = TRUE)))
+})
+
+assert('build_config includes canvas_extra options', {
+  chart = g2(data.frame(x = 1, y = 2), x = 'x', y = 'y') |>
+    canvas(clip = TRUE) |>
+    mark_point()
+  config = build_config(chart)
+  (isTRUE(config$clip))
 })
 
 # ---- Auto mark detection ----

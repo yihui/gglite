@@ -46,24 +46,24 @@ assert('g2_cdn() respects gglite.g2_cdn option', {
   options(gglite.g2_cdn = 'https://example.com/g2.js')
   res = g2_cdn()
   options(gglite.g2_cdn = old)
-  (res %==% 'https://example.com/g2.js')
+  (res[1] %==% 'https://example.com/g2.js')
 })
 
-assert('g2() padding scalar sets layout', {
-  chart = g2(padding = 20)
+assert('canvas() padding scalar sets layout', {
+  chart = g2() |> canvas(padding = 20)
   (chart$layout$padding %==% 20)
 })
 
-assert('g2() padding vector sets layout sides', {
-  chart = g2(padding = c(30, NA, NA, 10))
+assert('canvas() padding vector sets layout sides', {
+  chart = g2() |> canvas(padding = c(30, NA, NA, 10))
   (chart$layout$paddingTop %==% 30)
   (chart$layout$paddingLeft %==% 10)
   (is.null(chart$layout$paddingRight))
   (is.null(chart$layout$paddingBottom))
 })
 
-assert('g2() margin and inset work', {
-  chart = g2(margin = 16, inset = c(5, 10, 5, 10))
+assert('canvas() margin and inset work', {
+  chart = g2() |> canvas(margin = 16, inset = c(5, 10, 5, 10))
   (chart$layout$margin %==% 16)
   (chart$layout$insetTop %==% 5)
   (chart$layout$insetRight %==% 10)
@@ -450,7 +450,7 @@ assert('mixing + and |> produces same result as pure |>', {
 # ---- knit_print.g2 ----
 
 assert('cdn_scripts returns two <script> tags', {
-  s = cdn_scripts()
+  s = cdn_scripts(g2())
   (length(s) %==% 2L)
   (all(grepl('^<script src=".+" defer></script>$', s)))
 })

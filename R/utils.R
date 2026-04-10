@@ -45,6 +45,10 @@ ts_to_df = function(x) {
 #' @noRd
 dropNulls = function(x) x[!vapply(x, is.null, logical(1))]
 
+#' Null-coalescing operator
+#' @noRd
+`%||%` = function(x, y) if (is.null(x)) y else x
+
 #' Process a Layout Argument (padding, margin, or inset)
 #'
 #' Convert a scalar or length-4 vector into named G2 layout options.
@@ -137,7 +141,9 @@ trim_data = function(data, vars) {
 #'
 #' Recursively walks a nested list and wraps any data frame found in a `data`
 #' field with `list(type = 'column', value = df)` so that the G2 column-major
-#' helper script can convert it client-side.
+#' helper script can convert it client-side. If a `data` field is a single
+#' string starting with `https://`, it is annotated as a `fetch` type instead,
+#' which tells G2 to load the data from the URL.
 #'
 #' @param x A nested list.
 #' @return The annotated list.
@@ -155,6 +161,8 @@ annotate_df = function(x) {
           d[[col]] = as.numeric(d[[col]]) * 1000
       }
       x$data = list(type = 'column', value = d)
+    } else if (is.character(d) && length(d) == 1 && grepl('^https://', d)) {
+      x$data = list(type = 'fetch', value = d)
     } else if (is.null(d)) x$data = NULL
   }
   idx = setdiff(nms, '')

@@ -82,8 +82,8 @@ Maps multiple numeric variables to parallel axes. Use a `position`
 encoding (a character vector of column names) instead of `x`/`y`.
 
 ```{r}
-g2(iris, position = names(iris)[-5], color = ~ Species,
-    padding = 30) |>
+g2(iris, position = names(iris)[-5], color = ~ Species) |>
+  canvas(padding = 30) |>
   coord_parallel() |>
   legend_color(position = 'bottom')
 ```

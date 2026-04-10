@@ -1,0 +1,111 @@
+---
+title: Canvas Options
+---
+
+```{r}
+library(gglite)
+# This document uses non-default renderers (SVG and WebGL). Declare this
+# option globally so all renderers can work on the same page.
+options(gglite.renderer = 'svg')
+```
+
+## Dimensions
+
+By default a chart auto-fits its container width and uses a height of 480 px.
+Use `canvas()` to override:
+
+```{r}
+p = g2(mtcars, hp ~ mpg)
+p |> canvas(width = 500, height = 300)
+```
+
+## Layout Spacing
+
+`padding` is the space between the container edge and the plot area. `margin`
+adds space outside the container. `inset` adds space inside the plot area,
+pushing axis tick labels inward. Each argument accepts a scalar (all sides) or
+`c(top, right, bottom, left)` with `NA` to skip individual sides.
+
+```{r}
+p |> canvas(padding = c(0, 150, NA, 100), margin = 10, inset = c(10, 0, 20, -20))
+```
+
+## Renderer
+
+G2 ships two bundles with different trade-offs:
+
+- **`g2.min.js`** (~1.1 MB) is a pre-optimized all-in-one bundle that includes
+  G2 core, the `@antv/g` graphics engine, and the Canvas renderer. Because
+  everything is compiled together it is the smallest and fastest option — but it
+  only supports the Canvas renderer.
+- **`g2.lite.min.js`** (~976 KB) is the G2 core *without* any graphics engine.
+  It must be combined with `@antv/g` and a renderer package (`@antv/g-canvas`,
+  `@antv/g-svg`, or `@antv/g-webgl`), which adds weight but gives you a choice
+  of renderer.
+
+| `renderer` | Scripts loaded | Approx. total size |
+|---|---|---|
+| `"Canvas"` (default and optimized) | `g2.min.js` | ~1.1 MB |
+| `"Canvas"` (via g2.lite) | `@antv/g` + `@antv/g-canvas` + `g2.lite.min.js` | ~1.5 MB |
+| `"SVG"` | `@antv/g` + `@antv/g-svg` + `g2.lite.min.js` | ~1.5 MB |
+| `"WebGL"` | `@antv/g` + `@antv/g-webgl` + `g2.lite.min.js` | ~1.9 MB |
+
+SVG output can be inspected element-by-element in browser DevTools and is
+therefore well suited to automated DOM-based testing. WebGL is GPU-accelerated
+and handles very large numbers of data points with less rendering time.
+
+### Caveat: multi-chart documents
+
+`g2.min.js` and `g2.lite.min.js` **cannot coexist on the same HTML page**.
+In a document that contains multiple charts — such as an R Markdown, Quarto,
+Shiny, or Jupyter document — setting `options(gglite.renderer)` explicitly
+makes sure all plots use `g2.lite.min.js` and avoids loading `g2.min.js`:
+
+```r
+options(gglite.renderer = 'svg')   # or 'webgl', 'canvas'
+```
+
+Individual charts can still override the renderer via `canvas(renderer = ...)`.
+For example, when `options(gglite.renderer = 'svg')` is active, a specific
+chart can use `canvas(renderer = 'webgl')` — both use `g2.lite.min.js` so they
+do not conflict.
+
+For **standalone plots** previewed in the browser (printed from the console of
+an interactive R session), each plot is its own HTML page, so no global option
+is needed.
+
+```{r}
+p |> canvas(renderer = 'svg')
+p |> canvas(renderer = 'webgl')
+p |> canvas(renderer = 'canvas')
+```
+
+## Extra Options
+
+The `...` argument in `canvas()` passes additional top-level options to
+`chart.options()` in JavaScript. For example, `clip` controls whether marks
+that extend beyond the plot area are clipped:
+
+```{r}
+# clip = FALSE (default): marks can overflow the plot area
+p |> scale_y(domain = c(80, 220)) |> canvas(clip = FALSE)
+# clip = TRUE: marks are clipped to the plot area
+p |> scale_y(domain = c(80, 220)) |> canvas(clip = TRUE)
+```
+
+## WebGL for Large Datasets
+
+WebGL is GPU-accelerated and can render far more data points than Canvas or SVG
+before frame time degrades. The example below uses 200,000 flight records
+(distance vs. departure delay) to illustrate this.
+
+```r
+g2("https://vega.github.io/vega-datasets/data/flights-200k.json") |>
+  encode(delay ~ distance) |>
+  mark_point() |>
+  style_mark(size = 2, fillOpacity = 0.2) |>
+  canvas(renderer = 'webgl')
+```
+
+However, it wouldn't render on my M1 macOS and could even freeze my browser, and
+I don't know why...

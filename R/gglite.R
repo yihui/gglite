@@ -6,16 +6,34 @@
 #' @keywords internal
 "_PACKAGE"
 
-#' CDN URL for the G2 Library
+#' CDN URLs for the G2 Library
 #'
-#' Returns the URL for loading the G2 JavaScript library. Customizable via the
-#' `gglite.g2_cdn` option. The default `@5` resolves to the latest v5.x
-#' release.
+#' Returns CDN URLs for loading the G2 JavaScript library. When the chart uses
+#' a non-default renderer or the `gglite.renderer` global option is set, the
+#' lite bundle plus renderer packages are returned instead of `g2.min.js`.
+#' The default `g2.min.js` URL is customizable via the `gglite.g2_cdn` option.
 #'
-#' @return A character string.
+#' @param chart A `g2` object, or `NULL` for the default (Canvas) CDN.
+#' @return A character vector of CDN URLs.
 #' @noRd
-g2_cdn = function() {
-  getOption('gglite.g2_cdn', 'https://unpkg.com/@antv/g2@5/dist/g2.min.js')
+g2_cdn = function(chart = NULL) {
+  if (is.null(chart) || !needs_lite(chart))
+    return(c(
+      getOption('gglite.g2_cdn', 'https://unpkg.com/@antv/g2@5/dist/g2.min.js'),
+      g2_patches_cdn
+    ))
+  r = effective_renderer(chart)
+  r_url = switch(r,
+    svg    = 'https://unpkg.com/@antv/g-svg',
+    webgl  = 'https://unpkg.com/@antv/g-webgl',
+    canvas = 'https://unpkg.com/@antv/g-canvas'
+  )
+  c(
+    'https://unpkg.com/@antv/g',
+    r_url,
+    'https://unpkg.com/@antv/g2@5/dist/g2.lite.min.js',
+    g2_patches_cdn
+  )
 }
 
 g2_patches_cdn = 'https://cdn.jsdelivr.net/npm/@xiee/utils@v1.14.32/js/g2-patches.min.js'
@@ -120,11 +138,6 @@ check_chart = function(fn, chart, args) {
 #'   inside inline JavaScript functions that cannot be statically detected.
 #' @param ... Aesthetic mappings as `name = ~column` formulas or a positional
 #'   formula for `x`/`y`. Character strings are also accepted.
-#' @param width,height Width and height of the chart in pixels.
-#' @param padding,margin,inset Layout spacing in pixels. Each can be a scalar
-#'   (applied to all sides) or a length-4 vector `c(top, right, bottom, left)`;
-#'   use `NA` to skip individual sides. `NULL` (the default) leaves the value
-#'   unset.
 #' @param title Chart title string, a convenient alternative to piping into
 #'   [title_()] separately.
 #' @param subtitle Chart subtitle string.
@@ -142,11 +155,7 @@ check_chart = function(fn, chart, args) {
 #'
 #' # Title and subtitle
 #' g2(mtcars, hp ~ mpg, title = 'Motor Trend Cars', subtitle = 'mpg vs hp')
-g2 = function(
-  data = NULL, ..., width = NULL, height = 480,
-  padding = NULL, margin = NULL, inset = NULL,
-  title = NULL, subtitle = NULL
-) {
+g2 = function(data = NULL, ..., title = NULL, subtitle = NULL) {
   dots = list(...)
   # A positional (unnamed) formula like `hp ~ mpg` or `~ mpg` as the first arg
   has_formula = length(dots) &&
@@ -171,7 +180,7 @@ g2 = function(
   }
   chart = structure(list(
     data = data,
-    options = list(width = width, height = height, autoFit = if (is.null(width)) TRUE),
+    options = NULL,
     layers = list(),
     scales = list(),
     coords = NULL,
@@ -184,13 +193,76 @@ g2 = function(
     legends = list(),
     chart_title = dropNulls(list(title = title, subtitle = subtitle)),
     facet = facet_from_formula,
-    layout = c(
-      process_layout('padding', padding),
-      process_layout('margin', margin),
-      process_layout('inset', inset)
-    )
+    layout = list()
   ), class = 'g2')
   if (length(dots)) chart$aesthetics = modifyList(chart$aesthetics, dots)
+  chart
+}
+
+#' Configure Canvas Options
+#'
+#' Set chart dimensions, layout spacing, and renderer for a G2 chart. See
+#' <https://pkg.yihui.org/gglite/examples/canvas.html> for full examples.
+#'
+#' @param chart A `g2` object, or `NULL` to create a deferred modifier.
+#' @param width Width of the chart in pixels. `NULL` (default) enables
+#'   auto-fit to the container width.
+#' @param height Height of the chart in pixels. Default is `480`.
+#' @param padding,margin,inset Layout spacing in pixels. Each can be a scalar
+#'   (applied to all sides) or a length-4 vector `c(top, right, bottom, left)`;
+#'   use `NA` to skip individual sides. `NULL` (the default) leaves the value
+#'   unset.
+#' @param renderer The rendering backend: `"Canvas"` (default), `"SVG"`, or
+#'   `"WebGL"` (case-insensitive).
+#' @param ... Additional top-level chart options passed to `chart.options()` in
+#'   JavaScript (e.g., `clip = TRUE`).
+#' @return The modified `g2` object (or a `g2_mod` when `chart` is `NULL`).
+#' @export
+#' @examples
+#' p = g2(mtcars, hp ~ mpg)
+#' p |> canvas(width = 600, height = 400)
+#' p |> canvas(padding = 30)
+#' p |> canvas(renderer = 'svg')
+canvas = function(
+  chart = NULL, width = NULL, height = 480,
+  padding = NULL, margin = NULL, inset = NULL,
+  renderer = NULL, ...
+) {
+  args = list(
+    width = width, height = height,
+    padding = padding, margin = margin, inset = inset,
+    renderer = renderer, ...
+  )
+  mod = check_chart(canvas, chart, args)
+  if (!is.null(mod)) return(mod)
+
+  # Dimensions
+  chart$options = dropNulls(list(
+    width = width,
+    height = height,
+    autoFit = if (is.null(width)) TRUE
+  ))
+
+  # Layout spacing
+  chart$layout = c(
+    process_layout('padding', padding),
+    process_layout('margin', margin),
+    process_layout('inset', inset)
+  )
+
+  # Renderer
+  if (!is.null(renderer)) {
+    r = tolower(renderer)
+    r = match.arg(r, c('canvas', 'svg', 'webgl'))
+    chart$renderer = r
+  }
+
+  # Extra top-level chart.options() args (e.g., clip, depth)
+  extra = list(...)
+  if (length(extra)) chart$canvas_extra = modifyList(
+    as.list(chart$canvas_extra), extra
+  )
+
   chart
 }
 
