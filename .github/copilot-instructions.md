@@ -41,7 +41,7 @@ working with GitHub Copilot.
 -   Never use `:::` to access internal functions in tests; testit exposes
     internal functions automatically, so call them directly
 
-### Rendering Example Rmd Files
+### Rendering Examples to HTML
 
 All `examples/*.Rmd` files are rendered using **litedown**, not rmarkdown. Never
 use `rmarkdown::render()` — it will produce incorrect output or fail.
@@ -58,6 +58,17 @@ This will render a self-contained HTML file (since we have enabled the
 `embed_resources` option for litedown in `copilot-setup-steps.yml`). All
 external JS/CSS resources are embedded, so they won't be blocked when testing
 via headless browsers.
+
+Similarly, for an R script that generates a g2 plot, you can render it to HTML
+via:
+
+``` bash
+Rscript -e 'litedown::fuse("path/to/foo.R')'
+# output: path/to/foo.html
+```
+
+When you do headless browser testing for an example, you must always write the
+example code to an .R file and render it this way.
 
 The GitHub Pages site is built by the `yihui/litedown/site` action, which calls
 `litedown::fuse()` for every Rmd in the repo.
