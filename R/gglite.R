@@ -258,7 +258,7 @@ canvas = function(
   chart$options = dropNulls(list(
     width = width,
     height = height,
-    autoFit = if (is.null(width)) TRUE else NULL
+    autoFit = if (is.null(width)) TRUE
   ))
 
   # Layout spacing

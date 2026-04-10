@@ -145,7 +145,7 @@ assert('cdn_scripts() returns g2.lite.min.js for svg', {
   scripts = cdn_scripts('svg')
   (any(grepl('g2.lite.min.js', scripts, fixed = TRUE)))
   (any(grepl('@antv/g-svg', scripts, fixed = TRUE)))
-  (!any(grepl('g2.min.js"', scripts)))
+  (!any(grepl('g2.min.js"', scripts, fixed = TRUE)))
 })
 
 assert('build_config includes canvas_extra options', {

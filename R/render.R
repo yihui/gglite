@@ -229,8 +229,7 @@ build_config = function(chart) {
 # Returns the effective renderer string for a chart ('canvas', 'svg', 'webgl').
 # Per-chart setting (chart$renderer) takes precedence over the global option.
 effective_renderer = function(chart) {
-  r = chart$renderer %||% tolower(getOption('gglite.renderer') %||% 'canvas')
-  r
+  chart$renderer %||% tolower(getOption('gglite.renderer') %||% 'canvas')
 }
 
 # Returns TRUE when the page should use g2.lite (non-canvas global option set,
