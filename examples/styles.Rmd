@@ -26,7 +26,7 @@ p |> style_mark(fill = 'tomato', stroke = '#333', lineWidth = 3)
 
 ```{r}
 g2(mtcars, hp ~ mpg) |>
-  style_mark(fill = 'gold', stroke = '#333', lineWidth = 3)
+  style_mark(fill = 'orange', stroke = '#333', lineWidth = 3)
 ```
 
 ## Semi-Transparent Area
