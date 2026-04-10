@@ -75,8 +75,8 @@ Bin data along x for histograms.
 
 ```{r}
 g2(mtcars, ~ mpg) |>
-  mark_interval(encode = list(y = 'count')) |>
-  transform_('binX', thresholds = 15)
+  mark_rect() |>
+  transform_('binX', y = 'count', thresholds = 15)
 ```
 
 ## bin (2D binning)

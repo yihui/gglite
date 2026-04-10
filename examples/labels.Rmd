@@ -28,18 +28,17 @@ p |> labels_(text = ~ y, position = 'inside')
 p |> labels_(text = ~ y, position = 'top')
 ```
 
-## Labels on a Scatter Plot
-
-```{r}
-df_pt = data.frame(x = 1:5, y = c(3, 7, 2, 9, 5), label = c('a', 'b', 'c', 'd', 'e'))
-g2(df_pt, y ~ x) |>
-  labels_(text = ~ label)
-```
-
 ## Multiple Label Layers
 
 ```{r}
 p |>
   labels_(text = ~ x, position = 'inside') |>
   labels_(text = ~ y, position = 'top')
+```
+
+## Labels on a Scatter Plot
+
+```{r}
+df_pt = data.frame(x = 1:5, y = c(3, 7, 2, 9, 5), label = c('a', 'b', 'c', 'd', 'e'))
+g2(df_pt, y ~ x) |> labels_(text = ~ label)
 ```

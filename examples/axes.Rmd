@@ -10,9 +10,7 @@ p = g2(mtcars, hp ~ mpg)
 ## Axis Titles
 
 ```{r}
-p |>
-  axis_x(title = 'Miles per Gallon') |>
-  axis_y(title = 'Horsepower')
+p |> axis_x(title = 'Miles per Gallon') |> axis_y(title = 'Horsepower')
 ```
 
 ## Hide an Axis
@@ -24,35 +22,31 @@ p |> axis_y(FALSE)
 ## Hide Both Axes
 
 ```{r}
-p |>
-  axis_x(FALSE) |>
-  axis_y(FALSE)
+p |> axis_x(FALSE) |> axis_y(FALSE)
 ```
 
-## Axis with Grid
+## Hide Grid Lines
+
+Grid lines are shown by default. Hide the x-axis grid to reduce clutter.
 
 ```{r}
-p |>
-  axis_x(grid = TRUE) |>
-  axis_y(grid = TRUE)
+p |> axis_x(grid = FALSE)
 ```
 
 ## Axis Tick Count
 
 ```{r}
-p |>
-  axis_x(tickCount = 5) |>
-  axis_y(tickCount = 8)
+p |> axis_x(tickCount = 5) |> axis_y(tickCount = 8)
 ```
 
 ## Axis Label Formatter
 
 Use a [d3-format](https://d3js.org/d3-format) or
-[d3-time-format](https://d3js.org/d3-time-format) string.
+[d3-time-format](https://d3js.org/d3-time-format) string. The example below
+shows x-axis labels (mpg) with one decimal place.
 
 ```{r}
-# Format y-axis labels as integers (no decimal)
-p |> axis_y(labelFormatter = '.0f')
+p |> axis_x(labelFormatter = '.1f')
 ```
 
 ## Dual Y-Axis
