@@ -37,4 +37,4 @@ jobs:
 
       - name: Set options in .Rprofile
         run: |
-          echo "options(litedown.html.options = list(embed_resources = 'all'))" >> ~/.Rprofile
+          echo "options(litedown.html.options = list(embed_resources = 'all'), litedown.html.template = TRUE)" >> ~/.Rprofile
