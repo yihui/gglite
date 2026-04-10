@@ -95,6 +95,7 @@ errors in the browser console. The workflow is:
     ``` bash
     Xvfb :99 -screen 0 1280x1024x24 &
     DISPLAY=:99 chromium --no-sandbox --disable-gpu \
+      --disable-dev-shm-usage --no-zygote \
       --remote-debugging-port=9222 \
       "http://127.0.0.1:8765/foo.html" &
     sleep 4   # wait for page + JS to execute

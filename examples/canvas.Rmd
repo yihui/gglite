@@ -114,10 +114,11 @@ before frame time degrades. The example below uses 50,000 flight records
 (distance vs. departure delay) to illustrate this.
 
 ```{r}
-df_webgl = tryCatch(
-  jsonlite::fromJSON("https://vega.github.io/vega-datasets/data/flights-200k.json"),
-  error = function(e) NULL
-)
+df_webgl = tryCatch({
+  con = url("https://vega.github.io/vega-datasets/data/flights-200k.json")
+  on.exit(close(con))
+  jsonlite::fromJSON(con)
+}, error = function(e) NULL)
 if (!is.null(df_webgl)) {
   set.seed(1)
   df_webgl = df_webgl[sample(nrow(df_webgl), 50000), c("distance", "delay")]
