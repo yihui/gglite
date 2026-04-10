@@ -22,10 +22,7 @@
 #' @param type Theme name string, or a list of custom theme options.
 #' @param ... Additional theme options merged with the type.
 #' @return The modified `g2` object.
-#' @examples
-#' p = g2(mtcars, hp ~ mpg)
-#' p |> theme_dark()
-#' p |> theme_academy()
+#' @noRd
 theme_ = function(chart = NULL, type, ...) {
   mod = check_chart(theme_, chart, c(if (!missing(type)) list(type), list(...)))
   if (!is.null(mod)) return(mod)

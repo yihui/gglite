@@ -17,27 +17,7 @@
 #' @param ... Scale options passed to G2 (e.g., `type = 'log'`, `nice = TRUE`,
 #'   `domain`, `range`, `zero = TRUE`).
 #' @return The modified `g2` object.
-#' @examples
-#' p = g2(mtcars, hp ~ mpg)
-#' # Log-scaled x axis
-#' p |> scale_x(type = 'log')
-#'
-#' # Square-root scale on y
-#' p |> scale_y(type = 'sqrt')
-#'
-#' # Ordinal color palette
-#' g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species) |>
-#'   scale_color(palette = 'category10')
-#'
-#' # Dual-axis: pipe scale_y() right after each mark
-#' air = aggregate(cbind(Temp, Wind) ~ Month, data = airquality, FUN = mean)
-#' air$Month = month.abb[air$Month]
-#' g2(air, x = 'Month') |>
-#'   mark_interval(encode = list(y = 'Temp')) |>
-#'   scale_y(independent = TRUE) |>
-#'   mark_line(encode = list(y = 'Wind')) |>
-#'   scale_y(independent = TRUE) |>
-#'   axis_y(position = 'right', grid = FALSE)
+#' @noRd
 scale_ = function(chart = NULL, field, ...) {
   mod = check_chart(scale_, chart, c(if (!missing(field)) list(field), list(...)))
   if (!is.null(mod)) return(mod)

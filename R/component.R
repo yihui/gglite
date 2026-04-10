@@ -11,22 +11,7 @@
 #' @param ... Axis options such as `title`, `labelFormatter`, `tickCount`,
 #'   `grid`, `position`, etc., or `FALSE` to hide.
 #' @return The modified `g2` object.
-#' @examples
-#' # Chart-level axis titles (no marks yet)
-#' g2(mtcars, hp ~ mpg) |>
-#'   axis_x(title = 'Miles per Gallon') |>
-#'   axis_y(title = 'Horsepower')
-#'
-#' # Dual-axis chart: each mark gets its own axis immediately after mark_*()
-#' air = aggregate(cbind(Temp, Wind) ~ Month, data = airquality, FUN = mean)
-#' air$Month = month.abb[air$Month]
-#' g2(air, x = 'Month') |>
-#'   mark_interval(encode = list(y = 'Temp')) |>
-#'   scale_y(independent = TRUE) |>
-#'   axis_y(title = 'Temperature (°F)') |>
-#'   mark_line(encode = list(y = 'Wind')) |>
-#'   scale_y(independent = TRUE) |>
-#'   axis_y(position = 'right', grid = FALSE, title = 'Wind Speed (mph)')
+#' @noRd
 axis_ = function(chart = NULL, channel, ...) {
   mod = check_chart(axis_, chart, c(if (!missing(channel)) list(channel), list(...)))
   if (!is.null(mod)) return(mod)
@@ -87,9 +72,7 @@ axis_y = function(chart = NULL, ...) axis_(chart, 'y', ...)
 #' @param ... Legend options such as `position` (`'top'`, `'bottom'`, `'left'`,
 #'   `'right'`), `layout`, `title`, etc.
 #' @return The modified `g2` object.
-#' @examples
-#' p = g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species)
-#' p |> legend_color(position = 'right')
+#' @noRd
 legend_ = function(chart = NULL, channel, ...) {
   mod = check_chart(legend_, chart, c(if (!missing(channel)) list(channel), list(...)))
   if (!is.null(mod)) return(mod)
@@ -275,9 +258,7 @@ style_mark = function(chart = NULL, ...) {
 #' @param channel Positional channel: `'x'` or `'y'`.
 #' @param ... Slider options.
 #' @return The modified `g2` object.
-#' @examples
-#' p = g2(mtcars, hp ~ mpg)
-#' p |> slider_x()
+#' @noRd
 slider_ = function(chart = NULL, channel, ...) {
   mod = check_chart(slider_, chart, c(if (!missing(channel)) list(channel), list(...)))
   if (!is.null(mod)) return(mod)
@@ -312,10 +293,7 @@ slider_y = function(chart = NULL, ...) slider_(chart, 'y', ...)
 #' @param channel Positional channel: `'x'` or `'y'`.
 #' @param ... Scrollbar options.
 #' @return The modified `g2` object.
-#' @examples
-#' df = data.frame(x = 1:100, y = cumsum(rnorm(100)))
-#' p = g2(df, y ~ x) |> mark_line()
-#' p |> scroll_x()
+#' @noRd
 scroll_ = function(chart = NULL, channel, ...) {
   mod = check_chart(scroll_, chart, c(if (!missing(channel)) list(channel), list(...)))
   if (!is.null(mod)) return(mod)

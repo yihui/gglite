@@ -243,7 +243,6 @@ instead. The data should be a nested tree structure wrapped in a list,
 e.g., \code{data = list(type = 'inline', value = list(tree))}.
 }
 \examples{
-g2(mtcars, hp ~ mpg) |> mark_point()
 
 # Bar chart
 df = data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2))
