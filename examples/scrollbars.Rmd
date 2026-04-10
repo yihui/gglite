@@ -14,17 +14,17 @@ chart area.
 ## Scrollbar on X
 
 ```{r}
-p |> scrollbar_x()
+p |> scroll_x()
 ```
 
 ## Scrollbar on Y
 
 ```{r}
-p |> scrollbar_y()
+p |> scroll_y()
 ```
 
 ## Scrollbar on Both Axes
 
 ```{r}
-p |> scrollbar_x() |> scrollbar_y()
+p |> scroll_x() |> scroll_y()
 ```

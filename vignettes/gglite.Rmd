@@ -412,7 +412,7 @@ g2(penguins, bill_len ~ bill_dep | species + island)
 ## Themes
 
 Themes change the overall look. Built-in themes include `theme_classic()`
-(default), `theme_classicDark()`, `theme_light()`, `theme_dark()`, and
+(default), `theme_classic_dark()`, `theme_light()`, `theme_dark()`, and
 `theme_academy()`:
 
 ```{r}
@@ -436,7 +436,7 @@ g2(mtcars, hp ~ mpg) |>
 
 ```{r}
 g2(mtcars, hp ~ mpg) |>
-  tooltip_(crosshairs = TRUE)
+  tooltip(crosshairs = TRUE)
 ```
 
 ### Labels
@@ -445,7 +445,7 @@ g2(mtcars, hp ~ mpg) |>
 df = data.frame(x = c('A', 'B', 'C', 'D'), y = c(3, 7, 2, 5))
 g2(df, y ~ x) |>
   mark_interval() |>
-  labels_(text = ~ y)
+  label(text = ~ y)
 ```
 
 ## Interactions

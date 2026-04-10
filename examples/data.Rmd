@@ -118,7 +118,7 @@ Additional aesthetic channels count as used columns too:
 g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species) |> mark_point()
 ```
 
-Trimming also applies to labels: the `text` column referenced by `labels_()`
+Trimming also applies to labels: the `text` column referenced by `label()`
 is automatically preserved.
 
 ```{r}
@@ -126,10 +126,10 @@ df = data.frame(
   x = c('A', 'B', 'C'), y = c(3, 7, 2),
   label = c('low', 'high', 'mid'), extra = 1:3
 )
-# label is kept (used by labels_()); extra is trimmed
+# label is kept (used by label()); extra is trimmed
 g2(df, y ~ x) |>
   mark_interval() |>
-  labels_(text = ~ label, position = 'inside')
+  label(text = ~ label, position = 'inside')
 ```
 
 ## Opting Out with `I()`

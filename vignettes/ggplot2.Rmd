@@ -255,7 +255,7 @@ ggplot2 uses `theme_*()` functions; gglite also provides `theme_*()` shortcuts:
 | `theme_gray()` (default) | `theme_classic()` (default) |
 | `theme_bw()` / `theme_minimal()` | `theme_light()` |
 | `theme_dark()` | `theme_dark()` |
-| — | `theme_classicDark()` |
+| — | `theme_classic_dark()` |
 | — | `theme_academy()` |
 
 ```r
@@ -371,8 +371,8 @@ g2(data, x = 'col1', y = 'col2', color = 'col3')
 
 # Components
 |> title_('Title', subtitle = 'Subtitle')
-|> tooltip_(crosshairs = TRUE)
-|> labels_(text = 'y')
+|> tooltip(crosshairs = TRUE)
+|> label(text = 'y')
 
 # Interactions
 |> interact('tooltip')

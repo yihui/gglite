@@ -8,37 +8,37 @@ df = data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2))
 p  = g2(df, y ~ x)
 ```
 
-Labels add text annotations to marks. Use `labels_()` to configure them.
+Labels add text annotations to marks. Use `label()` to configure them.
 
 ## Basic Labels on Bars
 
 ```{r}
-p |> labels_(text = ~ y)
+p |> label(text = ~ y)
 ```
 
 ## Label Position: Inside
 
 ```{r}
-p |> labels_(text = ~ y, position = 'inside')
+p |> label(text = ~ y, position = 'inside')
 ```
 
 ## Label Position: Top
 
 ```{r}
-p |> labels_(text = ~ y, position = 'top')
+p |> label(text = ~ y, position = 'top')
 ```
 
 ## Multiple Label Layers
 
 ```{r}
 p |>
-  labels_(text = ~ x, position = 'inside') |>
-  labels_(text = ~ y, position = 'top')
+  label(text = ~ x, position = 'inside') |>
+  label(text = ~ y, position = 'top')
 ```
 
 ## Labels on a Scatter Plot
 
 ```{r}
 df_pt = data.frame(x = 1:5, y = c(3, 7, 2, 9, 5), label = c('a', 'b', 'c', 'd', 'e'))
-g2(df_pt, y ~ x) |> labels_(text = ~ label)
+g2(df_pt, y ~ x) |> label(text = ~ label)
 ```

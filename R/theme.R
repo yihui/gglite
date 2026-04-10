@@ -22,11 +22,10 @@
 #' @param type Theme name string, or a list of custom theme options.
 #' @param ... Additional theme options merged with the type.
 #' @return The modified `g2` object.
-#' @export
 #' @examples
 #' p = g2(mtcars, hp ~ mpg)
-#' p |> theme_('dark')
-#' p |> theme_('academy')
+#' p |> theme_dark()
+#' p |> theme_academy()
 theme_ = function(chart = NULL, type, ...) {
   mod = check_chart(theme_, chart, c(if (!missing(type)) list(type), list(...)))
   if (!is.null(mod)) return(mod)
@@ -38,27 +37,32 @@ theme_ = function(chart = NULL, type, ...) {
   chart
 }
 
-#' @details `theme_classic()`: The default theme. Shortcut for
-#'   `theme_(chart, 'classic', ...)`.
-#' @rdname theme_
+#' Set the Chart Theme
+#'
+#' Shortcut functions to apply a built-in G2 theme. Available themes:
+#' `theme_classic()` (default), `theme_classic_dark()`, `theme_light()`,
+#' `theme_dark()`, `theme_academy()`.
+#'
+#' @param chart A `g2` object.
+#' @param ... Additional theme options.
+#' @return The modified `g2` object.
 #' @export
 #' @examples
+#' p = g2(mtcars, hp ~ mpg)
 #'
 #' # Classic (default) theme
 #' p |> theme_classic()
 theme_classic = function(chart = NULL, ...) theme_(chart, 'classic', ...)
 
-#' @details `theme_classicDark()`: Shortcut for `theme_(chart, 'classicDark', ...)`.
-#' @rdname theme_
+#' @rdname theme_classic
 #' @export
 #' @examples
 #'
 #' # Classic dark theme
-#' p |> theme_classicDark()
-theme_classicDark = function(chart = NULL, ...) theme_(chart, 'classicDark', ...)
+#' p |> theme_classic_dark()
+theme_classic_dark = function(chart = NULL, ...) theme_(chart, 'classicDark', ...)
 
-#' @details `theme_light()`: Shortcut for `theme_(chart, 'light', ...)`.
-#' @rdname theme_
+#' @rdname theme_classic
 #' @export
 #' @examples
 #'
@@ -66,8 +70,7 @@ theme_classicDark = function(chart = NULL, ...) theme_(chart, 'classicDark', ...
 #' p |> theme_light()
 theme_light = function(chart = NULL, ...) theme_(chart, 'light', ...)
 
-#' @details `theme_dark()`: Shortcut for `theme_(chart, 'dark', ...)`.
-#' @rdname theme_
+#' @rdname theme_classic
 #' @export
 #' @examples
 #'
@@ -75,8 +78,7 @@ theme_light = function(chart = NULL, ...) theme_(chart, 'light', ...)
 #' p |> theme_dark()
 theme_dark = function(chart = NULL, ...) theme_(chart, 'dark', ...)
 
-#' @details `theme_academy()`: Shortcut for `theme_(chart, 'academy', ...)`.
-#' @rdname theme_
+#' @rdname theme_classic
 #' @export
 #' @examples
 #'

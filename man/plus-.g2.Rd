@@ -17,10 +17,10 @@ The modified \code{g2} object.
 \description{
 Enables ggplot2-style \code{+} syntax for building charts. The right-hand side
 must be a deferred modifier created by calling a modifier function without
-a chart argument (e.g., \code{mark_point()}, \code{theme_('dark')}).
+a chart argument (e.g., \code{mark_point()}, \code{theme_dark()}).
 }
 \examples{
 # These two are equivalent:
-g2(mtcars, hp ~ mpg) |> mark_point() |> theme_('dark')
-g2(mtcars, hp ~ mpg) + mark_point() + theme_('dark')
+g2(mtcars, hp ~ mpg) |> mark_point() |> theme_dark()
+g2(mtcars, hp ~ mpg) + mark_point() + theme_dark()
 }

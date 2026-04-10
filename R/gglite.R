@@ -52,7 +52,7 @@ mark_ctx = function(chart) isTRUE(chart$last_op == 'mark')
 #'
 #' Wrap a modifier function and its arguments into a closure that can be applied
 #' later via the `+` operator. This enables ggplot2-style syntax like
-#' `g2(data) + mark_point() + theme_('dark')`.
+#' `g2(data) + mark_point() + theme_dark()`.
 #'
 #' @param fn The modifier function to defer.
 #' @param args A list of arguments (excluding `chart`) to pass when applied.
@@ -92,7 +92,7 @@ check_chart = function(fn, chart, args) {
 #'
 #' Enables ggplot2-style `+` syntax for building charts. The right-hand side
 #' must be a deferred modifier created by calling a modifier function without
-#' a chart argument (e.g., `mark_point()`, `theme_('dark')`).
+#' a chart argument (e.g., `mark_point()`, `theme_dark()`).
 #'
 #' @param e1 A `g2` object (the chart).
 #' @param e2 A `g2_mod` object (a deferred modifier).
@@ -100,13 +100,13 @@ check_chart = function(fn, chart, args) {
 #' @export
 #' @examples
 #' # These two are equivalent:
-#' g2(mtcars, hp ~ mpg) |> mark_point() |> theme_('dark')
-#' g2(mtcars, hp ~ mpg) + mark_point() + theme_('dark')
+#' g2(mtcars, hp ~ mpg) |> mark_point() |> theme_dark()
+#' g2(mtcars, hp ~ mpg) + mark_point() + theme_dark()
 `+.g2` = function(e1, e2) {
   if (inherits(e2, 'g2_mod')) return(e2(e1))
   stop(
     'Cannot add an object of class "', class(e2)[1], '" to a g2 chart. ',
-    'Use a gglite modifier function (e.g., mark_point(), theme_(), scale_x()).'
+    'Use a gglite modifier function (e.g., mark_point(), theme_dark(), scale_x()).'
   )
 }
 

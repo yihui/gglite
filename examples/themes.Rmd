@@ -8,7 +8,7 @@ p = g2(mtcars, hp ~ mpg)
 ```
 
 Themes control the overall visual appearance of the chart. Use helpers like
-`theme_classic()`, `theme_dark()`, `theme_light()`, `theme_classicDark()`,
+`theme_classic()`, `theme_dark()`, `theme_light()`, `theme_classic_dark()`,
 and `theme_academy()` to set a built-in theme.
 
 ## Classic Theme (default)
@@ -20,7 +20,7 @@ p |> theme_classic()
 ## Classic Dark Theme
 
 ```{r}
-p |> theme_classicDark()
+p |> theme_classic_dark()
 ```
 
 ## Light Theme
@@ -58,5 +58,5 @@ df = data.frame(
 )
 g2(df, y ~ x, color = ~ group) |>
   mark_line() |>
-  theme_classicDark()
+  theme_classic_dark()
 ```

@@ -328,7 +328,7 @@ assert('+ works with coord, facet, axis, legend, title, tooltip', {
     axis_x(title = 'Width') +
     legend_color(position = 'right') +
     title_('Iris') +
-    tooltip_(FALSE)
+    tooltip(FALSE)
   (chart$coords$type %==% 'polar')
   (chart$facet$type %==% 'facetRect')
   (chart$axes$x$title %==% 'Width')
@@ -337,12 +337,12 @@ assert('+ works with coord, facet, axis, legend, title, tooltip', {
   (chart$interactions[['tooltip']] %==% FALSE)
 })
 
-assert('tooltip_() routes all named args to interaction.tooltip', {
+assert('tooltip() routes all named args to interaction.tooltip', {
   # FALSE -> interaction level
-  chart1 = g2(mtcars, hp ~ mpg) |> tooltip_(FALSE)
+  chart1 = g2(mtcars, hp ~ mpg) |> tooltip(FALSE)
   (chart1$interactions[['tooltip']] %==% FALSE)
   # all named args -> interaction.tooltip
-  chart2 = g2(mtcars, hp ~ mpg) |> tooltip_(crosshairs = TRUE, shared = TRUE)
+  chart2 = g2(mtcars, hp ~ mpg) |> tooltip(crosshairs = TRUE, shared = TRUE)
   (chart2$interactions[['tooltip']]$crosshairs %==% TRUE)
   (chart2$interactions[['tooltip']]$shared %==% TRUE)
   # mark-level tooltip data goes through mark directly
@@ -366,28 +366,28 @@ assert('facet_circle() accepts formula variables', {
   (chart$facet$encode$position %==% 'Species')
 })
 
-assert('labels_() accepts formula for text', {
+assert('label() accepts formula for text', {
   df = data.frame(x = c('A', 'B'), y = c(1, 2))
   chart = g2(df, y ~ x) |>
     mark_interval() |>
-    labels_(text = ~ y)
+    label(text = ~ y)
   (chart$layers[[1]]$labels[[1]]$text %==% 'y')
 })
 
-assert('+ works with animate, labels_, style_mark', {
+assert('+ works with animate, label, style_mark', {
   chart = g2(mtcars, x = 'mpg', y = 'hp') +
     mark_point() +
     animate(enter = list(type = 'fadeIn')) +
-    labels_(text = 'hp') +
+    label(text = 'hp') +
     style_mark(fill = 'red')
   (chart$layers[[1]]$animate$enter$type %==% 'fadeIn')
   (length(chart$layers[[1]]$labels) %==% 1L)
   (chart$layers[[1]]$style$fill %==% 'red')
 })
 
-assert('+ works with slider and scrollbar', {
+assert('+ works with slider and scroll', {
   chart = g2(mtcars, x = 'mpg', y = 'hp') +
-    slider_x() + scrollbar_y()
+    slider_x() + scroll_y()
   (chart$sliders$x %==% TRUE)
   (chart$scrollbars$y %==% TRUE)
 })
@@ -677,7 +677,7 @@ assert('collect_vars includes layer encode vars when layer data is a transform s
 assert('collect_vars includes labels text vars for layers without own data', {
   chart = g2(iris, Sepal.Length ~ Sepal.Width) |>
     mark_point() |>
-    labels_(text = ~ Petal.Length)
+    label(text = ~ Petal.Length)
   vars = collect_vars(chart)
   ('Sepal.Length' %in% vars)
   ('Sepal.Width' %in% vars)
@@ -689,7 +689,7 @@ assert('collect_vars excludes labels text vars when layer has own data', {
   df2 = data.frame(x = 1:3, y = 4:6, label = c('a', 'b', 'c'))
   chart = g2(mtcars, hp ~ mpg) |>
     mark_point(data = df2, encode = list(x = 'x', y = 'y')) |>
-    labels_(text = ~ label)
+    label(text = ~ label)
   vars = collect_vars(chart)
   ('mpg' %in% vars)
   ('hp' %in% vars)
@@ -746,7 +746,7 @@ assert('build_config preserves labels text column in mark-level data', {
   df = data.frame(x = 1:3, y = 4:6, lbl = c('p', 'q', 'r'), z = 7:9)
   chart = g2() |>
     mark_point(data = df, encode = list(x = 'x', y = 'y')) |>
-    labels_(text = ~ lbl)
+    label(text = ~ lbl)
   cfg = build_config(chart)
   mark_data = cfg$children[[1]]$data$value
   ('x' %in% names(mark_data))

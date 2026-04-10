@@ -10,9 +10,8 @@
 #'   When `data` is a data frame, only columns referenced by the chart or
 #'   mark-level encodings are kept. Wrap it in [I()] to preserve all columns.
 #' @return The modified `g2` object.
-#' @export
 #' @examples
-#' g2(mtcars, hp ~ mpg) |> mark_('point')
+#' g2(mtcars, hp ~ mpg) |> mark_point()
 mark_ = function(chart = NULL, type, ...) {
   mod = check_chart(mark_, chart, c(if (!missing(type)) list(type), list(...)))
   if (!is.null(mod)) return(mod)

@@ -250,7 +250,7 @@ g2(df, y ~ x) |>
     data = list(list(x = 'A', x1 = 'B')),
     encode = list(x = 'x', x1 = 'x1')
   ) |>
-  labels_(text = '+133%')
+  label(text = '+133%')
 ```
 
 ## Box Plot
