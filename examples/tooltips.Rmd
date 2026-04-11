@@ -75,15 +75,11 @@ p |> tooltip_(crosshairsX = FALSE, crosshairsY = TRUE)
 ### Crosshairs Style
 
 Use `crosshairsStroke`, `crosshairsLineWidth`, `crosshairsLineDash`, and
-`crosshairsStrokeOpacity` to customize crosshair appearance. G2 defaults to
-`strokeOpacity = 0.5` (semi-transparent), which can make custom colors appear
-washed-out on a white background. Set `crosshairsStrokeOpacity = 1` for a
-fully opaque line.
+`crosshairsStrokeOpacity` to customize crosshair appearance.
 
 ```{r}
 p |> tooltip_(
-  crosshairs = TRUE, crosshairsStroke = 'tomato',
-  crosshairsLineWidth = 2, crosshairsStrokeOpacity = 1
+  crosshairs = TRUE, crosshairsStroke = 'tomato', crosshairsLineWidth = 2
 )
 ```
 
@@ -103,8 +99,7 @@ p |> tooltip_(crosshairsY = FALSE)
 The hover marker is the dot that snaps to the data point. Use `marker = FALSE`
 to hide it, or customize with `markerType`, `markerFill`, `markerStroke`, and
 `markerSize`. These examples use a line-only chart so the marker effect is
-clearly visible. The vertical crosshair that appears on hover is the default
-behavior of `mark_line()` and is not inherited from previous charts.
+clearly visible.
 
 ```{r}
 p_line = g2(air_monthly, Temp ~ Month) |> mark_line()
