@@ -17,19 +17,19 @@ g2(mtcars, hp ~ mpg,
 ## Simple Title
 
 ```{r}
-p |> title_('Motor Trend Cars')
+p |> header('Motor Trend Cars')
 ```
 
 ## Title with Subtitle
 
 ```{r}
-p |> title_('Motor Trend Cars', subtitle = 'mpg vs horsepower')
+p |> header('Motor Trend Cars', subtitle = 'mpg vs horsepower')
 ```
 
 ## Title Alignment
 
 ```{r}
-p |> title_('Right-aligned Title', align = 'right')
+p |> header('Right-aligned Title', align = 'right')
 ```
 
 ## Title on a Bar Chart
@@ -37,5 +37,5 @@ p |> title_('Right-aligned Title', align = 'right')
 ```{r}
 df = data.frame(x = c('A', 'B', 'C', 'D'), y = c(3, 7, 2, 5))
 g2(df, y ~ x) |>
-  title_('Simple Bar Chart', subtitle = 'Categories A-D')
+  header('Simple Bar Chart', subtitle = 'Categories A-D')
 ```

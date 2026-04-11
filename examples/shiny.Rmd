@@ -48,7 +48,7 @@ ui = fluidPage(
 server = function(input, output, session) {
   output$chart1 = renderG2({
     g2(mtcars, x = input$xvar, y = 'mpg') |>
-      title_(paste('mpg vs', input$xvar))
+      header(paste('mpg vs', input$xvar))
   })
 }
 

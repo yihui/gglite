@@ -327,7 +327,7 @@ assert('+ works with coord, facet, axis, legend, title, tooltip', {
     facet_rect(x = 'Species') +
     axis_x(title = 'Width') +
     legend_color(position = 'right') +
-    title_('Iris') +
+    header('Iris') +
     tooltip(FALSE)
   (chart$coords$type %==% 'polar')
   (chart$facet$type %==% 'facetRect')

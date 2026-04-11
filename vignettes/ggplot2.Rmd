@@ -32,7 +32,7 @@ you can get started quickly.
 | `coord_polar()` | `coord_polar()` | |
 | `facet_wrap()` / `facet_grid()` | `facet_rect()` / `facet_circle()` | |
 | `theme_minimal()` | `theme_light()` | |
-| `labs(title = ...)` | `title_(...)` | |
+| `labs(title = ...)` | `header(...)` | |
 | Static PNG/PDF | Interactive HTML/JS | Charts support tooltips, brushing, filtering |
 
 ## No non-standard evaluation
@@ -266,7 +266,7 @@ g2(mtcars, x = 'mpg', y = 'hp') |>
 
 ## Titles and labels
 
-In ggplot2 you use `labs()`; in gglite use `title_()`:
+In ggplot2 you use `labs()`; in gglite use `header()`:
 
 ::: flex-col
 ```r
@@ -280,7 +280,7 @@ ggplot(mtcars, aes(mpg, hp)) +
 ```r
 # gglite
 g2(mtcars, x = 'mpg', y = 'hp') |>
-  title_('Motor Trend Cars',
+  header('Motor Trend Cars',
     subtitle = 'mpg vs horsepower')
 ```
 :::
@@ -326,16 +326,16 @@ same expression:
 # ggplot2 style (+ operator)
 g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') +
   scale_color(palette = 'set2') +
-  title_('Iris Dataset')
+  header('Iris Dataset')
 
 # Pipe style (|> operator)
 g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
   scale_color(palette = 'set2') |>
-  title_('Iris Dataset')
+  header('Iris Dataset')
 
 # Mixed (both work fine together)
 g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') |>
-  scale_color(palette = 'set2') + title_('Iris Dataset')
+  scale_color(palette = 'set2') + header('Iris Dataset')
 ```
 
 ## Quick-reference cheat sheet
@@ -370,7 +370,7 @@ g2(data, x = 'col1', y = 'col2', color = 'col3')
 |> theme_dark()
 
 # Components
-|> title_('Title', subtitle = 'Subtitle')
+|> header('Title', subtitle = 'Subtitle')
 |> tooltip(crosshairs = TRUE)
 |> label(text = 'y')
 

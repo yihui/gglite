@@ -214,7 +214,7 @@ g2(wb, breaks ~ tension, color = ~ wool) |>
   transform_('normalizeY') |>
   axis_y(labelFormatter = '.0%') |>
   legend_color(position = 'right') |>
-  title_('Warp Breaks by Tension and Wool Type')
+  header('Warp Breaks by Tension and Wool Type')
 ```
 
 ### Custom Item Color

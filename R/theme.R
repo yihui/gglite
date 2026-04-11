@@ -19,10 +19,15 @@
 #' Per-chart `theme_()` settings are merged on top of the global option.
 #'
 #' @param chart A `g2` object.
-#' @param type Theme name string, or a list of custom theme options.
+#' @param type Theme name string or a list of custom theme options. Use the
+#'   specific wrappers (`theme_classic()`, `theme_dark()`, etc.) instead.
 #' @param ... Additional theme options merged with the type.
 #' @return The modified `g2` object.
-#' @noRd
+#' @examples
+#' p = g2(mtcars, hp ~ mpg)
+#' p |> theme_classic()
+#' p |> theme_dark()
+#' p |> theme_academy()
 theme_ = function(chart = NULL, type, ...) {
   mod = check_chart(theme_, chart, c(if (!missing(type)) list(type), list(...)))
   if (!is.null(mod)) return(mod)
@@ -34,51 +39,22 @@ theme_ = function(chart = NULL, type, ...) {
   chart
 }
 
-#' Set the Chart Theme
-#'
-#' Shortcut functions to apply a built-in G2 theme. Available themes:
-#' `theme_classic()` (default), `theme_classic_dark()`, `theme_light()`,
-#' `theme_dark()`, `theme_academy()`.
-#'
-#' @param chart A `g2` object.
-#' @param ... Additional theme options.
-#' @return The modified `g2` object.
+#' @rdname theme_
 #' @export
-#' @examples
-#' p = g2(mtcars, hp ~ mpg)
-#'
-#' # Classic (default) theme
-#' p |> theme_classic()
 theme_classic = function(chart = NULL, ...) theme_(chart, 'classic', ...)
 
-#' @rdname theme_classic
+#' @rdname theme_
 #' @export
-#' @examples
-#'
-#' # Classic dark theme
-#' p |> theme_classic_dark()
 theme_classic_dark = function(chart = NULL, ...) theme_(chart, 'classicDark', ...)
 
-#' @rdname theme_classic
+#' @rdname theme_
 #' @export
-#' @examples
-#'
-#' # Light theme
-#' p |> theme_light()
 theme_light = function(chart = NULL, ...) theme_(chart, 'light', ...)
 
-#' @rdname theme_classic
+#' @rdname theme_
 #' @export
-#' @examples
-#'
-#' # Dark theme
-#' p |> theme_dark()
 theme_dark = function(chart = NULL, ...) theme_(chart, 'dark', ...)
 
-#' @rdname theme_classic
+#' @rdname theme_
 #' @export
-#' @examples
-#'
-#' # Academy theme
-#' p |> theme_academy()
 theme_academy = function(chart = NULL, ...) theme_(chart, 'academy', ...)

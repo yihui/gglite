@@ -139,7 +139,7 @@ check_chart = function(fn, chart, args) {
 #' @param ... Aesthetic mappings as `name = ~column` formulas or a positional
 #'   formula for `x`/`y`. Character strings are also accepted.
 #' @param title Chart title string, a convenient alternative to piping into
-#'   [title_()] separately.
+#'   [header()] separately.
 #' @param subtitle Chart subtitle string.
 #' @return A `g2` object (S3 class).
 #' @import stats utils

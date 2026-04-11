@@ -270,7 +270,7 @@ You can still add scales, themes, titles, and other components as usual:
 ```{r}
 g2(mtcars, hp ~ mpg, color = ~ cyl) |>
   scale_color(type = 'ordinal') |>
-  title_('Motor Trend Cars')
+  header('Motor Trend Cars')
 ```
 
 If you add any `mark_*()`, automatic detection is skipped entirely, so explicit
@@ -284,13 +284,13 @@ multivariate series are reshaped to long format with `time`, `series`, and
 `value` columns. The auto-mark feature draws a line chart automatically:
 
 ```{r}
-g2(sunspot.year) |> title_('Yearly Sunspot Numbers (1700--1988)')
+g2(sunspot.year) |> header('Yearly Sunspot Numbers (1700--1988)')
 ```
 
 Multivariate time series produce one line per series:
 
 ```{r}
-g2(EuStockMarkets) |> title_('EU Stock Markets (1991--1998)')
+g2(EuStockMarkets) |> header('EU Stock Markets (1991--1998)')
 ```
 
 ## Scales
@@ -429,7 +429,7 @@ legends, and labels.
 
 ```{r}
 g2(mtcars, hp ~ mpg) |>
-  title_('Motor Trend Cars', subtitle = 'mpg vs horsepower')
+  header('Motor Trend Cars', subtitle = 'mpg vs horsepower')
 ```
 
 ### Tooltips
@@ -473,7 +473,7 @@ g2(df, y ~ x, color = ~ product) |>
   mark_interval() |>
   transform_('dodgeX') |>
   scale_color(range = c('#5470c6', '#91cc75')) |>
-  title_('Quarterly Sales', subtitle = 'By product line') |>
+  header('Quarterly Sales', subtitle = 'By product line') |>
   interact('tooltip') |>
   interact('elementHighlightByX') |>
   theme_classic()
@@ -488,14 +488,14 @@ produce identical charts:
 # Pipe style
 g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species) |>
   scale_color(palette = 'set2') |>
-  title_('Iris Dataset')
+  header('Iris Dataset')
 ```
 
 ```{r}
 # ggplot2 style
 g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species) +
   scale_color(palette = 'set2') +
-  title_('Iris Dataset')
+  header('Iris Dataset')
 ```
 
 You can mix modifiers freely---marks, scales, coordinates, themes, facets,
@@ -506,7 +506,7 @@ df = data.frame(x = c('A', 'B', 'C', 'D'), y = c(3, 7, 2, 5))
 g2(df, y ~ x, color = ~ x) +
   mark_interval() +
   coord_polar() +
-  title_('Polar Bar Chart') +
+  header('Polar Bar Chart') +
   theme_academy()
 ```
 

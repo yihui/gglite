@@ -17,7 +17,18 @@
 #' @param ... Scale options passed to G2 (e.g., `type = 'log'`, `nice = TRUE`,
 #'   `domain`, `range`, `zero = TRUE`).
 #' @return The modified `g2` object.
-#' @noRd
+#' @examples
+#' p = g2(mtcars, hp ~ mpg)
+#'
+#' # Log-scaled x axis
+#' p |> scale_x(type = 'log')
+#'
+#' # Square-root y axis
+#' p |> scale_y(type = 'sqrt')
+#'
+#' # Ordinal color palette
+#' g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species) |>
+#'   scale_color(palette = 'category10')
 scale_ = function(chart = NULL, field, ...) {
   mod = check_chart(scale_, chart, c(if (!missing(field)) list(field), list(...)))
   if (!is.null(mod)) return(mod)
@@ -29,65 +40,26 @@ scale_ = function(chart = NULL, field, ...) {
   chart
 }
 
-#' Configure a Scale
-#'
-#' Shortcut functions to add or modify scale settings for common aesthetic
-#' channels. When called immediately after a `mark_*()` function (or after
-#' `style_mark()`, `label()`, etc. that target the last mark), the scale is
-#' applied to that mark only. Otherwise it is applied at the chart level.
-#'
-#' @param chart A `g2` object.
-#' @param ... Scale options passed to G2 (e.g., `type = 'log'`, `nice = TRUE`,
-#'   `domain`, `range`, `zero = TRUE`).
-#' @return The modified `g2` object.
+#' @rdname scale_
 #' @export
-#' @examples
-#' p = g2(mtcars, hp ~ mpg)
-#'
-#' # Log-scaled x axis
-#' p |> scale_x(type = 'log')
 scale_x = function(chart = NULL, ...) scale_(chart, 'x', ...)
 
-#' @rdname scale_x
+#' @rdname scale_
 #' @export
-#' @examples
-#'
-#' # Square-root y axis
-#' p |> scale_y(type = 'sqrt')
 scale_y = function(chart = NULL, ...) scale_(chart, 'y', ...)
 
-#' @rdname scale_x
+#' @rdname scale_
 #' @export
-#' @examples
-#'
-#' # Ordinal color palette
-#' g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species) |>
-#'   scale_color(palette = 'category10')
 scale_color = function(chart = NULL, ...) scale_(chart, 'color', ...)
 
-#' @rdname scale_x
+#' @rdname scale_
 #' @export
-#' @examples
-#'
-#' # Size scale with custom range
-#' g2(mtcars, hp ~ mpg, size = ~ wt) |>
-#'   scale_size(range = c(2, 10))
 scale_size = function(chart = NULL, ...) scale_(chart, 'size', ...)
 
-#' @rdname scale_x
+#' @rdname scale_
 #' @export
-#' @examples
-#'
-#' # Custom shape range
-#' g2(iris, Sepal.Length ~ Sepal.Width, shape = ~ Species) |>
-#'   scale_shape(range = c('circle', 'square', 'triangle'))
 scale_shape = function(chart = NULL, ...) scale_(chart, 'shape', ...)
 
-#' @rdname scale_x
+#' @rdname scale_
 #' @export
-#' @examples
-#'
-#' # Opacity scale with custom range
-#' g2(mtcars, hp ~ mpg, opacity = ~ wt) |>
-#'   scale_opacity(range = c(0.2, 1))
 scale_opacity = function(chart = NULL, ...) scale_(chart, 'opacity', ...)

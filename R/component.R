@@ -11,35 +11,6 @@
 #' @param ... Axis options such as `title`, `labelFormatter`, `tickCount`,
 #'   `grid`, `position`, etc., or `FALSE` to hide.
 #' @return The modified `g2` object.
-#' @noRd
-axis_ = function(chart = NULL, channel, ...) {
-  mod = check_chart(axis_, chart, c(if (!missing(channel)) list(channel), list(...)))
-  if (!is.null(mod)) return(mod)
-  args = list(...)
-  is_hide = length(args) == 1 && is.logical(args[[1]])
-  val = if (is_hide) args[[1]] else args
-  if (mark_ctx(chart)) {
-    chart$layers[[length(chart$layers)]]$axis[[channel]] = val
-  } else {
-    chart$axes[[channel]] = val
-  }
-  chart
-}
-
-#' Configure an Axis
-#'
-#' Shortcut functions for `axis_(chart, 'x', ...)` and
-#' `axis_(chart, 'y', ...)`. Customise the axis for a positional channel.
-#' Set `...` to `FALSE` to hide the axis. When called immediately after a
-#' `mark_*()` function (or `style_mark()`, `label()`, etc.), the axis is
-#' applied to that mark only, enabling per-mark axis customization for
-#' dual-axis charts. Otherwise it applies at the chart level.
-#'
-#' @param chart A `g2` object.
-#' @param ... Axis options such as `title`, `labelFormatter`, `tickCount`,
-#'   `grid`, `position`, etc., or `FALSE` to hide.
-#' @return The modified `g2` object.
-#' @export
 #' @examples
 #' # Chart-level axis titles
 #' g2(mtcars, hp ~ mpg) |>
@@ -56,9 +27,25 @@ axis_ = function(chart = NULL, channel, ...) {
 #'   mark_line(encode = list(y = 'Wind')) |>
 #'   scale_y(independent = TRUE) |>
 #'   axis_y(position = 'right', grid = FALSE, title = 'Wind Speed (mph)')
+axis_ = function(chart = NULL, channel, ...) {
+  mod = check_chart(axis_, chart, c(if (!missing(channel)) list(channel), list(...)))
+  if (!is.null(mod)) return(mod)
+  args = list(...)
+  is_hide = length(args) == 1 && is.logical(args[[1]])
+  val = if (is_hide) args[[1]] else args
+  if (mark_ctx(chart)) {
+    chart$layers[[length(chart$layers)]]$axis[[channel]] = val
+  } else {
+    chart$axes[[channel]] = val
+  }
+  chart
+}
+
+#' @rdname axis_
+#' @export
 axis_x = function(chart = NULL, ...) axis_(chart, 'x', ...)
 
-#' @rdname axis_x
+#' @rdname axis_
 #' @export
 axis_y = function(chart = NULL, ...) axis_(chart, 'y', ...)
 
@@ -70,9 +57,14 @@ axis_y = function(chart = NULL, ...) axis_(chart, 'y', ...)
 #' @param chart A `g2` object.
 #' @param channel Visual channel name.
 #' @param ... Legend options such as `position` (`'top'`, `'bottom'`, `'left'`,
-#'   `'right'`), `layout`, `title`, etc.
+#'   `'right'`), `layout`, `title`, etc., or `FALSE` to hide.
 #' @return The modified `g2` object.
-#' @noRd
+#' @examples
+#' p = g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species)
+#' p |> legend_color(position = 'right')
+#'
+#' g2(mtcars, hp ~ mpg, size = ~ wt) |>
+#'   legend_size(position = 'bottom')
 legend_ = function(chart = NULL, channel, ...) {
   mod = check_chart(legend_, chart, c(if (!missing(channel)) list(channel), list(...)))
   if (!is.null(mod)) return(mod)
@@ -93,51 +85,23 @@ legend_ = function(chart = NULL, channel, ...) {
   chart
 }
 
-#' Configure a Legend
-#'
-#' Shortcut functions to customise the legend for a visual channel. Set
-#' `...` to `FALSE` to hide the legend.
-#'
-#' @param chart A `g2` object.
-#' @param ... Legend options such as `position` (`'top'`, `'bottom'`, `'left'`,
-#'   `'right'`), `layout`, `title`, etc., or `FALSE` to hide.
-#' @return The modified `g2` object.
+#' @rdname legend_
 #' @export
-#' @examples
-#' p = g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species)
-#'
-#' # Color legend via shortcut
-#' p |> legend_color(position = 'right')
 legend_color = function(chart = NULL, ...) legend_(chart, 'color', ...)
 
-#' @rdname legend_color
+#' @rdname legend_
 #' @export
-#' @examples
-#'
-#' # Size legend
-#' g2(mtcars, hp ~ mpg, size = ~ wt) |>
-#'   legend_size(position = 'bottom')
 legend_size = function(chart = NULL, ...) legend_(chart, 'size', ...)
 
-#' @rdname legend_color
+#' @rdname legend_
 #' @export
-#' @examples
-#'
-#' # Shape legend
-#' p = g2(iris, Sepal.Length ~ Sepal.Width, shape = ~ Species)
-#' p |> legend_shape(position = 'bottom')
 legend_shape = function(chart = NULL, ...) legend_(chart, 'shape', ...)
 
-#' @rdname legend_color
+#' @rdname legend_
 #' @export
-#' @examples
-#'
-#' # Opacity legend
-#' g2(mtcars, hp ~ mpg, opacity = ~ wt) |>
-#'   legend_opacity(position = 'bottom')
 legend_opacity = function(chart = NULL, ...) legend_(chart, 'opacity', ...)
 
-#' Set the Chart Title
+#' Set the Chart Header
 #'
 #' @param chart A `g2` object.
 #' @param text Title text string.
@@ -146,9 +110,9 @@ legend_opacity = function(chart = NULL, ...) legend_(chart, 'opacity', ...)
 #' @export
 #' @examples
 #' g2(mtcars, hp ~ mpg) |>
-#'   title_('Motor Trend Cars', subtitle = 'mpg vs hp')
-title_ = function(chart = NULL, text, ...) {
-  mod = check_chart(title_, chart, c(if (!missing(text)) list(text), list(...)))
+#'   header('Motor Trend Cars', subtitle = 'mpg vs hp')
+header = function(chart = NULL, text, ...) {
+  mod = check_chart(header, chart, c(if (!missing(text)) list(text), list(...)))
   if (!is.null(mod)) return(mod)
   dots = list(...)
   if (length(dots)) {
@@ -261,7 +225,9 @@ style_mark = function(chart = NULL, ...) {
 #' @param channel Positional channel: `'x'` or `'y'`.
 #' @param ... Slider options.
 #' @return The modified `g2` object.
-#' @noRd
+#' @examples
+#' p = g2(mtcars, hp ~ mpg)
+#' p |> slider_x() |> slider_y()
 slider_ = function(chart = NULL, channel, ...) {
   mod = check_chart(slider_, chart, c(if (!missing(channel)) list(channel), list(...)))
   if (!is.null(mod)) return(mod)
@@ -271,20 +237,11 @@ slider_ = function(chart = NULL, channel, ...) {
   chart
 }
 
-#' Add a Slider
-#'
-#' Add a range slider to a positional channel for zooming/panning.
-#'
-#' @param chart A `g2` object.
-#' @param ... Slider options.
-#' @return The modified `g2` object.
+#' @rdname slider_
 #' @export
-#' @examples
-#' p = g2(mtcars, hp ~ mpg)
-#' p |> slider_x() |> slider_y()
 slider_x = function(chart = NULL, ...) slider_(chart, 'x', ...)
 
-#' @rdname slider_x
+#' @rdname slider_
 #' @export
 slider_y = function(chart = NULL, ...) slider_(chart, 'y', ...)
 
@@ -296,7 +253,10 @@ slider_y = function(chart = NULL, ...) slider_(chart, 'y', ...)
 #' @param channel Positional channel: `'x'` or `'y'`.
 #' @param ... Scrollbar options.
 #' @return The modified `g2` object.
-#' @noRd
+#' @examples
+#' df = data.frame(x = 1:100, y = cumsum(rnorm(100)))
+#' p = g2(df, y ~ x) |> mark_line()
+#' p |> scroll_x() |> scroll_y()
 scroll_ = function(chart = NULL, channel, ...) {
   mod = check_chart(scroll_, chart, c(if (!missing(channel)) list(channel), list(...)))
   if (!is.null(mod)) return(mod)
@@ -306,20 +266,10 @@ scroll_ = function(chart = NULL, channel, ...) {
   chart
 }
 
-#' Add a Scrollbar
-#'
-#' Add a scrollbar to a positional channel for zooming/panning.
-#'
-#' @param chart A `g2` object.
-#' @param ... Scrollbar options.
-#' @return The modified `g2` object.
+#' @rdname scroll_
 #' @export
-#' @examples
-#' df = data.frame(x = 1:100, y = cumsum(rnorm(100)))
-#' p = g2(df, y ~ x) |> mark_line()
-#' p |> scroll_x() |> scroll_y()
 scroll_x = function(chart = NULL, ...) scroll_(chart, 'x', ...)
 
-#' @rdname scroll_x
+#' @rdname scroll_
 #' @export
 scroll_y = function(chart = NULL, ...) scroll_(chart, 'y', ...)

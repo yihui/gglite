@@ -6,7 +6,7 @@ assert('component functions set chart options', {
     theme_('dark') |>
     axis_('x', title = 'MPG') |>
     legend_('color', position = 'right') |>
-    title_('Cars')
+    header('Cars')
   (chart$theme$type %==% 'dark')
   # axis after mark goes to mark level
   (chart$layers[[1]]$axis$x$title %==% 'MPG')
