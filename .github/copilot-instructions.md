@@ -80,50 +80,80 @@ headless browsers** to make sure they can be rendered correctly and produce no
 errors in the browser console. The workflow is:
 
 1.  **Render to a full HTML page** — both `.Rmd` and `.R` files can be rendered
-    to `.html` via `litedown::fuse()`.
+    to `.html` via `litedown::fuse()`. The output is self-contained (all JS/CSS
+    embedded) because `embed_resources` is enabled in `copilot-setup-steps.yml`.
 
-2.  **Serve via a local HTTP server** (`file://` URLs don't work).
-
-    ``` bash
-    cd /path/to/html/dir
-    python3 -m http.server 8765 --bind 127.0.0.1 &
-    ```
-
-3.  **Open with Chromium under Xvfb** and enable remote debugging:
+2.  **Open with `google-chrome` under Xvfb** and enable remote debugging. Use
+    `google-chrome`, **not** `chromium` — `chromium` crashes in this
+    environment. Omit `--no-zygote` and `--single-process`; both cause crashes.
+    Use `file://` absolute paths — **Chrome cannot reach `127.0.0.1`** in this
+    sandbox so `http://` URLs always fail with a connection error.
 
     ``` bash
-    Xvfb :99 -screen 0 1280x1024x24 &
-    DISPLAY=:99 chromium --no-sandbox --disable-gpu \
-      --disable-dev-shm-usage --no-zygote \
+    Xvfb :99 -screen 0 1280x1024x24 2>/dev/null &
+    DISPLAY=:99 google-chrome --no-sandbox --disable-gpu \
+      --disable-dev-shm-usage \
       --remote-debugging-port=9222 \
-      "http://127.0.0.1:8765/foo.html" &
-    sleep 4   # wait for page + JS to execute
+      "about:blank" 2>/dev/null &
+    sleep 10   # wait for Chrome to start (needs ~10s in this environment)
     ```
 
     > **Important:** The `playwright-browser_*` tools are sandboxed from the
-    > loopback interface and will return `ERR_CONNECTION_REFUSED` for
-    > `127.0.0.1` URLs. Do **not** use them for local serving. Use the
-    > Chromium + CDP approach above instead.
+    > loopback interface. Do **not** use them for local pages. Use the
+    > `google-chrome` + CDP approach above instead.
 
-4.  **Query the live DOM via CDP** (Chrome DevTools Protocol):
+3.  **Query the live DOM via CDP** (Chrome DevTools Protocol) using Python's
+    `websockets` package (`pip install websockets`). Always pass
+    `max_size=10*1024*1024` to handle large embedded pages:
 
-    ``` bash
-    # Get the WebSocket debugger URL
-    WS=$(curl -s http://127.0.0.1:9222/json | \
-      python3 -c "import sys,json; print(json.load(sys.stdin)[0]['webSocketDebuggerUrl'])")
+    ``` python
+    import asyncio, json, base64
+    import websockets
 
-    # Evaluate JS in the page (e.g., count SVG elements)
-    node -e "
-    const ws = new (require('ws'))(process.env.WS);
-    ws.on('open', () => {
-      ws.send(JSON.stringify({id:1, method:'Runtime.evaluate',
-        params:{expression:'document.querySelectorAll(\"svg\").length'}}));
-    });
-    ws.on('message', d => { console.log(JSON.parse(d).result.result.value); process.exit(0); });
-    " WS="$WS"
+    WS_URL = (lambda: __import__('json').loads(
+        __import__('urllib.request', fromlist=['urlopen'])
+        .urlopen('http://127.0.0.1:9222/json').read()
+    )[0]['webSocketDebuggerUrl'])()
+
+    rid = [0]
+
+    async def send(ws, method, params=None):
+        rid[0] += 1; r = rid[0]
+        await ws.send(json.dumps({"id": r, "method": method, "params": params or {}}))
+        while True:
+            msg = json.loads(await asyncio.wait_for(ws.recv(), timeout=15))
+            if msg.get("id") == r: return msg.get("result", {})
+
+    async def js(ws, expr, await_promise=False):
+        return await send(ws, "Runtime.evaluate", {
+            "expression": expr, "awaitPromise": await_promise, "returnByValue": True
+        })
+
+    async def shot(ws, path):
+        r = await send(ws, "Page.captureScreenshot", {"format": "png"})
+        with open(path, "wb") as f: f.write(base64.b64decode(r.get("data","")))
+
+    async def main():
+        async with websockets.connect(WS_URL, max_size=10*1024*1024) as ws:
+            # Use file:// URL — http://127.0.0.1 is blocked in this sandbox
+            await send(ws, "Page.navigate",
+                {"url": "file:///absolute/path/to/foo.html"})
+            await asyncio.sleep(8)  # wait for G2 charts to render
+
+            r = await js(ws, "JSON.stringify({G2: typeof G2 !== 'undefined', "
+                             "c: document.querySelectorAll('canvas').length})")
+            print("Status:", r["result"]["value"])
+
+            # Hover over a canvas to trigger tooltip
+            await send(ws, "Input.dispatchMouseEvent",
+                {"type": "mouseMoved", "x": 400, "y": 300})
+            await asyncio.sleep(0.8)
+            await shot(ws, "/tmp/screenshot.png")
+
+    asyncio.run(main())
     ```
 
-5.  Verify:
+4.  Verify:
 
     -   The chart container element exists in the DOM.
     -   The G2 chart renders without JavaScript errors (check `console.error`).

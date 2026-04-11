@@ -10,7 +10,10 @@ tooltip(chart = NULL, ...)
 \item{chart}{A \code{g2} object.}
 
 \item{...}{Tooltip interaction options such as \code{shared}, \code{crosshairs},
-\code{marker}, \code{series}, \code{crosshairsStroke}, or \code{FALSE} to disable the tooltip.}
+\code{marker}, \code{series}, \code{crosshairsStroke}, \code{crosshairsLineWidth},
+\code{crosshairsStrokeOpacity}, or \code{FALSE} to disable the tooltip.
+Series marks (\code{mark_line()}, \code{mark_area()}) show a vertical crosshair by
+default (\code{crosshairsY = TRUE}); pass \code{crosshairs = FALSE} to suppress it.}
 }
 \value{
 The modified \code{g2} object.

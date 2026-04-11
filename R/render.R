@@ -203,7 +203,16 @@ build_config = function(chart) {
   if (length(chart$chart_title)) config$title = chart$chart_title
   config$tooltip = chart$tooltip_config
   config$slider = chart$sliders
-  config$scrollbar = chart$scrollbars
+  # G2's View composition propagates slider but not scrollbar to child marks,
+  # so we propagate it manually to each child mark's spec. clip = TRUE is also
+  # required so that rendered data is clipped to the scrolled viewport.
+  if (!is.null(chart$scrollbars)) {
+    config$clip = TRUE
+    for (i in seq_along(config$children)) {
+      cur = as.list(config$children[[i]]$scrollbar)
+      config$children[[i]]$scrollbar = modifyList(cur, as.list(chart$scrollbars))
+    }
+  }
   if (length(chart$layout)) config = modifyList(config, chart$layout)
   if (length(chart$canvas_extra)) config = modifyList(config, chart$canvas_extra)
 

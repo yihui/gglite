@@ -20,11 +20,12 @@ options apply across all marks in the chart.
 |--------|---------|-------------|
 | `FALSE` | — | Disable tooltip entirely |
 | `crosshairs` | `FALSE` | Show crosshairs on both axes (series marks only) |
-| `crosshairsX` | `FALSE` | Show vertical crosshair only (series marks only) |
-| `crosshairsY` | `FALSE` | Show horizontal crosshair only (series marks only) |
-| `crosshairsStroke` | `'#aaa'` | Crosshair line color |
-| `crosshairsLineWidth` | `2` | Crosshair line width in pixels |
+| `crosshairsX` | `FALSE` | Show horizontal crosshair only (series marks only) |
+| `crosshairsY` | `FALSE` | Show vertical crosshair only (series marks only) |
+| `crosshairsStroke` | `'#1b1e23'` | Crosshair line color |
+| `crosshairsLineWidth` | `1` | Crosshair line width in pixels |
 | `crosshairsLineDash` | `NULL` | Dash pattern, e.g. `c(4, 4)` |
+| `crosshairsStrokeOpacity` | `0.5` | Crosshair line opacity (0–1). Set to `1` for a fully opaque line |
 | `shared` | `FALSE` | Show all mark values at the same x position |
 | `groupName` | auto | Show series/group name prefix in tooltip items |
 | `marker` | `TRUE` | Show the hover marker dot |
@@ -60,8 +61,8 @@ p |> tooltip(crosshairs = TRUE)
 
 ### Crosshairs on One Axis Only
 
-`crosshairsX = TRUE` shows only the vertical line; `crosshairsY = TRUE` shows
-only the horizontal line.
+`crosshairsX = TRUE` shows only the horizontal line; `crosshairsY = TRUE` shows
+only the vertical line.
 
 ```{r}
 p |> tooltip(crosshairsX = TRUE, crosshairsY = FALSE)
@@ -73,11 +74,22 @@ p |> tooltip(crosshairsX = FALSE, crosshairsY = TRUE)
 
 ### Crosshairs Style
 
-Use `crosshairsStroke`, `crosshairsLineWidth`, and `crosshairsLineDash` to
-customize crosshair appearance.
+Use `crosshairsStroke`, `crosshairsLineWidth`, `crosshairsLineDash`, and
+`crosshairsStrokeOpacity` to customize crosshair appearance.
 
 ```{r}
 p |> tooltip(crosshairs = TRUE, crosshairsStroke = 'tomato', crosshairsLineWidth = 2)
+```
+
+### Default Crosshairs in Line Charts
+
+Series marks (`mark_line()`, `mark_area()`) show a **vertical crosshair by
+default** without any `tooltip()` call. This is controlled by G2's built-in
+`crosshairs: true` mark option. If you do not want crosshairs, pass
+`crosshairsY = FALSE` (or `crosshairs = FALSE`) to `tooltip()`:
+
+```{r}
+p |> tooltip(crosshairsY = FALSE)
 ```
 
 ### Marker Style

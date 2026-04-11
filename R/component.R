@@ -171,7 +171,10 @@ title_ = function(chart = NULL, text, ...) {
 #'
 #' @param chart A `g2` object.
 #' @param ... Tooltip interaction options such as `shared`, `crosshairs`,
-#'   `marker`, `series`, `crosshairsStroke`, or `FALSE` to disable the tooltip.
+#'   `marker`, `series`, `crosshairsStroke`, `crosshairsLineWidth`,
+#'   `crosshairsStrokeOpacity`, or `FALSE` to disable the tooltip.
+#'   Series marks (`mark_line()`, `mark_area()`) show a vertical crosshair by
+#'   default (`crosshairsY = TRUE`); pass `crosshairs = FALSE` to suppress it.
 #' @return The modified `g2` object.
 #' @export
 #' @examples
