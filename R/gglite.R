@@ -36,7 +36,7 @@ g2_cdn = function(chart = NULL) {
   )
 }
 
-g2_patches_cdn = 'https://cdn.jsdelivr.net/npm/@xiee/utils@v1.14.32/js/g2-patches.min.js'
+g2_patches_cdn = 'https://cdn.jsdelivr.net/npm/@xiee/utils@v1.14.34/js/g2-patches.min.js'
 
 #' @importFrom xfun js
 #' @export

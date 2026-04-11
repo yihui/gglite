@@ -83,8 +83,8 @@ errors in the browser console. The workflow is:
     to `.html` via `litedown::fuse()`. The output is self-contained (all JS/CSS
     embedded) because `embed_resources` is enabled in `copilot-setup-steps.yml`.
 
-2.  **Open with `google-chrome` under Xvfb** and enable remote debugging.
-    Use `google-chrome`, **not** `chromium` — `chromium` crashes in this
+2.  **Open with `google-chrome` under Xvfb** and enable remote debugging. Use
+    `google-chrome`, **not** `chromium` — `chromium` crashes in this
     environment. Omit `--no-zygote` and `--single-process`; both cause crashes.
     Use `file://` absolute paths — **Chrome cannot reach `127.0.0.1`** in this
     sandbox so `http://` URLs always fail with a connection error.
@@ -153,7 +153,7 @@ errors in the browser console. The workflow is:
     asyncio.run(main())
     ```
 
-5.  Verify:
+4.  Verify:
 
     -   The chart container element exists in the DOM.
     -   The G2 chart renders without JavaScript errors (check `console.error`).

@@ -192,22 +192,6 @@ tooltip_ = function(chart = NULL, ...) {
     chart$interactions[['tooltip']] = args[[1]]
     return(chart)
   }
-  # When crosshairs=TRUE without explicit crosshairsX/Y, set both explicitly.
-  # TODO: G2 bug — useThemeInteraction() mutates theme.tooltip via deepMix(),
-  # so crosshairsY:false set on a previous chart leaks into this one. Remove
-  # this block once g2-patches.min.js is updated with the structuredClone fix.
-  if (isTRUE(args$crosshairs) && is.null(args$crosshairsX) && is.null(args$crosshairsY)) {
-    args$crosshairsX = TRUE
-    args$crosshairsY = TRUE
-  }
-  # TODO: G2 bug — useThemeInteraction() mutates theme.tooltip via deepMix(),
-  # leaking options such as body=FALSE or marker=FALSE from an earlier chart on
-  # the same page into all later charts. Explicitly restating G2's own defaults
-  # here prevents that inherited state from taking effect. Remove these three
-  # lines once g2-patches.min.js is updated with the structuredClone fix.
-  if (is.null(args$body)) args$body = TRUE
-  if (is.null(args$marker)) args$marker = TRUE
-  if (is.null(args$shared)) args$shared = FALSE
   cur = if (is.list(chart$interactions[['tooltip']])) chart$interactions[['tooltip']] else list()
   chart$interactions[['tooltip']] = modifyList(cur, args)
   chart

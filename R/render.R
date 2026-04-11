@@ -191,18 +191,6 @@ build_config = function(chart) {
   }
 
   if (!is.null(chart$coords)) config$coordinate = chart$coords
-  # TODO: G2 bug — useThemeInteraction() mutates theme.tooltip via deepMix(),
-  # so options set on an earlier chart (e.g. body=FALSE, shared=TRUE) leak into
-  # charts that have no explicit tooltip_() call, such as mark-level tooltip
-  # examples. Injecting explicit safe defaults here shields every chart from
-  # that inherited state. Remove this block once g2-patches.min.js is updated
-  # with the structuredClone fix.
-  tip = chart$interactions[['tooltip']]
-  if (!isFALSE(tip)) {
-    defaults = list(body = TRUE, marker = TRUE, shared = FALSE)
-    chart$interactions[['tooltip']] = if (is.list(tip))
-      modifyList(defaults, tip) else defaults
-  }
   if (length(chart$interactions)) config$interaction = chart$interactions
   if (length(chart$axes)) config$axis = chart$axes
   # Default y-axis title for time series data (use data object name)
