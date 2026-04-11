@@ -30,7 +30,7 @@ legend_opacity(chart = NULL, ...)
 The modified \code{g2} object.
 }
 \description{
-Customise the legend for a visual channel (\code{'color'}, \code{'size'}, \code{'shape'},
+Customize the legend for a visual channel (\code{'color'}, \code{'size'}, \code{'shape'},
 \code{'opacity'}). Set to \code{FALSE} to hide.
 }
 \examples{

@@ -1,6 +1,6 @@
 #' Configure an Axis
 #'
-#' Customise the axis for a positional channel (`'x'` or `'y'`). Set to
+#' Customize the axis for a positional channel (`'x'` or `'y'`). Set to
 #' `FALSE` to hide the axis. When called immediately after a `mark_*()`
 #' function (or `style_mark()`, `label()`, etc.), the axis is applied to
 #' that mark only, enabling per-mark axis customization for dual-axis charts.
@@ -51,7 +51,7 @@ axis_y = function(chart = NULL, ...) axis_(chart, 'y', ...)
 
 #' Configure a Legend
 #'
-#' Customise the legend for a visual channel (`'color'`, `'size'`, `'shape'`,
+#' Customize the legend for a visual channel (`'color'`, `'size'`, `'shape'`,
 #' `'opacity'`). Set to `FALSE` to hide.
 #'
 #' @param chart A `g2` object.
@@ -101,24 +101,25 @@ legend_shape = function(chart = NULL, ...) legend_(chart, 'shape', ...)
 #' @export
 legend_opacity = function(chart = NULL, ...) legend_(chart, 'opacity', ...)
 
-#' Set the Chart Header
+#' Set the Chart Title
 #'
+#' Set the chart title and subtitle, as well as their styles.
 #' @param chart A `g2` object.
-#' @param text Title text string.
+#' @param title Title text string.
 #' @param ... Additional title options such as `subtitle`, `align`, `style`.
 #' @return The modified `g2` object.
 #' @export
 #' @examples
 #' g2(mtcars, hp ~ mpg) |>
 #'   header('Motor Trend Cars', subtitle = 'mpg vs hp')
-header = function(chart = NULL, text, ...) {
-  mod = check_chart(header, chart, c(if (!missing(text)) list(text), list(...)))
+header = function(chart = NULL, title, ...) {
+  mod = check_chart(header, chart, c(if (!missing(title)) list(title), list(...)))
   if (!is.null(mod)) return(mod)
   dots = list(...)
   if (length(dots)) {
-    chart$chart_title = c(list(title = text), dots)
+    chart$chart_title = c(list(title = title), dots)
   } else {
-    chart$chart_title = text
+    chart$chart_title = title
   }
   chart
 }

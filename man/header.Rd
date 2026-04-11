@@ -2,14 +2,14 @@
 % Please edit documentation in R/component.R
 \name{header}
 \alias{header}
-\title{Set the Chart Header}
+\title{Set the Chart Title}
 \usage{
-header(chart = NULL, text, ...)
+header(chart = NULL, title, ...)
 }
 \arguments{
 \item{chart}{A \code{g2} object.}
 
-\item{text}{Title text string.}
+\item{title}{Title text string.}
 
 \item{...}{Additional title options such as \code{subtitle}, \code{align}, \code{style}.}
 }
@@ -17,7 +17,7 @@ header(chart = NULL, text, ...)
 The modified \code{g2} object.
 }
 \description{
-Set the Chart Header
+Set the chart title and subtitle, as well as their styles.
 }
 \examples{
 g2(mtcars, hp ~ mpg) |>

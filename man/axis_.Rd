@@ -24,7 +24,7 @@ axis_y(chart = NULL, ...)
 The modified \code{g2} object.
 }
 \description{
-Customise the axis for a positional channel (\code{'x'} or \code{'y'}). Set to
+Customize the axis for a positional channel (\code{'x'} or \code{'y'}). Set to
 \code{FALSE} to hide the axis. When called immediately after a \verb{mark_*()}
 function (or \code{style_mark()}, \code{label()}, etc.), the axis is applied to
 that mark only, enabling per-mark axis customization for dual-axis charts.
