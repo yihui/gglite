@@ -218,6 +218,10 @@ build_config = function(chart) {
 
   # Theme: merge global option with per-chart theme
   theme = modifyList(as.list(getOption('gglite.theme')), as.list(chart$theme))
+  # For dark themes, auto-set the view background so facet subplots get a dark
+  # background (G2 uses transparent by default, making axis/grid hard to see).
+  if (isTRUE(theme$type %in% c('dark', 'classicDark')))
+    theme = modifyList(list(view = list(viewFill = '#141414')), theme)
   if (length(theme)) config$theme = theme
 
   # Faceting wraps the spec as a facet view
@@ -293,7 +297,7 @@ chart_html = function(chart, id = NULL, width = NULL, height = NULL) {
   dark = isTRUE(chart$theme$type %in% c('dark', 'classicDark'))
   w = if (!is.null(width)) paste0('width:', width, 'px;') else ''
   h = if (!is.null(height)) paste0('height:', height, 'px;') else ''
-  bg = if (dark) 'background-color:#141414;' else ''
+  bg = if (dark) 'background-color:#141414;'
 
   if (!is.null(threshold)) {
     # Ensure container has min-height so IntersectionObserver can trigger

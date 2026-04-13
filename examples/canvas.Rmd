@@ -27,7 +27,9 @@ pushing axis tick labels inward. Each argument accepts a scalar (all sides) or
 `c(top, right, bottom, left)` with `NA` to skip individual sides.
 
 ```{r}
-p |> canvas(padding = c(0, 150, NA, 100), margin = 10, inset = c(10, 0, 20, -20))
+p |>
+  canvas(margin = 10, padding = c(10, 150, NA, 100), inset = c(10, 0, 20, -20)) |> 
+  theme_light(view = list(viewFill = '#fff3bf', plotFill = '#ffc9c9', mainFill = '#a5d8ff'))
 ```
 
 ## Renderer

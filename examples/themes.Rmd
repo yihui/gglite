@@ -11,6 +11,24 @@ Themes control the overall visual appearance of the chart. Use helpers like
 `theme_classic()`, `theme_dark()`, `theme_light()`, `theme_classic_dark()`,
 and `theme_academy()` to set a built-in theme.
 
+G2 provides five built-in themes in two pairs plus one standalone:
+
+- **`classic` vs `light`**: both use a light background, but differ only in
+  their default color palette for categorical data. `light` uses the AntV Light
+  palette (e.g. `#1783FF`, `#00C9C9`, …), while `classic` (the default) uses
+  G2's `category10` palette (e.g. `#5B8FF9`, `#5AD8A6`, …). When there is only
+  a single data series, the two themes look identical because only one color is
+  used.
+
+- **`dark` vs `classicDark`**: the same relationship as above but on a dark
+  background (`#141414`). `dark` uses the AntV Light palette colors on a dark
+  canvas; `classicDark` uses the `category10` palette colors on a dark canvas.
+  The only visible difference is the multi-series color palette.
+
+- **`academy`**: a distinct style with custom fonts, color ramps, and decorative
+  grid filters; it is not related to the classic/light or dark/classicDark
+  pairs.
+
 ## Classic Theme (default)
 
 ```{r}
