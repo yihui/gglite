@@ -58,22 +58,25 @@ assert('light theme does not propagate viewFill to facet children', {
   (is.null(config$children[[1]]$theme$view))
 })
 
-assert('dark theme injects mainStroke on facet children', {
+assert('dark theme injects border colors on facet children', {
   chart = g2(mtcars, hp ~ mpg | cyl) |> theme_dark()
   config = build_config(chart)
-  (config$children[[1]]$style$mainStroke %==% '#555')
+  (config$children[[1]]$style$mainStroke %==% 'rgba(255,255,255,0.25)')
+  (config$children[[1]]$style$viewStroke %==% 'rgba(255,255,255,0.25)')
 })
 
-assert('classicDark theme injects mainStroke on facet children', {
+assert('classicDark theme injects border colors on facet children', {
   chart = g2(iris, Sepal.Length ~ Sepal.Width | Species) |> theme_classic_dark()
   config = build_config(chart)
-  (config$children[[1]]$style$mainStroke %==% '#555')
+  (config$children[[1]]$style$mainStroke %==% 'rgba(255,255,255,0.25)')
+  (config$children[[1]]$style$viewStroke %==% 'rgba(255,255,255,0.25)')
 })
 
-assert('light theme does not inject mainStroke on facet children', {
+assert('light theme does not inject border colors on facet children', {
   chart = g2(iris, Sepal.Length ~ Sepal.Width | Species)
   config = build_config(chart)
   (is.null(config$children[[1]]$style$mainStroke))
+  (is.null(config$children[[1]]$style$viewStroke))
 })
 
 assert('user-provided mainStroke is not overwritten by dark theme', {

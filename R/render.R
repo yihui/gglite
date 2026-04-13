@@ -228,16 +228,23 @@ build_config = function(chart) {
   # that G2 applies it to every subplot view. Without this, G2's facetRect
   # creates child views with no theme, causing them to fall back to the
   # default light theme (transparent background, light axis/grid colors).
-  # Also inject a visible mainStroke on each child so that facetRect's
-  # frame=TRUE border (hardcoded to '#000' in G2's plot.ts) is visible
-  # against a dark background. G2 uses deepMix({mainStroke:'#000'}, style),
-  # so a value in style overrides the hardcoded default.
+  # Also inject visible border colors on each child so subplot outlines are
+  # legible against the dark background:
+  #   - mainStroke: frame=TRUE in plot.ts hardcodes '#000'; override via
+  #     style so G2's deepMix({mainStroke:'#000'}, style) uses our value.
+  #   - viewStroke: @antv/g defaults rect stroke to black; set it explicitly
+  #     so the outer subplot outline is visible against the dark background.
   if (!is.null(chart$facet) && length(theme) && length(config$children)) {
     dark_facet = isTRUE(theme$type %in% c('dark', 'classicDark'))
     config$children = lapply(config$children, function(ch) {
       if (is.null(ch$theme)) ch = modifyList(ch, list(theme = theme))
-      if (dark_facet && is.null(ch$style$mainStroke))
-        ch$style = modifyList(ch$style %||% list(), list(mainStroke = '#555'))
+      if (dark_facet) {
+        border_col = 'rgba(255,255,255,0.25)'
+        sty = ch$style %||% list()
+        if (is.null(sty$mainStroke)) sty$mainStroke = border_col
+        if (is.null(sty$viewStroke)) sty$viewStroke = border_col
+        ch$style = sty
+      }
       ch
     })
   }
