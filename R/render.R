@@ -237,7 +237,7 @@ build_config = function(chart) {
     config$children = lapply(config$children, function(ch) {
       if (is.null(ch$theme)) ch = modifyList(ch, list(theme = theme))
       if (dark_facet && is.null(ch$style$mainStroke))
-        ch$style = modifyList(as.list(ch$style), list(mainStroke = '#555'))
+        ch$style = modifyList(ch$style %||% list(), list(mainStroke = '#555'))
       ch
     })
   }
