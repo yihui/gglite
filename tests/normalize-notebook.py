@@ -12,7 +12,7 @@ import json, re, sys
 
 def strip_cdn_versions(s: str) -> str:
     """Remove version specifiers (e.g. @5, @v0.14.34) from CDN URLs in src/href attributes."""
-    return re.sub(r'((src|href)="https://[^"]*?)/@v?\d+(?:\.\d+)*', r'\1', s)
+    return re.sub(r'((src|href)="https://[^"]*?)@v?\d+(?:\.\d+)*', r'\1', s)
 
 
 def normalize_value(v):

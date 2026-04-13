@@ -79,9 +79,18 @@ Since gglite generates HTML/JavaScript visualizations, **plots must be tested in
 headless browsers** to make sure they can be rendered correctly and produce no
 errors in the browser console. The workflow is:
 
-1.  **Render to a full HTML page** — both `.Rmd` and `.R` files can be rendered
-    to `.html` via `litedown::fuse()`. The output is self-contained (all JS/CSS
-    embedded) because `embed_resources` is enabled in `copilot-setup-steps.yml`.
+> **Prefer SVG rendering for headless tests.** Set
+> `options(gglite.renderer = 'svg')` before calling `litedown::fuse()` so the
+> rendered output contains an `<svg>` element that you can inspect directly in
+> the DOM. SVG attributes (fill, stroke, etc.) are directly readable without
+> relying on canvas pixel values, making theme and style verification much
+> easier. Use `document.querySelectorAll('svg rect[fill]')` or similar to check
+> theme properties.
+
+1.  **Render to a full HTML page** — set `options(gglite.renderer = 'svg')`,
+    then render both `.Rmd` and `.R` files to `.html` via `litedown::fuse()`.
+    The output is self-contained (all JS/CSS embedded) because `embed_resources`
+    is enabled in `copilot-setup-steps.yml`.
 
 2.  **Open with `google-chrome` under Xvfb** and enable remote debugging. Use
     `google-chrome`, **not** `chromium` — `chromium` crashes in this
@@ -140,14 +149,19 @@ errors in the browser console. The workflow is:
                 {"url": "file:///absolute/path/to/foo.html"})
             await asyncio.sleep(8)  # wait for G2 charts to render
 
+            # For SVG renderer: inspect element attributes directly
             r = await js(ws, "JSON.stringify({G2: typeof G2 !== 'undefined', "
-                             "c: document.querySelectorAll('canvas').length})")
+                             "svgs: document.querySelectorAll('svg').length})")
             print("Status:", r["result"]["value"])
 
-            # Hover over a canvas to trigger tooltip
-            await send(ws, "Input.dispatchMouseEvent",
-                {"type": "mouseMoved", "x": 400, "y": 300})
-            await asyncio.sleep(0.8)
+            # Example: check area fill color for dark theme
+            r2 = await js(ws, """
+            var areas = Array.from(document.querySelectorAll('.area'));
+            JSON.stringify(areas.map(el => ({fill: el.getAttribute('fill'),
+                                             stroke: el.getAttribute('stroke')})))
+            """)
+            print("Area elements:", r2["result"]["value"])
+
             await shot(ws, "/tmp/screenshot.png")
 
     asyncio.run(main())
@@ -158,6 +172,8 @@ errors in the browser console. The workflow is:
     -   The chart container element exists in the DOM.
     -   The G2 chart renders without JavaScript errors (check `console.error`).
     -   No warnings or errors appear in the browser console.
+    -   For SVG renderer: inspect element attributes (fill, stroke) directly to
+        verify theme colors.
 
 ### Submitting Plot Changes in PRs
 

@@ -218,11 +218,37 @@ build_config = function(chart) {
 
   # Theme: merge global option with per-chart theme
   theme = modifyList(as.list(getOption('gglite.theme')), as.list(chart$theme))
-  # For dark themes, auto-set the view background so facet subplots get a dark
-  # background (G2 uses transparent by default, making axis/grid hard to see).
+  # For dark themes, auto-set the view background so the chart and facet
+  # subplots get a dark background (G2 uses transparent by default).
   if (isTRUE(theme$type %in% c('dark', 'classicDark')))
     theme = modifyList(list(view = list(viewFill = '#141414')), theme)
   if (length(theme)) config$theme = theme
+
+  # For faceted charts, propagate the resolved theme to each child mark so
+  # that G2 applies it to every subplot view. Without this, G2's facetRect
+  # creates child views with no theme, causing them to fall back to the
+  # default light theme (transparent background, light axis/grid colors).
+  # Also inject visible border colors on each child via viewStyle (NOT style
+  # — G2's mark composition moves 'style' to the mark renderer, while
+  # 'viewStyle' becomes the view's style used for background area rectangles):
+  #   - mainStroke: frame=TRUE in plot.ts hardcodes '#000'; override via
+  #     viewStyle so G2's deepMix({mainStroke:'#000'}, viewStyle) uses ours.
+  #   - viewStroke: @antv/g defaults rect stroke to black; set explicitly
+  #     so the outer subplot outline is visible on the dark background.
+  if (!is.null(chart$facet) && length(theme) && length(config$children)) {
+    dark_facet = isTRUE(theme$type %in% c('dark', 'classicDark'))
+    config$children = lapply(config$children, function(ch) {
+      if (is.null(ch$theme)) ch = modifyList(ch, list(theme = theme))
+      if (dark_facet) {
+        border_col = 'rgba(255,255,255,0.25)'
+        vsty = ch$viewStyle %||% list()
+        if (is.null(vsty$mainStroke)) vsty$mainStroke = border_col
+        if (is.null(vsty$viewStroke)) vsty$viewStroke = border_col
+        ch$viewStyle = vsty
+      }
+      ch
+    })
+  }
 
   # Faceting wraps the spec as a facet view
   if (!is.null(chart$facet)) {
