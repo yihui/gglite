@@ -50,7 +50,7 @@ Maps data values to angular extent. Used for pie and donut charts.
 
 ```{r}
 pc |>
-  transform_('stackY') |>
+  transform('stackY') |>
   coord_theta()
 ```
 
@@ -58,7 +58,7 @@ pc |>
 
 ```{r}
 pc |>
-  transform_('stackY') |>
+  transform('stackY') |>
   coord_theta(innerRadius = 0.5)
 ```
 

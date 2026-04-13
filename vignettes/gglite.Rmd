@@ -331,7 +331,7 @@ g2(df, y ~ x, color = ~ x) |>
 ```{r}
 g2(df, y ~ x, color = ~ x) |>
   mark_interval() |>
-  transform_('stackY') |>
+  transform('stackY') |>
   coord_theta(innerRadius = 0.5)
 ```
 
@@ -347,7 +347,7 @@ g2(df, y ~ x) |>
 
 ## Transforms
 
-Transforms modify the data before rendering. Use `transform_()` to apply
+Transforms modify the data before rendering. Use `transform()` to apply
 statistical or layout transforms:
 
 ### Stacked bars
@@ -359,7 +359,7 @@ df = data.frame(
 )
 g2(df, y ~ x, color = ~ color) |>
   mark_interval() |>
-  transform_('stackY')
+  transform('stackY')
 ```
 
 ### Dodged bars
@@ -367,7 +367,7 @@ g2(df, y ~ x, color = ~ color) |>
 ```{r}
 g2(df, y ~ x, color = ~ color) |>
   mark_interval() |>
-  transform_('dodgeX')
+  transform('dodgeX')
 ```
 
 ### Stacked area chart
@@ -379,7 +379,7 @@ df = data.frame(
 )
 g2(df, y ~ x, color = ~ group) |>
   mark_area() |>
-  transform_('stackY')
+  transform('stackY')
 ```
 
 ## Facets
@@ -445,7 +445,7 @@ g2(mtcars, hp ~ mpg) |>
 df = data.frame(x = c('A', 'B', 'C', 'D'), y = c(3, 7, 2, 5))
 g2(df, y ~ x) |>
   mark_interval() |>
-  label(text = ~ y)
+  labels(text = ~ y)
 ```
 
 ## Interactions
@@ -471,7 +471,7 @@ df = data.frame(
 )
 g2(df, y ~ x, color = ~ product) |>
   mark_interval() |>
-  transform_('dodgeX') |>
+  transform('dodgeX') |>
   scale_color(range = c('#5470c6', '#91cc75')) |>
   header('Quarterly Sales', subtitle = 'By product line') |>
   interact('tooltip') |>

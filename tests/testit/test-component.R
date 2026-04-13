@@ -32,3 +32,28 @@ assert('slider_x() and scroll_y() are shortcuts', {
   (isTRUE(chart$sliders$x))
   (isTRUE(chart$scrollbars$y))
 })
+
+assert('labels() S3 dispatch works with |>', {
+  df = data.frame(x = c('A', 'B'), y = c(3, 7))
+  chart = g2(df, y ~ x) |> mark_interval() |> labels(text = ~ y)
+  (length(chart$layers[[1]]$labels) %==% 1L)
+})
+
+assert('labels.g2() deferred modifier works with +', {
+  df = data.frame(x = c('A', 'B'), y = c(3, 7))
+  chart = g2(df, y ~ x) |> mark_interval()
+  result = chart + labels.g2(text = ~ y)
+  (length(result$layers[[1]]$labels) %==% 1L)
+})
+
+assert('style_view() sets theme view fills', {
+  chart = g2() |> style_view(padding = '#ffc9c9', plot = '#a5d8ff')
+  (chart$theme$view$viewFill %==% '#ffc9c9')
+  (chart$theme$view$plotFill %==% '#a5d8ff')
+})
+
+assert('style_view() sets container bg', {
+  chart = g2() |> style_view(margin = '#fff3bf')
+  (chart$bg %==% '#fff3bf')
+})
+

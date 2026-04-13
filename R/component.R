@@ -2,7 +2,7 @@
 #'
 #' Customize the axis for a positional channel (`'x'` or `'y'`). Set to
 #' `FALSE` to hide the axis. When called immediately after a `mark_*()`
-#' function (or `style_mark()`, `label()`, etc.), the axis is applied to
+#' function (or `style_mark()`, `labels()`, etc.), the axis is applied to
 #' that mark only, enabling per-mark axis customization for dual-axis charts.
 #' Otherwise it applies at the chart level.
 #'
@@ -177,25 +177,30 @@ tooltip = function(chart = NULL, ...) {
 #' Add Labels to the Last Mark
 #'
 #' Append a label configuration to the most recently added mark. Can be called
-#' multiple times to add several label layers.
+#' multiple times to add several label layers. This is an S3 method on
+#' [base::labels()], so `chart |> labels(...)` dispatches here automatically.
+#' For the `+` deferred-modifier syntax use `labels.g2(...)` directly, e.g.
+#' `chart + labels.g2(text = ~ y)`.
 #'
-#' @param chart A `g2` object.
+#' @param object A `g2` object.
 #' @param ... Label options such as `text` (channel name as `~col` or
 #'   `'col'`), `position`, `formatter`, `style`.
 #' @return The modified `g2` object.
 #' @export
+#' @rawNamespace export(labels.g2)
 #' @examples
 #' df = data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2))
-#' g2(df, y ~ x) |>
-#'   label(text = ~ y, position = 'inside')
-label = function(chart = NULL, ...) {
-  mod = check_chart(label, chart, list(...))
+#' p = g2(df, y ~ x)
+#' p |> labels(text = ~ y)
+#' p |> labels(text = ~ y, position = 'inside')
+labels.g2 = function(object = NULL, ...) {
+  mod = check_chart(labels.g2, object, list(...))
   if (!is.null(mod)) return(mod)
-  was_empty = !length(chart$layers)
-  if (was_empty) chart = ensure_mark(chart)
-  n = if (was_empty) 1L else length(chart$layers)
-  chart$layers[[n]]$labels = c(chart$layers[[n]]$labels, list(as_vars(list(...))))
-  chart
+  was_empty = !length(object$layers)
+  if (was_empty) object = ensure_mark(object)
+  n = if (was_empty) 1L else length(object$layers)
+  object$layers[[n]]$labels = c(object$layers[[n]]$labels, list(as_vars(list(...))))
+  object
 }
 
 #' Set Style on the Last Mark

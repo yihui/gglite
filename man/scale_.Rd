@@ -39,7 +39,7 @@ The modified \code{g2} object.
 \description{
 Add or modify scale settings for a given aesthetic channel. When called
 immediately after a \verb{mark_*()} function (or after \code{style_mark()},
-\code{label()}, etc. that target the last mark), the scale is applied to that
+\code{labels()}, etc. that target the last mark), the scale is applied to that
 mark only. Otherwise it is applied at the chart level and affects all marks.
 This context-sensitivity enables dual-axis charts: pipe \code{scale_y()} right
 after each mark to give it its own independent y scale.

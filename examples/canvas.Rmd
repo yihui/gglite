@@ -30,6 +30,17 @@ pushing axis tick labels inward. Each argument accepts a scalar (all sides) or
 p |> canvas(padding = c(0, 150, NA, 100), margin = 10, inset = c(10, 0, 20, -20))
 ```
 
+Use `style_view()` to apply background colors to the three regions so their
+extents become visible. The `margin` argument sets the CSS container background,
+`padding` colors the area where axis labels live, and `plot` colors the data
+rendering area.
+
+```{r}
+p |>
+  canvas(margin = 20, padding = 60, inset = 20) |>
+  style_view(margin = '#fff3bf', padding = '#ffc9c9', plot = '#a5d8ff')
+```
+
 ## Renderer
 
 G2 ships two bundles with different trade-offs:

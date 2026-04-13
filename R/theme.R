@@ -58,3 +58,63 @@ theme_dark = function(chart = NULL, ...) theme_(chart, 'dark', ...)
 #' @rdname theme_
 #' @export
 theme_academy = function(chart = NULL, ...) theme_(chart, 'academy', ...)
+
+#' Style Plot Region Backgrounds
+#'
+#' Set background fill colors for the different spatial regions of a G2 chart.
+#' This is especially useful for visualizing how `margin`, `padding`, and
+#' `inset` affect the layout (see [canvas()]).
+#'
+#' The chart area is organized as nested layers:
+#'
+#' \describe{
+#'   \item{`margin`}{Outermost area — space outside the chart container. Set as
+#'     a CSS `background-color` on the container `<div>`.}
+#'   \item{`padding`}{Inside the container but outside the plot area — where
+#'     axis tick labels are drawn. Set via `theme.view.viewFill`.}
+#'   \item{`plot`}{The plot area where data marks are rendered. Set via
+#'     `theme.view.plotFill`.}
+#'   \item{`inset`}{Inside the plot area, surrounding the innermost data region.
+#'     Set via `theme.view.mainFill`.}
+#'   \item{`content`}{The innermost data region (inside `inset`). Set via
+#'     `theme.view.contentFill`.}
+#' }
+#'
+#' @param chart A `g2` object.
+#' @param margin CSS background color for the margin area (outside the chart).
+#' @param padding Background fill for the padding area (between chart edge and
+#'   plot area, where axis labels live).
+#' @param plot Background fill for the plot area (where data is rendered).
+#' @param inset Background fill for the main area inside the inset spacing.
+#' @param content Background fill for the innermost content area.
+#' @return The modified `g2` object.
+#' @export
+#' @examples
+#' # Visualize the three layout regions with distinct colors
+#' g2(mtcars, hp ~ mpg) |>
+#'   canvas(margin = 20, padding = 60, inset = 20) |>
+#'   style_view(margin = '#fff3bf', padding = '#ffc9c9', plot = '#a5d8ff')
+style_view = function(
+  chart = NULL, margin = NULL, padding = NULL,
+  plot = NULL, inset = NULL, content = NULL
+) {
+  args = list(
+    margin = margin, padding = padding,
+    plot = plot, inset = inset, content = content
+  )
+  mod = check_chart(style_view, chart, args)
+  if (!is.null(mod)) return(mod)
+  if (!is.null(margin)) chart$bg = margin
+  fills = dropNulls(list(
+    viewFill = padding, plotFill = plot,
+    mainFill = inset, contentFill = content
+  ))
+  if (length(fills)) {
+    cur_view = as.list(chart$theme$view)
+    chart$theme = modifyList(
+      as.list(chart$theme),
+      list(view = modifyList(cur_view, fills))
+    )
+  }
+  chart
+}
