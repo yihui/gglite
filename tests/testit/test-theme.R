@@ -58,12 +58,28 @@ assert('light theme does not propagate viewFill to facet children', {
   (is.null(config$children[[1]]$theme$view))
 })
 
-assert('theme not overwritten when child already has a theme', {
+assert('dark theme injects mainStroke on facet children', {
   chart = g2(mtcars, hp ~ mpg | cyl) |> theme_dark()
   config = build_config(chart)
-  config$children[[1]]$theme = list(type = 'classic')
-  # simulating that a user-provided child theme is not clobbered
-  ch = config$children[[1]]
-  ch_with_theme = if (is.null(ch$theme)) modifyList(ch, list(theme = list(type = 'dark'))) else ch
-  (ch_with_theme$theme$type %==% 'classic')
+  (config$children[[1]]$style$mainStroke %==% '#555')
 })
+
+assert('classicDark theme injects mainStroke on facet children', {
+  chart = g2(iris, Sepal.Length ~ Sepal.Width | Species) |> theme_classic_dark()
+  config = build_config(chart)
+  (config$children[[1]]$style$mainStroke %==% '#555')
+})
+
+assert('light theme does not inject mainStroke on facet children', {
+  chart = g2(iris, Sepal.Length ~ Sepal.Width | Species)
+  config = build_config(chart)
+  (is.null(config$children[[1]]$style$mainStroke))
+})
+
+assert('user-provided mainStroke is not overwritten by dark theme', {
+  chart = g2(mtcars, hp ~ mpg | cyl) |> theme_dark() |>
+    mark_point(style = list(mainStroke = '#ff0000'))
+  config = build_config(chart)
+  (config$children[[1]]$style$mainStroke %==% '#ff0000')
+})
+

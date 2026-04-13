@@ -228,10 +228,19 @@ build_config = function(chart) {
   # that G2 applies it to every subplot view. Without this, G2's facetRect
   # creates child views with no theme, causing them to fall back to the
   # default light theme (transparent background, light axis/grid colors).
-  if (!is.null(chart$facet) && length(theme) && length(config$children))
-    config$children = lapply(config$children, function(ch)
-      if (is.null(ch$theme)) modifyList(ch, list(theme = theme)) else ch
-    )
+  # Also inject a visible mainStroke on each child so that facetRect's
+  # frame=TRUE border (hardcoded to '#000' in G2's plot.ts) is visible
+  # against a dark background. G2 uses deepMix({mainStroke:'#000'}, style),
+  # so a value in style overrides the hardcoded default.
+  if (!is.null(chart$facet) && length(theme) && length(config$children)) {
+    dark_facet = isTRUE(theme$type %in% c('dark', 'classicDark'))
+    config$children = lapply(config$children, function(ch) {
+      if (is.null(ch$theme)) ch = modifyList(ch, list(theme = theme))
+      if (dark_facet && is.null(ch$style$mainStroke))
+        ch$style = modifyList(as.list(ch$style), list(mainStroke = '#555'))
+      ch
+    })
+  }
 
   # Faceting wraps the spec as a facet view
   if (!is.null(chart$facet)) {
