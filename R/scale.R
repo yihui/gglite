@@ -2,7 +2,7 @@
 #'
 #' Add or modify scale settings for a given aesthetic channel. When called
 #' immediately after a `mark_*()` function (or after `style_mark()`,
-#' `label()`, etc. that target the last mark), the scale is applied to that
+#' `labels()`, etc. that target the last mark), the scale is applied to that
 #' mark only. Otherwise it is applied at the chart level and affects all marks.
 #' This context-sensitivity enables dual-axis charts: pipe `scale_y()` right
 #' after each mark to give it its own independent y scale.

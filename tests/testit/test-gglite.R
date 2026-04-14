@@ -314,9 +314,9 @@ assert('+ works with encode()', {
   (chart$aesthetics$y %==% 'hp')
 })
 
-assert('+ works with transform_()', {
+assert('+ works with transform()', {
   chart = g2(mtcars, x = 'mpg', y = 'hp') +
-    mark_interval() + transform_('stackY')
+    mark_interval() + transform('stackY')
   (length(chart$layers[[1]]$transform) %==% 1L)
   (chart$layers[[1]]$transform[[1]]$type %==% 'stackY')
 })
@@ -327,7 +327,7 @@ assert('+ works with coord, facet, axis, legend, title, tooltip', {
     facet_rect(x = 'Species') +
     axis_x(title = 'Width') +
     legend_color(position = 'right') +
-    header('Iris') +
+    title('Iris') +
     tooltip(FALSE)
   (chart$coords$type %==% 'polar')
   (chart$facet$type %==% 'facetRect')
@@ -366,19 +366,19 @@ assert('facet_circle() accepts formula variables', {
   (chart$facet$encode$position %==% 'Species')
 })
 
-assert('label() accepts formula for text', {
+assert('labels() accepts formula for text', {
   df = data.frame(x = c('A', 'B'), y = c(1, 2))
   chart = g2(df, y ~ x) |>
     mark_interval() |>
-    label(text = ~ y)
+    labels(text = ~ y)
   (chart$layers[[1]]$labels[[1]]$text %==% 'y')
 })
 
-assert('+ works with animate, label, style_mark', {
+assert('+ works with animate, labels, style_mark', {
   chart = g2(mtcars, x = 'mpg', y = 'hp') +
     mark_point() +
     animate(enter = list(type = 'fadeIn')) +
-    label(text = 'hp') +
+    labels(text = 'hp') +
     style_mark(fill = 'red')
   (chart$layers[[1]]$animate$enter$type %==% 'fadeIn')
   (length(chart$layers[[1]]$labels) %==% 1L)
@@ -677,7 +677,7 @@ assert('collect_vars includes layer encode vars when layer data is a transform s
 assert('collect_vars includes labels text vars for layers without own data', {
   chart = g2(iris, Sepal.Length ~ Sepal.Width) |>
     mark_point() |>
-    label(text = ~ Petal.Length)
+    labels(text = ~ Petal.Length)
   vars = collect_vars(chart)
   ('Sepal.Length' %in% vars)
   ('Sepal.Width' %in% vars)
@@ -689,7 +689,7 @@ assert('collect_vars excludes labels text vars when layer has own data', {
   df2 = data.frame(x = 1:3, y = 4:6, label = c('a', 'b', 'c'))
   chart = g2(mtcars, hp ~ mpg) |>
     mark_point(data = df2, encode = list(x = 'x', y = 'y')) |>
-    label(text = ~ label)
+    labels(text = ~ label)
   vars = collect_vars(chart)
   ('mpg' %in% vars)
   ('hp' %in% vars)
@@ -746,7 +746,7 @@ assert('build_config preserves labels text column in mark-level data', {
   df = data.frame(x = 1:3, y = 4:6, lbl = c('p', 'q', 'r'), z = 7:9)
   chart = g2() |>
     mark_point(data = df, encode = list(x = 'x', y = 'y')) |>
-    label(text = ~ lbl)
+    labels(text = ~ lbl)
   cfg = build_config(chart)
   mark_data = cfg$children[[1]]$data$value
   ('x' %in% names(mark_data))

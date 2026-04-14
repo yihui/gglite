@@ -38,7 +38,7 @@ mark_ = function(chart = NULL, type, ...) {
 #'   color = rep(c('a', 'b'), 2)
 #' )
 #' g2(df, y ~ x, color = ~ color) |>
-#'   mark_interval() |> transform_('stackY')
+#'   mark_interval() |> transform('stackY')
 mark_interval = function(chart = NULL, ...) mark_(chart, 'interval', ...)
 
 #' @details `mark_line()`: Add a line mark (connects points sorted by x).

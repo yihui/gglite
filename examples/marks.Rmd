@@ -79,14 +79,14 @@ df = data.frame(
   color = rep(c('a', 'b'), 3)
 )
 g2(df, y ~ x, color = ~ color) |>
-  mark_interval() |> transform_('stackY')
+  mark_interval() |> transform('stackY')
 ```
 
 ### Grouped (dodged) bar
 
 ```{r}
 g2(df, y ~ x, color = ~ color) |>
-  mark_interval() |> transform_('dodgeX')
+  mark_interval() |> transform('dodgeX')
 ```
 
 ## Area
@@ -104,7 +104,7 @@ df = data.frame(
   group = rep(c('A', 'B'), each = 5)
 )
 g2(df, y ~ x, color = ~ group) |>
-  mark_area() |> transform_('stackY')
+  mark_area() |> transform('stackY')
 ```
 
 ## Rect
@@ -112,7 +112,7 @@ g2(df, y ~ x, color = ~ group) |>
 ```{r}
 g2(mtcars, hp ~ mpg) |>
   mark_rect() |>
-  transform_('bin', thresholdsX = 10, thresholdsY = 10)
+  transform('bin', thresholdsX = 10, thresholdsY = 10)
 ```
 
 ## Cell
@@ -250,7 +250,7 @@ g2(df, y ~ x) |>
     data = list(list(x = 'A', x1 = 'B')),
     encode = list(x = 'x', x1 = 'x1')
   ) |>
-  label(text = '+133%')
+  labels(text = '+133%')
 ```
 
 ## Box Plot

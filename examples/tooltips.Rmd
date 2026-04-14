@@ -210,11 +210,11 @@ p_bar |> mark_interval(tooltip = list(channel = 'y', name = 'Avg Temp', valueFor
 wb = aggregate(breaks ~ wool + tension, data = warpbreaks, FUN = mean)
 g2(wb, breaks ~ tension, color = ~ wool) |>
   mark_interval(tooltip = list(channel = 'y', valueFormatter = '.2%')) |>
-  transform_('stackY') |>
-  transform_('normalizeY') |>
+  transform('stackY') |>
+  transform('normalizeY') |>
   axis_y(labelFormatter = '.0%') |>
   legend_color(position = 'right') |>
-  header('Warp Breaks by Tension and Wool Type')
+  title('Warp Breaks by Tension and Wool Type')
 ```
 
 ### Custom Item Color

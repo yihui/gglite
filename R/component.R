@@ -2,7 +2,7 @@
 #'
 #' Customize the axis for a positional channel (`'x'` or `'y'`). Set to
 #' `FALSE` to hide the axis. When called immediately after a `mark_*()`
-#' function (or `style_mark()`, `label()`, etc.), the axis is applied to
+#' function (or `style_mark()`, `labels()`, etc.), the axis is applied to
 #' that mark only, enabling per-mark axis customization for dual-axis charts.
 #' Otherwise it applies at the chart level.
 #'
@@ -104,23 +104,67 @@ legend_opacity = function(chart = NULL, ...) legend_(chart, 'opacity', ...)
 #' Set the Chart Title
 #'
 #' Set the chart title and subtitle, as well as their styles.
-#' @param chart A `g2` object.
-#' @param title Title text string.
-#' @param ... Additional title options such as `subtitle`, `align`, `style`.
-#' @return The modified `g2` object.
+#'
+#' When called as `title('string')` with an active graphics device that already
+#' has a plot drawn (i.e., `dev.cur() > 1` and `!par('page')`), the call is
+#' dispatched to [graphics::title()].  Otherwise a deferred modifier is
+#' created so it can be used in a `|>` pipeline.
+#'
+#' **Note for `+` users:** `g2_chart + title('string')` is ambiguous when a
+#' graphics device is active.  Use the named argument explicitly to guarantee
+#' gglite behavior: `g2_chart + title(main = 'string')`.  With `|>` there is
+#' no ambiguity because the chart object is passed as the first argument.
+#'
+#' @param chart A `g2` object passed via `|>`, or `NULL` when using `+`.
+#' @param main Title text string.
+#' @param ... Additional title options such as `subtitle`, `align`, `style`,
+#'   or arguments forwarded to [graphics::title()].
+#' @return The modified `g2` object, or the result of [graphics::title()].
 #' @export
 #' @examples
 #' g2(mtcars, hp ~ mpg) |>
-#'   header('Motor Trend Cars', subtitle = 'mpg vs hp')
-header = function(chart = NULL, title, ...) {
-  mod = check_chart(header, chart, c(if (!missing(title)) list(title), list(...)))
+#'   title('Motor Trend Cars', subtitle = 'mpg vs hp')
+#' @importFrom grDevices dev.cur
+#' @importFrom graphics par
+title = function(chart = NULL, main, ...) {
+  if (is.character(chart) && dev.cur() > 1L && !par('page'))
+    return(graphics::title(main = chart, ...))
+  mod = check_chart(title, chart, c(if (!missing(main)) list(main), list(...)))
   if (!is.null(mod)) return(mod)
   dots = list(...)
   if (length(dots)) {
-    chart$chart_title = c(list(title = title), dots)
+    chart$chart_title = c(list(title = main), dots)
   } else {
-    chart$chart_title = title
+    chart$chart_title = main
   }
+  chart
+}
+
+#' Add Labels to the Last Mark
+#'
+#' Append a label configuration to the most recently added mark. Can be called
+#' multiple times to add several label layers. When the first argument is not a
+#' `g2` object or `NULL`, the call is dispatched to [base::labels()].
+#'
+#' @param chart A `g2` object, `NULL` (for deferred use with `+`), or any
+#'   object to be passed to [base::labels()].
+#' @param ... Label options such as `text` (channel name as `~col` or
+#'   `'col'`), `position`, `formatter`, `style`, or arguments passed to
+#'   [base::labels()].
+#' @return The modified `g2` object, or the result of [base::labels()].
+#' @export
+#' @examples
+#' df = data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2))
+#' g2(df, y ~ x) |>
+#'   labels(text = ~ y, position = 'inside')
+labels = function(chart = NULL, ...) {
+  if (not_g2(chart)) return(base::labels(chart, ...))
+  mod = check_chart(labels, chart, list(...))
+  if (!is.null(mod)) return(mod)
+  was_empty = !length(chart$layers)
+  if (was_empty) chart = ensure_mark(chart)
+  n = if (was_empty) 1L else length(chart$layers)
+  chart$layers[[n]]$labels = c(chart$layers[[n]]$labels, list(as_vars(list(...))))
   chart
 }
 
@@ -171,30 +215,6 @@ tooltip = function(chart = NULL, ...) {
   }
   cur = if (is.list(chart$interactions[['tooltip']])) chart$interactions[['tooltip']] else list()
   chart$interactions[['tooltip']] = modifyList(cur, args)
-  chart
-}
-
-#' Add Labels to the Last Mark
-#'
-#' Append a label configuration to the most recently added mark. Can be called
-#' multiple times to add several label layers.
-#'
-#' @param chart A `g2` object.
-#' @param ... Label options such as `text` (channel name as `~col` or
-#'   `'col'`), `position`, `formatter`, `style`.
-#' @return The modified `g2` object.
-#' @export
-#' @examples
-#' df = data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2))
-#' g2(df, y ~ x) |>
-#'   label(text = ~ y, position = 'inside')
-label = function(chart = NULL, ...) {
-  mod = check_chart(label, chart, list(...))
-  if (!is.null(mod)) return(mod)
-  was_empty = !length(chart$layers)
-  if (was_empty) chart = ensure_mark(chart)
-  n = if (was_empty) 1L else length(chart$layers)
-  chart$layers[[n]]$labels = c(chart$layers[[n]]$labels, list(as_vars(list(...))))
   chart
 }
 

@@ -254,7 +254,7 @@ df = data.frame(
   color = rep(c('a', 'b'), 2)
 )
 g2(df, y ~ x, color = ~ color) |>
-  mark_interval() |> transform_('stackY')
+  mark_interval() |> transform('stackY')
 
 # Line and area chart
 df = data.frame(x = 1:5, y = c(3, 1, 4, 1, 5))

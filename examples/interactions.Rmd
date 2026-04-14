@@ -36,7 +36,7 @@ df = data.frame(
 )
 pd = g2(df, y ~ x, color = ~ color) |>
   mark_interval() |>
-  transform_('dodgeX')
+  transform('dodgeX')
 pd |> interact('elementHighlightByX')
 ```
 

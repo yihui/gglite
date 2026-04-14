@@ -270,7 +270,7 @@ You can still add scales, themes, titles, and other components as usual:
 ```{r}
 g2(mtcars, hp ~ mpg, color = ~ cyl) |>
   scale_color(type = 'ordinal') |>
-  header('Motor Trend Cars')
+  title('Motor Trend Cars')
 ```
 
 If you add any `mark_*()`, automatic detection is skipped entirely, so explicit
@@ -284,13 +284,13 @@ multivariate series are reshaped to long format with `time`, `series`, and
 `value` columns. The auto-mark feature draws a line chart automatically:
 
 ```{r}
-g2(sunspot.year) |> header('Yearly Sunspot Numbers (1700--1988)')
+g2(sunspot.year) |> title('Yearly Sunspot Numbers (1700--1988)')
 ```
 
 Multivariate time series produce one line per series:
 
 ```{r}
-g2(EuStockMarkets) |> header('EU Stock Markets (1991--1998)')
+g2(EuStockMarkets) |> title('EU Stock Markets (1991--1998)')
 ```
 
 ## Scales
@@ -331,7 +331,7 @@ g2(df, y ~ x, color = ~ x) |>
 ```{r}
 g2(df, y ~ x, color = ~ x) |>
   mark_interval() |>
-  transform_('stackY') |>
+  transform('stackY') |>
   coord_theta(innerRadius = 0.5)
 ```
 
@@ -347,7 +347,7 @@ g2(df, y ~ x) |>
 
 ## Transforms
 
-Transforms modify the data before rendering. Use `transform_()` to apply
+Transforms modify the data before rendering. Use `transform()` to apply
 statistical or layout transforms:
 
 ### Stacked bars
@@ -359,7 +359,7 @@ df = data.frame(
 )
 g2(df, y ~ x, color = ~ color) |>
   mark_interval() |>
-  transform_('stackY')
+  transform('stackY')
 ```
 
 ### Dodged bars
@@ -367,7 +367,7 @@ g2(df, y ~ x, color = ~ color) |>
 ```{r}
 g2(df, y ~ x, color = ~ color) |>
   mark_interval() |>
-  transform_('dodgeX')
+  transform('dodgeX')
 ```
 
 ### Stacked area chart
@@ -379,7 +379,7 @@ df = data.frame(
 )
 g2(df, y ~ x, color = ~ group) |>
   mark_area() |>
-  transform_('stackY')
+  transform('stackY')
 ```
 
 ## Facets
@@ -429,7 +429,7 @@ legends, and labels.
 
 ```{r}
 g2(mtcars, hp ~ mpg) |>
-  header('Motor Trend Cars', subtitle = 'mpg vs horsepower')
+  title('Motor Trend Cars', subtitle = 'mpg vs horsepower')
 ```
 
 ### Tooltips
@@ -445,7 +445,7 @@ g2(mtcars, hp ~ mpg) |>
 df = data.frame(x = c('A', 'B', 'C', 'D'), y = c(3, 7, 2, 5))
 g2(df, y ~ x) |>
   mark_interval() |>
-  label(text = ~ y)
+  labels(text = ~ y)
 ```
 
 ## Interactions
@@ -471,9 +471,9 @@ df = data.frame(
 )
 g2(df, y ~ x, color = ~ product) |>
   mark_interval() |>
-  transform_('dodgeX') |>
+  transform('dodgeX') |>
   scale_color(range = c('#5470c6', '#91cc75')) |>
-  header('Quarterly Sales', subtitle = 'By product line') |>
+  title('Quarterly Sales', subtitle = 'By product line') |>
   interact('tooltip') |>
   interact('elementHighlightByX') |>
   theme_classic()
@@ -488,14 +488,14 @@ produce identical charts:
 # Pipe style
 g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species) |>
   scale_color(palette = 'set2') |>
-  header('Iris Dataset')
+  title('Iris Dataset')
 ```
 
 ```{r}
 # ggplot2 style
 g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species) +
   scale_color(palette = 'set2') +
-  header('Iris Dataset')
+  title('Iris Dataset')
 ```
 
 You can mix modifiers freely---marks, scales, coordinates, themes, facets,
@@ -506,7 +506,7 @@ df = data.frame(x = c('A', 'B', 'C', 'D'), y = c(3, 7, 2, 5))
 g2(df, y ~ x, color = ~ x) +
   mark_interval() +
   coord_polar() +
-  header('Polar Bar Chart') +
+  title('Polar Bar Chart') +
   theme_academy()
 ```
 

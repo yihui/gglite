@@ -464,4 +464,8 @@ register_methods = function(pkgs, generics) {
     c('knitr', 'repr', 'repr'),
     c('knit_print', 'repr_html', 'repr_text')
   )
+  if (exists('conflictRules', baseenv())) conflictRules(
+    'gglite',
+    mask.ok = list(base = c('labels', 'transform'), graphics = 'title')
+  )
 }

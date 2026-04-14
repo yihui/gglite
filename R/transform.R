@@ -2,6 +2,8 @@
 #'
 #' Append a data transform to the most recently added mark. G2 transforms
 #' correspond roughly to ggplot2's `stat_*()` and `position_*()` functions.
+#' When the first argument is not a `g2` object or a transform type string,
+#' the call is dispatched to [base::transform()].
 #'
 #' Common transforms: `'stackY'` (stack, like `position_stack()`), `'dodgeX'`
 #' (dodge, like `position_dodge()`), `'normalizeY'` (normalize to 100%, like
@@ -14,10 +16,12 @@
 #' `'sample'` (down-sample), `'pack'` (circle-packing layout), `'flexX'`
 #' (flexible x spacing, Marimekko charts).
 #'
-#' @param chart A `g2` object.
+#' @param chart A `g2` object, a transform type string (for deferred use with
+#'   `+`), or any object to be passed to [base::transform()].
 #' @param type Transform type string.
-#' @param ... Additional transform options.
-#' @return The modified `g2` object.
+#' @param ... Additional transform options, or expressions passed to
+#'   [base::transform()] when `chart` is a data frame.
+#' @return The modified `g2` object, or the result of [base::transform()].
 #' @export
 #' @examples
 #' # Stacked bar chart
@@ -27,29 +31,34 @@
 #' )
 #' g2(df, y ~ x, color = ~ color) |>
 #'   mark_interval() |>
-#'   transform_('stackY')
+#'   transform('stackY')
 #'
 #' # Grouped (dodged) bar chart
 #' g2(df, y ~ x, color = ~ color) |>
 #'   mark_interval() |>
-#'   transform_('dodgeX')
+#'   transform('dodgeX')
 #'
 #' # Percent stacked bar (normalizeY + stackY)
 #' g2(df, y ~ x, color = ~ color) |>
 #'   mark_interval() |>
-#'   transform_('stackY') |>
-#'   transform_('normalizeY')
+#'   transform('stackY') |>
+#'   transform('normalizeY')
 #'
 #' # Jitter on a scatter plot
 #' g2(mtcars, hp ~ cyl) |>
-#'   transform_('jitterX')
+#'   transform('jitterX')
 #'
 #' # Histogram using binX
 #' g2(mtcars, ~ mpg) |>
 #'   mark_interval(encode = list(y = 'count')) |>
-#'   transform_('binX', thresholds = 15)
-transform_ = function(chart = NULL, type, ...) {
-  mod = check_chart(transform_, chart, c(if (!missing(type)) list(type), list(...)))
+#'   transform('binX', thresholds = 15)
+#'
+#' # Base R dispatch: add a computed column to a data frame
+#' transform(mtcars, kpl = mpg * 0.4251)
+transform = function(chart = NULL, type, ...) {
+  if (not_g2(chart) && !is.character(chart))
+    return(base::transform(chart, ...))
+  mod = check_chart(transform, chart, c(if (!missing(type)) list(type), list(...)))
   if (!is.null(mod)) return(mod)
   was_empty = !length(chart$layers)
   if (was_empty) chart = ensure_mark(chart)

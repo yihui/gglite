@@ -70,8 +70,8 @@ p = g2(df, y ~ x, color = ~ x)
 g2(df, y ~ x) |> coord_polar()
 
 # Theta coordinate (pie / donut chart)
-p |> transform_('stackY') |> coord_theta()
-p |> transform_('stackY') |> coord_theta(innerRadius = 0.5)
+p |> transform('stackY') |> coord_theta()
+p |> transform('stackY') |> coord_theta(innerRadius = 0.5)
 
 # Radial coordinate (radial bar chart)
 p |> coord_radial()

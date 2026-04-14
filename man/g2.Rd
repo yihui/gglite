@@ -20,7 +20,7 @@ inside inline JavaScript functions that cannot be statically detected.}
 formula for \code{x}/\code{y}. Character strings are also accepted.}
 
 \item{title}{Chart title string, a convenient alternative to piping into
-\code{\link[=header]{header()}} separately.}
+\code{\link[=title]{title()}} separately.}
 
 \item{subtitle}{Chart subtitle string.}
 }
