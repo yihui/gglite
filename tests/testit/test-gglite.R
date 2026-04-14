@@ -321,13 +321,13 @@ assert('+ works with transform()', {
   (chart$layers[[1]]$transform[[1]]$type %==% 'stackY')
 })
 
-assert('+ works with coord, facet, axis, legend, title, tooltip', {
+assert('+ works with coord, facet, axis, legend, titles, tooltip', {
   chart = g2(iris, x = 'Sepal.Width', y = 'Sepal.Length', color = 'Species') +
     coord_polar() +
     facet_rect(x = 'Species') +
     axis_x(title = 'Width') +
     legend_color(position = 'right') +
-    title('Iris') +
+    titles('Iris') +
     tooltip(FALSE)
   (chart$coords$type %==% 'polar')
   (chart$facet$type %==% 'facetRect')
@@ -359,6 +359,20 @@ assert('facet_rect() accepts formula variables', {
   (chart$facet$encode$x %==% 'Species')
 })
 
+assert('facet_rect() accepts unnamed one-sided formula', {
+  chart = g2(iris, Sepal.Length ~ Sepal.Width) |>
+    facet_rect(~ Species)
+  (chart$facet$type %==% 'facetRect')
+  (chart$facet$encode$x %==% 'Species')
+})
+
+assert('facet_rect() accepts unnamed two-sided formula y ~ x', {
+  df = data.frame(x = 1, y = 1, sex = 'M', species = 'A')
+  chart = g2(df, y ~ x) |> facet_rect(sex ~ species)
+  (chart$facet$encode$x %==% 'species')
+  (chart$facet$encode$y %==% 'sex')
+})
+
 assert('facet_circle() accepts formula variables', {
   chart = g2(iris, Sepal.Length ~ Sepal.Width) |>
     facet_circle(position = ~ Species)
@@ -366,7 +380,7 @@ assert('facet_circle() accepts formula variables', {
   (chart$facet$encode$position %==% 'Species')
 })
 
-assert('labels() accepts formula for text', {
+assert('labels.g2() accepts formula for text', {
   df = data.frame(x = c('A', 'B'), y = c(1, 2))
   chart = g2(df, y ~ x) |>
     mark_interval() |>
@@ -374,11 +388,47 @@ assert('labels() accepts formula for text', {
   (chart$layers[[1]]$labels[[1]]$text %==% 'y')
 })
 
+assert('labels.character() creates g2_mod for + operator', {
+  df = data.frame(x = c('A', 'B'), y = c(1, 2))
+  chart = g2(df, y ~ x) |> mark_interval() + labels('y')
+  (chart$layers[[1]]$labels[[1]]$text %==% 'y')
+})
+
+assert('labels.formula() creates g2_mod for + operator', {
+  df = data.frame(x = c('A', 'B'), y = c(1, 2))
+  chart = g2(df, y ~ x) |> mark_interval() + labels(~ y)
+  (chart$layers[[1]]$labels[[1]]$text %==% 'y')
+})
+
+assert('transform.g2() appends transform to last mark', {
+  df = data.frame(x = rep(c('A', 'B'), 2), y = 1:4, g = rep(c('a','b'), each=2))
+  chart = g2(df, y ~ x, color = ~ g) |>
+    mark_interval() |>
+    transform('stackY')
+  (chart$layers[[1]]$transform[[1]]$type %==% 'stackY')
+})
+
+assert('transform.character() creates g2_mod for + operator', {
+  df = data.frame(x = rep(c('A', 'B'), 2), y = 1:4, g = rep(c('a','b'), each=2))
+  chart = g2(df, y ~ x, color = ~ g) |> mark_interval() + transform('dodgeX')
+  (chart$layers[[1]]$transform[[1]]$type %==% 'dodgeX')
+})
+
+assert('base transform() still works for data frames', {
+  df = transform(mtcars, kpl = mpg * 0.4251)
+  (is.data.frame(df))
+  ('kpl' %in% names(df))
+})
+
+assert('base labels() still works for non-g2 objects', {
+  (is.character(labels(1:5)))
+})
+
 assert('+ works with animate, labels, style_mark', {
   chart = g2(mtcars, x = 'mpg', y = 'hp') +
     mark_point() +
     animate(enter = list(type = 'fadeIn')) +
-    labels(text = 'hp') +
+    labels('hp') +
     style_mark(fill = 'red')
   (chart$layers[[1]]$animate$enter$type %==% 'fadeIn')
   (length(chart$layers[[1]]$labels) %==% 1L)

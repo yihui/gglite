@@ -88,13 +88,6 @@ check_chart = function(fn, chart, args) {
   g2_mod(fn, c(if (!is.null(chart)) list(chart), args))
 }
 
-# Returns TRUE when chart is not NULL, not a g2 object, and not a g2_mod:
-# used by transform(), labels(), and title() to decide whether to dispatch
-# to the base R function.
-not_g2 = function(chart) {
-  !is.null(chart) && !inherits(chart, 'g2') && !inherits(chart, 'g2_mod')
-}
-
 #' Add a Modifier to a G2 Chart
 #'
 #' Enables ggplot2-style `+` syntax for building charts. The right-hand side
@@ -146,7 +139,7 @@ not_g2 = function(chart) {
 #' @param ... Aesthetic mappings as `name = ~column` formulas or a positional
 #'   formula for `x`/`y`. Character strings are also accepted.
 #' @param title Chart title string, a convenient alternative to piping into
-#'   [title()] separately.
+#'   [titles()] separately.
 #' @param subtitle Chart subtitle string.
 #' @return A `g2` object (S3 class).
 #' @import stats utils

@@ -2,8 +2,6 @@
 #'
 #' Append a data transform to the most recently added mark. G2 transforms
 #' correspond roughly to ggplot2's `stat_*()` and `position_*()` functions.
-#' When the first argument is not a `g2` object or a transform type string,
-#' the call is dispatched to [base::transform()].
 #'
 #' Common transforms: `'stackY'` (stack, like `position_stack()`), `'dodgeX'`
 #' (dodge, like `position_dodge()`), `'normalizeY'` (normalize to 100%, like
@@ -16,12 +14,15 @@
 #' `'sample'` (down-sample), `'pack'` (circle-packing layout), `'flexX'`
 #' (flexible x spacing, Marimekko charts).
 #'
-#' @param chart A `g2` object, a transform type string (for deferred use with
-#'   `+`), or any object to be passed to [base::transform()].
-#' @param type Transform type string.
-#' @param ... Additional transform options, or expressions passed to
-#'   [base::transform()] when `chart` is a data frame.
-#' @return The modified `g2` object, or the result of [base::transform()].
+#' **Caution when using `+`:** S3 dispatch requires that the first argument is
+#' unnamed. Use `p + transform('stackY')` (not
+#' `p + transform(type = 'stackY')`). See `?transform.g2` for the full API.
+#'
+#' @param _data A `g2` object (via `|>`) or a transform type string (for
+#'   deferred use with `+`).
+#' @param type Transform type string (e.g., `'stackY'`, `'dodgeX'`).
+#' @param ... Additional transform options (e.g., `thresholds`, `y`).
+#' @return The modified `g2` object (or a `g2_mod` when `_data` is a string).
 #' @export
 #' @examples
 #' # Stacked bar chart
@@ -53,17 +54,20 @@
 #'   mark_interval(encode = list(y = 'count')) |>
 #'   transform('binX', thresholds = 15)
 #'
-#' # Base R dispatch: add a computed column to a data frame
-#' transform(mtcars, kpl = mpg * 0.4251)
-transform = function(chart = NULL, type, ...) {
-  if (not_g2(chart) && !is.character(chart))
-    return(base::transform(chart, ...))
-  mod = check_chart(transform, chart, c(if (!missing(type)) list(type), list(...)))
-  if (!is.null(mod)) return(mod)
+#' # With + operator (first argument must be unnamed)
+#' g2(df, y ~ x, color = ~ color) |> mark_interval() + transform('stackY')
+transform.g2 = function(`_data`, type, ...) {
+  chart = `_data`
   was_empty = !length(chart$layers)
   if (was_empty) chart = ensure_mark(chart)
   n = if (was_empty) 1L else length(chart$layers)
   t = c(list(type = type), list(...))
   chart$layers[[n]]$transform = c(chart$layers[[n]]$transform, list(t))
   chart
+}
+
+#' @rdname transform.g2
+#' @export
+transform.character = function(`_data`, ...) {
+  g2_mod(transform.g2, c(list(type = `_data`), list(...)))
 }

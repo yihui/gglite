@@ -13,7 +13,7 @@ circular faceting.
 
 ```{r}
 g2(iris, Sepal.Length ~ Sepal.Width) |>
-  facet_rect(x = ~ Species)
+  facet_rect(~ Species)
 ```
 
 ## Rectangular Facet (by y)
@@ -32,14 +32,14 @@ df = data.frame(
   b = sample(c('X', 'Y'), 200, replace = TRUE)
 )
 g2(df, y ~ x) |>
-  facet_rect(x = ~ a, y = ~ b)
+  facet_rect(b ~ a)
 ```
 
 ## Facet with color
 
 ```{r}
 g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species) |>
-  facet_rect(x = ~ Species)
+  facet_rect(~ Species)
 ```
 
 ## Circular Facet

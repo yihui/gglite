@@ -10,7 +10,9 @@ facet_rect(chart = NULL, ...)
 \item{chart}{A \code{g2} object.}
 
 \item{...}{Facet encoding and options. Pass \code{x = ~var} and/or \code{y = ~var}
-to specify the faceting variable(s). Character strings are also accepted.}
+to specify the faceting variable(s). An unnamed formula \code{~var} sets
+\code{x = 'var'}; \code{y ~ x} sets \code{x = 'x'} and \code{y = 'y'}. Character strings
+are also accepted.}
 }
 \value{
 The modified \code{g2} object.
@@ -18,9 +20,24 @@ The modified \code{g2} object.
 \description{
 Split the chart into a grid of panels based on one or two variables,
 similar to ggplot2's \code{facet_grid()} / \code{facet_wrap()}. Use the \code{x} and/or
-\code{y} arguments to specify faceting variables.
+\code{y} arguments to specify faceting variables. An unnamed first formula
+argument is interpreted as: \code{~var} sets \code{x = 'var'}; \code{y ~ x} sets both
+\code{x = 'x'} and \code{y = 'y'}.
 }
 \examples{
 g2(iris, Sepal.Length ~ Sepal.Width) |>
   facet_rect(x = ~ Species)
+
+# Unnamed formula shorthand
+g2(iris, Sepal.Length ~ Sepal.Width) |>
+  facet_rect(~ Species)
+
+# Two-sided formula: y ~ x
+df = data.frame(
+  x = rnorm(200), y = rnorm(200),
+  sex = sample(c('M', 'F'), 200, replace = TRUE),
+  species = sample(c('A', 'B'), 200, replace = TRUE)
+)
+g2(df, y ~ x) |>
+  facet_rect(sex ~ species)
 }

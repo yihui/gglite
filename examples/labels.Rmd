@@ -9,6 +9,7 @@ p  = g2(df, y ~ x)
 ```
 
 Labels add text annotations to marks. Use `labels()` to configure them.
+When using `+`, the first argument must be unnamed; see `?labels.g2`.
 
 ## Basic Labels on Bars
 
@@ -41,4 +42,11 @@ p |>
 ```{r}
 df_pt = data.frame(x = 1:5, y = c(3, 7, 2, 9, 5), label = c('a', 'b', 'c', 'd', 'e'))
 g2(df_pt, y ~ x) |> labels(text = ~ label)
+```
+
+## Using `+` Operator
+
+```{r}
+p + labels(~ y)
+p + labels('y', position = 'inside')
 ```

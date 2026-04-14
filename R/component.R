@@ -105,31 +105,16 @@ legend_opacity = function(chart = NULL, ...) legend_(chart, 'opacity', ...)
 #'
 #' Set the chart title and subtitle, as well as their styles.
 #'
-#' When called as `title('string')` with an active graphics device that already
-#' has a plot drawn (i.e., `dev.cur() > 1` and `!par('page')`), the call is
-#' dispatched to [graphics::title()].  Otherwise a deferred modifier is
-#' created so it can be used in a `|>` pipeline.
-#'
-#' **Note for `+` users:** `g2_chart + title('string')` is ambiguous when a
-#' graphics device is active.  Use the named argument explicitly to guarantee
-#' gglite behavior: `g2_chart + title(main = 'string')`.  With `|>` there is
-#' no ambiguity because the chart object is passed as the first argument.
-#'
 #' @param chart A `g2` object passed via `|>`, or `NULL` when using `+`.
 #' @param main Title text string.
-#' @param ... Additional title options such as `subtitle`, `align`, `style`,
-#'   or arguments forwarded to [graphics::title()].
-#' @return The modified `g2` object, or the result of [graphics::title()].
+#' @param ... Additional title options such as `subtitle`, `align`, `style`.
+#' @return The modified `g2` object.
 #' @export
 #' @examples
 #' g2(mtcars, hp ~ mpg) |>
-#'   title('Motor Trend Cars', subtitle = 'mpg vs hp')
-#' @importFrom grDevices dev.cur
-#' @importFrom graphics par
-title = function(chart = NULL, main, ...) {
-  if (is.character(chart) && dev.cur() > 1L && !par('page'))
-    return(graphics::title(main = chart, ...))
-  mod = check_chart(title, chart, c(if (!missing(main)) list(main), list(...)))
+#'   titles('Motor Trend Cars', subtitle = 'mpg vs hp')
+titles = function(chart = NULL, main, ...) {
+  mod = check_chart(titles, chart, c(if (!missing(main)) list(main), list(...)))
   if (!is.null(mod)) return(mod)
   dots = list(...)
   if (length(dots)) {
@@ -143,29 +128,56 @@ title = function(chart = NULL, main, ...) {
 #' Add Labels to the Last Mark
 #'
 #' Append a label configuration to the most recently added mark. Can be called
-#' multiple times to add several label layers. When the first argument is not a
-#' `g2` object or `NULL`, the call is dispatched to [base::labels()].
+#' multiple times to add several label layers.
 #'
-#' @param chart A `g2` object, `NULL` (for deferred use with `+`), or any
-#'   object to be passed to [base::labels()].
-#' @param ... Label options such as `text` (channel name as `~col` or
-#'   `'col'`), `position`, `formatter`, `style`, or arguments passed to
-#'   [base::labels()].
-#' @return The modified `g2` object, or the result of [base::labels()].
+#' Use `text` (a column name as a formula `~col` or a string `'col'`) to map
+#' a data column to label text. G2 also supports `innerHTML`, which overrides
+#' `text` when provided.
+#'
+#' **Caution when using `+`:** S3 dispatch requires that the first argument is
+#' unnamed. Use `p + labels(~col)` or `p + labels('col')` (not
+#' `p + labels(text = 'col')`). To use `innerHTML`, pass a dummy first
+#' argument: `p + labels('', innerHTML = ~col)`. See `?labels.g2` for the full
+#' API.
+#'
+#' @param object A `g2` object, a formula `~col`, or a character string (the
+#'   text channel) for deferred use with `+`.
+#' @param text Label text channel: a column name as `~col` or `'col'`.
+#' @param ... Additional label options such as `position`, `formatter`,
+#'   `style`, or `innerHTML`.
+#' @return The modified `g2` object (or a `g2_mod` when `object` is not a
+#'   `g2`).
 #' @export
 #' @examples
 #' df = data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2))
 #' g2(df, y ~ x) |>
 #'   labels(text = ~ y, position = 'inside')
-labels = function(chart = NULL, ...) {
-  if (not_g2(chart)) return(base::labels(chart, ...))
-  mod = check_chart(labels, chart, list(...))
-  if (!is.null(mod)) return(mod)
-  was_empty = !length(chart$layers)
-  if (was_empty) chart = ensure_mark(chart)
-  n = if (was_empty) 1L else length(chart$layers)
-  chart$layers[[n]]$labels = c(chart$layers[[n]]$labels, list(as_vars(list(...))))
-  chart
+#'
+#' # With + operator (first argument must be unnamed)
+#' g2(df, y ~ x) + labels(~ y)
+#' g2(df, y ~ x) + labels('y', position = 'inside')
+labels.g2 = function(object, text, ...) {
+  was_empty = !length(object$layers)
+  if (was_empty) object = ensure_mark(object)
+  n = if (was_empty) 1L else length(object$layers)
+  label = as_vars(c(
+    if (!missing(text)) list(text = text),
+    list(...)
+  ))
+  object$layers[[n]]$labels = c(object$layers[[n]]$labels, list(label))
+  object
+}
+
+#' @rdname labels.g2
+#' @export
+labels.character = function(object, ...) {
+  g2_mod(labels.g2, c(list(text = object), list(...)))
+}
+
+#' @rdname labels.g2
+#' @export
+labels.formula = function(object, ...) {
+  g2_mod(labels.g2, c(list(text = object), list(...)))
 }
 
 #' Configure the Tooltip
