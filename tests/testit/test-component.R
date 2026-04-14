@@ -6,7 +6,7 @@ assert('component functions set chart options', {
     theme_('dark') |>
     axis_('x', title = 'MPG') |>
     legend_('color', position = 'right') |>
-    title('Cars')
+    titles('Cars')
   (chart$theme$type %==% 'dark')
   # axis after mark goes to mark level
   (chart$layers[[1]]$axis$x$title %==% 'MPG')
@@ -14,21 +14,21 @@ assert('component functions set chart options', {
   (chart$chart_title %==% 'Cars')
 })
 
-assert('title() with subtitle works', {
+assert('titles() with subtitle works', {
   chart = g2(mtcars, hp ~ mpg) |>
-    title('Motor Trend Cars', subtitle = 'mpg vs hp')
+    titles('Motor Trend Cars', subtitle = 'mpg vs hp')
   (chart$chart_title$title %==% 'Motor Trend Cars')
   (chart$chart_title$subtitle %==% 'mpg vs hp')
 })
 
-assert('labels() adds labels to last mark', {
+assert('labels.g2() adds labels to last mark', {
   df = data.frame(x = c('A', 'B'), y = c(1, 2))
   chart = g2(df, y ~ x) |> mark_interval() |> labels(text = ~ y)
   (length(chart$layers[[1]]$labels) %==% 1L)
   (chart$layers[[1]]$labels[[1]]$text %==% 'y')
 })
 
-assert('labels() dispatches to base R for non-g2 objects', {
+assert('labels() still dispatches to base R for non-g2 objects', {
   result = labels(lm(hp ~ mpg, data = mtcars))
   (is.character(result))
 })

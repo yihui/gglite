@@ -270,7 +270,7 @@ You can still add scales, themes, titles, and other components as usual:
 ```{r}
 g2(mtcars, hp ~ mpg, color = ~ cyl) |>
   scale_color(type = 'ordinal') |>
-  title('Motor Trend Cars')
+  titles('Motor Trend Cars')
 ```
 
 If you add any `mark_*()`, automatic detection is skipped entirely, so explicit
@@ -284,13 +284,13 @@ multivariate series are reshaped to long format with `time`, `series`, and
 `value` columns. The auto-mark feature draws a line chart automatically:
 
 ```{r}
-g2(sunspot.year) |> title('Yearly Sunspot Numbers (1700--1988)')
+g2(sunspot.year) |> titles('Yearly Sunspot Numbers (1700--1988)')
 ```
 
 Multivariate time series produce one line per series:
 
 ```{r}
-g2(EuStockMarkets) |> title('EU Stock Markets (1991--1998)')
+g2(EuStockMarkets) |> titles('EU Stock Markets (1991--1998)')
 ```
 
 ## Scales
@@ -348,7 +348,8 @@ g2(df, y ~ x) |>
 ## Transforms
 
 Transforms modify the data before rendering. Use `transform()` to apply
-statistical or layout transforms:
+statistical or layout transforms. When using `+`, the first argument must be
+unnamed; see `?transform.g2` for details.
 
 ### Stacked bars
 
@@ -388,7 +389,7 @@ Faceting splits data into panels. Use `facet_rect()` for a grid layout:
 
 ```{r}
 g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species) |>
-  facet_rect(x = ~ Species)
+  facet_rect(~ Species)
 ```
 
 The formula interface supports faceting with `|`. Use `| var` for column facets,
@@ -429,7 +430,7 @@ legends, and labels.
 
 ```{r}
 g2(mtcars, hp ~ mpg) |>
-  title('Motor Trend Cars', subtitle = 'mpg vs horsepower')
+  titles('Motor Trend Cars', subtitle = 'mpg vs horsepower')
 ```
 
 ### Tooltips
@@ -440,6 +441,9 @@ g2(mtcars, hp ~ mpg) |>
 ```
 
 ### Labels
+
+Use `labels()` to add text annotations. When using `+`, the first argument
+must be unnamed; see `?labels.g2` for details.
 
 ```{r}
 df = data.frame(x = c('A', 'B', 'C', 'D'), y = c(3, 7, 2, 5))
@@ -473,7 +477,7 @@ g2(df, y ~ x, color = ~ product) |>
   mark_interval() |>
   transform('dodgeX') |>
   scale_color(range = c('#5470c6', '#91cc75')) |>
-  title('Quarterly Sales', subtitle = 'By product line') |>
+  titles('Quarterly Sales', subtitle = 'By product line') |>
   interact('tooltip') |>
   interact('elementHighlightByX') |>
   theme_classic()
@@ -488,14 +492,14 @@ produce identical charts:
 # Pipe style
 g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species) |>
   scale_color(palette = 'set2') |>
-  title('Iris Dataset')
+  titles('Iris Dataset')
 ```
 
 ```{r}
 # ggplot2 style
 g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species) +
   scale_color(palette = 'set2') +
-  title('Iris Dataset')
+  titles('Iris Dataset')
 ```
 
 You can mix modifiers freely---marks, scales, coordinates, themes, facets,
@@ -506,7 +510,7 @@ df = data.frame(x = c('A', 'B', 'C', 'D'), y = c(3, 7, 2, 5))
 g2(df, y ~ x, color = ~ x) +
   mark_interval() +
   coord_polar() +
-  title('Polar Bar Chart') +
+  titles('Polar Bar Chart') +
   theme_academy()
 ```
 
