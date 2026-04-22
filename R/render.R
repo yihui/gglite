@@ -99,6 +99,19 @@ ensure_mark = function(chart) {
   chart
 }
 
+# Compute chart height for row-faceted charts. When a facet has row encoding
+# (encode$y set), each row should maintain a fixed height rather than being
+# squeezed into a shared fixed canvas. Returns total height (nrows × row_height)
+# or NULL when not applicable (no row facet, or only one unique row value).
+row_facet_height = function(chart, row_height = 200L) {
+  y_var = chart$facet$encode$y
+  if (is.null(y_var) || is.null(chart$data)) return()
+  if (!y_var %in% names(chart$data)) return()
+  nrows = length(unique(chart$data[[y_var]]))
+  if (nrows <= 1L) return()
+  nrows * row_height
+}
+
 # ---- Configuration builder ----
 
 #' Build G2 Spec
@@ -314,6 +327,12 @@ g2_html_page = function(body, chart = NULL) {
 #' @export
 chart_html = function(chart, id = NULL, width = NULL, height = NULL) {
   ctor = dropNulls(chart$options %||% list(height = 480L, autoFit = TRUE))
+  # Auto-scale height for row-faceted charts when the user hasn't called canvas()
+  # and hasn't passed an explicit height to chart_html()
+  if (is.null(chart$options) && is.null(height)) {
+    dyn_h = row_facet_height(chart)
+    if (!is.null(dyn_h)) ctor$height = dyn_h
+  }
   spec = build_config(chart)
   defer_opt = getOption('gglite.defer_render')
   threshold = if (isTRUE(defer_opt)) 0.5 else if (is.numeric(defer_opt)) defer_opt
