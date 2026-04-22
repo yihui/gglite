@@ -1,8 +1,5 @@
 # gglite 0.1
 
-- Date/POSIXt columns used as the x axis now show human-readable dates in
-  tooltips (e.g., `2026-01-01`) instead of raw millisecond timestamps.
-
 A lightweight R interface to the
 [AntV G2](https://g2.antv.antgroup.com/) JavaScript visualization library with
 a ggplot2-style API. Create interactive charts using the Grammar of Graphics

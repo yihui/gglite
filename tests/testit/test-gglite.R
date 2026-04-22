@@ -218,11 +218,12 @@ assert('annotate_df converts POSIXt columns to millisecond timestamps', {
 
 # ---- Auto time scale detection ----
 
-assert('build_config auto-sets time scale for Date columns', {
+assert('build_config auto-sets time scale with utc for Date columns', {
   df = data.frame(d = Sys.Date() + 0:2, v = 1:3)
   chart = g2(df, x = 'd', y = 'v')
   config = build_config(chart)
   (config$scale$x$type %==% 'time')
+  (isTRUE(config$scale$x$utc))
 })
 
 assert('build_config auto-injects date tooltip title formatter for Date x column', {
@@ -230,9 +231,29 @@ assert('build_config auto-injects date tooltip title formatter for Date x column
   chart = g2(df, x = 'd', y = 'v')
   config = build_config(chart)
   title_fn = config$children[[1]]$tooltip$title
-  # Should be a JS literal, not NULL
+  # Should be a JS literal using toLocaleDateString
   (!is.null(title_fn))
   (inherits(title_fn, 'JS_LITERAL'))
+  (grepl('toLocaleDateString', as.character(title_fn)))
+})
+
+assert('build_config injects x item formatter for point marks with Date x', {
+  df = data.frame(d = as.Date('2026-01-01') + 0:2, v = 1:3)
+  chart = g2(df, x = 'd', y = 'v') |> mark_point()
+  config = build_config(chart)
+  items = config$children[[1]]$tooltip$items
+  (!is.null(items))
+  (length(items) %==% 2L)
+  (items[[1]]$channel %==% 'x')
+  (inherits(items[[1]]$valueFormatter, 'JS_LITERAL'))
+  (grepl('toLocaleDateString', as.character(items[[1]]$valueFormatter)))
+})
+
+assert('build_config does not inject items for line marks', {
+  df = data.frame(d = as.Date('2026-01-01') + 0:2, v = 1:3)
+  chart = g2(df, x = 'd', y = 'v') |> mark_line()
+  config = build_config(chart)
+  (is.null(config$children[[1]]$tooltip$items))
 })
 
 assert('build_config does not overwrite user-set tooltip title', {
