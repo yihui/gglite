@@ -225,6 +225,24 @@ assert('build_config auto-sets time scale for Date columns', {
   (config$scale$x$type %==% 'time')
 })
 
+assert('build_config auto-injects date tooltip title formatter for Date x column', {
+  df = data.frame(d = as.Date('2026-01-01') + 0:2, v = 1:3)
+  chart = g2(df, x = 'd', y = 'v')
+  config = build_config(chart)
+  title_fn = config$children[[1]]$tooltip$title
+  # Should be a JS literal, not NULL
+  (!is.null(title_fn))
+  (inherits(title_fn, 'JS_LITERAL'))
+})
+
+assert('build_config does not overwrite user-set tooltip title', {
+  df = data.frame(d = as.Date('2026-01-01') + 0:2, v = 1:3)
+  chart = g2(df, x = 'd', y = 'v') |>
+    mark_line(tooltip = list(title = 'custom'))
+  config = build_config(chart)
+  (config$children[[1]]$tooltip$title %==% 'custom')
+})
+
 # ---- Auto mark inference for categorical vs numeric ----
 
 assert('auto_mark: unique categories produce bar chart (interval)', {

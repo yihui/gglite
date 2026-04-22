@@ -190,6 +190,31 @@ build_config = function(chart) {
       config$scale[[ch]]$type = 'time'
   }
 
+  # Auto-inject a tooltip title formatter for Date/POSIXt x columns so the
+  # tooltip shows a human-readable date instead of the raw ms timestamp.
+  # The formatter is only injected when the user has not already configured
+  # a tooltip title on the mark. Date columns show "YYYY-MM-DD"; POSIXt
+  # columns show "YYYY-MM-DD HH:MM:SS" (UTC).
+  if (is.data.frame(chart$data) && length(config$children)) {
+    x_col = chart$aesthetics$x
+    if (!is.null(x_col) && x_col %in% names(chart$data)) {
+      col_js = xfun::tojson(x_col)
+      fmt_fn = if (inherits(chart$data[[x_col]], 'Date'))
+        xfun::js(paste0(
+          '(d) => new Date(d[', col_js, ']).toISOString().slice(0, 10)'))
+      else if (inherits(chart$data[[x_col]], 'POSIXt'))
+        xfun::js(paste0(
+          '(d) => new Date(d[', col_js, ']).toISOString()',
+          '.replace("T", " ").slice(0, 19)'))
+      if (!is.null(fmt_fn))
+        config$children = lapply(config$children, function(m) {
+          if (is.null(m$tooltip$title) && !isFALSE(m$tooltip))
+            m$tooltip = modifyList(as.list(m$tooltip), list(title = fmt_fn))
+          m
+        })
+    }
+  }
+
   if (!is.null(chart$coords)) config$coordinate = chart$coords
   if (length(chart$interactions)) config$interaction = chart$interactions
   if (length(chart$axes)) config$axis = chart$axes
