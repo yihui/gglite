@@ -7,21 +7,16 @@ on:
     branches: ["main"]
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build:
     runs-on: macos-latest
     permissions:
-      contents: read
+      contents: write
       statuses: write
     steps:
       - uses: actions/checkout@HEAD
-
-      - if: github.event_name != 'pull_request'
-        uses: actions/configure-pages@HEAD
-        with:
-          enablement: true
 
       - uses: r-lib/actions/setup-r@HEAD
         with:
@@ -57,20 +52,7 @@ jobs:
             });
 
       - if: github.event_name != 'pull_request'
-        uses: actions/upload-pages-artifact@HEAD
+        uses: peaceiris/actions-gh-pages@HEAD
         with:
-          path: 'site'
-
-  deploy:
-    needs: build
-    if: github.event_name != 'pull_request'
-    runs-on: macos-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    permissions:
-      pages: write
-      id-token: write
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@HEAD
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site
