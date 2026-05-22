@@ -1,0 +1,509 @@
+---
+title: Marks (Geometry Layers)
+---
+
+```{r}
+library(gglite)
+```
+
+gglite can automatically infer the mark type from your data and aesthetic
+mappings in many cases — for example, numeric × numeric data defaults to
+`mark_point()`, and categorical × unique numeric data defaults to
+`mark_interval()`. This means you can often omit the `mark_*()` call
+entirely. All marks are specified explicitly on this page because the purpose
+here is to document each mark type individually.
+
+## Point (Scatter Plot)
+
+```{r}
+g2(mtcars, hp ~ mpg) |> mark_point()
+```
+
+### Color by a variable
+
+```{r}
+g2(mtcars, hp ~ mpg, color = ~ wt) |>
+  mark_point()
+```
+
+### Size by a variable
+
+```{r}
+g2(mtcars, hp ~ mpg, size = ~ wt) |> mark_point()
+```
+
+### Shape by a variable
+
+```{r}
+g2(iris, Sepal.Length ~ Sepal.Width, shape = ~ Species) |>
+  mark_point()
+```
+
+### Custom style
+
+```{r}
+g2(mtcars, hp ~ mpg, size = 10) |>
+  mark_point() |>
+  style_mark(fill = 'lightyellow', stroke = 'steelblue', lineWidth = 2)
+```
+
+## Line
+
+```{r}
+df = data.frame(x = 1:10, y = cumsum(rnorm(10)))
+g2(df, y ~ x) |> mark_line()
+```
+
+### Multi-series line
+
+```{r}
+df = data.frame(
+  x = rep(1:5, 2), y = c(3, 1, 4, 1, 5, 2, 7, 1, 8, 3),
+  group = rep(c('A', 'B'), each = 5)
+)
+g2(df, y ~ x, color = ~ group) |> mark_line()
+```
+
+## Interval (Bar Chart)
+
+```{r}
+df = data.frame(x = c('A', 'B', 'C', 'D'), y = c(3, 7, 2, 5))
+g2(df, y ~ x) |> mark_interval()
+```
+
+### Stacked bar
+
+```{r}
+df = data.frame(
+  x = rep(c('A', 'B', 'C'), each = 2), y = c(3, 2, 5, 4, 1, 6),
+  color = rep(c('a', 'b'), 3)
+)
+g2(df, y ~ x, color = ~ color) |>
+  mark_interval() |> transform('stackY')
+```
+
+### Grouped (dodged) bar
+
+```{r}
+g2(df, y ~ x, color = ~ color) |>
+  mark_interval() |> transform('dodgeX')
+```
+
+## Area
+
+```{r}
+df = data.frame(x = 1:10, y = c(3, 1, 4, 1, 5, 9, 2, 6, 5, 3))
+g2(df, y ~ x) |> mark_area()
+```
+
+### Stacked area
+
+```{r}
+df = data.frame(
+  x = rep(1:5, 2), y = c(3, 1, 4, 1, 5, 2, 7, 1, 8, 3),
+  group = rep(c('A', 'B'), each = 5)
+)
+g2(df, y ~ x, color = ~ group) |>
+  mark_area() |> transform('stackY')
+```
+
+## Rect
+
+```{r}
+g2(mtcars, hp ~ mpg) |>
+  mark_rect() |>
+  transform('bin', thresholdsX = 10, thresholdsY = 10)
+```
+
+## Cell
+
+```{r}
+df = expand.grid(x = LETTERS[1:5], y = LETTERS[1:5])
+df$value = seq_len(nrow(df))
+g2(df, y ~ x, color = ~ value) |> mark_cell()
+```
+
+## Text
+
+```{r}
+df = data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2))
+g2(df, y ~ x) |>
+  mark_interval() |>
+  mark_text(encode = list(text = 'y'))
+```
+
+## Path
+
+The `path` mark in G2 uses an SVG-like `d` channel to draw arbitrary
+shapes. It does not use x/y data coordinates like `mark_line()`. Use
+`mark_line()` to connect data points in order.
+
+```{r, eval=FALSE}
+g2(df, y ~ x) |> mark_path()
+```
+
+A line mark connecting data points in order:
+
+```{r}
+n = 100
+t = seq(0, 4 * pi, length.out = n)
+df = data.frame(x = t * cos(t), y = t * sin(t))
+g2(df, y ~ x) |> mark_line()
+```
+
+## Polygon
+
+The `polygon` mark draws filled polygons. Use list columns to store
+vertex coordinates for each polygon.
+
+```{r}
+df = data.frame(group = c('triangle', 'square'))
+df$x = list(c(0, 1, 0.5), c(2, 3, 3, 2))
+df$y = list(c(0, 0, 1), c(0, 0, 1, 1))
+g2(df, color = ~ group) |>
+  mark_polygon(encode = list(x = 'x', y = 'y'))
+```
+
+## Link
+
+```{r}
+df = data.frame(
+  x = c('A', 'B', 'C'), y = c(1, 3, 2),
+  x1 = c('B', 'C', 'D'), y1 = c(3, 1, 4)
+)
+g2(df) |>
+  mark_link(encode = list(x = c('x', 'x1'), y = c('y', 'y1'))) |>
+  style_mark(stroke = 'steelblue', lineWidth = 2)
+```
+
+## Reference Lines
+
+### Vertical reference line (lineX)
+
+```{r}
+g2(mtcars, hp ~ mpg) |>
+  mark_point() |>
+  mark_line_x(
+    data = list(list(x = mean(mtcars$mpg))),
+    encode = list(x = 'x')
+  ) |>
+  style_mark(stroke = 'red', lineDash = c(4, 4))
+```
+
+### Horizontal reference line (lineY)
+
+```{r}
+g2(mtcars, hp ~ mpg) |>
+  mark_point() |>
+  mark_line_y(
+    data = list(list(y = mean(mtcars$hp))),
+    encode = list(y = 'y')
+  ) |>
+  style_mark(stroke = 'red', lineDash = c(4, 4))
+```
+
+## Range
+
+### Full range
+
+```{r}
+g2(mtcars, hp ~ mpg) |>
+  mark_point() |>
+  mark_range(
+    data = list(list(x = c(15, 25), y = c(100, 200))),
+    encode = list(x = 'x', y = 'y')
+  ) |>
+  style_mark(fill = 'steelblue', fillOpacity = 0.15)
+```
+
+### Horizontal range (rangeX)
+
+```{r}
+g2(mtcars, hp ~ mpg) |>
+  mark_point() |>
+  mark_range_x(
+    data = list(list(x = c(15, 25))),
+    encode = list(x = 'x')
+  ) |>
+  style_mark(fill = 'steelblue', fillOpacity = 0.15)
+```
+
+### Vertical range (rangeY)
+
+```{r}
+g2(mtcars, hp ~ mpg) |>
+  mark_point() |>
+  mark_range_y(
+    data = list(list(y = c(100, 200))),
+    encode = list(y = 'y')
+  ) |>
+  style_mark(fill = 'orange', fillOpacity = 0.15)
+```
+
+## Connector
+
+```{r}
+df = data.frame(x = c('A', 'B'), y = c(3, 7))
+g2(df, y ~ x) |>
+  mark_interval() |>
+  mark_connector(
+    data = list(list(x = 'A', x1 = 'B')),
+    encode = list(x = 'x', x1 = 'x1')
+  ) |>
+  labels(text = '+133%')
+```
+
+## Box Plot
+
+```{r}
+g2(iris, Sepal.Width ~ Species) |> mark_boxplot()
+```
+
+## Beeswarm
+
+The `beeswarm` mark uses force simulation to arrange individual data points
+without overlap, creating a beeswarm layout useful for visualizing distributions
+within categories.
+
+```{r}
+g2(iris, Sepal.Width ~ Species) |> mark_beeswarm()
+```
+
+### Beeswarm with color
+
+```{r}
+g2(iris, Sepal.Width ~ Species, color = ~ Species) |>
+  mark_beeswarm()
+```
+
+### Beeswarm + box plot overlay
+
+```{r}
+g2(iris, Sepal.Width ~ Species) |>
+  mark_beeswarm() |> mark_boxplot() |> style_mark(boxFillOpacity = 0.15)
+```
+
+## Liquid
+
+```{r}
+g2() |>
+  mark_liquid(data = list(value = 0.6)) |>
+  style_mark(contentText = '60%', contentFill = 'white', contentFontSize = 40)
+```
+
+## Heatmap
+
+```{r}
+g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Petal.Length) |>
+  mark_heatmap()
+```
+
+## Image
+
+The `image` mark places images at data coordinates.
+
+```{r}
+df = data.frame(
+  x = c(1, 2, 3), y = c(3, 5, 2),
+  url = rep(
+    'https://cdn.jsdelivr.net/npm/@browser-logos/chrome/chrome_64x64.png', 3
+  )
+)
+g2(df, y ~ x) |>
+  mark_image(encode = list(src = 'url')) |>
+  style_mark(width = 30, height = 30)
+```
+
+## Word Cloud
+
+```{r}
+df = data.frame(
+  text = c('Hello', 'Data', 'Science', 'R', 'G2', 'Chart', 'Vis', 'Stats'),
+  value = c(30, 25, 20, 18, 15, 12, 10, 8)
+)
+g2(df) |>
+  mark_word_cloud(
+    encode = list(text = 'text', value = 'value', color = 'text')
+  )
+```
+
+## Sankey
+
+```{r}
+df = data.frame(
+  source = c('Coal', 'Coal', 'Oil', 'Oil', 'Gas', 'Gas', 'Solar'),
+  target = c('Electricity', 'Heat', 'Electricity', 'Transport',
+    'Electricity', 'Heat', 'Electricity'),
+  value = c(25, 10, 15, 20, 20, 5, 10)
+)
+g2(df) |>
+  mark_sankey(
+    encode = list(source = 'source', target = 'target', value = 'value'),
+    layout = list(nodeAlign = 'center', nodePadding = 0.03)
+  )
+```
+
+## Chord
+
+```{r}
+df = data.frame(
+  source = c('A', 'A', 'A', 'B', 'B', 'C'),
+  target = c('B', 'C', 'D', 'C', 'D', 'D'),
+  value = c(5, 3, 2, 4, 1, 3)
+)
+g2(df) |>
+  mark_chord(
+    encode = list(source = 'source', target = 'target', value = 'value')
+  )
+```
+
+## Treemap
+
+```{r}
+tree_data = list(
+  name = 'root', children = list(
+    list(name = 'Frontend', children = list(
+      list(name = 'React', value = 180),
+      list(name = 'Vue', value = 120),
+      list(name = 'Angular', value = 80)
+    )),
+    list(name = 'Backend', children = list(
+      list(name = 'Node.js', value = 150),
+      list(name = 'Python', value = 130),
+      list(name = 'Go', value = 90)
+    )),
+    list(name = 'Data', children = list(
+      list(name = 'R', value = 100),
+      list(name = 'Julia', value = 40)
+    ))
+  )
+)
+g2() |>
+  mark_treemap(
+    data = list(type = 'inline', value = tree_data),
+    encode = list(value = 'value')
+  )
+```
+
+## Pack (Circle Packing)
+
+```{r}
+g2() |>
+  mark_pack(
+    data = list(type = 'inline', value = tree_data),
+    encode = list(value = 'value', color = 'depth'),
+    legend = FALSE
+  ) |>
+  style_mark(labelText = js(
+    '(d) => d.r >= 10 && d.height === 0 ? d.data.name : ""'
+  ))
+```
+
+## Gauge
+
+```{r}
+g2() |>
+  mark_gauge(
+    data = list(
+      type = 'inline',
+      value = list(target = 120, total = 400, name = 'score')
+    )
+  )
+```
+
+## Force Graph
+
+```{r}
+g2() |>
+  mark_force_graph(
+    data = list(type = 'inline', value = list(
+      nodes = list(
+        list(id = 'CEO'), list(id = 'CTO'), list(id = 'CFO'),
+        list(id = 'VP Eng'), list(id = 'VP Sales'),
+        list(id = 'Dev Lead'), list(id = 'Backend'),
+        list(id = 'Frontend'), list(id = 'Accounting'),
+        list(id = 'Payroll'), list(id = 'Sales Rep 1'),
+        list(id = 'Sales Rep 2')
+      ),
+      links = list(
+        list(source = 'CEO', target = 'CTO'),
+        list(source = 'CEO', target = 'CFO'),
+        list(source = 'CEO', target = 'VP Sales'),
+        list(source = 'CTO', target = 'VP Eng'),
+        list(source = 'VP Eng', target = 'Dev Lead'),
+        list(source = 'Dev Lead', target = 'Backend'),
+        list(source = 'Dev Lead', target = 'Frontend'),
+        list(source = 'CFO', target = 'Accounting'),
+        list(source = 'CFO', target = 'Payroll'),
+        list(source = 'VP Sales', target = 'Sales Rep 1'),
+        list(source = 'VP Sales', target = 'Sales Rep 2'),
+        list(source = 'Backend', target = 'Frontend')
+      )
+    )),
+    nodeLabels = list(list(text = 'id'))
+  )
+```
+
+## Tree
+
+```{r}
+g2() |>
+  mark_tree(
+    data = list(type = 'inline', value = list(
+      name = 'Company', children = list(
+        list(name = 'Engineering', children = list(
+          list(name = 'Frontend'),
+          list(name = 'Backend'),
+          list(name = 'DevOps')
+        )),
+        list(name = 'Marketing', children = list(
+          list(name = 'SEO'),
+          list(name = 'Content')
+        )),
+        list(name = 'Finance', children = list(
+          list(name = 'Accounting'),
+          list(name = 'Payroll')
+        ))
+      )
+    )),
+    nodeLabels = list(list(text = 'name'))
+  )
+```
+
+## Density
+
+The density mark computes kernel density estimation (KDE) automatically
+from the `x` aesthetic. Map `color` for grouped density curves.
+
+```{r}
+g2(iris, ~ Sepal.Width, color = ~ Species) |> mark_density()
+```
+
+## Sunburst
+
+```{r}
+tree_data = list(
+  name = 'root', children = list(
+    list(name = 'Frontend', children = list(
+      list(name = 'React', value = 180),
+      list(name = 'Vue', value = 120),
+      list(name = 'Angular', value = 80)
+    )),
+    list(name = 'Backend', children = list(
+      list(name = 'Node.js', value = 150),
+      list(name = 'Python', value = 130),
+      list(name = 'Go', value = 90)
+    )),
+    list(name = 'Data', children = list(
+      list(name = 'R', value = 100),
+      list(name = 'Julia', value = 40)
+    ))
+  )
+)
+g2() |>
+  mark_sunburst(
+    data = list(type = 'inline', value = list(tree_data)),
+    encode = list(value = 'value')
+  ) |>
+  style_mark(inset = 0.5)
+```

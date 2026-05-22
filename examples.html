@@ -1,0 +1,2353 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="generator" content="litedown 0.9.9">
+<title>Examples</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/css/default.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/css/article.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/css/copy-button.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/css/heading-anchor.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/css/pages.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/css/site.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/css/prism-xcode.min.css">
+</head>
+<body>
+<nav><p><a href="index.html">Home</a>
+<a href="articles.html">Articles</a>
+<a href="examples.html">Examples</a>
+<a href="manual.html">Manual</a>
+<a href="news.html">News</a>
+<a href="playground/">Playground</a></p></nav>
+<div class="frontmatter">
+<div class="title"><h1>Examples</h1></div>
+</div>
+<div class="body">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/yihui/litedown/inst/resources/listing.css">
+<style type="text/css">
+.box pre {
+  & > code {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background: none;
+  }
+  &:not(:focus) code {
+    cursor: pointer;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 10;
+  }
+}
+pre, pre:hover {
+  white-space: pre-wrap;
+}
+.box a {
+  text-decoration: none;
+}
+</style>
+<div class="box">
+<div class="caption name">
+<p><a href="examples/animations.html">Animations</a> <em>(source: <a href="examples/animations.Rmd">animations.Rmd</a>)</em> <a href="examples/animations.html" class="run">⏵</a></p>
+</div>
+<pre><code class="language-md">---
+title: Animations
+---
+
+```{r}
+library(gglite)
+options(gglite.defer_render = TRUE)
+```
+
+Animations control how marks enter, update, and exit the chart. Use
+`animate()` to configure them on the most recently added mark.
+
+Note: the charts on this page use `options(gglite.defer_render = TRUE)`, which
+defers rendering until the chart is scrolled into view so that the animation
+plays when you first see it. The durations are also set longer than you would
+typically use, so the animations are easier to see. In your own plots you
+may want to use shorter durations and omit `options(gglite.defer_render = TRUE)`.
+
+## Fade-in Animation
+
+```{r}
+df = data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2))
+p = g2(df, y ~ x)
+p |&gt; animate(enter = list(type = 'fadeIn', duration = 2000))
+```
+
+## Wave-in Animation
+
+```{r}
+p |&gt; animate(enter = list(type = 'waveIn', duration = 1600))
+```
+
+## Grow-in-Y Animation
+
+```{r}
+p |&gt; animate(enter = list(type = 'growInY', duration = 2000))
+```
+
+## Scale-in-X Animation
+
+```{r}
+p |&gt; animate(enter = list(type = 'scaleInX', duration = 1600))
+```
+
+## Scale-in-Y Animation
+
+```{r}
+p |&gt; animate(enter = list(type = 'scaleInY', duration = 1600))
+```
+
+## Zoom-in Animation
+
+```{r}
+pm = g2(mtcars, hp ~ mpg)
+pm |&gt; animate(enter = list(type = 'zoomIn', duration = 1200))
+```
+
+## Custom Duration and Delay
+
+```{r}
+p |&gt; animate(enter = list(type = 'fadeIn', duration = 3000, delay = 1000))
+```
+
+## Disable Animation
+
+```{r}
+pm |&gt; animate(FALSE)
+```
+
+## Animation on a line chart
+
+```{r}
+df = data.frame(x = 1:10, y = c(3, 1, 4, 1, 5, 9, 2, 6, 5, 3))
+g2(df, y ~ x) |&gt;
+  mark_line() |&gt;
+  animate(enter = list(type = 'fadeIn', duration = 2000))
+```
+</code></pre>
+</div>
+<div class="box">
+<div class="caption name">
+<p><a href="examples/axes.html">Axes</a> <em>(source: <a href="examples/axes.Rmd">axes.Rmd</a>)</em> <a href="examples/axes.html" class="run">⏵</a></p>
+</div>
+<pre><code class="language-md">---
+title: Axes
+---
+
+```{r}
+library(gglite)
+p = g2(mtcars, hp ~ mpg)
+```
+
+## Axis Titles
+
+```{r}
+p |&gt; axis_x(title = 'Miles per Gallon') |&gt; axis_y(title = 'Horsepower')
+```
+
+## Hide an Axis
+
+```{r}
+p |&gt; axis_y(FALSE)
+```
+
+## Hide Both Axes
+
+```{r}
+p |&gt; axis_x(FALSE) |&gt; axis_y(FALSE)
+```
+
+## Hide Grid Lines
+
+Grid lines are shown by default. Hide the x-axis grid to reduce clutter.
+
+```{r}
+p |&gt; axis_x(grid = FALSE)
+```
+
+## Axis Tick Count
+
+```{r}
+p |&gt; axis_x(tickCount = 5) |&gt; axis_y(tickCount = 8)
+```
+
+## Axis Label Formatter
+
+Use a [d3-format](https://d3js.org/d3-format) or
+[d3-time-format](https://d3js.org/d3-time-format) string. The example below
+shows x-axis labels (mpg) with one decimal place.
+
+```{r}
+p |&gt; axis_x(labelFormatter = '.1f')
+```
+
+## Dual Y-Axis
+
+Two marks can share the same x-axis but each have their own independent y-axis.
+Call `scale_y(independent = TRUE)` and `axis_y()` immediately after each mark
+to configure its y-axis independently.
+
+```{r}
+air_monthly = aggregate(cbind(Temp, Wind) ~ Month, data = airquality, FUN = mean)
+air_monthly$Month = month.abb[air_monthly$Month]
+
+g2(air_monthly, ~ Month) |&gt;
+  mark_interval(encode = list(y = 'Temp')) |&gt;
+  style_mark(fill = '#85C5A6', fillOpacity = 0.7) |&gt;
+  scale_y(independent = TRUE) |&gt;
+  axis_y(title = 'Temperature (°F)', titleFill = '#85C5A6') |&gt;
+  mark_line(encode = list(y = 'Wind')) |&gt;
+  style_mark(stroke = 'steelblue', lineWidth = 2) |&gt;
+  scale_y(independent = TRUE) |&gt;
+  axis_y(
+    position = 'right', grid = FALSE,
+    title = 'Wind Speed (mph)', titleFill = 'steelblue'
+  )
+```
+</code></pre>
+</div>
+<div class="box">
+<div class="caption name">
+<p><a href="examples/canvas.html">Canvas Options</a> <em>(source: <a href="examples/canvas.Rmd">canvas.Rmd</a>)</em> <a href="examples/canvas.html" class="run">⏵</a></p>
+</div>
+<pre><code class="language-md">---
+title: Canvas Options
+---
+
+```{r}
+library(gglite)
+# This document uses non-default renderers (SVG and WebGL). Declare this
+# option globally so all renderers can work on the same page.
+options(gglite.renderer = 'svg')
+```
+
+## Dimensions
+
+By default a chart auto-fits its container width and uses a height of 480 px.
+Use `canvas()` to override:
+
+```{r}
+p = g2(mtcars, hp ~ mpg)
+p |&gt; canvas(width = 500, height = 300)
+```
+
+## Layout Spacing
+
+`padding` is the space between the container edge and the plot area. `margin`
+adds space outside the container. `inset` adds space inside the plot area,
+pushing axis tick labels inward. Each argument accepts a scalar (all sides) or
+`c(top, right, bottom, left)` with `NA` to skip individual sides.
+
+```{r}
+p |&gt;
+  canvas(margin = 10, padding = c(10, 150, NA, 100), inset = c(10, 0, 20, -20)) |&gt; 
+  theme_light(view = list(viewFill = '#fff3bf', plotFill = '#ffc9c9', mainFill = '#a5d8ff'))
+```
+
+## Renderer
+
+G2 ships two bundles with different trade-offs:
+
+- **`g2.min.js`** (~1.1 MB) is a pre-optimized all-in-one bundle that includes
+  G2 core, the `@antv/g` graphics engine, and the Canvas renderer. Because
+  everything is compiled together it is the smallest and fastest option — but it
+  only supports the Canvas renderer.
+- **`g2.lite.min.js`** (~976 KB) is the G2 core *without* any graphics engine.
+  It must be combined with `@antv/g` and a renderer package (`@antv/g-canvas`,
+  `@antv/g-svg`, or `@antv/g-webgl`), which adds weight but gives you a choice
+  of renderer.
+
+| `renderer` | Scripts loaded | Approx. total size |
+|---|---|---|
+| `&quot;Canvas&quot;` (default and optimized) | `g2.min.js` | ~1.1 MB |
+| `&quot;Canvas&quot;` (via g2.lite) | `@antv/g` + `@antv/g-canvas` + `g2.lite.min.js` | ~1.5 MB |
+| `&quot;SVG&quot;` | `@antv/g` + `@antv/g-svg` + `g2.lite.min.js` | ~1.5 MB |
+| `&quot;WebGL&quot;` | `@antv/g` + `@antv/g-webgl` + `g2.lite.min.js` | ~1.9 MB |
+
+SVG output can be inspected element-by-element in browser DevTools and is
+therefore well suited to automated DOM-based testing. WebGL is GPU-accelerated
+and handles very large numbers of data points with less rendering time.
+
+### Caveat: multi-chart documents
+
+`g2.min.js` and `g2.lite.min.js` **cannot coexist on the same HTML page**.
+In a document that contains multiple charts — such as an R Markdown, Quarto,
+Shiny, or Jupyter document — setting `options(gglite.renderer)` explicitly
+makes sure all plots use `g2.lite.min.js` and avoids loading `g2.min.js`:
+
+```r
+options(gglite.renderer = 'svg')   # or 'webgl', 'canvas'
+```
+
+Individual charts can still override the renderer via `canvas(renderer = ...)`.
+For example, when `options(gglite.renderer = 'svg')` is active, a specific
+chart can use `canvas(renderer = 'webgl')` — both use `g2.lite.min.js` so they
+do not conflict.
+
+For **standalone plots** previewed in the browser (printed from the console of
+an interactive R session), each plot is its own HTML page, so no global option
+is needed.
+
+```{r}
+p |&gt; canvas(renderer = 'svg')
+p |&gt; canvas(renderer = 'webgl')
+p |&gt; canvas(renderer = 'canvas')
+```
+
+## Extra Options
+
+The `...` argument in `canvas()` passes additional top-level options to
+`chart.options()` in JavaScript. For example, `clip` controls whether marks
+that extend beyond the plot area are clipped:
+
+```{r}
+# clip = FALSE (default): marks can overflow the plot area
+p |&gt; scale_y(domain = c(80, 220)) |&gt; canvas(clip = FALSE)
+# clip = TRUE: marks are clipped to the plot area
+p |&gt; scale_y(domain = c(80, 220)) |&gt; canvas(clip = TRUE)
+```
+
+## WebGL for Large Datasets
+
+WebGL is GPU-accelerated and can render far more data points than Canvas or SVG
+before frame time degrades. The example below uses 200,000 flight records
+(distance vs. departure delay) to illustrate this.
+
+```r
+g2(&quot;https://vega.github.io/vega-datasets/data/flights-200k.json&quot;) |&gt;
+  encode(delay ~ distance) |&gt;
+  mark_point() |&gt;
+  style_mark(size = 2, fillOpacity = 0.2) |&gt;
+  canvas(renderer = 'webgl')
+```
+
+However, it wouldn't render on my M1 macOS and could even freeze my browser, and
+I don't know why...
+</code></pre>
+</div>
+<div class="box">
+<div class="caption name">
+<p><a href="examples/coordinates.html">Coordinates</a> <em>(source: <a href="examples/coordinates.Rmd">coordinates.Rmd</a>)</em> <a href="examples/coordinates.html" class="run">⏵</a></p>
+</div>
+<pre><code class="language-md">---
+title: Coordinates
+---
+
+```{r}
+library(gglite)
+```
+
+Coordinate systems control how the positional channels (x and y) are
+interpreted. Use helpers like `coord_polar()`, `coord_theta()`,
+`coord_radial()`, `coord_helix()`, and `coord_parallel()` to set the
+coordinate system.
+
+## Cartesian (default)
+
+The default coordinate system. Typically you don't need to specify it
+explicitly, but you can do so for clarity.
+
+```{r}
+df = data.frame(x = c('A', 'B', 'C', 'D'), y = c(3, 7, 2, 5))
+p  = g2(df, y ~ x)
+pc = g2(df, y ~ x, color = ~ x)
+p |&gt; coord_('cartesian')
+```
+
+## Polar
+
+Maps x to angle and y to radius. Useful for rose charts and radar-like
+displays.
+
+```{r}
+p |&gt; coord_polar()
+```
+
+### Polar with innerRadius (donut rose)
+
+```{r}
+pc |&gt; coord_polar(innerRadius = 0.4)
+```
+
+### Polar with custom start/end angles
+
+```{r}
+pc |&gt; coord_polar(startAngle = -pi / 2, endAngle = pi / 2)
+```
+
+## Theta
+
+Maps data values to angular extent. Used for pie and donut charts.
+
+```{r}
+pc |&gt;
+  transform('stackY') |&gt;
+  coord_theta()
+```
+
+### Donut chart (theta with innerRadius)
+
+```{r}
+pc |&gt;
+  transform('stackY') |&gt;
+  coord_theta(innerRadius = 0.5)
+```
+
+## Radial
+
+Maps y to the radial direction. Suitable for radial bar charts.
+
+```{r}
+pc |&gt; coord_radial()
+```
+
+### Radial with innerRadius
+
+```{r}
+pc |&gt; coord_radial(innerRadius = 0.3)
+```
+
+## Parallel
+
+Maps multiple numeric variables to parallel axes. Use a `position`
+encoding (a character vector of column names) instead of `x`/`y`.
+
+```{r}
+g2(iris, position = names(iris)[-5], color = ~ Species) |&gt;
+  canvas(padding = 30) |&gt;
+  coord_parallel() |&gt;
+  legend_color(position = 'bottom')
+```
+
+## Radar
+
+Displays data on radial axes emanating from a center point. A radar chart
+is a line or area chart in polar coordinates. Use long-format data with
+`x` (category), `y` (value), and `color` (series) encodings. All values
+should be on the same scale (e.g., 0--100).
+
+```{r}
+df_radar = data.frame(
+  item = rep(c('Design', 'Dev', 'Marketing', 'Sales', 'Support'), 2),
+  score = c(80, 90, 65, 75, 85, 60, 70, 85, 80, 70),
+  team = rep(c('A', 'B'), each = 5)
+)
+g2(df_radar, score ~ item, color = ~ team) |&gt;
+  mark_area() |&gt; style_mark(fillOpacity = 0.5) |&gt;
+  mark_line() |&gt; style_mark(lineWidth = 2) |&gt;
+  mark_point() |&gt;
+  coord_polar() |&gt;
+  scale_x(padding = 0.5, align = 0) |&gt;
+  scale_y(domainMin = 0, domainMax = 100) |&gt;
+  axis_y(grid = TRUE, title = FALSE)
+```
+
+## Helix
+
+Arranges data along a helix spiral. Works best with `mark_interval()`.
+
+```{r}
+df_helix = data.frame(x = paste0('D', 1:50), y = abs(sin(1:50 / 5)))
+g2(df_helix, y ~ x, color = ~ y) |&gt;
+  coord_helix()
+```
+
+## Transpose (coord_flip)
+
+Swap x and y axes, equivalent to ggplot2's `coord_flip()`. This is a
+coordinate transform, not a type.
+
+```{r}
+p |&gt; coord_transpose()
+```
+
+### Transpose with parallel
+
+```{r}
+g2(iris, position = names(iris)[-5], color = ~ Species) |&gt;
+  coord_parallel() |&gt; 
+  coord_transpose()
+```
+</code></pre>
+</div>
+<div class="box">
+<div class="caption name">
+<p><a href="examples/data.html">Data</a> <em>(source: <a href="examples/data.Rmd">data.Rmd</a>)</em> <a href="examples/data.html" class="run">⏵</a></p>
+</div>
+<pre><code class="language-md">---
+title: Data
+---
+
+```{r}
+library(gglite)
+```
+
+Data can be provided at the chart level, at the mark level, or not at all
+(for marks that generate their own data from transforms or inline values).
+
+## Chart-Level Data
+
+Pass a data frame to `g2()` and it becomes the default data source for all
+marks in the chart.
+
+```{r}
+g2(mtcars, hp ~ mpg) |&gt; mark_point()
+```
+
+Multiple marks can share the same chart-level data frame:
+
+```{r}
+g2(mtcars, hp ~ mpg) |&gt;
+  mark_point() |&gt;
+  mark_line()
+```
+
+## Mark-Level Data
+
+Supply a data frame directly to a mark to override or supplement the
+chart-level data for that mark only. This is useful for annotation layers
+or overlays that use a different data source.
+
+```{r}
+# Mark-level data for an annotation line
+g2(mtcars, hp ~ mpg) |&gt;
+  mark_point() |&gt;
+  mark_line_y(
+    data = data.frame(y = 150),
+    encode = list(y = 'y'),
+    style = list(stroke = 'red', lineDash = c(4, 4))
+  )
+```
+
+Marks can have entirely independent data:
+
+```{r}
+df1 = data.frame(x = 1:5, y = c(2, 4, 3, 5, 1))
+df2 = data.frame(x = 1:5, y = c(1, 3, 5, 2, 4))
+g2() |&gt;
+  mark_line(data = df1, encode = list(x = 'x', y = 'y')) |&gt;
+  mark_point(data = df2, encode = list(x = 'x', y = 'y'))
+```
+
+## Inline List Data
+
+For marks that do not work with data frames — such as reference lines,
+annotations, or hierarchical charts — pass data as a list of records or as
+a nested list structure.
+
+```{r}
+# A single reference line at y = 150
+g2(mtcars, hp ~ mpg) |&gt;
+  mark_point() |&gt;
+  mark_line_y(
+    data = list(list(y = 150)),
+    encode = list(y = 'y'),
+    style = list(stroke = 'tomato', lineWidth = 2)
+  )
+```
+
+```{r}
+# A shaded region between x = 15 and x = 25
+g2(mtcars, hp ~ mpg) |&gt;
+  mark_point() |&gt;
+  mark_range_x(
+    data = list(list(x = c(15, 25))),
+    encode = list(x = 'x'),
+    style = list(fill = 'steelblue', fillOpacity = 0.15)
+  )
+```
+
+## Fetching Remote Data
+
+G2 can fetch data directly from a URL. Pass `data = list(type = 'fetch',
+value = '&lt;url&gt;')` to any mark to load JSON or CSV data client-side.
+
+```{r}
+g2() |&gt; mark_point(
+  data = list(
+    type = 'fetch',
+    value = 'https://gw.alipayobjects.com/os/antvdemo/assets/data/scatter.json'
+  ),
+  encode = list(x = 'weight', y = 'height', color = 'gender')
+)
+```
+
+## Column Trimming
+
+gglite automatically trims data frame columns to only those referenced by
+the chart before serializing to JSON. This keeps the HTML output compact
+when working with wide data frames that have many unused columns.
+
+The `iris` dataset has five columns: `Sepal.Length`, `Sepal.Width`,
+`Petal.Length`, `Petal.Width`, and `Species`. When only two columns are
+mapped, only those two columns end up in the generated HTML.
+
+```{r}
+# Only Sepal.Length and Sepal.Width are serialized
+g2(iris, Sepal.Length ~ Sepal.Width) |&gt; mark_point()
+```
+
+Additional aesthetic channels count as used columns too:
+
+```{r}
+# Sepal.Length, Sepal.Width, and Species are included; Petal.* are dropped
+g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species) |&gt; mark_point()
+```
+
+Trimming also applies to labels: the `text` column referenced by `labels()`
+is automatically preserved.
+
+```{r}
+df = data.frame(
+  x = c('A', 'B', 'C'), y = c(3, 7, 2),
+  label = c('low', 'high', 'mid'), extra = 1:3
+)
+# label is kept (used by label()); extra is trimmed
+g2(df, y ~ x) |&gt;
+  mark_interval() |&gt;
+  labels(text = ~ label, position = 'inside')
+```
+
+## Opting Out with `I()`
+
+Some configurations reference columns inside inline JavaScript functions
+that gglite cannot detect statically. A common case is a custom `style`
+callback that reads a field from the data row directly:
+
+```{r}
+# Species is used in the JS fill callback but is not listed in encode.
+# Without I(), Species would be trimmed and the callback would not work.
+g2(I(iris), Sepal.Length ~ Sepal.Width) |&gt;
+  mark_point(style = list(
+    fill = js('(d) =&gt; d.Species === &quot;setosa&quot; ? &quot;steelblue&quot; : &quot;tomato&quot;')
+  ))
+```
+
+Wrapping the data in `I()` tells gglite to preserve all columns and skip
+trimming. The `AsIs` class is stripped before JSON serialization, so the
+chart works exactly as if the data were passed directly — but with all
+columns available to JavaScript.
+
+The same applies to mark-level data:
+
+```{r}
+df = data.frame(x = 1:5, y = c(2, 4, 3, 5, 1), label = c('a', 'b', 'c', 'd', 'e'))
+# label is referenced in a JS tooltip callback, not in encode
+g2() |&gt; mark_point(
+  data = I(df),
+  encode = list(x = 'x', y = 'y'),
+  tooltip = list(items = list(js('(d) =&gt; ({ name: &quot;label&quot;, value: d.label })')))
+)
+```
+</code></pre>
+</div>
+<div class="box">
+<div class="caption name">
+<p><a href="examples/facets.html">Facets</a> <em>(source: <a href="examples/facets.Rmd">facets.Rmd</a>)</em> <a href="examples/facets.html" class="run">⏵</a></p>
+</div>
+<pre><code class="language-md">---
+title: Facets
+---
+
+```{r}
+library(gglite)
+```
+
+Faceting splits data into multiple panels. gglite supports rectangular and
+circular faceting.
+
+## Rectangular Facet (by x)
+
+```{r}
+g2(iris, Sepal.Length ~ Sepal.Width) |&gt;
+  facet_rect(~ Species)
+```
+
+## Rectangular Facet (by y)
+
+```{r}
+g2(iris, Sepal.Length ~ Sepal.Width) |&gt;
+  facet_rect(y = ~ Species)
+```
+
+## Rectangular Facet (by x and y)
+
+```{r}
+df = data.frame(
+  x = rnorm(200), y = rnorm(200),
+  a = sample(c('A', 'B'), 200, replace = TRUE),
+  b = sample(c('X', 'Y'), 200, replace = TRUE)
+)
+g2(df, y ~ x) |&gt;
+  facet_rect(b ~ a)
+```
+
+## Facet with color
+
+```{r}
+g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species) |&gt;
+  facet_rect(~ Species)
+```
+
+## Circular Facet
+
+```{r}
+g2(iris, Sepal.Length ~ Sepal.Width) |&gt;
+  facet_circle(position = ~ Species)
+```
+</code></pre>
+</div>
+<div class="box">
+<div class="caption name">
+<p><a href="examples/interactions.html">Interactions</a> <em>(source: <a href="examples/interactions.Rmd">interactions.Rmd</a>)</em> <a href="examples/interactions.html" class="run">⏵</a></p>
+</div>
+<pre><code class="language-md">---
+title: Interactions
+---
+
+```{r}
+library(gglite)
+p = g2(mtcars, hp ~ mpg)
+```
+
+Interactions enable user-driven behaviors such as tooltips, brushing, and
+highlighting. Use `interact()` to add them.
+
+## Tooltip
+
+```{r}
+p |&gt; interact('tooltip')
+```
+
+## Element Highlight
+
+Highlight individual elements on hover.
+
+```{r}
+pc = g2(mtcars, hp ~ mpg, color = ~ cyl)
+pc |&gt; interact('elementHighlight')
+```
+
+## Element Highlight by X
+
+Highlight all elements sharing the same x value.
+
+```{r}
+df = data.frame(
+  x = rep(c('A', 'B', 'C'), each = 2), y = c(3, 2, 5, 4, 1, 6),
+  color = rep(c('a', 'b'), 3)
+)
+pd = g2(df, y ~ x, color = ~ color) |&gt;
+  mark_interval() |&gt;
+  transform('dodgeX')
+pd |&gt; interact('elementHighlightByX')
+```
+
+## Element Highlight by Color
+
+```{r}
+pd |&gt; interact('elementHighlightByColor')
+```
+
+## Element Select
+
+Click to select individual elements.
+
+```{r}
+pc |&gt; interact('elementSelect')
+```
+
+## Brush Highlight
+
+Drag to brush and highlight a rectangular region.
+
+```{r}
+p |&gt; interact('brushHighlight')
+```
+
+## Brush X Highlight
+
+Brush only along the x axis.
+
+```{r}
+p |&gt; interact('brushXHighlight')
+```
+
+## Brush Y Highlight
+
+Brush only along the y axis.
+
+```{r}
+p |&gt; interact('brushYHighlight')
+```
+
+## Brush Filter
+
+Drag to filter the visible data.
+
+```{r}
+p |&gt; interact('brushFilter')
+```
+
+## Legend Filter
+
+Click legend entries to filter data.
+
+```{r}
+p_iris = g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species)
+p_iris |&gt; interact('legendFilter')
+```
+
+## Legend Highlight
+
+Hover over legend entries to highlight.
+
+```{r}
+p_iris |&gt; interact('legendHighlight')
+```
+
+## Multiple Interactions
+
+You can combine several interactions.
+
+```{r}
+p_iris |&gt;
+  interact('tooltip') |&gt;
+  interact('legendFilter') |&gt;
+  interact('brushHighlight')
+```
+</code></pre>
+</div>
+<div class="box">
+<div class="caption name">
+<p><a href="examples/labels.html">Labels</a> <em>(source: <a href="examples/labels.Rmd">labels.Rmd</a>)</em> <a href="examples/labels.html" class="run">⏵</a></p>
+</div>
+<pre><code class="language-md">---
+title: Labels
+---
+
+```{r}
+library(gglite)
+df = data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2))
+p  = g2(df, y ~ x)
+```
+
+Labels add text annotations to marks. Use `labels()` to configure them.
+When using `+`, the first argument must be unnamed; see `?labels.g2`.
+
+## Basic Labels on Bars
+
+```{r}
+p |&gt; labels(text = ~ y)
+```
+
+## Label Position: Inside
+
+```{r}
+p |&gt; labels(text = ~ y, position = 'inside')
+```
+
+## Label Position: Top
+
+```{r}
+p |&gt; labels(text = ~ y, position = 'top')
+```
+
+## Multiple Label Layers
+
+```{r}
+p |&gt;
+  labels(text = ~ x, position = 'inside') |&gt;
+  labels(text = ~ y, position = 'top')
+```
+
+## Labels on a Scatter Plot
+
+```{r}
+df_pt = data.frame(x = 1:5, y = c(3, 7, 2, 9, 5), label = c('a', 'b', 'c', 'd', 'e'))
+g2(df_pt, y ~ x) |&gt; labels(text = ~ label)
+```
+
+## Using `+` Operator
+
+```{r}
+p + labels(~ y)
+p + labels('y', position = 'inside')
+```
+</code></pre>
+</div>
+<div class="box">
+<div class="caption name">
+<p><a href="examples/legends.html">Legends</a> <em>(source: <a href="examples/legends.Rmd">legends.Rmd</a>)</em> <a href="examples/legends.html" class="run">⏵</a></p>
+</div>
+<pre><code class="language-md">---
+title: Legends
+---
+
+```{r}
+library(gglite)
+p = g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species)
+```
+
+## Legend Position
+
+```{r}
+p |&gt; legend_color(position = 'right')
+```
+
+## Legend at the Top
+
+```{r}
+p |&gt; legend_color(position = 'top')
+```
+
+## Legend at the Bottom
+
+```{r}
+p |&gt; legend_color(position = 'bottom')
+```
+
+## Legend at the Left
+
+```{r}
+p |&gt; legend_color(position = 'left')
+```
+
+## Hide a Legend
+
+```{r}
+p |&gt; legend_color(FALSE)
+```
+
+## Legend with Title
+
+```{r}
+p |&gt; legend_color(position = 'right', title = 'Iris Species')
+```
+</code></pre>
+</div>
+<div class="box">
+<div class="caption name">
+<p><a href="examples/marks.html">Marks (Geometry Layers)</a> <em>(source: <a href="examples/marks.Rmd">marks.Rmd</a>)</em> <a href="examples/marks.html" class="run">⏵</a></p>
+</div>
+<pre><code class="language-md">---
+title: Marks (Geometry Layers)
+---
+
+```{r}
+library(gglite)
+```
+
+gglite can automatically infer the mark type from your data and aesthetic
+mappings in many cases — for example, numeric × numeric data defaults to
+`mark_point()`, and categorical × unique numeric data defaults to
+`mark_interval()`. This means you can often omit the `mark_*()` call
+entirely. All marks are specified explicitly on this page because the purpose
+here is to document each mark type individually.
+
+## Point (Scatter Plot)
+
+```{r}
+g2(mtcars, hp ~ mpg) |&gt; mark_point()
+```
+
+### Color by a variable
+
+```{r}
+g2(mtcars, hp ~ mpg, color = ~ wt) |&gt;
+  mark_point()
+```
+
+### Size by a variable
+
+```{r}
+g2(mtcars, hp ~ mpg, size = ~ wt) |&gt; mark_point()
+```
+
+### Shape by a variable
+
+```{r}
+g2(iris, Sepal.Length ~ Sepal.Width, shape = ~ Species) |&gt;
+  mark_point()
+```
+
+### Custom style
+
+```{r}
+g2(mtcars, hp ~ mpg, size = 10) |&gt;
+  mark_point() |&gt;
+  style_mark(fill = 'lightyellow', stroke = 'steelblue', lineWidth = 2)
+```
+
+## Line
+
+```{r}
+df = data.frame(x = 1:10, y = cumsum(rnorm(10)))
+g2(df, y ~ x) |&gt; mark_line()
+```
+
+### Multi-series line
+
+```{r}
+df = data.frame(
+  x = rep(1:5, 2), y = c(3, 1, 4, 1, 5, 2, 7, 1, 8, 3),
+  group = rep(c('A', 'B'), each = 5)
+)
+g2(df, y ~ x, color = ~ group) |&gt; mark_line()
+```
+
+## Interval (Bar Chart)
+
+```{r}
+df = data.frame(x = c('A', 'B', 'C', 'D'), y = c(3, 7, 2, 5))
+g2(df, y ~ x) |&gt; mark_interval()
+```
+
+### Stacked bar
+
+```{r}
+df = data.frame(
+  x = rep(c('A', 'B', 'C'), each = 2), y = c(3, 2, 5, 4, 1, 6),
+  color = rep(c('a', 'b'), 3)
+)
+g2(df, y ~ x, color = ~ color) |&gt;
+  mark_interval() |&gt; transform('stackY')
+```
+
+### Grouped (dodged) bar
+
+```{r}
+g2(df, y ~ x, color = ~ color) |&gt;
+  mark_interval() |&gt; transform('dodgeX')
+```
+
+## Area
+
+```{r}
+df = data.frame(x = 1:10, y = c(3, 1, 4, 1, 5, 9, 2, 6, 5, 3))
+g2(df, y ~ x) |&gt; mark_area()
+```
+
+### Stacked area
+
+```{r}
+df = data.frame(
+  x = rep(1:5, 2), y = c(3, 1, 4, 1, 5, 2, 7, 1, 8, 3),
+  group = rep(c('A', 'B'), each = 5)
+)
+g2(df, y ~ x, color = ~ group) |&gt;
+  mark_area() |&gt; transform('stackY')
+```
+
+## Rect
+
+```{r}
+g2(mtcars, hp ~ mpg) |&gt;
+  mark_rect() |&gt;
+  transform('bin', thresholdsX = 10, thresholdsY = 10)
+```
+
+## Cell
+
+```{r}
+df = expand.grid(x = LETTERS[1:5], y = LETTERS[1:5])
+df$value = seq_len(nrow(df))
+g2(df, y ~ x, color = ~ value) |&gt; mark_cell()
+```
+
+## Text
+
+```{r}
+df = data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2))
+g2(df, y ~ x) |&gt;
+  mark_interval() |&gt;
+  mark_text(encode = list(text = 'y'))
+```
+
+## Path
+
+The `path` mark in G2 uses an SVG-like `d` channel to draw arbitrary
+shapes. It does not use x/y data coordinates like `mark_line()`. Use
+`mark_line()` to connect data points in order.
+
+```{r, eval=FALSE}
+g2(df, y ~ x) |&gt; mark_path()
+```
+
+A line mark connecting data points in order:
+
+```{r}
+n = 100
+t = seq(0, 4 * pi, length.out = n)
+df = data.frame(x = t * cos(t), y = t * sin(t))
+g2(df, y ~ x) |&gt; mark_line()
+```
+
+## Polygon
+
+The `polygon` mark draws filled polygons. Use list columns to store
+vertex coordinates for each polygon.
+
+```{r}
+df = data.frame(group = c('triangle', 'square'))
+df$x = list(c(0, 1, 0.5), c(2, 3, 3, 2))
+df$y = list(c(0, 0, 1), c(0, 0, 1, 1))
+g2(df, color = ~ group) |&gt;
+  mark_polygon(encode = list(x = 'x', y = 'y'))
+```
+
+## Link
+
+```{r}
+df = data.frame(
+  x = c('A', 'B', 'C'), y = c(1, 3, 2),
+  x1 = c('B', 'C', 'D'), y1 = c(3, 1, 4)
+)
+g2(df) |&gt;
+  mark_link(encode = list(x = c('x', 'x1'), y = c('y', 'y1'))) |&gt;
+  style_mark(stroke = 'steelblue', lineWidth = 2)
+```
+
+## Reference Lines
+
+### Vertical reference line (lineX)
+
+```{r}
+g2(mtcars, hp ~ mpg) |&gt;
+  mark_point() |&gt;
+  mark_line_x(
+    data = list(list(x = mean(mtcars$mpg))),
+    encode = list(x = 'x')
+  ) |&gt;
+  style_mark(stroke = 'red', lineDash = c(4, 4))
+```
+
+### Horizontal reference line (lineY)
+
+```{r}
+g2(mtcars, hp ~ mpg) |&gt;
+  mark_point() |&gt;
+  mark_line_y(
+    data = list(list(y = mean(mtcars$hp))),
+    encode = list(y = 'y')
+  ) |&gt;
+  style_mark(stroke = 'red', lineDash = c(4, 4))
+```
+
+## Range
+
+### Full range
+
+```{r}
+g2(mtcars, hp ~ mpg) |&gt;
+  mark_point() |&gt;
+  mark_range(
+    data = list(list(x = c(15, 25), y = c(100, 200))),
+    encode = list(x = 'x', y = 'y')
+  ) |&gt;
+  style_mark(fill = 'steelblue', fillOpacity = 0.15)
+```
+
+### Horizontal range (rangeX)
+
+```{r}
+g2(mtcars, hp ~ mpg) |&gt;
+  mark_point() |&gt;
+  mark_range_x(
+    data = list(list(x = c(15, 25))),
+    encode = list(x = 'x')
+  ) |&gt;
+  style_mark(fill = 'steelblue', fillOpacity = 0.15)
+```
+
+### Vertical range (rangeY)
+
+```{r}
+g2(mtcars, hp ~ mpg) |&gt;
+  mark_point() |&gt;
+  mark_range_y(
+    data = list(list(y = c(100, 200))),
+    encode = list(y = 'y')
+  ) |&gt;
+  style_mark(fill = 'orange', fillOpacity = 0.15)
+```
+
+## Connector
+
+```{r}
+df = data.frame(x = c('A', 'B'), y = c(3, 7))
+g2(df, y ~ x) |&gt;
+  mark_interval() |&gt;
+  mark_connector(
+    data = list(list(x = 'A', x1 = 'B')),
+    encode = list(x = 'x', x1 = 'x1')
+  ) |&gt;
+  labels(text = '+133%')
+```
+
+## Box Plot
+
+```{r}
+g2(iris, Sepal.Width ~ Species) |&gt; mark_boxplot()
+```
+
+## Beeswarm
+
+The `beeswarm` mark uses force simulation to arrange individual data points
+without overlap, creating a beeswarm layout useful for visualizing distributions
+within categories.
+
+```{r}
+g2(iris, Sepal.Width ~ Species) |&gt; mark_beeswarm()
+```
+
+### Beeswarm with color
+
+```{r}
+g2(iris, Sepal.Width ~ Species, color = ~ Species) |&gt;
+  mark_beeswarm()
+```
+
+### Beeswarm + box plot overlay
+
+```{r}
+g2(iris, Sepal.Width ~ Species) |&gt;
+  mark_beeswarm() |&gt; mark_boxplot() |&gt; style_mark(boxFillOpacity = 0.15)
+```
+
+## Liquid
+
+```{r}
+g2() |&gt;
+  mark_liquid(data = list(value = 0.6)) |&gt;
+  style_mark(contentText = '60%', contentFill = 'white', contentFontSize = 40)
+```
+
+## Heatmap
+
+```{r}
+g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Petal.Length) |&gt;
+  mark_heatmap()
+```
+
+## Image
+
+The `image` mark places images at data coordinates.
+
+```{r}
+df = data.frame(
+  x = c(1, 2, 3), y = c(3, 5, 2),
+  url = rep(
+    'https://cdn.jsdelivr.net/npm/@browser-logos/chrome/chrome_64x64.png', 3
+  )
+)
+g2(df, y ~ x) |&gt;
+  mark_image(encode = list(src = 'url')) |&gt;
+  style_mark(width = 30, height = 30)
+```
+
+## Word Cloud
+
+```{r}
+df = data.frame(
+  text = c('Hello', 'Data', 'Science', 'R', 'G2', 'Chart', 'Vis', 'Stats'),
+  value = c(30, 25, 20, 18, 15, 12, 10, 8)
+)
+g2(df) |&gt;
+  mark_word_cloud(
+    encode = list(text = 'text', value = 'value', color = 'text')
+  )
+```
+
+## Sankey
+
+```{r}
+df = data.frame(
+  source = c('Coal', 'Coal', 'Oil', 'Oil', 'Gas', 'Gas', 'Solar'),
+  target = c('Electricity', 'Heat', 'Electricity', 'Transport',
+    'Electricity', 'Heat', 'Electricity'),
+  value = c(25, 10, 15, 20, 20, 5, 10)
+)
+g2(df) |&gt;
+  mark_sankey(
+    encode = list(source = 'source', target = 'target', value = 'value'),
+    layout = list(nodeAlign = 'center', nodePadding = 0.03)
+  )
+```
+
+## Chord
+
+```{r}
+df = data.frame(
+  source = c('A', 'A', 'A', 'B', 'B', 'C'),
+  target = c('B', 'C', 'D', 'C', 'D', 'D'),
+  value = c(5, 3, 2, 4, 1, 3)
+)
+g2(df) |&gt;
+  mark_chord(
+    encode = list(source = 'source', target = 'target', value = 'value')
+  )
+```
+
+## Treemap
+
+```{r}
+tree_data = list(
+  name = 'root', children = list(
+    list(name = 'Frontend', children = list(
+      list(name = 'React', value = 180),
+      list(name = 'Vue', value = 120),
+      list(name = 'Angular', value = 80)
+    )),
+    list(name = 'Backend', children = list(
+      list(name = 'Node.js', value = 150),
+      list(name = 'Python', value = 130),
+      list(name = 'Go', value = 90)
+    )),
+    list(name = 'Data', children = list(
+      list(name = 'R', value = 100),
+      list(name = 'Julia', value = 40)
+    ))
+  )
+)
+g2() |&gt;
+  mark_treemap(
+    data = list(type = 'inline', value = tree_data),
+    encode = list(value = 'value')
+  )
+```
+
+## Pack (Circle Packing)
+
+```{r}
+g2() |&gt;
+  mark_pack(
+    data = list(type = 'inline', value = tree_data),
+    encode = list(value = 'value', color = 'depth'),
+    legend = FALSE
+  ) |&gt;
+  style_mark(labelText = js(
+    '(d) =&gt; d.r &gt;= 10 &amp;&amp; d.height === 0 ? d.data.name : &quot;&quot;'
+  ))
+```
+
+## Gauge
+
+```{r}
+g2() |&gt;
+  mark_gauge(
+    data = list(
+      type = 'inline',
+      value = list(target = 120, total = 400, name = 'score')
+    )
+  )
+```
+
+## Force Graph
+
+```{r}
+g2() |&gt;
+  mark_force_graph(
+    data = list(type = 'inline', value = list(
+      nodes = list(
+        list(id = 'CEO'), list(id = 'CTO'), list(id = 'CFO'),
+        list(id = 'VP Eng'), list(id = 'VP Sales'),
+        list(id = 'Dev Lead'), list(id = 'Backend'),
+        list(id = 'Frontend'), list(id = 'Accounting'),
+        list(id = 'Payroll'), list(id = 'Sales Rep 1'),
+        list(id = 'Sales Rep 2')
+      ),
+      links = list(
+        list(source = 'CEO', target = 'CTO'),
+        list(source = 'CEO', target = 'CFO'),
+        list(source = 'CEO', target = 'VP Sales'),
+        list(source = 'CTO', target = 'VP Eng'),
+        list(source = 'VP Eng', target = 'Dev Lead'),
+        list(source = 'Dev Lead', target = 'Backend'),
+        list(source = 'Dev Lead', target = 'Frontend'),
+        list(source = 'CFO', target = 'Accounting'),
+        list(source = 'CFO', target = 'Payroll'),
+        list(source = 'VP Sales', target = 'Sales Rep 1'),
+        list(source = 'VP Sales', target = 'Sales Rep 2'),
+        list(source = 'Backend', target = 'Frontend')
+      )
+    )),
+    nodeLabels = list(list(text = 'id'))
+  )
+```
+
+## Tree
+
+```{r}
+g2() |&gt;
+  mark_tree(
+    data = list(type = 'inline', value = list(
+      name = 'Company', children = list(
+        list(name = 'Engineering', children = list(
+          list(name = 'Frontend'),
+          list(name = 'Backend'),
+          list(name = 'DevOps')
+        )),
+        list(name = 'Marketing', children = list(
+          list(name = 'SEO'),
+          list(name = 'Content')
+        )),
+        list(name = 'Finance', children = list(
+          list(name = 'Accounting'),
+          list(name = 'Payroll')
+        ))
+      )
+    )),
+    nodeLabels = list(list(text = 'name'))
+  )
+```
+
+## Density
+
+The density mark computes kernel density estimation (KDE) automatically
+from the `x` aesthetic. Map `color` for grouped density curves.
+
+```{r}
+g2(iris, ~ Sepal.Width, color = ~ Species) |&gt; mark_density()
+```
+
+## Sunburst
+
+```{r}
+tree_data = list(
+  name = 'root', children = list(
+    list(name = 'Frontend', children = list(
+      list(name = 'React', value = 180),
+      list(name = 'Vue', value = 120),
+      list(name = 'Angular', value = 80)
+    )),
+    list(name = 'Backend', children = list(
+      list(name = 'Node.js', value = 150),
+      list(name = 'Python', value = 130),
+      list(name = 'Go', value = 90)
+    )),
+    list(name = 'Data', children = list(
+      list(name = 'R', value = 100),
+      list(name = 'Julia', value = 40)
+    ))
+  )
+)
+g2() |&gt;
+  mark_sunburst(
+    data = list(type = 'inline', value = list(tree_data)),
+    encode = list(value = 'value')
+  ) |&gt;
+  style_mark(inset = 0.5)
+```
+</code></pre>
+</div>
+<div class="box">
+<div class="caption name">
+<p><a href="examples/scales.html">Scales</a> <em>(source: <a href="examples/scales.Rmd">scales.Rmd</a>)</em> <a href="examples/scales.html" class="run">⏵</a></p>
+</div>
+<pre><code class="language-md">---
+title: Scales
+---
+
+```{r}
+library(gglite)
+p = g2(mtcars, hp ~ mpg)
+```
+
+Scales control how data values map to visual properties. Use helpers like
+`scale_x()`, `scale_y()`, `scale_color()`, and `scale_size()` to configure
+the scale for a given channel.
+
+## Linear Scale (default for numeric)
+
+```{r}
+p |&gt; scale_x(type = 'linear')
+```
+
+## Log Scale
+
+```{r}
+p |&gt; scale_y(type = 'log')
+```
+
+## Power Scale
+
+```{r}
+p |&gt; scale_y(type = 'pow')
+```
+
+## Square Root Scale
+
+```{r}
+p |&gt; scale_y(type = 'sqrt')
+```
+
+## Point Scale (for categorical axes)
+
+The `'point'` scale positions discrete values with even spacing suitable for
+point marks. (The `'ordinal'` scale is meant for non-positional channels
+such as color or shape.)
+
+```{r}
+df = data.frame(x = c('A', 'B', 'C', 'D'), y = c(3, 7, 2, 5))
+p_cat = g2(df, y ~ x)
+p_cat |&gt;
+  mark_point() |&gt;
+  scale_x(type = 'point')
+```
+
+## Band Scale
+
+```{r}
+p_cat |&gt; scale_x(type = 'band')
+```
+
+## Time Scale
+
+```{r}
+df = data.frame(
+  date = seq(as.Date('2024-01-01'), by = 'month', length.out = 6),
+  value = c(10, 20, 15, 30, 25, 35)
+)
+g2(df, value ~ date) |&gt;
+  scale_x(type = 'time')
+```
+
+## Custom Domain and Range
+
+```{r}
+p |&gt;
+  scale_x(domain = c(10, 35)) |&gt;
+  scale_y(domain = c(0, 400))
+```
+
+## Nice Rounding
+
+```{r}
+p |&gt;
+  scale_x(nice = TRUE) |&gt;
+  scale_y(nice = TRUE)
+```
+
+## Zero Inclusion
+
+```{r}
+p |&gt; scale_y(zero = TRUE)
+```
+
+## Color Palette
+
+```{r}
+p_iris = g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species)
+p_iris |&gt; scale_color(palette = 'category10')
+```
+
+### Custom color range
+
+```{r}
+p_iris |&gt; scale_color(range = c('#e41a1c', '#377eb8', '#4daf4a'))
+```
+
+## Identity Scale
+
+```{r}
+df = data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2), col = c('red', 'green', 'blue'))
+g2(df, y ~ x, color = ~ col) |&gt;
+  scale_color(type = 'identity')
+```
+
+## Multiple Scales
+
+```{r}
+g2(mtcars, hp ~ mpg, color = ~ wt, size = ~ qsec) |&gt;
+  scale_x(nice = TRUE) |&gt;
+  scale_y(type = 'sqrt') |&gt;
+  scale_color(palette = 'viridis') |&gt;
+  scale_size(range = c(2, 10))
+```
+</code></pre>
+</div>
+<div class="box">
+<div class="caption name">
+<p><a href="examples/scrollbars.html">Scrollbars</a> <em>(source: <a href="examples/scrollbars.Rmd">scrollbars.Rmd</a>)</em> <a href="examples/scrollbars.html" class="run">⏵</a></p>
+</div>
+<pre><code class="language-md">---
+title: Scrollbars
+---
+
+```{r}
+library(gglite)
+df = data.frame(x = 1:100, y = cumsum(rnorm(100)))
+p  = g2(df, y ~ x) |&gt; mark_line()
+```
+
+Scrollbars allow users to scroll through data that extends beyond the visible
+chart area.
+
+## Scrollbar on X
+
+```{r}
+p |&gt; scroll_x()
+```
+
+## Scrollbar on Y
+
+```{r}
+p |&gt; scroll_y()
+```
+
+## Scrollbar on Both Axes
+
+```{r}
+p |&gt; scroll_x() |&gt; scroll_y()
+```
+</code></pre>
+</div>
+<div class="box">
+<div class="caption name">
+<p><a href="examples/shiny.html">Shiny</a> <em>(source: <a href="examples/shiny.Rmd">shiny.Rmd</a>)</em> <a href="examples/shiny.html" class="run">⏵</a></p>
+</div>
+<pre><code class="language-md">---
+title: Shiny
+---
+
+gglite charts can be embedded in [Shiny](https://shiny.posit.co/) applications
+using `g2Output()` and `renderG2()`. These follow the familiar Shiny output/
+render pattern: `g2Output()` creates the placeholder in the UI and
+automatically injects the required JavaScript dependencies, while `renderG2()`
+creates the reactive chart in the server.
+
+## Basic Example
+
+The simplest app renders a static scatter plot:
+
+```r
+library(shiny)
+library(gglite)
+
+ui = fluidPage(
+  g2Output('chart1')
+)
+
+server = function(input, output, session) {
+  output$chart1 = renderG2({
+    g2(mtcars, hp ~ mpg)
+  })
+}
+
+shinyApp(ui, server)
+```
+
+## Reactive Example
+
+Wrap the chart in `renderG2({})` and reference reactive inputs directly. The
+chart re-renders automatically whenever an input changes. The following app
+lets the user pick the y-axis variable:
+
+```r
+library(shiny)
+library(gglite)
+
+ui = fluidPage(
+  selectInput('xvar', 'X variable',
+              choices = c('hp', 'wt', 'qsec', 'drat')),
+  g2Output('chart1')
+)
+
+server = function(input, output, session) {
+  output$chart1 = renderG2({
+    g2(mtcars, x = input$xvar, y = 'mpg') |&gt;
+      titles(paste('mpg vs', input$xvar))
+  })
+}
+
+shinyApp(ui, server)
+```
+
+## Multiple Charts
+
+Use a distinct `outputId` for each chart and assign a separate `renderG2()`
+for each one:
+
+```r
+library(shiny)
+library(gglite)
+
+ui = fluidPage(
+  fluidRow(
+    column(6, g2Output('scatter')),
+    column(6, g2Output('bars'))
+  )
+)
+
+server = function(input, output, session) {
+  output$scatter = renderG2({
+    g2(mtcars, hp ~ mpg)
+  })
+  output$bars = renderG2({
+    freq = as.data.frame(table(cyl = mtcars$cyl))
+    g2(freq, Freq ~ cyl)
+  })
+}
+
+shinyApp(ui, server)
+```
+</code></pre>
+</div>
+<div class="box">
+<div class="caption name">
+<p><a href="examples/sliders.html">Sliders</a> <em>(source: <a href="examples/sliders.Rmd">sliders.Rmd</a>)</em> <a href="examples/sliders.html" class="run">⏵</a></p>
+</div>
+<pre><code class="language-md">---
+title: Sliders
+---
+
+```{r}
+library(gglite)
+df = data.frame(x = 1:100, y = cumsum(rnorm(100)))
+p  = g2(df, y ~ x) |&gt; mark_line()
+```
+
+Sliders allow users to zoom and pan through data by dragging a handle.
+
+## Slider on X
+
+```{r}
+p |&gt; slider_x()
+```
+
+## Slider on Y
+
+```{r}
+p |&gt; slider_y()
+```
+
+## Slider on Both Axes
+
+```{r}
+p |&gt; slider_x() |&gt; slider_y()
+```
+
+## Slider with a Bar Chart
+
+```{r}
+bar_df = data.frame(x = paste0('Item ', 1:50), y = sample(1:100, 50))
+g2(bar_df, y ~ x) |&gt; slider_x()
+```
+</code></pre>
+</div>
+<div class="box">
+<div class="caption name">
+<p><a href="examples/styles.html">Styles</a> <em>(source: <a href="examples/styles.Rmd">styles.Rmd</a>)</em> <a href="examples/styles.html" class="run">⏵</a></p>
+</div>
+<pre><code class="language-md">---
+title: Styles
+---
+
+```{r}
+library(gglite)
+df = data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2))
+p  = g2(df, y ~ x)
+```
+
+Use `style_mark()` to set visual properties on the most recently added mark.
+The following bar chart in its default style is used as the baseline for the
+bar examples below.
+
+```{r}
+p
+```
+
+## Custom Fill on Bars
+
+```{r}
+p |&gt; style_mark(fill = 'tomato', stroke = '#333', lineWidth = 3)
+```
+
+## Custom Fill and Stroke on Points
+
+```{r}
+g2(mtcars, hp ~ mpg) |&gt;
+  style_mark(fill = 'orange', stroke = '#333', lineWidth = 3)
+```
+
+## Semi-Transparent Area
+
+```{r}
+df_line = data.frame(x = 1:10, y = c(3, 1, 4, 1, 5, 9, 2, 6, 5, 3))
+p_area = g2(df_line, y ~ x) |&gt; mark_area()
+p_area |&gt; style_mark(fill = 'steelblue', fillOpacity = 0.3)
+```
+
+## Line with Custom Stroke
+
+```{r}
+p_line = g2(df_line, y ~ x) |&gt; mark_line()
+p_line |&gt; style_mark(stroke = 'tomato', lineWidth = 3)
+```
+
+## Dashed Line
+
+```{r}
+p_line |&gt; style_mark(stroke = 'steelblue', lineDash = c(6, 3))
+```
+</code></pre>
+</div>
+<div class="box">
+<div class="caption name">
+<p><a href="examples/themes.html">Themes</a> <em>(source: <a href="examples/themes.Rmd">themes.Rmd</a>)</em> <a href="examples/themes.html" class="run">⏵</a></p>
+</div>
+<pre><code class="language-md">---
+title: Themes
+---
+
+```{r}
+library(gglite)
+p = g2(mtcars, hp ~ mpg)
+```
+
+Themes control the overall visual appearance of the chart. Use helpers like
+`theme_classic()`, `theme_dark()`, `theme_light()`, `theme_classic_dark()`,
+and `theme_academy()` to set a built-in theme.
+
+G2 provides five built-in themes in two pairs plus one standalone:
+
+- **`classic` vs `light`**: both use a light background, but differ only in
+  their default color palette for categorical data. `light` uses the AntV Light
+  palette (e.g. `#1783FF`, `#00C9C9`, …), while `classic` (the default) uses
+  G2's `category10` palette (e.g. `#5B8FF9`, `#5AD8A6`, …). When there is only
+  a single data series, the two themes look identical because only one color is
+  used.
+
+- **`dark` vs `classicDark`**: the same relationship as above but on a dark
+  background (`#141414`). `dark` uses the AntV Light palette colors on a dark
+  canvas; `classicDark` uses the `category10` palette colors on a dark canvas.
+  The only visible difference is the multi-series color palette.
+
+- **`academy`**: a distinct style with custom fonts, color ramps, and decorative
+  grid filters; it is not related to the classic/light or dark/classicDark
+  pairs.
+
+## Classic Theme (default)
+
+```{r}
+p |&gt; theme_classic()
+```
+
+## Classic Dark Theme
+
+```{r}
+p |&gt; theme_classic_dark()
+```
+
+## Light Theme
+
+```{r}
+p |&gt; theme_light()
+```
+
+## Dark Theme
+
+```{r}
+p |&gt; theme_dark()
+```
+
+## Academy Theme
+
+```{r}
+p |&gt; theme_academy()
+```
+
+## Theme on a bar chart
+
+```{r}
+df = data.frame(x = c('A', 'B', 'C', 'D'), y = c(3, 7, 2, 5))
+g2(df, y ~ x, color = ~ x) |&gt;
+  theme_dark()
+```
+
+## Theme on a multi-series line chart
+
+```{r}
+df = data.frame(
+  x = rep(1:5, 2), y = c(3, 1, 4, 1, 5, 2, 7, 1, 8, 3),
+  group = rep(c('A', 'B'), each = 5)
+)
+g2(df, y ~ x, color = ~ group) |&gt;
+  mark_line() |&gt;
+  theme_classic_dark()
+```
+</code></pre>
+</div>
+<div class="box">
+<div class="caption name">
+<p><a href="examples/titles.html">Titles</a> <em>(source: <a href="examples/titles.Rmd">titles.Rmd</a>)</em> <a href="examples/titles.html" class="run">⏵</a></p>
+</div>
+<pre><code class="language-md">---
+title: Titles
+---
+
+```{r}
+library(gglite)
+p = g2(mtcars, hp ~ mpg)
+```
+
+## Title and Subtitle via `g2()` Arguments
+
+```{r}
+g2(mtcars, hp ~ mpg,
+  title = 'Motor Trend Cars', subtitle = 'mpg vs horsepower')
+```
+
+## Simple Title
+
+```{r}
+p |&gt; titles('Motor Trend Cars')
+```
+
+## Title with Subtitle
+
+```{r}
+p |&gt; titles('Motor Trend Cars', subtitle = 'mpg vs horsepower')
+```
+
+## Title Alignment
+
+```{r}
+p |&gt; titles('Right-aligned Title', align = 'right')
+```
+
+## Title on a Bar Chart
+
+```{r}
+df = data.frame(x = c('A', 'B', 'C', 'D'), y = c(3, 7, 2, 5))
+g2(df, y ~ x) |&gt;
+  titles('Simple Bar Chart', subtitle = 'Categories A-D')
+```
+</code></pre>
+</div>
+<div class="box">
+<div class="caption name">
+<p><a href="examples/tooltips.html">Tooltips</a> <em>(source: <a href="examples/tooltips.Rmd">tooltips.Rmd</a>)</em> <a href="examples/tooltips.html" class="run">⏵</a></p>
+</div>
+<pre><code class="language-md">---
+title: Tooltips
+---
+
+Tooltips in gglite have two distinct configuration points that match G2's
+internal structure:
+
+- **Chart-level** (`tooltip()` → `interaction.tooltip`): controls tooltip
+  *behavior* — crosshairs, shared mode, marker style, position, and rendering.
+- **Mark-level** (`mark_*(tooltip = list(...))` → mark spec `tooltip`): controls
+  what *data* is shown for a specific mark — which channels to display, value
+  formatting, custom item names.
+
+## Chart-Level Tooltip (`tooltip()`)
+
+All arguments to `tooltip()` are passed to G2's `interaction.tooltip`. These
+options apply across all marks in the chart.
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| `FALSE` | — | Disable tooltip entirely |
+| `crosshairs` | `FALSE` | Show crosshairs on both axes (series marks only) |
+| `crosshairsX` | `FALSE` | Show horizontal crosshair only (series marks only) |
+| `crosshairsY` | `FALSE` | Show vertical crosshair only (series marks only) |
+| `crosshairsStroke` | `'#1b1e23'` | Crosshair line color |
+| `crosshairsLineWidth` | `1` | Crosshair line width in pixels |
+| `crosshairsLineDash` | `NULL` | Dash pattern, e.g. `c(4, 4)` |
+| `crosshairsStrokeOpacity` | `0.5` | Crosshair line opacity (0–1). Set to `1` for a fully opaque line |
+| `shared` | `FALSE` | Show all mark values at the same x position |
+| `groupName` | auto | Show series/group name prefix in tooltip items |
+| `marker` | `TRUE` | Show the hover marker dot |
+| `markerType` | `'default'` | Marker shape; `'hollow'` gives an unfilled circle |
+| `markerFill` | auto | Marker fill color |
+| `markerStroke` | auto | Marker stroke color |
+| `markerSize` | auto | Marker size in pixels |
+| `body` | `TRUE` | Show tooltip box; `FALSE` shows only the marker |
+| `position` | `'right-bottom'` | Tooltip position: `'top'`, `'bottom'`, `'left'`, `'right'`, or a corner such as `'top-left'` |
+| `offset` | `c(10, 10)` | x/y pixel offset from the cursor |
+| `enterable` | `FALSE` | Allow the cursor to move inside the tooltip box |
+
+### Disable Tooltip
+
+Pass `FALSE` to turn off the tooltip entirely.
+
+```{r}
+library(gglite)
+g2(mtcars, hp ~ mpg) |&gt; tooltip(FALSE)
+```
+
+### Crosshairs
+
+Crosshairs are reference lines that track the cursor along the x and/or y axes.
+They only work with the *series* tooltip path used by line and area marks.
+
+```{r}
+air_monthly = aggregate(Temp ~ Month, data = airquality, FUN = mean)
+air_monthly$Month = month.abb[air_monthly$Month]
+p = g2(air_monthly, Temp ~ Month) |&gt; mark_line() |&gt; mark_point()
+p |&gt; tooltip(crosshairs = TRUE)
+```
+
+### Crosshairs on One Axis Only
+
+`crosshairsX = TRUE` shows only the horizontal line; `crosshairsY = TRUE` shows
+only the vertical line.
+
+```{r}
+p |&gt; tooltip(crosshairsX = TRUE, crosshairsY = FALSE)
+```
+
+```{r}
+p |&gt; tooltip(crosshairsX = FALSE, crosshairsY = TRUE)
+```
+
+### Crosshairs Style
+
+Use `crosshairsStroke`, `crosshairsLineWidth`, `crosshairsLineDash`, and
+`crosshairsStrokeOpacity` to customize crosshair appearance.
+
+```{r}
+p |&gt; tooltip(crosshairs = TRUE, crosshairsStroke = 'tomato', crosshairsLineWidth = 2)
+```
+
+### Default Crosshairs in Line Charts
+
+Series marks (`mark_line()`, `mark_area()`) show a **vertical crosshair by
+default** without any `tooltip()` call. This is controlled by G2's built-in
+`crosshairs: true` mark option. If you do not want crosshairs, pass
+`crosshairsY = FALSE` (or `crosshairs = FALSE`) to `tooltip()`:
+
+```{r}
+p |&gt; tooltip(crosshairsY = FALSE)
+```
+
+### Marker Style
+
+The hover marker is the dot that snaps to the data point. Use `marker = FALSE`
+to hide it, or customize with `markerType`, `markerFill`, `markerStroke`, and
+`markerSize`. These examples use a line-only chart so the marker effect is
+clearly visible.
+
+```{r}
+p_line = g2(air_monthly, Temp ~ Month) |&gt; mark_line()
+p_line |&gt; tooltip(marker = FALSE)
+```
+
+```{r}
+p_line |&gt; tooltip(markerType = 'hollow', markerSize = 12)
+```
+
+### Hide Tooltip Body
+
+`body = FALSE` shows only the hover marker with no tooltip box.
+
+```{r}
+p |&gt; tooltip(body = FALSE)
+```
+
+### Tooltip Position
+
+Control where the tooltip appears relative to the cursor.
+
+```{r}
+p |&gt; tooltip(position = 'top-left')
+```
+
+### Tooltip Offset
+
+Adjust the tooltip's x/y offset from the cursor in pixels.
+
+```{r}
+p |&gt; tooltip(offset = c(30, 30))
+```
+
+### Enterable Tooltip
+
+`enterable = TRUE` lets the user move the cursor inside the tooltip box,
+useful when the tooltip contains interactive content.
+
+```{r}
+p |&gt; tooltip(enterable = TRUE)
+```
+
+### Shared Tooltip
+
+`shared = TRUE` shows a single tooltip listing all mark values at the same x
+position. Useful for comparing multiple series.
+
+```{r}
+df = data.frame(
+  x = rep(1:5, 2), y = c(3, 1, 4, 1, 5, 2, 7, 1, 8, 3),
+  group = rep(c('A', 'B'), each = 5)
+)
+p2 = g2(df, y ~ x, color = ~ group) |&gt; mark_line()
+p2 |&gt; tooltip(shared = TRUE)
+```
+
+### Group Name
+
+`groupName = FALSE` hides the series/group name prefix in each tooltip item.
+
+```{r}
+p2 |&gt; tooltip(shared = TRUE, groupName = FALSE)
+```
+
+## Mark-Level Tooltip (`mark_*(tooltip = list(...))`)
+
+Pass a `tooltip` argument to any `mark_*()` call to control what data is shown
+in the tooltip for that specific mark.
+
+| Option | Description |
+|--------|-------------|
+| `channel` | Channel name to show, e.g. `'y'` or `'x'` |
+| `field` | Raw data field name, e.g. `'Temp'` |
+| `name` | Custom label for the tooltip item |
+| `valueFormatter` | [d3-format](https://d3js.org/d3-format) string, e.g. `'.1f'`, `'.0%'` |
+| `color` | Custom color swatch for the item |
+| `title` | Title spec: `list(channel = 'x')` or `list(field = 'Date')` |
+| `items` | List of item specs for full control over multiple items |
+| `FALSE` | Disable tooltip for this mark entirely |
+
+### Show a Single Channel
+
+Use `channel` to restrict the tooltip to one data channel. Hover over any bar
+to see only the temperature value instead of both month and temperature.
+
+```{r}
+p_bar = g2(air_monthly, Temp ~ Month)
+p_bar |&gt; mark_interval(tooltip = list(channel = 'y'))
+```
+
+### Custom Item Name
+
+Use `name` to replace the default field name with a descriptive label.
+
+```{r}
+p_bar |&gt; mark_interval(tooltip = list(channel = 'y', name = 'Avg Temp (°F)'))
+```
+
+### Value Formatter
+
+Use `valueFormatter` with a d3-format string to format the displayed value.
+
+```{r}
+p_bar |&gt; mark_interval(tooltip = list(channel = 'y', name = 'Avg Temp', valueFormatter = '.1f'))
+```
+
+```{r}
+# Percentage formatter in a normalized stacked bar chart
+wb = aggregate(breaks ~ wool + tension, data = warpbreaks, FUN = mean)
+g2(wb, breaks ~ tension, color = ~ wool) |&gt;
+  mark_interval(tooltip = list(channel = 'y', valueFormatter = '.2%')) |&gt;
+  transform('stackY') |&gt;
+  transform('normalizeY') |&gt;
+  axis_y(labelFormatter = '.0%') |&gt;
+  legend_color(position = 'right') |&gt;
+  titles('Warp Breaks by Tension and Wool Type')
+```
+
+### Custom Item Color
+
+Use `color` to override the color swatch shown next to the tooltip item.
+
+```{r}
+p_bar |&gt; mark_interval(tooltip = list(channel = 'y', name = 'Avg Temp', color = 'tomato'))
+```
+
+### Custom Title
+
+Use `title` with a field reference to display a specific data field as the
+tooltip title. Use `items` for full control over multiple tooltip entries.
+
+```{r}
+air_daily = airquality[, c('Month', 'Day', 'Temp')]
+air_daily$Date = as.character(
+  as.Date(paste('1973', air_daily$Month, air_daily$Day, sep = '-'))
+)
+p_daily = g2(air_daily, Temp ~ Date) |&gt; mark_line() |&gt; mark_point()
+p_daily |&gt; mark_point(
+  tooltip = list(
+    title = list(channel = 'x'),
+    items = list(list(channel = 'y', name = 'Temp (°F)'))
+  )
+)
+```
+
+### Disable Tooltip for One Mark
+
+Set `tooltip = FALSE` on a specific mark to suppress its tooltip entry while
+keeping it for others. In this dual-axis chart, the bars have no tooltip; only
+the wind speed line shows a value on hover.
+
+```{r}
+air_tw = aggregate(cbind(Temp, Wind) ~ Month, data = airquality, FUN = mean)
+air_tw$Month = month.abb[air_tw$Month]
+g2(air_tw, ~ Month) |&gt;
+  mark_interval(
+    encode = list(y = 'Temp'), tooltip = FALSE,
+    style = list(fill = '#91caff', fillOpacity = 0.8)
+  ) |&gt;
+  scale_y(independent = TRUE) |&gt;
+  axis_y(title = 'Temp (°F)') |&gt;
+  mark_line(
+    encode = list(y = 'Wind'),
+    style = list(stroke = 'tomato', lineWidth = 2)
+  ) |&gt;
+  scale_y(independent = TRUE) |&gt;
+  axis_y(position = 'right', title = 'Wind (mph)')
+```
+</code></pre>
+</div>
+<div class="box">
+<div class="caption name">
+<p><a href="examples/transforms.html">Transforms</a> <em>(source: <a href="examples/transforms.Rmd">transforms.Rmd</a>)</em> <a href="examples/transforms.html" class="run">⏵</a></p>
+</div>
+<pre><code class="language-md">---
+title: Transforms
+---
+
+```{r}
+library(gglite)
+```
+
+Transforms are data manipulations applied to marks, similar to ggplot2's
+`stat_*()` and `position_*()` functions. Use `transform()` to add them.
+
+## stackY (position_stack)
+
+Stack bars vertically.
+
+```{r}
+df = data.frame(
+  x = rep(c('A', 'B', 'C'), each = 2), y = c(3, 2, 5, 4, 1, 6),
+  color = rep(c('a', 'b'), 3)
+)
+p = g2(df, y ~ x, color = ~ color) |&gt; mark_interval()
+p |&gt; transform('stackY')
+```
+
+### Stacked area chart
+
+```{r}
+df = data.frame(
+  x = rep(1:5, 2), y = c(3, 1, 4, 1, 5, 2, 7, 1, 8, 3),
+  group = rep(c('A', 'B'), each = 5)
+)
+g2(df, y ~ x, color = ~ group) |&gt;
+  mark_area() |&gt;
+  transform('stackY')
+```
+
+## dodgeX (position_dodge)
+
+Place bars side by side.
+
+```{r}
+p |&gt; transform('dodgeX')
+```
+
+## normalizeY (position_fill)
+
+Normalize to 100% (percent-stacked chart).
+
+```{r}
+p |&gt;
+  transform('stackY') |&gt;
+  transform('normalizeY')
+```
+
+## jitterX / jitterY
+
+Add random jitter to reduce overplotting.
+
+```{r}
+g2(mtcars, hp ~ cyl) |&gt;
+  transform('jitterX')
+```
+
+### Jitter in both directions
+
+```{r}
+g2(mtcars, gear ~ cyl) |&gt;
+  transform('jitterX') |&gt;
+  transform('jitterY')
+```
+
+## binX (stat_bin)
+
+Bin data along x for histograms.
+
+```{r}
+g2(mtcars, ~ mpg) |&gt;
+  mark_rect() |&gt;
+  transform('binX', y = 'count', thresholds = 15)
+```
+
+## bin (2D binning)
+
+Bin in two dimensions for heatmap-style plots.
+
+```{r}
+g2(mtcars, hp ~ mpg) |&gt;
+  mark_rect() |&gt;
+  transform('bin', thresholdsX = 10, thresholdsY = 10)
+```
+
+## symmetryY (mirror)
+
+Create a symmetric / butterfly chart.
+
+```{r}
+df = data.frame(
+  x = rep(c('A', 'B', 'C'), each = 2), y = c(3, 2, 5, 4, 1, 6),
+  color = rep(c('Male', 'Female'), 3)
+)
+g2(df, y ~ x, color = ~ color) |&gt;
+  mark_interval() |&gt;
+  transform('stackY') |&gt;
+  transform('symmetryY')
+```
+
+## sortX / sortY
+
+Sort data before rendering.
+
+```{r}
+df = data.frame(x = c('C', 'A', 'B'), y = c(2, 5, 3))
+g2(df, y ~ x) |&gt;
+  transform('sortX', reverse = TRUE)
+```
+
+## Multiple transforms
+
+Transforms can be chained. Order matters.
+
+```{r}
+p |&gt;
+  transform('stackY') |&gt;
+  transform('normalizeY') |&gt;
+  coord_transpose()
+```
+</code></pre>
+</div>
+</div>
+<footer><div class="flex-col">
+<p>Developed by Yihui Xie</p>
+<p>Site built with <a href="https://github.com/yihui/litedown">litedown</a> v0.9.9</p>
+</div></footer>
+<script src="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/js/sidenotes.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/js/appendix.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/js/toc-highlight.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/js/copy-button.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/js/heading-anchor.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/js/pages.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" defer></script>
+</body>
+</html>

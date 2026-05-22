@@ -1,0 +1,74 @@
+---
+title: Axes
+---
+
+```{r}
+library(gglite)
+p = g2(mtcars, hp ~ mpg)
+```
+
+## Axis Titles
+
+```{r}
+p |> axis_x(title = 'Miles per Gallon') |> axis_y(title = 'Horsepower')
+```
+
+## Hide an Axis
+
+```{r}
+p |> axis_y(FALSE)
+```
+
+## Hide Both Axes
+
+```{r}
+p |> axis_x(FALSE) |> axis_y(FALSE)
+```
+
+## Hide Grid Lines
+
+Grid lines are shown by default. Hide the x-axis grid to reduce clutter.
+
+```{r}
+p |> axis_x(grid = FALSE)
+```
+
+## Axis Tick Count
+
+```{r}
+p |> axis_x(tickCount = 5) |> axis_y(tickCount = 8)
+```
+
+## Axis Label Formatter
+
+Use a [d3-format](https://d3js.org/d3-format) or
+[d3-time-format](https://d3js.org/d3-time-format) string. The example below
+shows x-axis labels (mpg) with one decimal place.
+
+```{r}
+p |> axis_x(labelFormatter = '.1f')
+```
+
+## Dual Y-Axis
+
+Two marks can share the same x-axis but each have their own independent y-axis.
+Call `scale_y(independent = TRUE)` and `axis_y()` immediately after each mark
+to configure its y-axis independently.
+
+```{r}
+air_monthly = aggregate(cbind(Temp, Wind) ~ Month, data = airquality, FUN = mean)
+air_monthly$Month = month.abb[air_monthly$Month]
+
+g2(air_monthly, ~ Month) |>
+  mark_interval(encode = list(y = 'Temp')) |>
+  style_mark(fill = '#85C5A6', fillOpacity = 0.7) |>
+  scale_y(independent = TRUE) |>
+  axis_y(title = 'Temperature (°F)', titleFill = '#85C5A6') |>
+  mark_line(encode = list(y = 'Wind')) |>
+  style_mark(stroke = 'steelblue', lineWidth = 2) |>
+  scale_y(independent = TRUE) |>
+  axis_y(
+    position = 'right', grid = FALSE,
+    title = 'Wind Speed (mph)', titleFill = 'steelblue'
+  )
+```

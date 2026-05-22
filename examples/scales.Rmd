@@ -1,0 +1,120 @@
+---
+title: Scales
+---
+
+```{r}
+library(gglite)
+p = g2(mtcars, hp ~ mpg)
+```
+
+Scales control how data values map to visual properties. Use helpers like
+`scale_x()`, `scale_y()`, `scale_color()`, and `scale_size()` to configure
+the scale for a given channel.
+
+## Linear Scale (default for numeric)
+
+```{r}
+p |> scale_x(type = 'linear')
+```
+
+## Log Scale
+
+```{r}
+p |> scale_y(type = 'log')
+```
+
+## Power Scale
+
+```{r}
+p |> scale_y(type = 'pow')
+```
+
+## Square Root Scale
+
+```{r}
+p |> scale_y(type = 'sqrt')
+```
+
+## Point Scale (for categorical axes)
+
+The `'point'` scale positions discrete values with even spacing suitable for
+point marks. (The `'ordinal'` scale is meant for non-positional channels
+such as color or shape.)
+
+```{r}
+df = data.frame(x = c('A', 'B', 'C', 'D'), y = c(3, 7, 2, 5))
+p_cat = g2(df, y ~ x)
+p_cat |>
+  mark_point() |>
+  scale_x(type = 'point')
+```
+
+## Band Scale
+
+```{r}
+p_cat |> scale_x(type = 'band')
+```
+
+## Time Scale
+
+```{r}
+df = data.frame(
+  date = seq(as.Date('2024-01-01'), by = 'month', length.out = 6),
+  value = c(10, 20, 15, 30, 25, 35)
+)
+g2(df, value ~ date) |>
+  scale_x(type = 'time')
+```
+
+## Custom Domain and Range
+
+```{r}
+p |>
+  scale_x(domain = c(10, 35)) |>
+  scale_y(domain = c(0, 400))
+```
+
+## Nice Rounding
+
+```{r}
+p |>
+  scale_x(nice = TRUE) |>
+  scale_y(nice = TRUE)
+```
+
+## Zero Inclusion
+
+```{r}
+p |> scale_y(zero = TRUE)
+```
+
+## Color Palette
+
+```{r}
+p_iris = g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species)
+p_iris |> scale_color(palette = 'category10')
+```
+
+### Custom color range
+
+```{r}
+p_iris |> scale_color(range = c('#e41a1c', '#377eb8', '#4daf4a'))
+```
+
+## Identity Scale
+
+```{r}
+df = data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2), col = c('red', 'green', 'blue'))
+g2(df, y ~ x, color = ~ col) |>
+  scale_color(type = 'identity')
+```
+
+## Multiple Scales
+
+```{r}
+g2(mtcars, hp ~ mpg, color = ~ wt, size = ~ qsec) |>
+  scale_x(nice = TRUE) |>
+  scale_y(type = 'sqrt') |>
+  scale_color(palette = 'viridis') |>
+  scale_size(range = c(2, 10))
+```

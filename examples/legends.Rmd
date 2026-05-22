@@ -1,0 +1,44 @@
+---
+title: Legends
+---
+
+```{r}
+library(gglite)
+p = g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species)
+```
+
+## Legend Position
+
+```{r}
+p |> legend_color(position = 'right')
+```
+
+## Legend at the Top
+
+```{r}
+p |> legend_color(position = 'top')
+```
+
+## Legend at the Bottom
+
+```{r}
+p |> legend_color(position = 'bottom')
+```
+
+## Legend at the Left
+
+```{r}
+p |> legend_color(position = 'left')
+```
+
+## Hide a Legend
+
+```{r}
+p |> legend_color(FALSE)
+```
+
+## Legend with Title
+
+```{r}
+p |> legend_color(position = 'right', title = 'Iris Species')
+```

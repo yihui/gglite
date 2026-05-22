@@ -1,0 +1,527 @@
+---
+title: "Introduction to gglite"
+output:
+  html:
+    meta:
+      css: ['@default', '@article', '@copy-button', '@heading-anchor', '@pages']
+      js: ['@sidenotes', '@appendix', '@toc-highlight', '@copy-button', '@heading-anchor', '@pages']
+    options:
+      toc: true
+      number_sections: true
+vignette: >
+  %\VignetteIndexEntry{Introduction to gglite}
+  %\VignetteEngine{litedown::vignette}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, setup, include = FALSE}
+if (!exists('penguins')) {
+  load(con <- url('https://cdn.jsdelivr.net/gh/r-devel/r-svn/src/library/datasets/data/penguins.rda'))
+  close(con)
+}
+```
+
+The **gglite** package provides a lightweight R interface to the
+[AntV G2](https://g2.antv.antgroup.com/) JavaScript visualization library. It
+follows the _Grammar of Graphics_ framework---the same theoretical foundation
+behind **ggplot2**---but renders interactive, web-based charts powered by G2.
+
+A visualization in gglite is built by composing independent layers:
+
+1. **Data** -- the data frame you want to visualize.
+2. **Marks** (geometries) -- the visual shapes representing data (points,
+   lines, bars, ...).
+3. **Encodings** (aesthetics) -- mappings from data columns to visual channels
+   (position, color, size, ...).
+4. **Scales** -- control how data values translate to visual values.
+5. **Coordinates** -- the coordinate system (Cartesian, polar, ...).
+6. **Transforms** -- statistical or layout transforms applied to the data.
+7. **Facets** -- split data into multiple panels.
+8. **Themes** -- overall visual styling.
+9. **Components** -- axes, legends, titles, tooltips, and labels.
+
+Each layer is added with the pipe operator `|>`, so building a chart reads
+naturally from left to right. If you prefer the ggplot2 convention, you can
+also use `+` instead of `|>`---both operators produce identical results. Use
+whichever you prefer.
+
+## Data and encodings
+
+Every chart starts with `g2()`, which accepts a data frame and aesthetic
+mappings as R formulas:
+
+```{r}
+library(gglite)
+g2(mtcars, hp ~ mpg)
+```
+
+You can also set encodings later with `encode()`:
+
+```{r}
+g2(mtcars) |> encode(x = ~ mpg, y = ~ hp, color = ~ cyl)
+```
+
+### Formula interface
+
+You can use R formulas as a shorthand for aesthetic mappings. The left-hand
+side maps to `y` and the right-hand side maps to `x`:
+
+```{r}
+g2(mtcars, hp ~ mpg)
+```
+
+Additional aesthetics like `color` can be passed alongside the formula:
+
+```{r}
+g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species)
+```
+
+Use `|` for faceting:
+
+```{r}
+g2(iris, Sepal.Length ~ Sepal.Width | Species)
+```
+
+A one-sided formula maps only `x` (useful for histograms or counts):
+
+```{r}
+g2(mtcars, ~ mpg)
+```
+
+Use `+` on the right-hand side for multiple position fields (parallel
+coordinates):
+
+```{r}
+g2(iris, ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width,
+  color = ~ Species)
+```
+
+### Character string interface
+
+All aesthetic channels also accept plain character strings instead of formulas.
+This alternative syntax is equivalent---`color = 'species'` produces the same
+result as `color = ~ species`:
+
+```{r}
+g2(mtcars, x = 'mpg', y = 'hp', color = 'cyl')
+```
+
+The `encode()` function also accepts character strings:
+
+```{r}
+g2(mtcars) |> encode(x = 'mpg', y = 'hp', color = 'cyl')
+```
+
+## Marks (geometries)
+
+Marks are the visual building blocks. gglite provides 35+ mark types. Here are
+the most common ones.
+
+### Points (scatter plot)
+
+```{r}
+g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species) |>
+  mark_point()
+```
+
+### Lines
+
+```{r}
+df = data.frame(
+  x = rep(1:5, 2), y = c(3, 1, 4, 1, 5, 2, 7, 1, 8, 3),
+  group = rep(c('A', 'B'), each = 5)
+)
+g2(df, y ~ x, color = ~ group) |> mark_line()
+```
+
+### Bars (intervals)
+
+```{r}
+df = data.frame(x = c('A', 'B', 'C', 'D'), y = c(3, 7, 2, 5))
+g2(df, y ~ x) |> mark_interval()
+```
+
+### Areas
+
+```{r}
+df = data.frame(x = 1:10, y = c(3, 1, 4, 1, 5, 9, 2, 6, 5, 3))
+g2(df, y ~ x) |> mark_area()
+```
+
+### Box plots
+
+```{r}
+g2(iris, Sepal.Width ~ Species) |> mark_boxplot()
+```
+
+### Combining marks
+
+Multiple marks can be layered on the same chart:
+
+```{r}
+df = data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2))
+g2(df, y ~ x) |>
+  mark_interval() |>
+  mark_text(encode = list(text = 'y'))
+```
+
+## Automatic marks
+
+When no `mark_*()` is added to the pipeline, gglite automatically chooses a
+mark based on the types of the `x` and `y` variables:
+
+| `x` type | `y` type | Mark | Chart type |
+|-----------|----------|------|------------|
+| numeric | numeric | `point` | Scatter plot |
+| categorical (unique) | numeric | `interval` | Bar plot |
+| categorical (repeated) | numeric | `beeswarm` | Beeswarm plot |
+| categorical (repeated, n ≥ 30) | numeric | `beeswarm` + `density` | Beeswarm + density |
+| numeric | categorical (unique) | `interval` (transposed) | Horizontal bar plot |
+| numeric | categorical (repeated) | `beeswarm` (transposed) | Horizontal beeswarm |
+| numeric | categorical (repeated, n ≥ 30) | `beeswarm` + `density` (transposed) | Horizontal beeswarm + density |
+| categorical | categorical | `cell` + `group` | Contingency table |
+| Date | numeric | `line` | Line chart |
+| `ts`/`mts` | _(auto)_ | `line` | Time series line chart |
+| numeric | _(none)_ | `interval` + `binX` | Histogram |
+| categorical | _(none)_ | `interval` + `groupX` | Count bar chart |
+| _(position)_ | _(none)_ | `line` + parallel | Parallel coordinates |
+
+When `x` (or `y`) is categorical, the choice depends on whether the categories
+are unique in the data. If every category appears exactly once, a bar plot
+(`interval`) is drawn. If categories are repeated, a beeswarm plot shows
+individual data points. When all groups have at least 30 observations, a density
+curve is overlaid on the beeswarm for a summary view.
+
+This means you can often skip the mark entirely:
+
+### Scatter plot (numeric × numeric)
+
+```{r}
+g2(penguins, bill_len ~ bill_dep, color = ~ species)
+```
+
+### Bar plot (categorical × numeric, unique categories)
+
+When each category appears once, a bar chart is drawn:
+
+```{r}
+df = data.frame(x = c('A', 'B', 'C', 'D'), y = c(3, 7, 2, 5))
+g2(df, y ~ x)
+```
+
+### Beeswarm plot (categorical × numeric, repeated categories)
+
+When categories are repeated, individual points are shown in a beeswarm layout:
+
+```{r}
+g2(chickwts, weight ~ feed)
+```
+
+### Beeswarm + density (categorical × numeric, large groups)
+
+When every group has at least 30 observations, a density curve is overlaid on
+the beeswarm:
+
+```{r}
+g2(penguins, bill_len ~ species)
+```
+
+### Horizontal beeswarm (numeric × categorical)
+
+```{r}
+g2(penguins, species ~ bill_len)
+```
+
+### Contingency table (categorical × categorical)
+
+Cells are automatically colored by the count of each combination:
+
+```{r}
+g2(penguins, island ~ species)
+```
+
+### Line chart (Date × numeric)
+
+```{r}
+df = data.frame(date = Sys.Date() + 0:9, value = cumsum(rnorm(10)))
+g2(df, value ~ date)
+```
+
+### Histogram (numeric only)
+
+```{r}
+g2(penguins, ~ bill_len)
+```
+
+### Count bar chart (categorical only)
+
+```{r}
+g2(penguins, ~ species)
+```
+
+### Parallel coordinates (multiple position fields)
+
+```{r}
+g2(penguins, ~ bill_len + bill_dep + flipper_len + body_mass, color = ~ species)
+```
+
+You can still add scales, themes, titles, and other components as usual:
+
+```{r}
+g2(mtcars, hp ~ mpg, color = ~ cyl) |>
+  scale_color(type = 'ordinal') |>
+  titles('Motor Trend Cars')
+```
+
+If you add any `mark_*()`, automatic detection is skipped entirely, so explicit
+marks always take priority.
+
+### Time series
+
+`g2()` also accepts R time series (`ts` and `mts`) objects directly. Univariate
+series are converted to a data frame with `time` and `value` columns;
+multivariate series are reshaped to long format with `time`, `series`, and
+`value` columns. The auto-mark feature draws a line chart automatically:
+
+```{r}
+g2(sunspot.year) |> titles('Yearly Sunspot Numbers (1700--1988)')
+```
+
+Multivariate time series produce one line per series:
+
+```{r}
+g2(EuStockMarkets) |> titles('EU Stock Markets (1991--1998)')
+```
+
+## Scales
+
+Scales control how data values map to visual properties. Use helpers like
+`scale_x()`, `scale_y()`, and `scale_color()` to configure scales:
+
+```{r}
+g2(mtcars, hp ~ mpg, color = ~ wt) |>
+  scale_y(type = 'log') |>
+  scale_color(palette = 'viridis')
+```
+
+Custom domain and range:
+
+```{r}
+g2(mtcars, hp ~ mpg) |>
+  scale_x(domain = c(10, 35)) |>
+  scale_y(domain = c(0, 400))
+```
+
+## Coordinates
+
+Coordinate systems change how positional encodings are interpreted. gglite
+supports Cartesian (default), polar, theta, and radial coordinates.
+
+### Polar coordinates (rose chart)
+
+```{r}
+df = data.frame(x = c('A', 'B', 'C', 'D'), y = c(3, 7, 2, 5))
+g2(df, y ~ x, color = ~ x) |>
+  mark_interval() |>
+  coord_polar()
+```
+
+### Theta coordinates (pie chart)
+
+```{r}
+g2(df, y ~ x, color = ~ x) |>
+  mark_interval() |>
+  transform('stackY') |>
+  coord_theta(innerRadius = 0.5)
+```
+
+### Transposing axes
+
+`coord_transpose()` swaps x and y (similar to ggplot2's `coord_flip()`):
+
+```{r}
+g2(df, y ~ x) |>
+  mark_interval() |>
+  coord_transpose()
+```
+
+## Transforms
+
+Transforms modify the data before rendering. Use `transform()` to apply
+statistical or layout transforms. When using `+`, the first argument must be
+unnamed; see `?transform.g2` for details.
+
+### Stacked bars
+
+```{r}
+df = data.frame(
+  x = rep(c('A', 'B', 'C'), each = 2), y = c(3, 2, 5, 4, 1, 6),
+  color = rep(c('a', 'b'), 3)
+)
+g2(df, y ~ x, color = ~ color) |>
+  mark_interval() |>
+  transform('stackY')
+```
+
+### Dodged bars
+
+```{r}
+g2(df, y ~ x, color = ~ color) |>
+  mark_interval() |>
+  transform('dodgeX')
+```
+
+### Stacked area chart
+
+```{r}
+df = data.frame(
+  x = rep(1:5, 2), y = c(3, 1, 4, 1, 5, 2, 7, 1, 8, 3),
+  group = rep(c('A', 'B'), each = 5)
+)
+g2(df, y ~ x, color = ~ group) |>
+  mark_area() |>
+  transform('stackY')
+```
+
+## Facets
+
+Faceting splits data into panels. Use `facet_rect()` for a grid layout:
+
+```{r}
+g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species) |>
+  facet_rect(~ Species)
+```
+
+The formula interface supports faceting with `|`. Use `| var` for column facets,
+`| 0 + var` for row facets, and `| var1 + var2` for both:
+
+```{r}
+# Column facet: panels arranged in columns by species
+g2(penguins, bill_len ~ bill_dep | species)
+```
+
+```{r}
+# Row facet: panels arranged in rows by island
+g2(penguins, bill_len ~ bill_dep | 0 + island)
+```
+
+```{r}
+# Both: columns by species, rows by island
+g2(penguins, bill_len ~ bill_dep | species + island)
+```
+
+## Themes
+
+Themes change the overall look. Built-in themes include `theme_classic()`
+(default), `theme_classic_dark()`, `theme_light()`, `theme_dark()`, and
+`theme_academy()`:
+
+```{r}
+g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species) |>
+  theme_academy()
+```
+
+## Components
+
+Components are the non-data elements of a chart: titles, tooltips, axes,
+legends, and labels.
+
+### Titles
+
+```{r}
+g2(mtcars, hp ~ mpg) |>
+  titles('Motor Trend Cars', subtitle = 'mpg vs horsepower')
+```
+
+### Tooltips
+
+```{r}
+g2(sunspot.year) |> tooltip(crosshairs = TRUE)
+```
+
+### Labels
+
+Use `labels()` to add text annotations. When using `+`, the first argument
+must be unnamed; see `?labels.g2` for details.
+
+```{r}
+df = data.frame(x = c('A', 'B', 'C', 'D'), y = c(3, 7, 2, 5))
+g2(df, y ~ x) |>
+  mark_interval() |>
+  labels(text = ~ y)
+```
+
+## Interactions
+
+Interactions add user-driven behaviors like hovering, brushing, and filtering:
+
+```{r}
+g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species) |>
+  interact('tooltip') |>
+  interact('legendFilter') |>
+  interact('brushHighlight')
+```
+
+## Putting it all together
+
+Here is a more complete example combining several grammar layers:
+
+```{r}
+df = data.frame(
+  x = rep(c('Q1', 'Q2', 'Q3', 'Q4'), each = 2),
+  y = c(120, 80, 150, 90, 180, 110, 200, 130),
+  product = rep(c('Widget', 'Gadget'), 4)
+)
+g2(df, y ~ x, color = ~ product) |>
+  mark_interval() |>
+  transform('dodgeX') |>
+  scale_color(range = c('#5470c6', '#91cc75')) |>
+  titles('Quarterly Sales', subtitle = 'By product line') |>
+  interact('tooltip') |>
+  interact('elementHighlightByX') |>
+  theme_classic()
+```
+
+## Using `+` instead of `|>`
+
+If you are used to ggplot2, you can replace `|>` with `+`. Both operators
+produce identical charts:
+
+```{r}
+# Pipe style
+g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species) |>
+  scale_color(palette = 'set2') |>
+  titles('Iris Dataset')
+```
+
+```{r}
+# ggplot2 style
+g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species) +
+  scale_color(palette = 'set2') +
+  titles('Iris Dataset')
+```
+
+You can mix modifiers freely---marks, scales, coordinates, themes, facets,
+transforms, and components all work with `+`:
+
+```{r}
+df = data.frame(x = c('A', 'B', 'C', 'D'), y = c(3, 7, 2, 5))
+g2(df, y ~ x, color = ~ x) +
+  mark_interval() +
+  coord_polar() +
+  titles('Polar Bar Chart') +
+  theme_academy()
+```
+
+You can even freely mix `+` and `|>` in the same expression---due to R's
+operator precedence (`|>` binds tighter than `+`), any combination produces
+the same result:
+
+```{r}
+# These are all equivalent:
+g2(mtcars, hp ~ mpg) |>
+  scale_x(type = 'log') + theme_dark()
+
+g2(mtcars, hp ~ mpg) +
+  scale_x(type = 'log') + theme_dark()
+```

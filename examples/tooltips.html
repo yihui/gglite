@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="generator" content="litedown 0.9.9">
+<title>Tooltips</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/css/default.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/css/article.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/css/copy-button.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/css/heading-anchor.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/css/pages.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/css/site.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/css/prism-xcode.min.css">
+</head>
+<body>
+<nav><p><a href="../index.html">Home</a>
+<a href="../articles.html">Articles</a>
+<a href="../examples.html">Examples</a>
+<a href="../manual.html">Manual</a>
+<a href="../news.html">News</a>
+<a href="../playground/">Playground</a></p></nav>
+<div class="frontmatter">
+<div class="title"><h1>Tooltips</h1></div>
+</div>
+<div class="body">
+<div id="TOC">
+<ul class="numbered">
+<li><a href="#sec:chart-level-tooltip-tooltip"><span class="section-number main-number">1</span> Chart-Level Tooltip (<code>tooltip()</code>)</a>
+<ul>
+<li><a href="#sec:disable-tooltip"><span class="section-number">1.1</span> Disable Tooltip</a></li>
+<li><a href="#sec:crosshairs"><span class="section-number">1.2</span> Crosshairs</a></li>
+<li><a href="#sec:crosshairs-on-one-axis-only"><span class="section-number">1.3</span> Crosshairs on One Axis Only</a></li>
+<li><a href="#sec:crosshairs-style"><span class="section-number">1.4</span> Crosshairs Style</a></li>
+<li><a href="#sec:default-crosshairs-in-line-charts"><span class="section-number">1.5</span> Default Crosshairs in Line Charts</a></li>
+<li><a href="#sec:marker-style"><span class="section-number">1.6</span> Marker Style</a></li>
+<li><a href="#sec:hide-tooltip-body"><span class="section-number">1.7</span> Hide Tooltip Body</a></li>
+<li><a href="#sec:tooltip-position"><span class="section-number">1.8</span> Tooltip Position</a></li>
+<li><a href="#sec:tooltip-offset"><span class="section-number">1.9</span> Tooltip Offset</a></li>
+<li><a href="#sec:enterable-tooltip"><span class="section-number">1.10</span> Enterable Tooltip</a></li>
+<li><a href="#sec:shared-tooltip"><span class="section-number">1.11</span> Shared Tooltip</a></li>
+<li><a href="#sec:group-name"><span class="section-number">1.12</span> Group Name</a></li>
+</ul>
+</li>
+<li><a href="#sec:mark-level-tooltip-mark-tooltip-list"><span class="section-number main-number">2</span> Mark-Level Tooltip (<code>mark_*(tooltip = list(...))</code>)</a>
+<ul>
+<li><a href="#sec:show-a-single-channel"><span class="section-number">2.1</span> Show a Single Channel</a></li>
+<li><a href="#sec:custom-item-name"><span class="section-number">2.2</span> Custom Item Name</a></li>
+<li><a href="#sec:value-formatter"><span class="section-number">2.3</span> Value Formatter</a></li>
+<li><a href="#sec:custom-item-color"><span class="section-number">2.4</span> Custom Item Color</a></li>
+<li><a href="#sec:custom-title"><span class="section-number">2.5</span> Custom Title</a></li>
+<li><a href="#sec:disable-tooltip-for-one-mark"><span class="section-number">2.6</span> Disable Tooltip for One Mark</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>Tooltips in gglite have two distinct configuration points that match G2’s
+internal structure:</p>
+<ul>
+<li><strong>Chart-level</strong> (<code>tooltip()</code> → <code>interaction.tooltip</code>): controls tooltip
+<em>behavior</em> — crosshairs, shared mode, marker style, position, and rendering.</li>
+<li><strong>Mark-level</strong> (<code>mark_*(tooltip = list(...))</code> → mark spec <code>tooltip</code>): controls
+what <em>data</em> is shown for a specific mark — which channels to display, value
+formatting, custom item names.</li>
+</ul>
+<h2 id="sec:chart-level-tooltip-tooltip"><span class="section-number main-number">1</span> Chart-Level Tooltip (<code>tooltip()</code>)</h2>
+<p>All arguments to <code>tooltip()</code> are passed to G2’s <code>interaction.tooltip</code>. These
+options apply across all marks in the chart.</p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>FALSE</code></td>
+<td>—</td>
+<td>Disable tooltip entirely</td>
+</tr>
+<tr>
+<td><code>crosshairs</code></td>
+<td><code>FALSE</code></td>
+<td>Show crosshairs on both axes (series marks only)</td>
+</tr>
+<tr>
+<td><code>crosshairsX</code></td>
+<td><code>FALSE</code></td>
+<td>Show horizontal crosshair only (series marks only)</td>
+</tr>
+<tr>
+<td><code>crosshairsY</code></td>
+<td><code>FALSE</code></td>
+<td>Show vertical crosshair only (series marks only)</td>
+</tr>
+<tr>
+<td><code>crosshairsStroke</code></td>
+<td><code>'#1b1e23'</code></td>
+<td>Crosshair line color</td>
+</tr>
+<tr>
+<td><code>crosshairsLineWidth</code></td>
+<td><code>1</code></td>
+<td>Crosshair line width in pixels</td>
+</tr>
+<tr>
+<td><code>crosshairsLineDash</code></td>
+<td><code>NULL</code></td>
+<td>Dash pattern, e.g. <code>c(4, 4)</code></td>
+</tr>
+<tr>
+<td><code>crosshairsStrokeOpacity</code></td>
+<td><code>0.5</code></td>
+<td>Crosshair line opacity (0–1). Set to <code>1</code> for a fully opaque line</td>
+</tr>
+<tr>
+<td><code>shared</code></td>
+<td><code>FALSE</code></td>
+<td>Show all mark values at the same x position</td>
+</tr>
+<tr>
+<td><code>groupName</code></td>
+<td>auto</td>
+<td>Show series/group name prefix in tooltip items</td>
+</tr>
+<tr>
+<td><code>marker</code></td>
+<td><code>TRUE</code></td>
+<td>Show the hover marker dot</td>
+</tr>
+<tr>
+<td><code>markerType</code></td>
+<td><code>'default'</code></td>
+<td>Marker shape; <code>'hollow'</code> gives an unfilled circle</td>
+</tr>
+<tr>
+<td><code>markerFill</code></td>
+<td>auto</td>
+<td>Marker fill color</td>
+</tr>
+<tr>
+<td><code>markerStroke</code></td>
+<td>auto</td>
+<td>Marker stroke color</td>
+</tr>
+<tr>
+<td><code>markerSize</code></td>
+<td>auto</td>
+<td>Marker size in pixels</td>
+</tr>
+<tr>
+<td><code>body</code></td>
+<td><code>TRUE</code></td>
+<td>Show tooltip box; <code>FALSE</code> shows only the marker</td>
+</tr>
+<tr>
+<td><code>position</code></td>
+<td><code>'right-bottom'</code></td>
+<td>Tooltip position: <code>'top'</code>, <code>'bottom'</code>, <code>'left'</code>, <code>'right'</code>, or a corner such as <code>'top-left'</code></td>
+</tr>
+<tr>
+<td><code>offset</code></td>
+<td><code>c(10, 10)</code></td>
+<td>x/y pixel offset from the cursor</td>
+</tr>
+<tr>
+<td><code>enterable</code></td>
+<td><code>FALSE</code></td>
+<td>Allow the cursor to move inside the tooltip box</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec:disable-tooltip"><span class="section-number">1.1</span> Disable Tooltip</h3>
+<p>Pass <code>FALSE</code> to turn off the tooltip entirely.</p>
+<pre><code class="language-r">library(gglite)
+g2(mtcars, hp ~ mpg) |&gt; tooltip(FALSE)
+</code></pre>
+<script src="https://unpkg.com/@antv/g2@5/dist/g2.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@xiee/utils@v1.14.35/js/g2-patches.min.js" defer></script>
+<div data-gglite-container></div>
+<script type="module">
+const el = document.querySelector("[data-gglite-container]");
+el.removeAttribute("data-gglite-container");
+const chart = new G2.Chart({
+  "height": 480,
+  "autoFit": true,
+  "container": el
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "hp": [110, 110, 93, 110, 175, 105, 245, 62, 95, 123, 123, 180, 180, 180, 205, 215, 230, 66, 52, 65, 97, 150, 150, 245, 175, 66, 91, 113, 264, 175, 335, 109],
+      "mpg": [21, 21, 22.8, 21.4, 18.7, 18.1, 14.3, 24.4, 22.8, 19.2, 17.8, 16.4, 17.3, 15.2, 10.4, 10.4, 14.7, 32.4, 30.4, 33.9, 21.5, 15.5, 15.2, 13.3, 19.2, 27.3, 26, 30.4, 15.8, 19.7, 15, 21.4]
+    }
+  },
+  "children": [
+    {
+      "type": "point",
+      "encode": {
+        "y": "hp",
+        "x": "mpg"
+      },
+      "style": {
+        "shape": "point"
+      }
+    }
+  ],
+  "interaction": {
+    "tooltip": false
+  }
+});
+chart.render();
+</script>
+<h3 id="sec:crosshairs"><span class="section-number">1.2</span> Crosshairs</h3>
+<p>Crosshairs are reference lines that track the cursor along the x and/or y axes.
+They only work with the <em>series</em> tooltip path used by line and area marks.</p>
+<pre><code class="language-r">air_monthly = aggregate(Temp ~ Month, data = airquality, FUN = mean)
+air_monthly$Month = month.abb[air_monthly$Month]
+p = g2(air_monthly, Temp ~ Month) |&gt; mark_line() |&gt; mark_point()
+p |&gt; tooltip(crosshairs = TRUE)
+</code></pre>
+<div data-gglite-container></div>
+<script type="module">
+const el = document.querySelector("[data-gglite-container]");
+el.removeAttribute("data-gglite-container");
+const chart = new G2.Chart({
+  "height": 480,
+  "autoFit": true,
+  "container": el
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "Month": ["May", "Jun", "Jul", "Aug", "Sep"],
+      "Temp": [65.5483870967742, 79.1, 83.9032258064516, 83.9677419354839, 76.9]
+    }
+  },
+  "children": [
+    {
+      "type": "line",
+      "encode": {
+        "y": "Temp",
+        "x": "Month"
+      }
+    },
+    {
+      "type": "point",
+      "encode": {
+        "y": "Temp",
+        "x": "Month"
+      },
+      "style": {
+        "shape": "point"
+      }
+    }
+  ],
+  "interaction": {
+    "tooltip": {
+      "crosshairs": true
+    }
+  }
+});
+chart.render();
+</script>
+<h3 id="sec:crosshairs-on-one-axis-only"><span class="section-number">1.3</span> Crosshairs on One Axis Only</h3>
+<p><code>crosshairsX = TRUE</code> shows only the horizontal line; <code>crosshairsY = TRUE</code> shows
+only the vertical line.</p>
+<pre><code class="language-r">p |&gt; tooltip(crosshairsX = TRUE, crosshairsY = FALSE)
+</code></pre>
+<div data-gglite-container></div>
+<script type="module">
+const el = document.querySelector("[data-gglite-container]");
+el.removeAttribute("data-gglite-container");
+const chart = new G2.Chart({
+  "height": 480,
+  "autoFit": true,
+  "container": el
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "Month": ["May", "Jun", "Jul", "Aug", "Sep"],
+      "Temp": [65.5483870967742, 79.1, 83.9032258064516, 83.9677419354839, 76.9]
+    }
+  },
+  "children": [
+    {
+      "type": "line",
+      "encode": {
+        "y": "Temp",
+        "x": "Month"
+      }
+    },
+    {
+      "type": "point",
+      "encode": {
+        "y": "Temp",
+        "x": "Month"
+      },
+      "style": {
+        "shape": "point"
+      }
+    }
+  ],
+  "interaction": {
+    "tooltip": {
+      "crosshairsX": true,
+      "crosshairsY": false
+    }
+  }
+});
+chart.render();
+</script>
+<pre><code class="language-r">p |&gt; tooltip(crosshairsX = FALSE, crosshairsY = TRUE)
+</code></pre>
+<div data-gglite-container></div>
+<script type="module">
+const el = document.querySelector("[data-gglite-container]");
+el.removeAttribute("data-gglite-container");
+const chart = new G2.Chart({
+  "height": 480,
+  "autoFit": true,
+  "container": el
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "Month": ["May", "Jun", "Jul", "Aug", "Sep"],
+      "Temp": [65.5483870967742, 79.1, 83.9032258064516, 83.9677419354839, 76.9]
+    }
+  },
+  "children": [
+    {
+      "type": "line",
+      "encode": {
+        "y": "Temp",
+        "x": "Month"
+      }
+    },
+    {
+      "type": "point",
+      "encode": {
+        "y": "Temp",
+        "x": "Month"
+      },
+      "style": {
+        "shape": "point"
+      }
+    }
+  ],
+  "interaction": {
+    "tooltip": {
+      "crosshairsX": false,
+      "crosshairsY": true
+    }
+  }
+});
+chart.render();
+</script>
+<h3 id="sec:crosshairs-style"><span class="section-number">1.4</span> Crosshairs Style</h3>
+<p>Use <code>crosshairsStroke</code>, <code>crosshairsLineWidth</code>, <code>crosshairsLineDash</code>, and
+<code>crosshairsStrokeOpacity</code> to customize crosshair appearance.</p>
+<pre><code class="language-r">p |&gt; tooltip(crosshairs = TRUE, crosshairsStroke = 'tomato', crosshairsLineWidth = 2)
+</code></pre>
+<div data-gglite-container></div>
+<script type="module">
+const el = document.querySelector("[data-gglite-container]");
+el.removeAttribute("data-gglite-container");
+const chart = new G2.Chart({
+  "height": 480,
+  "autoFit": true,
+  "container": el
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "Month": ["May", "Jun", "Jul", "Aug", "Sep"],
+      "Temp": [65.5483870967742, 79.1, 83.9032258064516, 83.9677419354839, 76.9]
+    }
+  },
+  "children": [
+    {
+      "type": "line",
+      "encode": {
+        "y": "Temp",
+        "x": "Month"
+      }
+    },
+    {
+      "type": "point",
+      "encode": {
+        "y": "Temp",
+        "x": "Month"
+      },
+      "style": {
+        "shape": "point"
+      }
+    }
+  ],
+  "interaction": {
+    "tooltip": {
+      "crosshairs": true,
+      "crosshairsStroke": "tomato",
+      "crosshairsLineWidth": 2
+    }
+  }
+});
+chart.render();
+</script>
+<h3 id="sec:default-crosshairs-in-line-charts"><span class="section-number">1.5</span> Default Crosshairs in Line Charts</h3>
+<p>Series marks (<code>mark_line()</code>, <code>mark_area()</code>) show a <strong>vertical crosshair by
+default</strong> without any <code>tooltip()</code> call. This is controlled by G2’s built-in
+<code>crosshairs: true</code> mark option. If you do not want crosshairs, pass
+<code>crosshairsY = FALSE</code> (or <code>crosshairs = FALSE</code>) to <code>tooltip()</code>:</p>
+<pre><code class="language-r">p |&gt; tooltip(crosshairsY = FALSE)
+</code></pre>
+<div data-gglite-container></div>
+<script type="module">
+const el = document.querySelector("[data-gglite-container]");
+el.removeAttribute("data-gglite-container");
+const chart = new G2.Chart({
+  "height": 480,
+  "autoFit": true,
+  "container": el
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "Month": ["May", "Jun", "Jul", "Aug", "Sep"],
+      "Temp": [65.5483870967742, 79.1, 83.9032258064516, 83.9677419354839, 76.9]
+    }
+  },
+  "children": [
+    {
+      "type": "line",
+      "encode": {
+        "y": "Temp",
+        "x": "Month"
+      }
+    },
+    {
+      "type": "point",
+      "encode": {
+        "y": "Temp",
+        "x": "Month"
+      },
+      "style": {
+        "shape": "point"
+      }
+    }
+  ],
+  "interaction": {
+    "tooltip": {
+      "crosshairsY": false
+    }
+  }
+});
+chart.render();
+</script>
+<h3 id="sec:marker-style"><span class="section-number">1.6</span> Marker Style</h3>
+<p>The hover marker is the dot that snaps to the data point. Use <code>marker = FALSE</code>
+to hide it, or customize with <code>markerType</code>, <code>markerFill</code>, <code>markerStroke</code>, and
+<code>markerSize</code>. These examples use a line-only chart so the marker effect is
+clearly visible.</p>
+<pre><code class="language-r">p_line = g2(air_monthly, Temp ~ Month) |&gt; mark_line()
+p_line |&gt; tooltip(marker = FALSE)
+</code></pre>
+<div data-gglite-container></div>
+<script type="module">
+const el = document.querySelector("[data-gglite-container]");
+el.removeAttribute("data-gglite-container");
+const chart = new G2.Chart({
+  "height": 480,
+  "autoFit": true,
+  "container": el
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "Month": ["May", "Jun", "Jul", "Aug", "Sep"],
+      "Temp": [65.5483870967742, 79.1, 83.9032258064516, 83.9677419354839, 76.9]
+    }
+  },
+  "children": [
+    {
+      "type": "line",
+      "encode": {
+        "y": "Temp",
+        "x": "Month"
+      }
+    }
+  ],
+  "interaction": {
+    "tooltip": {
+      "marker": false
+    }
+  }
+});
+chart.render();
+</script>
+<pre><code class="language-r">p_line |&gt; tooltip(markerType = 'hollow', markerSize = 12)
+</code></pre>
+<div data-gglite-container></div>
+<script type="module">
+const el = document.querySelector("[data-gglite-container]");
+el.removeAttribute("data-gglite-container");
+const chart = new G2.Chart({
+  "height": 480,
+  "autoFit": true,
+  "container": el
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "Month": ["May", "Jun", "Jul", "Aug", "Sep"],
+      "Temp": [65.5483870967742, 79.1, 83.9032258064516, 83.9677419354839, 76.9]
+    }
+  },
+  "children": [
+    {
+      "type": "line",
+      "encode": {
+        "y": "Temp",
+        "x": "Month"
+      }
+    }
+  ],
+  "interaction": {
+    "tooltip": {
+      "markerType": "hollow",
+      "markerSize": 12
+    }
+  }
+});
+chart.render();
+</script>
+<h3 id="sec:hide-tooltip-body"><span class="section-number">1.7</span> Hide Tooltip Body</h3>
+<p><code>body = FALSE</code> shows only the hover marker with no tooltip box.</p>
+<pre><code class="language-r">p |&gt; tooltip(body = FALSE)
+</code></pre>
+<div data-gglite-container></div>
+<script type="module">
+const el = document.querySelector("[data-gglite-container]");
+el.removeAttribute("data-gglite-container");
+const chart = new G2.Chart({
+  "height": 480,
+  "autoFit": true,
+  "container": el
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "Month": ["May", "Jun", "Jul", "Aug", "Sep"],
+      "Temp": [65.5483870967742, 79.1, 83.9032258064516, 83.9677419354839, 76.9]
+    }
+  },
+  "children": [
+    {
+      "type": "line",
+      "encode": {
+        "y": "Temp",
+        "x": "Month"
+      }
+    },
+    {
+      "type": "point",
+      "encode": {
+        "y": "Temp",
+        "x": "Month"
+      },
+      "style": {
+        "shape": "point"
+      }
+    }
+  ],
+  "interaction": {
+    "tooltip": {
+      "body": false
+    }
+  }
+});
+chart.render();
+</script>
+<h3 id="sec:tooltip-position"><span class="section-number">1.8</span> Tooltip Position</h3>
+<p>Control where the tooltip appears relative to the cursor.</p>
+<pre><code class="language-r">p |&gt; tooltip(position = 'top-left')
+</code></pre>
+<div data-gglite-container></div>
+<script type="module">
+const el = document.querySelector("[data-gglite-container]");
+el.removeAttribute("data-gglite-container");
+const chart = new G2.Chart({
+  "height": 480,
+  "autoFit": true,
+  "container": el
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "Month": ["May", "Jun", "Jul", "Aug", "Sep"],
+      "Temp": [65.5483870967742, 79.1, 83.9032258064516, 83.9677419354839, 76.9]
+    }
+  },
+  "children": [
+    {
+      "type": "line",
+      "encode": {
+        "y": "Temp",
+        "x": "Month"
+      }
+    },
+    {
+      "type": "point",
+      "encode": {
+        "y": "Temp",
+        "x": "Month"
+      },
+      "style": {
+        "shape": "point"
+      }
+    }
+  ],
+  "interaction": {
+    "tooltip": {
+      "position": "top-left"
+    }
+  }
+});
+chart.render();
+</script>
+<h3 id="sec:tooltip-offset"><span class="section-number">1.9</span> Tooltip Offset</h3>
+<p>Adjust the tooltip’s x/y offset from the cursor in pixels.</p>
+<pre><code class="language-r">p |&gt; tooltip(offset = c(30, 30))
+</code></pre>
+<div data-gglite-container></div>
+<script type="module">
+const el = document.querySelector("[data-gglite-container]");
+el.removeAttribute("data-gglite-container");
+const chart = new G2.Chart({
+  "height": 480,
+  "autoFit": true,
+  "container": el
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "Month": ["May", "Jun", "Jul", "Aug", "Sep"],
+      "Temp": [65.5483870967742, 79.1, 83.9032258064516, 83.9677419354839, 76.9]
+    }
+  },
+  "children": [
+    {
+      "type": "line",
+      "encode": {
+        "y": "Temp",
+        "x": "Month"
+      }
+    },
+    {
+      "type": "point",
+      "encode": {
+        "y": "Temp",
+        "x": "Month"
+      },
+      "style": {
+        "shape": "point"
+      }
+    }
+  ],
+  "interaction": {
+    "tooltip": {
+      "offset": [30, 30]
+    }
+  }
+});
+chart.render();
+</script>
+<h3 id="sec:enterable-tooltip"><span class="section-number">1.10</span> Enterable Tooltip</h3>
+<p><code>enterable = TRUE</code> lets the user move the cursor inside the tooltip box,
+useful when the tooltip contains interactive content.</p>
+<pre><code class="language-r">p |&gt; tooltip(enterable = TRUE)
+</code></pre>
+<div data-gglite-container></div>
+<script type="module">
+const el = document.querySelector("[data-gglite-container]");
+el.removeAttribute("data-gglite-container");
+const chart = new G2.Chart({
+  "height": 480,
+  "autoFit": true,
+  "container": el
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "Month": ["May", "Jun", "Jul", "Aug", "Sep"],
+      "Temp": [65.5483870967742, 79.1, 83.9032258064516, 83.9677419354839, 76.9]
+    }
+  },
+  "children": [
+    {
+      "type": "line",
+      "encode": {
+        "y": "Temp",
+        "x": "Month"
+      }
+    },
+    {
+      "type": "point",
+      "encode": {
+        "y": "Temp",
+        "x": "Month"
+      },
+      "style": {
+        "shape": "point"
+      }
+    }
+  ],
+  "interaction": {
+    "tooltip": {
+      "enterable": true
+    }
+  }
+});
+chart.render();
+</script>
+<h3 id="sec:shared-tooltip"><span class="section-number">1.11</span> Shared Tooltip</h3>
+<p><code>shared = TRUE</code> shows a single tooltip listing all mark values at the same x
+position. Useful for comparing multiple series.</p>
+<pre><code class="language-r">df = data.frame(
+  x = rep(1:5, 2), y = c(3, 1, 4, 1, 5, 2, 7, 1, 8, 3),
+  group = rep(c('A', 'B'), each = 5)
+)
+p2 = g2(df, y ~ x, color = ~ group) |&gt; mark_line()
+p2 |&gt; tooltip(shared = TRUE)
+</code></pre>
+<div data-gglite-container></div>
+<script type="module">
+const el = document.querySelector("[data-gglite-container]");
+el.removeAttribute("data-gglite-container");
+const chart = new G2.Chart({
+  "height": 480,
+  "autoFit": true,
+  "container": el
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "x": [1, 2, 3, 4, 5, 1, 2, 3, 4, 5],
+      "y": [3, 1, 4, 1, 5, 2, 7, 1, 8, 3],
+      "group": ["A", "A", "A", "A", "A", "B", "B", "B", "B", "B"]
+    }
+  },
+  "children": [
+    {
+      "type": "line",
+      "encode": {
+        "y": "y",
+        "x": "x",
+        "color": "group"
+      }
+    }
+  ],
+  "interaction": {
+    "tooltip": {
+      "shared": true
+    }
+  }
+});
+chart.render();
+</script>
+<h3 id="sec:group-name"><span class="section-number">1.12</span> Group Name</h3>
+<p><code>groupName = FALSE</code> hides the series/group name prefix in each tooltip item.</p>
+<pre><code class="language-r">p2 |&gt; tooltip(shared = TRUE, groupName = FALSE)
+</code></pre>
+<div data-gglite-container></div>
+<script type="module">
+const el = document.querySelector("[data-gglite-container]");
+el.removeAttribute("data-gglite-container");
+const chart = new G2.Chart({
+  "height": 480,
+  "autoFit": true,
+  "container": el
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "x": [1, 2, 3, 4, 5, 1, 2, 3, 4, 5],
+      "y": [3, 1, 4, 1, 5, 2, 7, 1, 8, 3],
+      "group": ["A", "A", "A", "A", "A", "B", "B", "B", "B", "B"]
+    }
+  },
+  "children": [
+    {
+      "type": "line",
+      "encode": {
+        "y": "y",
+        "x": "x",
+        "color": "group"
+      }
+    }
+  ],
+  "interaction": {
+    "tooltip": {
+      "shared": true,
+      "groupName": false
+    }
+  }
+});
+chart.render();
+</script>
+<h2 id="sec:mark-level-tooltip-mark-tooltip-list"><span class="section-number main-number">2</span> Mark-Level Tooltip (<code>mark_*(tooltip = list(...))</code>)</h2>
+<p>Pass a <code>tooltip</code> argument to any <code>mark_*()</code> call to control what data is shown
+in the tooltip for that specific mark.</p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>channel</code></td>
+<td>Channel name to show, e.g. <code>'y'</code> or <code>'x'</code></td>
+</tr>
+<tr>
+<td><code>field</code></td>
+<td>Raw data field name, e.g. <code>'Temp'</code></td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>Custom label for the tooltip item</td>
+</tr>
+<tr>
+<td><code>valueFormatter</code></td>
+<td><a href="https://d3js.org/d3-format">d3-format</a> string, e.g. <code>'.1f'</code>, <code>'.0%'</code></td>
+</tr>
+<tr>
+<td><code>color</code></td>
+<td>Custom color swatch for the item</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td>Title spec: <code>list(channel = 'x')</code> or <code>list(field = 'Date')</code></td>
+</tr>
+<tr>
+<td><code>items</code></td>
+<td>List of item specs for full control over multiple items</td>
+</tr>
+<tr>
+<td><code>FALSE</code></td>
+<td>Disable tooltip for this mark entirely</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec:show-a-single-channel"><span class="section-number">2.1</span> Show a Single Channel</h3>
+<p>Use <code>channel</code> to restrict the tooltip to one data channel. Hover over any bar
+to see only the temperature value instead of both month and temperature.</p>
+<pre><code class="language-r">p_bar = g2(air_monthly, Temp ~ Month)
+p_bar |&gt; mark_interval(tooltip = list(channel = 'y'))
+</code></pre>
+<div data-gglite-container></div>
+<script type="module">
+const el = document.querySelector("[data-gglite-container]");
+el.removeAttribute("data-gglite-container");
+const chart = new G2.Chart({
+  "height": 480,
+  "autoFit": true,
+  "container": el
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "Month": ["May", "Jun", "Jul", "Aug", "Sep"],
+      "Temp": [65.5483870967742, 79.1, 83.9032258064516, 83.9677419354839, 76.9]
+    }
+  },
+  "children": [
+    {
+      "type": "interval",
+      "encode": {
+        "y": "Temp",
+        "x": "Month"
+      },
+      "tooltip": {
+        "channel": "y"
+      }
+    }
+  ]
+});
+chart.render();
+</script>
+<h3 id="sec:custom-item-name"><span class="section-number">2.2</span> Custom Item Name</h3>
+<p>Use <code>name</code> to replace the default field name with a descriptive label.</p>
+<pre><code class="language-r">p_bar |&gt; mark_interval(tooltip = list(channel = 'y', name = 'Avg Temp (°F)'))
+</code></pre>
+<div data-gglite-container></div>
+<script type="module">
+const el = document.querySelector("[data-gglite-container]");
+el.removeAttribute("data-gglite-container");
+const chart = new G2.Chart({
+  "height": 480,
+  "autoFit": true,
+  "container": el
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "Month": ["May", "Jun", "Jul", "Aug", "Sep"],
+      "Temp": [65.5483870967742, 79.1, 83.9032258064516, 83.9677419354839, 76.9]
+    }
+  },
+  "children": [
+    {
+      "type": "interval",
+      "encode": {
+        "y": "Temp",
+        "x": "Month"
+      },
+      "tooltip": {
+        "channel": "y",
+        "name": "Avg Temp (°F)"
+      }
+    }
+  ]
+});
+chart.render();
+</script>
+<h3 id="sec:value-formatter"><span class="section-number">2.3</span> Value Formatter</h3>
+<p>Use <code>valueFormatter</code> with a d3-format string to format the displayed value.</p>
+<pre><code class="language-r">p_bar |&gt; mark_interval(tooltip = list(channel = 'y', name = 'Avg Temp', valueFormatter = '.1f'))
+</code></pre>
+<div data-gglite-container></div>
+<script type="module">
+const el = document.querySelector("[data-gglite-container]");
+el.removeAttribute("data-gglite-container");
+const chart = new G2.Chart({
+  "height": 480,
+  "autoFit": true,
+  "container": el
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "Month": ["May", "Jun", "Jul", "Aug", "Sep"],
+      "Temp": [65.5483870967742, 79.1, 83.9032258064516, 83.9677419354839, 76.9]
+    }
+  },
+  "children": [
+    {
+      "type": "interval",
+      "encode": {
+        "y": "Temp",
+        "x": "Month"
+      },
+      "tooltip": {
+        "channel": "y",
+        "name": "Avg Temp",
+        "valueFormatter": ".1f"
+      }
+    }
+  ]
+});
+chart.render();
+</script>
+<pre><code class="language-r"># Percentage formatter in a normalized stacked bar chart
+wb = aggregate(breaks ~ wool + tension, data = warpbreaks, FUN = mean)
+g2(wb, breaks ~ tension, color = ~ wool) |&gt;
+  mark_interval(tooltip = list(channel = 'y', valueFormatter = '.2%')) |&gt;
+  transform('stackY') |&gt;
+  transform('normalizeY') |&gt;
+  axis_y(labelFormatter = '.0%') |&gt;
+  legend_color(position = 'right') |&gt;
+  titles('Warp Breaks by Tension and Wool Type')
+</code></pre>
+<div data-gglite-container></div>
+<script type="module">
+const el = document.querySelector("[data-gglite-container]");
+el.removeAttribute("data-gglite-container");
+const chart = new G2.Chart({
+  "height": 480,
+  "autoFit": true,
+  "container": el
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "wool": ["A", "B", "A", "B", "A", "B"],
+      "tension": ["L", "L", "M", "M", "H", "H"],
+      "breaks": [44.5555555555556, 28.2222222222222, 24, 28.7777777777778, 24.5555555555556, 18.7777777777778]
+    }
+  },
+  "children": [
+    {
+      "type": "interval",
+      "encode": {
+        "y": "breaks",
+        "x": "tension",
+        "color": "wool"
+      },
+      "tooltip": {
+        "channel": "y",
+        "valueFormatter": ".2%"
+      },
+      "transform": [
+        {
+          "type": "stackY"
+        },
+        {
+          "type": "normalizeY"
+        }
+      ],
+      "axis": {
+        "y": {
+          "labelFormatter": ".0%"
+        }
+      }
+    }
+  ],
+  "legend": {
+    "color": {
+      "position": "right"
+    }
+  },
+  "title": "Warp Breaks by Tension and Wool Type"
+});
+chart.render();
+</script>
+<h3 id="sec:custom-item-color"><span class="section-number">2.4</span> Custom Item Color</h3>
+<p>Use <code>color</code> to override the color swatch shown next to the tooltip item.</p>
+<pre><code class="language-r">p_bar |&gt; mark_interval(tooltip = list(channel = 'y', name = 'Avg Temp', color = 'tomato'))
+</code></pre>
+<div data-gglite-container></div>
+<script type="module">
+const el = document.querySelector("[data-gglite-container]");
+el.removeAttribute("data-gglite-container");
+const chart = new G2.Chart({
+  "height": 480,
+  "autoFit": true,
+  "container": el
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "Month": ["May", "Jun", "Jul", "Aug", "Sep"],
+      "Temp": [65.5483870967742, 79.1, 83.9032258064516, 83.9677419354839, 76.9]
+    }
+  },
+  "children": [
+    {
+      "type": "interval",
+      "encode": {
+        "y": "Temp",
+        "x": "Month"
+      },
+      "tooltip": {
+        "channel": "y",
+        "name": "Avg Temp",
+        "color": "tomato"
+      }
+    }
+  ]
+});
+chart.render();
+</script>
+<h3 id="sec:custom-title"><span class="section-number">2.5</span> Custom Title</h3>
+<p>Use <code>title</code> with a field reference to display a specific data field as the
+tooltip title. Use <code>items</code> for full control over multiple tooltip entries.</p>
+<pre><code class="language-r">air_daily = airquality[, c('Month', 'Day', 'Temp')]
+air_daily$Date = as.character(
+  as.Date(paste('1973', air_daily$Month, air_daily$Day, sep = '-'))
+)
+p_daily = g2(air_daily, Temp ~ Date) |&gt; mark_line() |&gt; mark_point()
+p_daily |&gt; mark_point(
+  tooltip = list(
+    title = list(channel = 'x'),
+    items = list(list(channel = 'y', name = 'Temp (°F)'))
+  )
+)
+</code></pre>
+<div data-gglite-container></div>
+<script type="module">
+const el = document.querySelector("[data-gglite-container]");
+el.removeAttribute("data-gglite-container");
+const chart = new G2.Chart({
+  "height": 480,
+  "autoFit": true,
+  "container": el
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "Temp": [67, 72, 74, 62, 56, 66, 65, 59, 61, 69, 74, 69, 66, 68, 58, 64, 66, 57, 68, 62, 59, 73, 61, 61, 57, 58, 57, 67, 81, 79, 76, 78, 74, 67, 84, 85, 79, 82, 87, 90, 87, 93, 92, 82, 80, 79, 77, 72, 65, 73, 76, 77, 76, 76, 76, 75, 78, 73, 80, 77, 83, 84, 85, 81, 84, 83, 83, 88, 92, 92, 89, 82, 73, 81, 91, 80, 81, 82, 84, 87, 85, 74, 81, 82, 86, 85, 82, 86, 88, 86, 83, 81, 81, 81, 82, 86, 85, 87, 89, 90, 90, 92, 86, 86, 82, 80, 79, 77, 79, 76, 78, 78, 77, 72, 75, 79, 81, 86, 88, 97, 94, 96, 94, 91, 92, 93, 93, 87, 84, 80, 78, 75, 73, 81, 76, 77, 71, 71, 78, 67, 76, 68, 82, 64, 71, 81, 69, 63, 70, 77, 75, 76, 68],
+      "Date": ["1973-05-01", "1973-05-02", "1973-05-03", "1973-05-04", "1973-05-05", "1973-05-06", "1973-05-07", "1973-05-08", "1973-05-09", "1973-05-10", "1973-05-11", "1973-05-12", "1973-05-13", "1973-05-14", "1973-05-15", "1973-05-16", "1973-05-17", "1973-05-18", "1973-05-19", "1973-05-20", "1973-05-21", "1973-05-22", "1973-05-23", "1973-05-24", "1973-05-25", "1973-05-26", "1973-05-27", "1973-05-28", "1973-05-29", "1973-05-30", "1973-05-31", "1973-06-01", "1973-06-02", "1973-06-03", "1973-06-04", "1973-06-05", "1973-06-06", "1973-06-07", "1973-06-08", "1973-06-09", "1973-06-10", "1973-06-11", "1973-06-12", "1973-06-13", "1973-06-14", "1973-06-15", "1973-06-16", "1973-06-17", "1973-06-18", "1973-06-19", "1973-06-20", "1973-06-21", "1973-06-22", "1973-06-23", "1973-06-24", "1973-06-25", "1973-06-26", "1973-06-27", "1973-06-28", "1973-06-29", "1973-06-30", "1973-07-01", "1973-07-02", "1973-07-03", "1973-07-04", "1973-07-05", "1973-07-06", "1973-07-07", "1973-07-08", "1973-07-09", "1973-07-10", "1973-07-11", "1973-07-12", "1973-07-13", "1973-07-14", "1973-07-15", "1973-07-16", "1973-07-17", "1973-07-18", "1973-07-19", "1973-07-20", "1973-07-21", "1973-07-22", "1973-07-23", "1973-07-24", "1973-07-25", "1973-07-26", "1973-07-27", "1973-07-28", "1973-07-29", "1973-07-30", "1973-07-31", "1973-08-01", "1973-08-02", "1973-08-03", "1973-08-04", "1973-08-05", "1973-08-06", "1973-08-07", "1973-08-08", "1973-08-09", "1973-08-10", "1973-08-11", "1973-08-12", "1973-08-13", "1973-08-14", "1973-08-15", "1973-08-16", "1973-08-17", "1973-08-18", "1973-08-19", "1973-08-20", "1973-08-21", "1973-08-22", "1973-08-23", "1973-08-24", "1973-08-25", "1973-08-26", "1973-08-27", "1973-08-28", "1973-08-29", "1973-08-30", "1973-08-31", "1973-09-01", "1973-09-02", "1973-09-03", "1973-09-04", "1973-09-05", "1973-09-06", "1973-09-07", "1973-09-08", "1973-09-09", "1973-09-10", "1973-09-11", "1973-09-12", "1973-09-13", "1973-09-14", "1973-09-15", "1973-09-16", "1973-09-17", "1973-09-18", "1973-09-19", "1973-09-20", "1973-09-21", "1973-09-22", "1973-09-23", "1973-09-24", "1973-09-25", "1973-09-26", "1973-09-27", "1973-09-28", "1973-09-29", "1973-09-30"]
+    }
+  },
+  "children": [
+    {
+      "type": "line",
+      "encode": {
+        "y": "Temp",
+        "x": "Date"
+      }
+    },
+    {
+      "type": "point",
+      "encode": {
+        "y": "Temp",
+        "x": "Date"
+      },
+      "style": {
+        "shape": "point"
+      }
+    },
+    {
+      "type": "point",
+      "encode": {
+        "y": "Temp",
+        "x": "Date"
+      },
+      "style": {
+        "shape": "point"
+      },
+      "tooltip": {
+        "title": {
+          "channel": "x"
+        },
+        "items": [
+          {
+            "channel": "y",
+            "name": "Temp (°F)"
+          }
+        ]
+      }
+    }
+  ]
+});
+chart.render();
+</script>
+<h3 id="sec:disable-tooltip-for-one-mark"><span class="section-number">2.6</span> Disable Tooltip for One Mark</h3>
+<p>Set <code>tooltip = FALSE</code> on a specific mark to suppress its tooltip entry while
+keeping it for others. In this dual-axis chart, the bars have no tooltip; only
+the wind speed line shows a value on hover.</p>
+<pre><code class="language-r">air_tw = aggregate(cbind(Temp, Wind) ~ Month, data = airquality, FUN = mean)
+air_tw$Month = month.abb[air_tw$Month]
+g2(air_tw, ~ Month) |&gt;
+  mark_interval(
+    encode = list(y = 'Temp'), tooltip = FALSE,
+    style = list(fill = '#91caff', fillOpacity = 0.8)
+  ) |&gt;
+  scale_y(independent = TRUE) |&gt;
+  axis_y(title = 'Temp (°F)') |&gt;
+  mark_line(
+    encode = list(y = 'Wind'),
+    style = list(stroke = 'tomato', lineWidth = 2)
+  ) |&gt;
+  scale_y(independent = TRUE) |&gt;
+  axis_y(position = 'right', title = 'Wind (mph)')
+</code></pre>
+<div data-gglite-container></div>
+<script type="module">
+const el = document.querySelector("[data-gglite-container]");
+el.removeAttribute("data-gglite-container");
+const chart = new G2.Chart({
+  "height": 480,
+  "autoFit": true,
+  "container": el
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "Month": ["May", "Jun", "Jul", "Aug", "Sep"],
+      "Temp": [65.5483870967742, 79.1, 83.9032258064516, 83.9677419354839, 76.9],
+      "Wind": [11.6225806451613, 10.2666666666667, 8.94193548387097, 8.79354838709677, 10.18]
+    }
+  },
+  "children": [
+    {
+      "type": "interval",
+      "encode": {
+        "x": "Month",
+        "y": "Temp"
+      },
+      "tooltip": false,
+      "style": {
+        "fill": "#91caff",
+        "fillOpacity": 0.8
+      },
+      "scale": {
+        "y": {
+          "independent": true
+        }
+      },
+      "axis": {
+        "y": {
+          "title": "Temp (°F)"
+        }
+      }
+    },
+    {
+      "type": "line",
+      "encode": {
+        "x": "Month",
+        "y": "Wind"
+      },
+      "style": {
+        "stroke": "tomato",
+        "lineWidth": 2
+      },
+      "scale": {
+        "y": {
+          "independent": true
+        }
+      },
+      "axis": {
+        "y": {
+          "position": "right",
+          "title": "Wind (mph)"
+        }
+      }
+    }
+  ]
+});
+chart.render();
+</script>
+</div>
+<footer><div class="flex-col">
+<p>Developed by Yihui Xie</p>
+<p>Site built with <a href="https://github.com/yihui/litedown">litedown</a> v0.9.9</p>
+</div></footer>
+<script src="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/js/sidenotes.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/js/appendix.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/js/toc-highlight.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/js/copy-button.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/js/heading-anchor.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/js/pages.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" defer></script>
+</body>
+</html>

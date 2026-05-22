@@ -1,0 +1,1700 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="generator" content="litedown 0.9.9">
+<title>Help pages</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/css/default.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/css/article.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/css/copy-button.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/css/heading-anchor.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/css/pages.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/css/site.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/css/prism-xcode.min.css">
+</head>
+<body>
+<nav><p><a href="index.html">Home</a>
+<a href="articles.html">Articles</a>
+<a href="examples.html">Examples</a>
+<a href="manual.html">Manual</a>
+<a href="news.html">News</a>
+<a href="playground/">Playground</a></p></nav>
+<div class="frontmatter">
+<div class="title"><h1>Help pages</h1></div>
+</div>
+<div class="body">
+<div id="TOC">
+<ul class="numbered">
+<li><a href="#sec:man-gglite-package"><span class="section-number main-number">1</span> gglite: Lightweight Data Visualization via the Grammar of Graphics</a></li>
+<li><a href="#sec:man-animate"><span class="section-number main-number">2</span> Set Animation Options</a></li>
+<li><a href="#sec:man-axis_"><span class="section-number main-number">3</span> Configure an Axis</a></li>
+<li><a href="#sec:man-canvas"><span class="section-number main-number">4</span> Configure Canvas Options</a></li>
+<li><a href="#sec:man-chart_html"><span class="section-number main-number">5</span> Generate Chart HTML</a></li>
+<li><a href="#sec:man-coord_"><span class="section-number main-number">6</span> Set the Coordinate System</a></li>
+<li><a href="#sec:man-coord_transpose"><span class="section-number main-number">7</span> Transpose (Flip) the Coordinate System</a></li>
+<li><a href="#sec:man-encode"><span class="section-number main-number">8</span> Set Aesthetic Mappings</a></li>
+<li><a href="#sec:man-facet_circle"><span class="section-number main-number">9</span> Facet in a Circular Layout</a></li>
+<li><a href="#sec:man-facet_rect"><span class="section-number main-number">10</span> Facet by a Rectangular Grid</a></li>
+<li><a href="#sec:man-g2"><span class="section-number main-number">11</span> Create a G2 Chart Object</a></li>
+<li><a href="#sec:man-g2Output"><span class="section-number main-number">12</span> Shiny Output for a G2 Chart</a></li>
+<li><a href="#sec:man-interact"><span class="section-number main-number">13</span> Add an Interaction</a></li>
+<li><a href="#sec:man-knit_print.g2"><span class="section-number main-number">14</span> Custom Printing in Knitr</a></li>
+<li><a href="#sec:man-labels.g2"><span class="section-number main-number">15</span> Add Labels to the Last Mark</a></li>
+<li><a href="#sec:man-legend_"><span class="section-number main-number">16</span> Configure a Legend</a></li>
+<li><a href="#sec:man-mark_"><span class="section-number main-number">17</span> Add a Geometry Layer (Mark)</a></li>
+<li><a href="#sec:man-plus-.g2"><span class="section-number main-number">18</span> Add a Modifier to a G2 Chart</a></li>
+<li><a href="#sec:man-print.g2"><span class="section-number main-number">19</span> Preview a Chart in the Viewer or Browser</a></li>
+<li><a href="#sec:man-renderG2"><span class="section-number main-number">20</span> Render a G2 Chart in Shiny</a></li>
+<li><a href="#sec:man-scale_"><span class="section-number main-number">21</span> Configure a Scale</a></li>
+<li><a href="#sec:man-scroll_"><span class="section-number main-number">22</span> Add a Scrollbar</a></li>
+<li><a href="#sec:man-slider_"><span class="section-number main-number">23</span> Add a Slider</a></li>
+<li><a href="#sec:man-style_mark"><span class="section-number main-number">24</span> Set Style on the Last Mark</a></li>
+<li><a href="#sec:man-theme_"><span class="section-number main-number">25</span> Set the Chart Theme</a></li>
+<li><a href="#sec:man-titles"><span class="section-number main-number">26</span> Set the Chart Title</a></li>
+<li><a href="#sec:man-tooltip"><span class="section-number main-number">27</span> Configure the Tooltip</a></li>
+<li><a href="#sec:man-transform.g2"><span class="section-number main-number">28</span> Add a Data Transform to the Last Mark</a></li>
+</ul>
+</div>
+<style type="text/css">
+h2 {
+  text-align: center;
+  margin-top: 2em;
+}
+</style>
+<p>
+<b>-- <kbd>A</kbd> --</b>
+<a href="#sec:man-animate"><code>animate()</code></a>
+<a href="#sec:man-axis_"><code>axis_()</code></a>
+<a href="#sec:man-axis_"><code>axis_x()</code></a>
+<a href="#sec:man-axis_"><code>axis_y()</code></a>
+</p>
+<p>
+<b>-- <kbd>C</kbd> --</b>
+<a href="#sec:man-canvas"><code>canvas()</code></a>
+<a href="#sec:man-chart_html"><code>chart_html()</code></a>
+<a href="#sec:man-coord_"><code>coord_()</code></a>
+<a href="#sec:man-coord_"><code>coord_polar()</code></a>
+<a href="#sec:man-coord_"><code>coord_theta()</code></a>
+<a href="#sec:man-coord_"><code>coord_radial()</code></a>
+<a href="#sec:man-coord_"><code>coord_radar()</code></a>
+<a href="#sec:man-coord_"><code>coord_helix()</code></a>
+<a href="#sec:man-coord_"><code>coord_parallel()</code></a>
+<a href="#sec:man-coord_transpose"><code>coord_transpose()</code></a>
+</p>
+<p>
+<b>-- <kbd>E</kbd> --</b>
+<a href="#sec:man-encode"><code>encode()</code></a>
+</p>
+<p>
+<b>-- <kbd>F</kbd> --</b>
+<a href="#sec:man-facet_circle"><code>facet_circle()</code></a>
+<a href="#sec:man-facet_rect"><code>facet_rect()</code></a>
+</p>
+<p>
+<b>-- <kbd>G</kbd> --</b>
+<a href="#sec:man-gglite-package"><code>gglite</code></a>
+<a href="#sec:man-gglite-package"><code>gglite-package</code></a>
+<a href="#sec:man-g2"><code>g2()</code></a>
+<a href="#sec:man-g2Output"><code>g2Output()</code></a>
+</p>
+<p>
+<b>-- <kbd>I</kbd> --</b>
+<a href="#sec:man-interact"><code>interact()</code></a>
+</p>
+<p>
+<b>-- <kbd>K</kbd> --</b>
+<a href="#sec:man-knit_print.g2"><code>knit_print.g2()</code></a>
+</p>
+<p>
+<b>-- <kbd>L</kbd> --</b>
+<a href="#sec:man-labels.g2"><code>labels.g2()</code></a>
+<a href="#sec:man-labels.g2"><code>labels.character()</code></a>
+<a href="#sec:man-labels.g2"><code>labels.formula()</code></a>
+<a href="#sec:man-legend_"><code>legend_()</code></a>
+<a href="#sec:man-legend_"><code>legend_color()</code></a>
+<a href="#sec:man-legend_"><code>legend_size()</code></a>
+<a href="#sec:man-legend_"><code>legend_shape()</code></a>
+<a href="#sec:man-legend_"><code>legend_opacity()</code></a>
+</p>
+<p>
+<b>-- <kbd>M</kbd> --</b>
+<a href="#sec:man-mark_"><code>mark_()</code></a>
+<a href="#sec:man-mark_"><code>mark_interval()</code></a>
+<a href="#sec:man-mark_"><code>mark_line()</code></a>
+<a href="#sec:man-mark_"><code>mark_point()</code></a>
+<a href="#sec:man-mark_"><code>mark_area()</code></a>
+<a href="#sec:man-mark_"><code>mark_rect()</code></a>
+<a href="#sec:man-mark_"><code>mark_cell()</code></a>
+<a href="#sec:man-mark_"><code>mark_text()</code></a>
+<a href="#sec:man-mark_"><code>mark_path()</code></a>
+<a href="#sec:man-mark_"><code>mark_polygon()</code></a>
+<a href="#sec:man-mark_"><code>mark_image()</code></a>
+<a href="#sec:man-mark_"><code>mark_link()</code></a>
+<a href="#sec:man-mark_"><code>mark_line_x()</code></a>
+<a href="#sec:man-mark_"><code>mark_line_y()</code></a>
+<a href="#sec:man-mark_"><code>mark_range()</code></a>
+<a href="#sec:man-mark_"><code>mark_range_x()</code></a>
+<a href="#sec:man-mark_"><code>mark_range_y()</code></a>
+<a href="#sec:man-mark_"><code>mark_connector()</code></a>
+<a href="#sec:man-mark_"><code>mark_box()</code></a>
+<a href="#sec:man-mark_"><code>mark_boxplot()</code></a>
+<a href="#sec:man-mark_"><code>mark_beeswarm()</code></a>
+<a href="#sec:man-mark_"><code>mark_density()</code></a>
+<a href="#sec:man-mark_"><code>mark_heatmap()</code></a>
+<a href="#sec:man-mark_"><code>mark_vector()</code></a>
+<a href="#sec:man-mark_"><code>mark_node()</code></a>
+<a href="#sec:man-mark_"><code>mark_edge()</code></a>
+<a href="#sec:man-mark_"><code>mark_sankey()</code></a>
+<a href="#sec:man-mark_"><code>mark_chord()</code></a>
+<a href="#sec:man-mark_"><code>mark_treemap()</code></a>
+<a href="#sec:man-mark_"><code>mark_pack()</code></a>
+<a href="#sec:man-mark_"><code>mark_force_graph()</code></a>
+<a href="#sec:man-mark_"><code>mark_tree()</code></a>
+<a href="#sec:man-mark_"><code>mark_word_cloud()</code></a>
+<a href="#sec:man-mark_"><code>mark_gauge()</code></a>
+<a href="#sec:man-mark_"><code>mark_liquid()</code></a>
+<a href="#sec:man-mark_"><code>mark_shape()</code></a>
+<a href="#sec:man-mark_"><code>mark_sunburst()</code></a>
+<a href="#sec:man-mark_"><code>mark_partition()</code></a>
+</p>
+<p>
+<b>-- <kbd>P</kbd> --</b>
+<a href="#sec:man-print.g2"><code>print.g2()</code></a>
+</p>
+<p>
+<b>-- <kbd>R</kbd> --</b>
+<a href="#sec:man-renderG2"><code>renderG2()</code></a>
+</p>
+<p>
+<b>-- <kbd>S</kbd> --</b>
+<a href="#sec:man-scale_"><code>scale_()</code></a>
+<a href="#sec:man-scale_"><code>scale_x()</code></a>
+<a href="#sec:man-scale_"><code>scale_y()</code></a>
+<a href="#sec:man-scale_"><code>scale_color()</code></a>
+<a href="#sec:man-scale_"><code>scale_size()</code></a>
+<a href="#sec:man-scale_"><code>scale_shape()</code></a>
+<a href="#sec:man-scale_"><code>scale_opacity()</code></a>
+<a href="#sec:man-scroll_"><code>scroll_()</code></a>
+<a href="#sec:man-scroll_"><code>scroll_x()</code></a>
+<a href="#sec:man-scroll_"><code>scroll_y()</code></a>
+<a href="#sec:man-slider_"><code>slider_()</code></a>
+<a href="#sec:man-slider_"><code>slider_x()</code></a>
+<a href="#sec:man-slider_"><code>slider_y()</code></a>
+<a href="#sec:man-style_mark"><code>style_mark()</code></a>
+</p>
+<p>
+<b>-- <kbd>T</kbd> --</b>
+<a href="#sec:man-theme_"><code>theme_()</code></a>
+<a href="#sec:man-theme_"><code>theme_classic()</code></a>
+<a href="#sec:man-theme_"><code>theme_classic_dark()</code></a>
+<a href="#sec:man-theme_"><code>theme_light()</code></a>
+<a href="#sec:man-theme_"><code>theme_dark()</code></a>
+<a href="#sec:man-theme_"><code>theme_academy()</code></a>
+<a href="#sec:man-titles"><code>titles()</code></a>
+<a href="#sec:man-tooltip"><code>tooltip()</code></a>
+<a href="#sec:man-transform.g2"><code>transform.g2()</code></a>
+<a href="#sec:man-transform.g2"><code>transform.character()</code></a>
+</p>
+<p>
+<b>-- <kbd>misc</kbd> --</b>
+<a href="#sec:man-plus-.g2"><code>+.g2()</code></a>
+</p>
+<h2 id="sec:man-gglite-package"><span class="section-number main-number">1</span> gglite: Lightweight Data Visualization via the Grammar of Graphics</h2>
+<h3 id="sec:description_1" class="unnumbered unlisted">Description</h3>
+<p>An R interface to the AntV G2 JavaScript visualization library.
+</p>
+<h3 id="sec:author-s" class="unnumbered unlisted">Author(s)</h3>
+<p><strong>Maintainer</strong>: Yihui Xie <a href="mailto:xie@yihui.name">xie@yihui.name</a> (<a href="https://orcid.org/0000-0003-0645-5666">ORCID</a>)
+</p>
+<h3 id="sec:see-also" class="unnumbered unlisted">See Also</h3>
+<p>Useful links:
+</p>
+<ul>
+<li> <p><a href="https://github.com/yihui/gglite">https://github.com/yihui/gglite</a>
+</p>
+</li>
+<li><p> Report bugs at <a href="https://github.com/yihui/gglite/issues">https://github.com/yihui/gglite/issues</a>
+</p>
+</li></ul>
+<h2 id="sec:man-animate"><span class="section-number main-number">2</span> Set Animation Options</h2>
+<h3 id="sec:description_2" class="unnumbered unlisted">Description</h3>
+<p>Configure animation for the most recently added mark, or the
+automatically-inferred mark when none has been added explicitly. G2 supports
+<code>enter</code>, <code>update</code>, and <code>exit</code> animations.
+</p>
+<h3 id="sec:usage_1" class="unnumbered unlisted">Usage</h3>
+<pre><code class="language-r">animate(chart = NULL, ...)</code></pre>
+<h3 id="sec:arguments_1" class="unnumbered unlisted">Arguments</h3>
+<table role = "presentation">
+<tr><td><code>chart</code></td>
+<td>
+<p>A <code>g2</code> object.</p>
+</td></tr>
+<tr><td><code>...</code></td>
+<td>
+<p>Animation configuration as named lists. Use <code>enter</code>, <code>update</code>,
+and <code>exit</code> to control each phase. Set to <code>FALSE</code> to disable animation
+entirely.</p>
+</td></tr>
+</table>
+<h3 id="sec:value_1" class="unnumbered unlisted">Value</h3>
+<p>The modified <code>g2</code> object.
+</p>
+<h3 id="sec:examples_1" class="unnumbered unlisted">Examples</h3>
+<pre><code class="language-r"># Fade-in animation on bars
+g2(data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2)), y ~ x) |&gt;
+  animate(enter = list(type = 'fadeIn', duration = 1000))
+
+# Wave-in animation
+g2(data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2)), y ~ x) |&gt;
+  animate(enter = list(type = 'waveIn', duration = 800))
+
+# Disable animation
+g2(mtcars, hp ~ mpg) |&gt;
+  animate(FALSE)
+</code></pre>
+<h2 id="sec:man-axis_"><span class="section-number main-number">3</span> Configure an Axis</h2>
+<h3 id="sec:description_3" class="unnumbered unlisted">Description</h3>
+<p>Customize the axis for a positional channel (<code>'x'</code> or <code>'y'</code>). Set to
+<code>FALSE</code> to hide the axis. When called immediately after a <code>mark_*()</code>
+function (or <code>style_mark()</code>, <code>labels()</code>, etc.), the axis is applied to
+that mark only, enabling per-mark axis customization for dual-axis charts.
+Otherwise it applies at the chart level.
+</p>
+<h3 id="sec:usage_2" class="unnumbered unlisted">Usage</h3>
+<pre><code class="language-r">axis_(chart = NULL, channel, ...)
+
+axis_x(chart = NULL, ...)
+
+axis_y(chart = NULL, ...)</code></pre>
+<h3 id="sec:arguments_2" class="unnumbered unlisted">Arguments</h3>
+<table role = "presentation">
+<tr><td><code>chart</code></td>
+<td>
+<p>A <code>g2</code> object.</p>
+</td></tr>
+<tr><td><code>channel</code></td>
+<td>
+<p>Positional channel: <code>'x'</code> or <code>'y'</code>.</p>
+</td></tr>
+<tr><td><code>...</code></td>
+<td>
+<p>Axis options such as <code>title</code>, <code>labelFormatter</code>, <code>tickCount</code>,
+<code>grid</code>, <code>position</code>, etc., or <code>FALSE</code> to hide.</p>
+</td></tr>
+</table>
+<h3 id="sec:value_2" class="unnumbered unlisted">Value</h3>
+<p>The modified <code>g2</code> object.
+</p>
+<h3 id="sec:examples_2" class="unnumbered unlisted">Examples</h3>
+<pre><code class="language-r"># Chart-level axis titles
+g2(mtcars, hp ~ mpg) |&gt;
+  axis_x(title = 'Miles per Gallon') |&gt;
+  axis_y(title = 'Horsepower')
+
+# Dual-axis chart: each mark gets its own axis immediately after mark_*()
+air = aggregate(cbind(Temp, Wind) ~ Month, data = airquality, FUN = mean)
+air$Month = month.abb[air$Month]
+g2(air, x = 'Month') |&gt;
+  mark_interval(encode = list(y = 'Temp')) |&gt;
+  scale_y(independent = TRUE) |&gt;
+  axis_y(title = 'Temperature (°F)') |&gt;
+  mark_line(encode = list(y = 'Wind')) |&gt;
+  scale_y(independent = TRUE) |&gt;
+  axis_y(position = 'right', grid = FALSE, title = 'Wind Speed (mph)')
+</code></pre>
+<h2 id="sec:man-canvas"><span class="section-number main-number">4</span> Configure Canvas Options</h2>
+<h3 id="sec:description_4" class="unnumbered unlisted">Description</h3>
+<p>Set chart dimensions, layout spacing, and renderer for a G2 chart. See
+<a href="https://pkg.yihui.org/gglite/examples/canvas.html">https://pkg.yihui.org/gglite/examples/canvas.html</a> for full examples.
+</p>
+<h3 id="sec:usage_3" class="unnumbered unlisted">Usage</h3>
+<pre><code class="language-r">canvas(
+  chart = NULL,
+  width = NULL,
+  height = 480,
+  padding = NULL,
+  margin = NULL,
+  inset = NULL,
+  renderer = NULL,
+  ...
+)</code></pre>
+<h3 id="sec:arguments_3" class="unnumbered unlisted">Arguments</h3>
+<table role = "presentation">
+<tr><td><code>chart</code></td>
+<td>
+<p>A <code>g2</code> object, or <code>NULL</code> to create a deferred modifier.</p>
+</td></tr>
+<tr><td><code>width</code></td>
+<td>
+<p>Width of the chart in pixels. <code>NULL</code> (default) enables
+auto-fit to the container width.</p>
+</td></tr>
+<tr><td><code>height</code></td>
+<td>
+<p>Height of the chart in pixels. Default is <code>480</code>.</p>
+</td></tr>
+<tr><td><code>padding</code>, <code>margin</code>, <code>inset</code></td>
+<td>
+<p>Layout spacing in pixels. Each can be a scalar
+(applied to all sides) or a length-4 vector <code>c(top, right, bottom, left)</code>;
+use <code>NA</code> to skip individual sides. <code>NULL</code> (the default) leaves the value
+unset.</p>
+</td></tr>
+<tr><td><code>renderer</code></td>
+<td>
+<p>The rendering backend: <code>"Canvas"</code> (default), <code>"SVG"</code>, or
+<code>"WebGL"</code> (case-insensitive).</p>
+</td></tr>
+<tr><td><code>...</code></td>
+<td>
+<p>Additional top-level chart options passed to <code>chart.options()</code> in
+JavaScript (e.g., <code>clip = TRUE</code>).</p>
+</td></tr>
+</table>
+<h3 id="sec:value_3" class="unnumbered unlisted">Value</h3>
+<p>The modified <code>g2</code> object (or a <code>g2_mod</code> when <code>chart</code> is <code>NULL</code>).
+</p>
+<h3 id="sec:examples_3" class="unnumbered unlisted">Examples</h3>
+<pre><code class="language-r">p = g2(mtcars, hp ~ mpg)
+p |&gt; canvas(width = 600, height = 400)
+p |&gt; canvas(padding = 30)
+p |&gt; canvas(renderer = 'svg')
+</code></pre>
+<h2 id="sec:man-chart_html"><span class="section-number main-number">5</span> Generate Chart HTML</h2>
+<h3 id="sec:description_5" class="unnumbered unlisted">Description</h3>
+<p>Create an HTML string containing a container <code>&lt;div&gt;</code> and a <code>&lt;script&gt;</code> block
+that renders the chart using G2.
+</p>
+<h3 id="sec:usage_4" class="unnumbered unlisted">Usage</h3>
+<pre><code class="language-r">chart_html(chart, id = NULL, width = NULL, height = NULL)</code></pre>
+<h3 id="sec:arguments_4" class="unnumbered unlisted">Arguments</h3>
+<table role = "presentation">
+<tr><td><code>chart</code></td>
+<td>
+<p>A <code>g2</code> object.</p>
+</td></tr>
+<tr><td><code>id</code></td>
+<td>
+<p>Optional container element ID. When <code>NULL</code> (default), a
+class-based container is used instead (more git-friendly output).</p>
+</td></tr>
+<tr><td><code>width</code>, <code>height</code></td>
+<td>
+<p>Optional CSS dimensions for the container.</p>
+</td></tr>
+</table>
+<h3 id="sec:details_1" class="unnumbered unlisted">Details</h3>
+<p>The global option <code>gglite.defer_render</code> controls whether chart rendering is
+deferred until the container scrolls into the viewport. Set
+<code>options(gglite.defer_render = TRUE)</code> to use the default threshold (0.5,
+i.e., 50% of the chart visible), or supply a numeric value between 0 and 1
+to customize it, e.g., <code>options(gglite.defer_render = 0.3)</code>. When enabled,
+enter animations fire when the reader first sees each chart instead of on
+page load. This is useful for demo or documentation pages. It is not
+typically needed for regular plots.
+</p>
+<h3 id="sec:value_4" class="unnumbered unlisted">Value</h3>
+<p>A character string of HTML.
+</p>
+<h2 id="sec:man-coord_"><span class="section-number main-number">6</span> Set the Coordinate System</h2>
+<h3 id="sec:description_6" class="unnumbered unlisted">Description</h3>
+<p>Specify the coordinate system for the chart. G2 supports these coordinate
+types: <code>'cartesian'</code> (default), <code>'polar'</code>, <code>'theta'</code>, <code>'radial'</code>, <code>'radar'</code>,
+<code>'helix'</code>, <code>'parallel'</code>. Use the <code>transform</code> argument to apply coordinate
+transforms such as <code>'transpose'</code> (equivalent to ggplot2's <code>coord_flip()</code>) or
+<code>'fisheye'</code>.
+</p>
+<h3 id="sec:usage_5" class="unnumbered unlisted">Usage</h3>
+<pre><code class="language-r">coord_(chart = NULL, type, ...)
+
+coord_polar(chart = NULL, ...)
+
+coord_theta(chart = NULL, ...)
+
+coord_radial(chart = NULL, ...)
+
+coord_radar(chart = NULL, ...)
+
+coord_helix(chart = NULL, ...)
+
+coord_parallel(chart = NULL, ...)</code></pre>
+<h3 id="sec:arguments_5" class="unnumbered unlisted">Arguments</h3>
+<table role = "presentation">
+<tr><td><code>chart</code></td>
+<td>
+<p>A <code>g2</code> object.</p>
+</td></tr>
+<tr><td><code>type</code></td>
+<td>
+<p>Coordinate type string.</p>
+</td></tr>
+<tr><td><code>...</code></td>
+<td>
+<p>Additional options such as <code>innerRadius</code>, <code>outerRadius</code>,
+<code>startAngle</code>, <code>endAngle</code>, or <code>transform</code>.</p>
+</td></tr>
+</table>
+<h3 id="sec:details_2" class="unnumbered unlisted">Details</h3>
+<p>The <code>'parallel'</code> coordinate requires a <code>position</code> encoding (a character
+vector of column names) instead of separate <code>x</code>/<code>y</code> encodings. For radar
+charts, use the <code>'polar'</code> coordinate with long-format data (x/y/color).
+</p>
+<p><code>coord_polar()</code>: Shortcut for <code>coord_(chart, 'polar', ...)</code>.
+</p>
+<p><code>coord_theta()</code>: Shortcut for <code>coord_(chart, 'theta', ...)</code>. Used for
+pie and donut charts.
+</p>
+<p><code>coord_radial()</code>: Shortcut for <code>coord_(chart, 'radial', ...)</code>. Suitable
+for radial bar charts.
+</p>
+<p><code>coord_radar()</code>: Shortcut for <code>coord_(chart, 'radar', ...)</code>. Used with
+<code>position</code> encoding for radar (spider) charts.
+</p>
+<p><code>coord_helix()</code>: Shortcut for <code>coord_(chart, 'helix', ...)</code>.
+</p>
+<p><code>coord_parallel()</code>: Shortcut for <code>coord_(chart, 'parallel', ...)</code>. Used
+with <code>position</code> encoding for parallel coordinate plots.
+</p>
+<h3 id="sec:value_5" class="unnumbered unlisted">Value</h3>
+<p>The modified <code>g2</code> object.
+</p>
+<h3 id="sec:examples_4" class="unnumbered unlisted">Examples</h3>
+<pre><code class="language-r">df = data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2))
+p = g2(df, y ~ x, color = ~ x)
+# Polar coordinate (rose chart)
+g2(df, y ~ x) |&gt; coord_polar()
+
+# Theta coordinate (pie / donut chart)
+p |&gt; transform('stackY') |&gt; coord_theta()
+p |&gt; transform('stackY') |&gt; coord_theta(innerRadius = 0.5)
+
+# Radial coordinate (radial bar chart)
+p |&gt; coord_radial()
+
+# Parallel coordinate (uses position encoding)
+g2(iris, position = names(iris)[-5], color = ~ Species,
+  padding = c(30, NA, NA, NA)) |&gt;
+  coord_parallel() |&gt;
+  legend_color(position = 'bottom')
+
+# Radar coordinate (polar with long-format data)
+df2 = data.frame(
+  item = rep(c('Design', 'Dev', 'Marketing', 'Sales', 'Support'), 2),
+  score = c(80, 90, 65, 75, 85, 60, 70, 85, 80, 70),
+  team = rep(c('A', 'B'), each = 5)
+)
+g2(df2, score ~ item, color = ~ team) |&gt;
+  mark_area(style = list(fillOpacity = 0.5)) |&gt;
+  mark_line(style = list(lineWidth = 2)) |&gt;
+  coord_polar() |&gt;
+  scale_x(padding = 0.5, align = 0) |&gt;
+  scale_y(domainMin = 0, domainMax = 100) |&gt;
+  axis_x(grid = TRUE)
+</code></pre>
+<h2 id="sec:man-coord_transpose"><span class="section-number main-number">7</span> Transpose (Flip) the Coordinate System</h2>
+<h3 id="sec:description_7" class="unnumbered unlisted">Description</h3>
+<p>Swap x and y axes, equivalent to ggplot2's <code>coord_flip()</code>. This adds a
+<code>transpose</code> transform to the current coordinate system.
+</p>
+<h3 id="sec:usage_6" class="unnumbered unlisted">Usage</h3>
+<pre><code class="language-r">coord_transpose(chart = NULL)</code></pre>
+<h3 id="sec:arguments_6" class="unnumbered unlisted">Arguments</h3>
+<table role = "presentation">
+<tr><td><code>chart</code></td>
+<td>
+<p>A <code>g2</code> object.</p>
+</td></tr>
+</table>
+<h3 id="sec:value_6" class="unnumbered unlisted">Value</h3>
+<p>The modified <code>g2</code> object.
+</p>
+<h3 id="sec:examples_5" class="unnumbered unlisted">Examples</h3>
+<pre><code class="language-r"># Horizontal bar chart (coord_flip equivalent)
+df = data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2))
+g2(df, y ~ x) |&gt;
+  coord_transpose()
+</code></pre>
+<h2 id="sec:man-encode"><span class="section-number main-number">8</span> Set Aesthetic Mappings</h2>
+<h3 id="sec:description_8" class="unnumbered unlisted">Description</h3>
+<p>Map data columns to visual channels (x, y, color, size, shape, etc.).
+Use formulas (e.g., <code>x = ~ col</code>) or character strings (e.g., <code>x = 'col'</code>).
+</p>
+<h3 id="sec:usage_7" class="unnumbered unlisted">Usage</h3>
+<pre><code class="language-r">encode(chart = NULL, ...)</code></pre>
+<h3 id="sec:arguments_7" class="unnumbered unlisted">Arguments</h3>
+<table role = "presentation">
+<tr><td><code>chart</code></td>
+<td>
+<p>A <code>g2</code> object.</p>
+</td></tr>
+<tr><td><code>...</code></td>
+<td>
+<p>Named mappings as <code>name = ~column</code> formulas or character strings,
+e.g., <code>x = ~ col1, color = ~ col2</code>.</p>
+</td></tr>
+</table>
+<h3 id="sec:value_7" class="unnumbered unlisted">Value</h3>
+<p>The modified <code>g2</code> object.
+</p>
+<h3 id="sec:examples_6" class="unnumbered unlisted">Examples</h3>
+<pre><code class="language-r">g2(mtcars) |&gt; encode(x = ~ mpg, y = ~ hp)
+</code></pre>
+<h2 id="sec:man-facet_circle"><span class="section-number main-number">9</span> Facet in a Circular Layout</h2>
+<h3 id="sec:description_9" class="unnumbered unlisted">Description</h3>
+<p>Facet in a Circular Layout
+</p>
+<h3 id="sec:usage_8" class="unnumbered unlisted">Usage</h3>
+<pre><code class="language-r">facet_circle(chart = NULL, ...)</code></pre>
+<h3 id="sec:arguments_8" class="unnumbered unlisted">Arguments</h3>
+<table role = "presentation">
+<tr><td><code>chart</code></td>
+<td>
+<p>A <code>g2</code> object.</p>
+</td></tr>
+<tr><td><code>...</code></td>
+<td>
+<p>Facet encoding and options. Pass <code>position = ~var</code> to specify
+the faceting variable. Character strings are also accepted.</p>
+</td></tr>
+</table>
+<h3 id="sec:value_8" class="unnumbered unlisted">Value</h3>
+<p>The modified <code>g2</code> object.
+</p>
+<h3 id="sec:examples_7" class="unnumbered unlisted">Examples</h3>
+<pre><code class="language-r">g2(iris, Sepal.Length ~ Sepal.Width) |&gt;
+  facet_circle(position = ~ Species)
+</code></pre>
+<h2 id="sec:man-facet_rect"><span class="section-number main-number">10</span> Facet by a Rectangular Grid</h2>
+<h3 id="sec:description_10" class="unnumbered unlisted">Description</h3>
+<p>Split the chart into a grid of panels based on one or two variables,
+similar to ggplot2's <code>facet_grid()</code> / <code>facet_wrap()</code>. Use the <code>x</code> and/or
+<code>y</code> arguments to specify faceting variables. An unnamed first formula
+argument is interpreted as: <code>~var</code> sets <code>x = 'var'</code>; <code>y ~ x</code> sets both
+<code>x = 'x'</code> and <code>y = 'y'</code>.
+</p>
+<h3 id="sec:usage_9" class="unnumbered unlisted">Usage</h3>
+<pre><code class="language-r">facet_rect(chart = NULL, ...)</code></pre>
+<h3 id="sec:arguments_9" class="unnumbered unlisted">Arguments</h3>
+<table role = "presentation">
+<tr><td><code>chart</code></td>
+<td>
+<p>A <code>g2</code> object.</p>
+</td></tr>
+<tr><td><code>...</code></td>
+<td>
+<p>Facet encoding and options. Pass <code>x = ~var</code> and/or <code>y = ~var</code>
+to specify the faceting variable(s). An unnamed formula <code>~var</code> sets
+<code>x = 'var'</code>; <code>y ~ x</code> sets <code>x = 'x'</code> and <code>y = 'y'</code>. Character strings
+are also accepted.</p>
+</td></tr>
+</table>
+<h3 id="sec:value_9" class="unnumbered unlisted">Value</h3>
+<p>The modified <code>g2</code> object.
+</p>
+<h3 id="sec:examples_8" class="unnumbered unlisted">Examples</h3>
+<pre><code class="language-r">g2(iris, Sepal.Length ~ Sepal.Width) |&gt;
+  facet_rect(x = ~ Species)
+
+# Unnamed formula shorthand
+g2(iris, Sepal.Length ~ Sepal.Width) |&gt;
+  facet_rect(~ Species)
+
+# Two-sided formula: y ~ x
+df = data.frame(
+  x = rnorm(200), y = rnorm(200),
+  sex = sample(c('M', 'F'), 200, replace = TRUE),
+  species = sample(c('A', 'B'), 200, replace = TRUE)
+)
+g2(df, y ~ x) |&gt;
+  facet_rect(sex ~ species)
+</code></pre>
+<h2 id="sec:man-g2"><span class="section-number main-number">11</span> Create a G2 Chart Object</h2>
+<h3 id="sec:description_11" class="unnumbered unlisted">Description</h3>
+<p>Construct a base chart object, optionally with data and aesthetic mappings.
+Use R formulas for aesthetic mappings (see <strong>Formula Interface</strong>).
+</p>
+<h3 id="sec:usage_10" class="unnumbered unlisted">Usage</h3>
+<pre><code class="language-r">g2(data = NULL, ..., title = NULL, subtitle = NULL)</code></pre>
+<h3 id="sec:arguments_10" class="unnumbered unlisted">Arguments</h3>
+<table role = "presentation">
+<tr><td><code>data</code></td>
+<td>
+<p>A data frame, a <code>ts</code>/<code>mts</code> time series object, or <code>NULL</code>. Time
+series objects are automatically converted to data frames (with columns
+<code>time</code> and <code>value</code> for univariate series, or <code>time</code>, <code>series</code>, and <code>value</code>
+for multivariate series) and default aesthetic mappings are set
+accordingly. By default, only the columns actually referenced by the chart
+are included in the HTML output. Wrap <code>data</code> in <code><a href="https://rdrr.io/r/base/AsIs.html">I()</a></code> to opt out of
+trimming and preserve all columns — useful when extra columns are accessed
+inside inline JavaScript functions that cannot be statically detected.</p>
+</td></tr>
+<tr><td><code>...</code></td>
+<td>
+<p>Aesthetic mappings as <code>name = ~column</code> formulas or a positional
+<p>formula for <code>x</code>/<code>y</code>. Character strings are also accepted.</p></p>
+</td></tr>
+<tr><td><code>title</code></td>
+<td>
+<p>Chart title string, a convenient alternative to piping into
+<code><a href="#sec:man-titles">titles()</a></code> separately.</p>
+</td></tr>
+<tr><td><code>subtitle</code></td>
+<td>
+<p>Chart subtitle string.</p>
+</td></tr>
+</table>
+<h3 id="sec:value_10" class="unnumbered unlisted">Value</h3>
+<p>A <code>g2</code> object (S3 class).
+</p>
+<h3 id="sec:formula-interface" class="unnumbered unlisted">Formula Interface</h3>
+<p>Aesthetic mappings use R formulas as a shorthand for column names:
+</p>
+<dl>
+<dt><code>y ~ x</code></dt><dd><p>Sets <code>x</code> and <code>y</code> as the first positional argument.</p>
+</dd>
+<dt><code>~ x</code></dt><dd><p>Sets only <code>x</code> (e.g., for histograms or bar counts).</p>
+</dd>
+<dt><code>~ x1 + x2 + x3</code></dt><dd><p>Creates a <code>position</code> encoding with multiple
+fields (for parallel coordinates).</p>
+</dd>
+<dt><code>y ~ x | z</code></dt><dd><p>Facets the chart by <code>z</code> (column direction).</p>
+</dd>
+<dt><code>y ~ x | z1 + z2</code></dt><dd><p>Facets by <code>z1</code> (columns) and <code>z2</code> (rows).</p>
+</dd>
+<dt><code>color = ~ var</code></dt><dd><p>Maps the <code>color</code> channel to <code>var</code> (one-sided
+formula in a named argument). Works for any aesthetic channel.</p>
+</dd>
+</dl>
+<h3 id="sec:examples_9" class="unnumbered unlisted">Examples</h3>
+<pre><code class="language-r">g2(mtcars, hp ~ mpg)
+g2(mtcars, hp ~ mpg, color = ~ cyl)
+g2(mtcars, ~ mpg)
+
+# Time series
+g2(sunspot.year)
+g2(EuStockMarkets)
+
+# Title and subtitle
+g2(mtcars, hp ~ mpg, title = 'Motor Trend Cars', subtitle = 'mpg vs hp')
+</code></pre>
+<h2 id="sec:man-g2Output"><span class="section-number main-number">12</span> Shiny Output for a G2 Chart</h2>
+<h3 id="sec:description_12" class="unnumbered unlisted">Description</h3>
+<p>Create a placeholder in the UI for a G2 chart rendered by <code><a href="#sec:man-renderg2">renderG2()</a></code>.
+The required JavaScript dependencies (G2 library, column-major data helper,
+and output binding) are automatically attached to the page.
+</p>
+<h3 id="sec:usage_11" class="unnumbered unlisted">Usage</h3>
+<pre><code class="language-r">g2Output(outputId, width = "100%", height = "480px")</code></pre>
+<h3 id="sec:arguments_11" class="unnumbered unlisted">Arguments</h3>
+<table role = "presentation">
+<tr><td><code>outputId</code></td>
+<td>
+<p>Output variable name to read the chart from.</p>
+</td></tr>
+<tr><td><code>width</code>, <code>height</code></td>
+<td>
+<p>CSS dimensions for the chart container.</p>
+</td></tr>
+</table>
+<h3 id="sec:value_11" class="unnumbered unlisted">Value</h3>
+<p>A Shiny UI element.
+</p>
+<h3 id="sec:examples_10" class="unnumbered unlisted">Examples</h3>
+<pre><code class="language-r fade">library(shiny)
+ui = fluidPage(g2Output('chart1'))
+server = function(input, output, session) {
+  output$chart1 = renderG2({
+    g2(mtcars, x = 'mpg', y = 'hp') |&gt; mark_point()
+  })
+}
+shinyApp(ui, server)
+</code></pre>
+<h2 id="sec:man-interact"><span class="section-number main-number">13</span> Add an Interaction</h2>
+<h3 id="sec:description_13" class="unnumbered unlisted">Description</h3>
+<p>Enable an interaction behaviour on the chart. G2 interaction types include:
+<code>'tooltip'</code>, <code>'elementHighlight'</code>, <code>'elementHighlightByX'</code>,
+<code>'elementHighlightByColor'</code>, <code>'elementSelect'</code>, <code>'elementSelectByX'</code>,
+<code>'elementSelectByColor'</code>, <code>'elementHoverScale'</code>, <code>'fisheye'</code>,
+<code>'chartIndex'</code>, <code>'legendFilter'</code>, <code>'legendHighlight'</code>,
+<code>'brushHighlight'</code>, <code>'brushXHighlight'</code>, <code>'brushYHighlight'</code>,
+<code>'brushFilter'</code>, <code>'brushXFilter'</code>, <code>'brushYFilter'</code>,
+<code>'sliderFilter'</code>, <code>'poptip'</code>, <code>'drillDown'</code>.
+</p>
+<h3 id="sec:usage_12" class="unnumbered unlisted">Usage</h3>
+<pre><code class="language-r">interact(chart = NULL, type, ...)</code></pre>
+<h3 id="sec:arguments_12" class="unnumbered unlisted">Arguments</h3>
+<table role = "presentation">
+<tr><td><code>chart</code></td>
+<td>
+<p>A <code>g2</code> object.</p>
+</td></tr>
+<tr><td><code>type</code></td>
+<td>
+<p>Interaction type string.</p>
+</td></tr>
+<tr><td><code>...</code></td>
+<td>
+<p>Additional interaction options.</p>
+</td></tr>
+</table>
+<h3 id="sec:value_12" class="unnumbered unlisted">Value</h3>
+<p>The modified <code>g2</code> object.
+</p>
+<h3 id="sec:examples_11" class="unnumbered unlisted">Examples</h3>
+<pre><code class="language-r"># Tooltip on scatter plot
+g2(mtcars, hp ~ mpg) |&gt;
+  interact('tooltip')
+
+# Highlight elements on hover
+g2(mtcars, hp ~ mpg, color = ~ cyl) |&gt;
+  interact('elementHighlight')
+
+# Brush to highlight a region
+g2(mtcars, hp ~ mpg) |&gt;
+  interact('brushHighlight')
+
+# Legend filter
+g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species) |&gt;
+  interact('legendFilter')
+</code></pre>
+<h2 id="sec:man-knit_print.g2"><span class="section-number main-number">14</span> Custom Printing in Knitr</h2>
+<h3 id="sec:description_14" class="unnumbered unlisted">Description</h3>
+<p>Custom Printing in Knitr
+</p>
+<h3 id="sec:usage_13" class="unnumbered unlisted">Usage</h3>
+<pre><code class="language-r">knit_print.g2(x, ...)</code></pre>
+<h3 id="sec:arguments_13" class="unnumbered unlisted">Arguments</h3>
+<table role = "presentation">
+<tr><td><code>x</code></td>
+<td>
+<p>A <code>g2</code> object.</p>
+</td></tr>
+<tr><td><code>...</code></td>
+<td>
+<p>Ignored.</p>
+</td></tr>
+</table>
+<h3 id="sec:value_13" class="unnumbered unlisted">Value</h3>
+<p>A <code>knit_asis</code> character vector.
+</p>
+<h2 id="sec:man-labels.g2"><span class="section-number main-number">15</span> Add Labels to the Last Mark</h2>
+<h3 id="sec:description_15" class="unnumbered unlisted">Description</h3>
+<p>Append a label configuration to the most recently added mark. Can be called
+multiple times to add several label layers.
+</p>
+<h3 id="sec:usage_14" class="unnumbered unlisted">Usage</h3>
+<pre><code class="language-r">## S3 method for class 'g2'
+labels(object, text, ...)
+
+## S3 method for class 'character'
+labels(object, ...)
+
+## S3 method for class 'formula'
+labels(object, ...)</code></pre>
+<h3 id="sec:arguments_14" class="unnumbered unlisted">Arguments</h3>
+<table role = "presentation">
+<tr><td><code>object</code></td>
+<td>
+<p>A <code>g2</code> object, a formula <code>~col</code>, or a character string (the
+text channel) for deferred use with <code>+</code>.</p>
+</td></tr>
+<tr><td><code>text</code></td>
+<td>
+<p>Label text channel: a column name as <code>~col</code> or <code>'col'</code>.</p>
+</td></tr>
+<tr><td><code>...</code></td>
+<td>
+<p>Additional label options such as <code>position</code>, <code>formatter</code>,
+<code>style</code>, or <code>innerHTML</code>.</p>
+</td></tr>
+</table>
+<h3 id="sec:details_3" class="unnumbered unlisted">Details</h3>
+<p>Use <code>text</code> (a column name as a formula <code>~col</code> or a string <code>'col'</code>) to map
+a data column to label text. G2 also supports <code>innerHTML</code>, which overrides
+<code>text</code> when provided.
+</p>
+<p><strong>Caution when using <code>+</code>:</strong> S3 dispatch requires that the first argument is
+unnamed. Use <code>p + labels(~col)</code> or <code>p + labels('col')</code> (not
+<code>p + labels(text = 'col')</code>). To use <code>innerHTML</code>, pass a dummy first
+argument: <code>p + labels('', innerHTML = ~col)</code>. See <code>?labels.g2</code> for the full
+API.
+</p>
+<h3 id="sec:value_14" class="unnumbered unlisted">Value</h3>
+<p>The modified <code>g2</code> object (or a <code>g2_mod</code> when <code>object</code> is not a
+<code>g2</code>).
+</p>
+<h3 id="sec:examples_12" class="unnumbered unlisted">Examples</h3>
+<pre><code class="language-r">df = data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2))
+g2(df, y ~ x) |&gt;
+  labels(text = ~ y, position = 'inside')
+
+# With + operator (first argument must be unnamed)
+g2(df, y ~ x) + labels(~ y)
+g2(df, y ~ x) + labels('y', position = 'inside')
+</code></pre>
+<h2 id="sec:man-legend_"><span class="section-number main-number">16</span> Configure a Legend</h2>
+<h3 id="sec:description_16" class="unnumbered unlisted">Description</h3>
+<p>Customize the legend for a visual channel (<code>'color'</code>, <code>'size'</code>, <code>'shape'</code>,
+<code>'opacity'</code>). Set to <code>FALSE</code> to hide.
+</p>
+<h3 id="sec:usage_15" class="unnumbered unlisted">Usage</h3>
+<pre><code class="language-r">legend_(chart = NULL, channel, ...)
+
+legend_color(chart = NULL, ...)
+
+legend_size(chart = NULL, ...)
+
+legend_shape(chart = NULL, ...)
+
+legend_opacity(chart = NULL, ...)</code></pre>
+<h3 id="sec:arguments_15" class="unnumbered unlisted">Arguments</h3>
+<table role = "presentation">
+<tr><td><code>chart</code></td>
+<td>
+<p>A <code>g2</code> object.</p>
+</td></tr>
+<tr><td><code>channel</code></td>
+<td>
+<p>Visual channel name.</p>
+</td></tr>
+<tr><td><code>...</code></td>
+<td>
+<p>Legend options such as <code>position</code> (<code>'top'</code>, <code>'bottom'</code>, <code>'left'</code>,
+<code>'right'</code>), <code>layout</code>, <code>title</code>, etc., or <code>FALSE</code> to hide.</p>
+</td></tr>
+</table>
+<h3 id="sec:value_15" class="unnumbered unlisted">Value</h3>
+<p>The modified <code>g2</code> object.
+</p>
+<h3 id="sec:examples_13" class="unnumbered unlisted">Examples</h3>
+<pre><code class="language-r">p = g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species)
+p |&gt; legend_color(position = 'right')
+
+g2(mtcars, hp ~ mpg, size = ~ wt) |&gt;
+  legend_size(position = 'bottom')
+</code></pre>
+<h2 id="sec:man-mark_"><span class="section-number main-number">17</span> Add a Geometry Layer (Mark)</h2>
+<h3 id="sec:description_17" class="unnumbered unlisted">Description</h3>
+<p>Generic function to add a mark (geometry layer) to the chart. Use the
+specific <code>mark_*()</code> wrappers for convenience.
+</p>
+<h3 id="sec:usage_16" class="unnumbered unlisted">Usage</h3>
+<pre><code class="language-r">mark_(chart = NULL, type, ...)
+
+mark_interval(chart = NULL, ...)
+
+mark_line(chart = NULL, ...)
+
+mark_point(chart = NULL, ...)
+
+mark_area(chart = NULL, ...)
+
+mark_rect(chart = NULL, ...)
+
+mark_cell(chart = NULL, ...)
+
+mark_text(chart = NULL, ...)
+
+mark_path(chart = NULL, ...)
+
+mark_polygon(chart = NULL, ...)
+
+mark_image(chart = NULL, ...)
+
+mark_link(chart = NULL, ...)
+
+mark_line_x(chart = NULL, ...)
+
+mark_line_y(chart = NULL, ...)
+
+mark_range(chart = NULL, ...)
+
+mark_range_x(chart = NULL, ...)
+
+mark_range_y(chart = NULL, ...)
+
+mark_connector(chart = NULL, ...)
+
+mark_box(chart = NULL, ...)
+
+mark_boxplot(chart = NULL, ...)
+
+mark_beeswarm(chart, ...)
+
+mark_density(chart = NULL, ...)
+
+mark_heatmap(chart = NULL, ...)
+
+mark_vector(chart = NULL, ...)
+
+mark_node(chart = NULL, ...)
+
+mark_edge(chart = NULL, ...)
+
+mark_sankey(chart = NULL, ...)
+
+mark_chord(chart = NULL, ...)
+
+mark_treemap(chart = NULL, ...)
+
+mark_pack(chart = NULL, ...)
+
+mark_force_graph(chart = NULL, ...)
+
+mark_tree(chart = NULL, ...)
+
+mark_word_cloud(chart = NULL, ...)
+
+mark_gauge(chart = NULL, ...)
+
+mark_liquid(chart = NULL, ...)
+
+mark_shape(chart = NULL, ...)
+
+mark_sunburst(chart = NULL, ...)
+
+mark_partition(chart = NULL, ...)</code></pre>
+<h3 id="sec:arguments_16" class="unnumbered unlisted">Arguments</h3>
+<table role = "presentation">
+<tr><td><code>chart</code></td>
+<td>
+<p>A <code>g2</code> object.</p>
+</td></tr>
+<tr><td><code>type</code></td>
+<td>
+<p>Character string for the G2 mark type.</p>
+</td></tr>
+<tr><td><code>...</code></td>
+<td>
+<p>Mark-level options passed to G2, such as <code>data</code>, <code>encode</code>,
+<code>transform</code>, <code>style</code>, <code>animate</code>, <code>labels</code>, <code>tooltip</code>, <code>axis</code>, <code>legend</code>.
+When <code>data</code> is a data frame, only columns referenced by the chart or
+mark-level encodings are kept. Wrap it in <code><a href="https://rdrr.io/r/base/AsIs.html">I()</a></code> to preserve all columns.</p>
+</td></tr>
+</table>
+<h3 id="sec:details_4" class="unnumbered unlisted">Details</h3>
+<p><code>mark_interval()</code>: Add an interval mark for bar and column charts.
+</p>
+<p><code>mark_line()</code>: Add a line mark (connects points sorted by x).
+</p>
+<p><code>mark_point()</code>: Add a point mark (scatter plot).
+</p>
+<p><code>mark_area()</code>: Add an area mark (filled region under the line).
+</p>
+<p><code>mark_rect()</code>: Draw rectangles. Commonly used with a <code>bin</code>
+transform for 2-D histograms.
+</p>
+<p><code>mark_cell()</code>: Draw rectangular cells, commonly used for heatmaps
+and calendar charts.
+</p>
+<p><code>mark_text()</code>: Place text labels at data coordinates.
+</p>
+<p><code>mark_path()</code>: Connect points in data order (unlike line, which
+sorts by x).
+</p>
+<p><code>mark_polygon()</code>: Draw filled polygon shapes.
+</p>
+<p><code>mark_image()</code>: Place images at data coordinates. Requires an
+<code>src</code> encoding for image URLs.
+</p>
+<p><code>mark_link()</code>: Draw links (lines) between pairs of points.
+</p>
+<p><code>mark_line_x()</code>: Draw a vertical reference line at a given x
+position.
+</p>
+<p><code>mark_line_y()</code>: Draw a horizontal reference line at a given y
+position.
+</p>
+<p><code>mark_range()</code>: Shade a rectangular region defined by x and y
+intervals.
+</p>
+<p><code>mark_range_x()</code>: Shade a vertical band defined by an x interval.
+</p>
+<p><code>mark_range_y()</code>: Shade a horizontal band defined by a y interval.
+</p>
+<p><code>mark_connector()</code>: Draw a connector line with optional labels
+between two data points.
+</p>
+<p><code>mark_box()</code>: Draw pre-computed box elements (for custom box
+plots).
+</p>
+<p><code>mark_boxplot()</code>: A composite mark that automatically computes box
+plot statistics (median, quartiles, whiskers) from raw data.
+</p>
+<p><code>mark_beeswarm()</code>: Display individual data points using force
+simulation to avoid overlapping. Particularly useful for visualizing
+distributions within categories.
+</p>
+<p><code>mark_density()</code>: Visualize probability density using kernel
+density estimation (KDE). When the chart has a numeric <code>x</code> aesthetic, the
+KDE transform and encodings are configured automatically: the density is
+computed for the <code>x</code> column, and if <code>color</code> is also mapped, separate
+density curves are drawn for each group. Explicit <code>data</code>/<code>encode</code> in <code>...</code>
+bypass this auto-configuration.
+</p>
+<p><code>mark_heatmap()</code>: A composite mark for rendering heatmaps from
+point data.
+</p>
+<p><code>mark_vector()</code>: Draw arrows or vectors. Useful for wind or flow
+field visualizations.
+</p>
+<p><code>mark_node()</code>: Used in graph visualizations together with
+<code><a href="#sec:man-mark">mark_edge()</a></code>.
+</p>
+<p><code>mark_edge()</code>: Used in graph visualizations together with
+<code><a href="#sec:man-mark">mark_node()</a></code>.
+</p>
+<p><code>mark_sankey()</code>: Draw a Sankey diagram. Data should have
+<code>source</code>, <code>target</code>, and <code>value</code> columns.
+</p>
+<p><code>mark_chord()</code>: Draw a chord diagram. Data should have <code>source</code>,
+<code>target</code>, and <code>value</code> columns.
+</p>
+<p><code>mark_treemap()</code>: Draw a treemap layout. Data should be
+hierarchical (a nested list with <code>name</code>, <code>value</code>, and optionally
+<code>children</code> fields).
+</p>
+<p><code>mark_pack()</code>: Draw a circle packing layout. Data format is the
+same as <code>mark_treemap()</code>.
+</p>
+<p><code>mark_force_graph()</code>: Draw a force-directed graph layout.
+</p>
+<p><code>mark_tree()</code>: Draw a tree layout.
+</p>
+<p><code>mark_word_cloud()</code>: Draw a word cloud.
+</p>
+<p><code>mark_gauge()</code>: Draw a gauge (speedometer) chart.
+</p>
+<p><code>mark_liquid()</code>: Draw a liquid fill gauge.
+</p>
+<p><code>mark_shape()</code>: A custom mark whose rendering is controlled by a
+JavaScript render function.
+</p>
+<p><code>mark_sunburst()</code>: A composite mark for sunburst (radial partition)
+visualization of hierarchical data. This wraps the partition mark with
+polar coordinates. The data should be a nested tree structure wrapped in a
+list, e.g., <code>data = list(type = 'inline', value = list(tree))</code>.
+</p>
+<p><code>mark_partition()</code>: A composite mark for hierarchical icicle chart
+visualization. For a radial (sunburst) layout, use <code><a href="#sec:man-mark">mark_sunburst()</a></code>
+instead. The data should be a nested tree structure wrapped in a list,
+e.g., <code>data = list(type = 'inline', value = list(tree))</code>.
+</p>
+<h3 id="sec:value_16" class="unnumbered unlisted">Value</h3>
+<p>The modified <code>g2</code> object.
+</p>
+<h3 id="sec:examples_14" class="unnumbered unlisted">Examples</h3>
+<pre><code class="language-r"># Bar chart
+df = data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2))
+g2(df, y ~ x) |&gt; mark_interval()
+
+# Stacked bar chart
+df = data.frame(
+  x = rep(c('A', 'B'), each = 2), y = c(3, 2, 5, 4),
+  color = rep(c('a', 'b'), 2)
+)
+g2(df, y ~ x, color = ~ color) |&gt;
+  mark_interval() |&gt; transform('stackY')
+
+# Line and area chart
+df = data.frame(x = 1:5, y = c(3, 1, 4, 1, 5))
+p = g2(df, y ~ x)
+p |&gt; mark_line()
+
+# Scatter plot
+g2(mtcars, hp ~ mpg, color = ~ cyl) |&gt; mark_point()
+
+# Area chart
+p |&gt; mark_area()
+
+# 2-D histogram using bin transform
+g2(mtcars, hp ~ mpg) |&gt;
+  mark_rect(
+    transform = list(list(type = 'bin', thresholdsX = 10, thresholdsY = 10))
+  )
+
+# Heatmap cells
+df = expand.grid(x = LETTERS[1:4], y = LETTERS[1:4])
+df$value = seq_len(nrow(df))
+g2(df, y ~ x, color = ~ value) |&gt; mark_cell()
+
+# Bar chart with text labels
+df = data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2))
+g2(df, y ~ x) |&gt;
+  mark_interval() |&gt;
+  mark_text(encode = list(text = 'y'))
+
+# Spiral path (points connected in data order)
+n = 100
+t = seq(0, 4 * pi, length.out = n)
+df = data.frame(x = t * cos(t), y = t * sin(t))
+g2(df, y ~ x) |&gt; mark_path()
+
+# Triangle polygon
+df = data.frame(x = c(0, 1, 0.5), y = c(0, 0, 1))
+g2(df, y ~ x) |&gt; mark_polygon()
+
+# Image mark at two data points
+df = data.frame(x = 1:2, y = 1:2)
+g2(df, y ~ x) |&gt;
+  mark_image(style = list(
+    src = 'https://gw.alipayobjects.com/mdn/rms_dfc253/afts/img/A*SZGfRaFPkIoAAAAAAAAAAAAAARQnAQ'
+  ))
+
+# Link mark connecting pairs of points
+df = data.frame(x = c(0, 1), y = c(0, 0), x1 = c(1, 2), y1 = c(1, 1))
+g2(df) |&gt;
+  mark_link(encode = list(x = c('x', 'x1'), y = c('y', 'y1')))
+
+# Scatter plot with reference lines and shaded regions
+p = g2(mtcars, hp ~ mpg) |&gt; mark_point()
+p |&gt; mark_line_x(data = list(list(x = 20)),
+  style = list(stroke = 'red', lineDash = c(4, 4)))
+p |&gt; mark_line_y(data = list(list(y = 150)),
+  style = list(stroke = 'red', lineDash = c(4, 4)))
+p |&gt; mark_range(
+  data = list(list(x = c(15, 25), y = c(100, 200))),
+  style = list(fill = 'steelblue', fillOpacity = 0.15)
+)
+p |&gt; mark_range_x(data = list(list(x = c(15, 25))),
+  style = list(fill = 'steelblue', fillOpacity = 0.15))
+p |&gt; mark_range_y(data = list(list(y = c(100, 200))),
+  style = list(fill = 'orange', fillOpacity = 0.15))
+
+# Bar chart with connector annotation
+df = data.frame(x = c('A', 'B'), y = c(3, 7))
+g2(df, y ~ x) |&gt;
+  mark_interval() |&gt;
+  mark_connector(
+    data = list(list(x = 'A', x1 = 'B')),
+    encode = list(x = 'x', x1 = 'x1'),
+    labels = list(list(text = '+133%'))
+  )
+
+# Box plot and beeswarm
+p = g2(iris, Sepal.Width ~ Species)
+p |&gt; mark_boxplot()
+p |&gt; mark_beeswarm()
+
+# Density plot by species
+g2(iris, ~ Sepal.Width, color = ~ Species) |&gt; mark_density()
+
+# Heatmap from point data
+g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Petal.Length) |&gt;
+  mark_heatmap()
+
+# Sankey and chord diagrams
+df = data.frame(
+  source = c('A', 'A', 'B'), target = c('B', 'C', 'C'),
+  value = c(5, 3, 2)
+)
+g2(df) |&gt;
+  mark_sankey(
+    encode = list(source = 'source', target = 'target', value = 'value'),
+    layout = list(nodeAlign = 'center')
+  )
+g2(df) |&gt;
+  mark_chord(
+    encode = list(source = 'source', target = 'target', value = 'value')
+  )
+
+# Treemap and circle packing
+tree_data = list(
+  name = 'root', children = list(
+    list(name = 'A', value = 10),
+    list(name = 'B', value = 20),
+    list(name = 'C', value = 15)
+  )
+)
+g2() |&gt;
+  mark_treemap(
+    data = list(value = tree_data),
+    encode = list(value = 'value')
+  )
+g2() |&gt;
+  mark_pack(
+    data = list(value = tree_data),
+    encode = list(value = 'value', color = 'name')
+  )
+
+# Word cloud
+df = data.frame(
+  text = c('Hello', 'Data', 'Science', 'R', 'G2', 'Chart'),
+  value = c(30, 25, 20, 15, 10, 5)
+)
+g2(df) |&gt;
+  mark_word_cloud(encode = list(text = 'text', value = 'value', color = 'text'))
+
+# Liquid fill gauge
+g2() |&gt;
+  mark_liquid(data = list(list(value = 0.3)),
+    encode = list(y = 'value'),
+    style = list(textContent = '30%'))
+
+# Sunburst chart (hierarchical radial partition)
+tree = list(name = 'root', children = list(
+  list(name = 'A', value = 10, children = list(
+    list(name = 'A1', value = 5), list(name = 'A2', value = 5)
+  )),
+  list(name = 'B', value = 20)
+))
+g2() |&gt; mark_sunburst(
+  data = list(type = 'inline', value = list(tree)),
+  encode = list(value = 'value')
+)
+</code></pre>
+<h2 id="sec:man-plus-.g2"><span class="section-number main-number">18</span> Add a Modifier to a G2 Chart</h2>
+<h3 id="sec:description_18" class="unnumbered unlisted">Description</h3>
+<p>Enables ggplot2-style <code>+</code> syntax for building charts. The right-hand side
+must be a deferred modifier created by calling a modifier function without
+a chart argument (e.g., <code>mark_point()</code>, <code>theme_dark()</code>).
+</p>
+<h3 id="sec:usage_17" class="unnumbered unlisted">Usage</h3>
+<pre><code class="language-r">## S3 method for class 'g2'
+e1 + e2</code></pre>
+<h3 id="sec:arguments_17" class="unnumbered unlisted">Arguments</h3>
+<table role = "presentation">
+<tr><td><code>e1</code></td>
+<td>
+<p>A <code>g2</code> object (the chart).</p>
+</td></tr>
+<tr><td><code>e2</code></td>
+<td>
+<p>A <code>g2_mod</code> object (a deferred modifier).</p>
+</td></tr>
+</table>
+<h3 id="sec:value_17" class="unnumbered unlisted">Value</h3>
+<p>The modified <code>g2</code> object.
+</p>
+<h3 id="sec:examples_15" class="unnumbered unlisted">Examples</h3>
+<pre><code class="language-r"># These two are equivalent:
+g2(mtcars, hp ~ mpg) |&gt; mark_point() |&gt; theme_dark()
+g2(mtcars, hp ~ mpg) + mark_point() + theme_dark()
+</code></pre>
+<h2 id="sec:man-print.g2"><span class="section-number main-number">19</span> Preview a Chart in the Viewer or Browser</h2>
+<h3 id="sec:description_19" class="unnumbered unlisted">Description</h3>
+<p>Preview a Chart in the Viewer or Browser
+</p>
+<h3 id="sec:usage_18" class="unnumbered unlisted">Usage</h3>
+<pre><code class="language-r">## S3 method for class 'g2'
+print(x, ...)</code></pre>
+<h3 id="sec:arguments_18" class="unnumbered unlisted">Arguments</h3>
+<table role = "presentation">
+<tr><td><code>x</code></td>
+<td>
+<p>A <code>g2</code> object.</p>
+</td></tr>
+<tr><td><code>...</code></td>
+<td>
+<p>Additional arguments passed to <code><a href="#sec:man-chart-html">chart_html()</a></code>.</p>
+</td></tr>
+</table>
+<h3 id="sec:value_18" class="unnumbered unlisted">Value</h3>
+<p>The chart object (invisibly).
+</p>
+<h2 id="sec:man-renderG2"><span class="section-number main-number">20</span> Render a G2 Chart in Shiny</h2>
+<h3 id="sec:description_20" class="unnumbered unlisted">Description</h3>
+<p>Create a reactive G2 chart for use with <code><a href="#sec:man-g2output">g2Output()</a></code>.
+Assign it to an output slot: <code>output$ID = renderG2({...})</code>.
+</p>
+<h3 id="sec:usage_19" class="unnumbered unlisted">Usage</h3>
+<pre><code class="language-r">renderG2(expr, env = parent.frame(), quoted = FALSE)</code></pre>
+<h3 id="sec:arguments_19" class="unnumbered unlisted">Arguments</h3>
+<table role = "presentation">
+<tr><td><code>expr</code></td>
+<td>
+<p>An expression that returns a <code>g2</code> object.</p>
+</td></tr>
+<tr><td><code>env</code></td>
+<td>
+<p>The environment in which to evaluate <code>expr</code>.</p>
+</td></tr>
+<tr><td><code>quoted</code></td>
+<td>
+<p>Whether <code>expr</code> is already quoted.</p>
+</td></tr>
+</table>
+<h3 id="sec:value_19" class="unnumbered unlisted">Value</h3>
+<p>A render function for use with <code><a href="#sec:man-g2output">g2Output()</a></code>.
+</p>
+<h2 id="sec:man-scale_"><span class="section-number main-number">21</span> Configure a Scale</h2>
+<h3 id="sec:description_21" class="unnumbered unlisted">Description</h3>
+<p>Add or modify scale settings for a given aesthetic channel. When called
+immediately after a <code>mark_*()</code> function (or after <code>style_mark()</code>,
+<code>labels()</code>, etc. that target the last mark), the scale is applied to that
+mark only. Otherwise it is applied at the chart level and affects all marks.
+This context-sensitivity enables dual-axis charts: pipe <code>scale_y()</code> right
+after each mark to give it its own independent y scale.
+</p>
+<h3 id="sec:usage_20" class="unnumbered unlisted">Usage</h3>
+<pre><code class="language-r">scale_(chart = NULL, field, ...)
+
+scale_x(chart = NULL, ...)
+
+scale_y(chart = NULL, ...)
+
+scale_color(chart = NULL, ...)
+
+scale_size(chart = NULL, ...)
+
+scale_shape(chart = NULL, ...)
+
+scale_opacity(chart = NULL, ...)</code></pre>
+<h3 id="sec:arguments_20" class="unnumbered unlisted">Arguments</h3>
+<table role = "presentation">
+<tr><td><code>chart</code></td>
+<td>
+<p>A <code>g2</code> object.</p>
+</td></tr>
+<tr><td><code>field</code></td>
+<td>
+<p>Character string naming the channel (e.g., <code>'x'</code>, <code>'y'</code>,
+<code>'color'</code>).</p>
+</td></tr>
+<tr><td><code>...</code></td>
+<td>
+<p>Scale options passed to G2 (e.g., <code>type = 'log'</code>, <code>nice = TRUE</code>,
+<code>domain</code>, <code>range</code>, <code>zero = TRUE</code>).</p>
+</td></tr>
+</table>
+<h3 id="sec:details_5" class="unnumbered unlisted">Details</h3>
+<p>G2 scale types: <code>'linear'</code>, <code>'ordinal'</code>, <code>'band'</code>, <code>'point'</code>, <code>'time'</code>,
+<code>'log'</code>, <code>'pow'</code>, <code>'sqrt'</code>, <code>'threshold'</code>, <code>'quantize'</code>, <code>'quantile'</code>,
+<code>'sequential'</code>, <code>'identity'</code>, <code>'constant'</code>.
+</p>
+<h3 id="sec:value_20" class="unnumbered unlisted">Value</h3>
+<p>The modified <code>g2</code> object.
+</p>
+<h3 id="sec:examples_16" class="unnumbered unlisted">Examples</h3>
+<pre><code class="language-r">p = g2(mtcars, hp ~ mpg)
+
+# Log-scaled x axis
+p |&gt; scale_x(type = 'log')
+
+# Square-root y axis
+p |&gt; scale_y(type = 'sqrt')
+
+# Ordinal color palette
+g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species) |&gt;
+  scale_color(palette = 'category10')
+</code></pre>
+<h2 id="sec:man-scroll_"><span class="section-number main-number">22</span> Add a Scrollbar</h2>
+<h3 id="sec:description_22" class="unnumbered unlisted">Description</h3>
+<p>Add a scrollbar to a positional channel for zooming/panning.
+</p>
+<h3 id="sec:usage_21" class="unnumbered unlisted">Usage</h3>
+<pre><code class="language-r">scroll_(chart = NULL, channel, ...)
+
+scroll_x(chart = NULL, ...)
+
+scroll_y(chart = NULL, ...)</code></pre>
+<h3 id="sec:arguments_21" class="unnumbered unlisted">Arguments</h3>
+<table role = "presentation">
+<tr><td><code>chart</code></td>
+<td>
+<p>A <code>g2</code> object.</p>
+</td></tr>
+<tr><td><code>channel</code></td>
+<td>
+<p>Positional channel: <code>'x'</code> or <code>'y'</code>.</p>
+</td></tr>
+<tr><td><code>...</code></td>
+<td>
+<p>Scrollbar options.</p>
+</td></tr>
+</table>
+<h3 id="sec:value_21" class="unnumbered unlisted">Value</h3>
+<p>The modified <code>g2</code> object.
+</p>
+<h3 id="sec:examples_17" class="unnumbered unlisted">Examples</h3>
+<pre><code class="language-r">df = data.frame(x = 1:100, y = cumsum(rnorm(100)))
+p = g2(df, y ~ x) |&gt; mark_line()
+p |&gt; scroll_x() |&gt; scroll_y()
+</code></pre>
+<h2 id="sec:man-slider_"><span class="section-number main-number">23</span> Add a Slider</h2>
+<h3 id="sec:description_23" class="unnumbered unlisted">Description</h3>
+<p>Add a range slider to a positional channel for zooming/panning.
+</p>
+<h3 id="sec:usage_22" class="unnumbered unlisted">Usage</h3>
+<pre><code class="language-r">slider_(chart = NULL, channel, ...)
+
+slider_x(chart = NULL, ...)
+
+slider_y(chart = NULL, ...)</code></pre>
+<h3 id="sec:arguments_22" class="unnumbered unlisted">Arguments</h3>
+<table role = "presentation">
+<tr><td><code>chart</code></td>
+<td>
+<p>A <code>g2</code> object.</p>
+</td></tr>
+<tr><td><code>channel</code></td>
+<td>
+<p>Positional channel: <code>'x'</code> or <code>'y'</code>.</p>
+</td></tr>
+<tr><td><code>...</code></td>
+<td>
+<p>Slider options.</p>
+</td></tr>
+</table>
+<h3 id="sec:value_22" class="unnumbered unlisted">Value</h3>
+<p>The modified <code>g2</code> object.
+</p>
+<h3 id="sec:examples_18" class="unnumbered unlisted">Examples</h3>
+<pre><code class="language-r">p = g2(mtcars, hp ~ mpg)
+p |&gt; slider_x() |&gt; slider_y()
+</code></pre>
+<h2 id="sec:man-style_mark"><span class="section-number main-number">24</span> Set Style on the Last Mark</h2>
+<h3 id="sec:description_24" class="unnumbered unlisted">Description</h3>
+<p>Set Style on the Last Mark
+</p>
+<h3 id="sec:usage_23" class="unnumbered unlisted">Usage</h3>
+<pre><code class="language-r">style_mark(chart = NULL, ...)</code></pre>
+<h3 id="sec:arguments_23" class="unnumbered unlisted">Arguments</h3>
+<table role = "presentation">
+<tr><td><code>chart</code></td>
+<td>
+<p>A <code>g2</code> object.</p>
+</td></tr>
+<tr><td><code>...</code></td>
+<td>
+<p>Style options such as <code>fill</code>, <code>stroke</code>, <code>lineWidth</code>,
+<code>fillOpacity</code>, <code>strokeOpacity</code>.</p>
+</td></tr>
+</table>
+<h3 id="sec:value_23" class="unnumbered unlisted">Value</h3>
+<p>The modified <code>g2</code> object.
+</p>
+<h3 id="sec:examples_19" class="unnumbered unlisted">Examples</h3>
+<pre><code class="language-r">g2(mtcars, hp ~ mpg) |&gt;
+  style_mark(fill = 'steelblue', stroke = 'white', lineWidth = 1)
+</code></pre>
+<h2 id="sec:man-theme_"><span class="section-number main-number">25</span> Set the Chart Theme</h2>
+<h3 id="sec:description_25" class="unnumbered unlisted">Description</h3>
+<p>G2 built-in themes: <code>'classic'</code> (default), <code>'classicDark'</code>, <code>'light'</code>,
+<code>'dark'</code>, <code>'academy'</code>.
+</p>
+<h3 id="sec:usage_24" class="unnumbered unlisted">Usage</h3>
+<pre><code class="language-r">theme_(chart = NULL, type, ...)
+
+theme_classic(chart = NULL, ...)
+
+theme_classic_dark(chart = NULL, ...)
+
+theme_light(chart = NULL, ...)
+
+theme_dark(chart = NULL, ...)
+
+theme_academy(chart = NULL, ...)</code></pre>
+<h3 id="sec:arguments_24" class="unnumbered unlisted">Arguments</h3>
+<table role = "presentation">
+<tr><td><code>chart</code></td>
+<td>
+<p>A <code>g2</code> object.</p>
+</td></tr>
+<tr><td><code>type</code></td>
+<td>
+<p>Theme name string or a list of custom theme options. Use the
+specific wrappers (<code>theme_classic()</code>, <code>theme_dark()</code>, etc.) instead.</p>
+</td></tr>
+<tr><td><code>...</code></td>
+<td>
+<p>Additional theme options merged with the type.</p>
+</td></tr>
+</table>
+<h3 id="sec:details_6" class="unnumbered unlisted">Details</h3>
+<p>To set global theme options for all charts, use <code>options(gglite.theme = list(...))</code>. This is useful for changing default font sizes, grid line
+visibility, and other theme properties without modifying each chart
+individually. For example:
+</p>
+<pre><code class="language-r">options(gglite.theme = list(
+  title = list(titleFontSize = 20),
+  axis = list(labelFontSize = 16, gridStrokeOpacity = 0.3),
+  legendCategory = list(itemLabelFontSize = 14)
+))
+</code></pre>
+<p>Per-chart <code>theme_()</code> settings are merged on top of the global option.
+</p>
+<h3 id="sec:value_24" class="unnumbered unlisted">Value</h3>
+<p>The modified <code>g2</code> object.
+</p>
+<h3 id="sec:examples_20" class="unnumbered unlisted">Examples</h3>
+<pre><code class="language-r">p = g2(mtcars, hp ~ mpg)
+p |&gt; theme_classic()
+p |&gt; theme_dark()
+p |&gt; theme_academy()
+</code></pre>
+<h2 id="sec:man-titles"><span class="section-number main-number">26</span> Set the Chart Title</h2>
+<h3 id="sec:description_26" class="unnumbered unlisted">Description</h3>
+<p>Set the chart title and subtitle, as well as their styles.
+</p>
+<h3 id="sec:usage_25" class="unnumbered unlisted">Usage</h3>
+<pre><code class="language-r">titles(chart = NULL, main, ...)</code></pre>
+<h3 id="sec:arguments_25" class="unnumbered unlisted">Arguments</h3>
+<table role = "presentation">
+<tr><td><code>chart</code></td>
+<td>
+<p>A <code>g2</code> object passed via <code>|&gt;</code>, or <code>NULL</code> when using <code>+</code>.</p>
+</td></tr>
+<tr><td><code>main</code></td>
+<td>
+<p>Title text string.</p>
+</td></tr>
+<tr><td><code>...</code></td>
+<td>
+<p>Additional title options such as <code>subtitle</code>, <code>align</code>, <code>style</code>.</p>
+</td></tr>
+</table>
+<h3 id="sec:value_25" class="unnumbered unlisted">Value</h3>
+<p>The modified <code>g2</code> object.
+</p>
+<h3 id="sec:examples_21" class="unnumbered unlisted">Examples</h3>
+<pre><code class="language-r">g2(mtcars, hp ~ mpg) |&gt;
+  titles('Motor Trend Cars', subtitle = 'mpg vs hp')
+</code></pre>
+<h2 id="sec:man-tooltip"><span class="section-number main-number">27</span> Configure the Tooltip</h2>
+<h3 id="sec:description_27" class="unnumbered unlisted">Description</h3>
+<p>Configure tooltip interaction behavior. All options are applied to
+<code>interaction.tooltip</code> in the G2 spec: pass <code>FALSE</code> to disable the tooltip,
+or pass named options such as <code>crosshairs</code>, <code>shared</code>, <code>marker</code>, and any
+<code>crosshairs*</code>/<code>marker*</code> style properties. To configure the data displayed in
+a tooltip for a specific mark (e.g., <code>channel</code>, <code>valueFormatter</code>, <code>items</code>),
+pass a <code>tooltip</code> list argument directly to the mark function instead, e.g.,
+<code>mark_line(tooltip = list(channel = 'y', valueFormatter = '.0%'))</code>.
+</p>
+<h3 id="sec:usage_26" class="unnumbered unlisted">Usage</h3>
+<pre><code class="language-r">tooltip(chart = NULL, ...)</code></pre>
+<h3 id="sec:arguments_26" class="unnumbered unlisted">Arguments</h3>
+<table role = "presentation">
+<tr><td><code>chart</code></td>
+<td>
+<p>A <code>g2</code> object.</p>
+</td></tr>
+<tr><td><code>...</code></td>
+<td>
+<p>Tooltip interaction options such as <code>shared</code>, <code>crosshairs</code>,
+<code>marker</code>, <code>series</code>, <code>crosshairsStroke</code>, <code>crosshairsLineWidth</code>,
+<code>crosshairsStrokeOpacity</code>, or <code>FALSE</code> to disable the tooltip.
+Series marks (<code>mark_line()</code>, <code>mark_area()</code>) show a vertical crosshair by
+default (<code>crosshairsY = TRUE</code>); pass <code>crosshairs = FALSE</code> to suppress it.</p>
+</td></tr>
+</table>
+<h3 id="sec:value_26" class="unnumbered unlisted">Value</h3>
+<p>The modified <code>g2</code> object.
+</p>
+<h3 id="sec:examples_22" class="unnumbered unlisted">Examples</h3>
+<pre><code class="language-r"># Enable crosshairs (works best with line/area marks which use series tooltip)
+df = data.frame(x = 1:6, y = c(3, 1, 4, 1, 5, 2))
+g2(df, y ~ x) |&gt;
+  mark_line() |&gt;
+  tooltip(crosshairs = TRUE)
+
+# Shared tooltip for multi-series line chart
+df2 = data.frame(
+  x = rep(1:5, 2), y = c(3, 1, 4, 1, 5, 2, 7, 1, 8, 3),
+  group = rep(c('A', 'B'), each = 5)
+)
+g2(df2, y ~ x, color = ~ group) |&gt;
+  mark_line() |&gt;
+  tooltip(shared = TRUE)
+
+# Disable tooltip
+g2(mtcars, hp ~ mpg) |&gt;
+  tooltip(FALSE)
+</code></pre>
+<h2 id="sec:man-transform.g2"><span class="section-number main-number">28</span> Add a Data Transform to the Last Mark</h2>
+<h3 id="sec:description_28" class="unnumbered unlisted">Description</h3>
+<p>Append a data transform to the most recently added mark. G2 transforms
+correspond roughly to ggplot2's <code>stat_*()</code> and <code>position_*()</code> functions.
+</p>
+<h3 id="sec:usage_27" class="unnumbered unlisted">Usage</h3>
+<pre><code class="language-r">## S3 method for class 'g2'
+transform(`_data`, type, ...)
+
+## S3 method for class 'character'
+transform(`_data`, ...)</code></pre>
+<h3 id="sec:arguments_27" class="unnumbered unlisted">Arguments</h3>
+<table role = "presentation">
+<tr><td><code>_data</code></td>
+<td>
+<p>A <code>g2</code> object (via <code>|&gt;</code>) or a transform type string (for
+deferred use with <code>+</code>).</p>
+</td></tr>
+<tr><td><code>type</code></td>
+<td>
+<p>Transform type string (e.g., <code>'stackY'</code>, <code>'dodgeX'</code>).</p>
+</td></tr>
+<tr><td><code>...</code></td>
+<td>
+<p>Additional transform options (e.g., <code>thresholds</code>, <code>y</code>).</p>
+</td></tr>
+</table>
+<h3 id="sec:details_7" class="unnumbered unlisted">Details</h3>
+<p>Common transforms: <code>'stackY'</code> (stack, like <code>position_stack()</code>), <code>'dodgeX'</code>
+(dodge, like <code>position_dodge()</code>), <code>'normalizeY'</code> (normalize to 100%, like
+<code>position_fill()</code>), <code>'jitterX'</code> / <code>'jitterY'</code> (jitter, like
+<code>position_jitter()</code>), <code>'bin'</code> / <code>'binX'</code> (bin data, like <code>stat_bin()</code>),
+<code>'groupX'</code> / <code>'groupY'</code> / <code>'groupColor'</code> (group and aggregate, like
+<code>stat_summary()</code>), <code>'sortX'</code> / <code>'sortY'</code> / <code>'sortColor'</code> (sort data),
+<code>'symmetryY'</code> (mirror, for pyramid / funnel charts), <code>'diffY'</code> (difference,
+for waterfall charts), <code>'select'</code> / <code>'selectX'</code> / <code>'selectY'</code> (filter),
+<code>'sample'</code> (down-sample), <code>'pack'</code> (circle-packing layout), <code>'flexX'</code>
+(flexible x spacing, Marimekko charts).
+</p>
+<p><strong>Caution when using <code>+</code>:</strong> S3 dispatch requires that the first argument is
+unnamed. Use <code>p + transform('stackY')</code> (not
+<code>p + transform(type = 'stackY')</code>). See <code>?transform.g2</code> for the full API.
+</p>
+<h3 id="sec:value_27" class="unnumbered unlisted">Value</h3>
+<p>The modified <code>g2</code> object (or a <code>g2_mod</code> when <code>_data</code> is a string).
+</p>
+<h3 id="sec:examples_23" class="unnumbered unlisted">Examples</h3>
+<pre><code class="language-r"># Stacked bar chart
+df = data.frame(
+  x = rep(c('A', 'B'), each = 2), y = c(3, 2, 5, 4),
+  color = rep(c('a', 'b'), 2)
+)
+g2(df, y ~ x, color = ~ color) |&gt;
+  mark_interval() |&gt;
+  transform('stackY')
+
+# Grouped (dodged) bar chart
+g2(df, y ~ x, color = ~ color) |&gt;
+  mark_interval() |&gt;
+  transform('dodgeX')
+
+# Percent stacked bar (normalizeY + stackY)
+g2(df, y ~ x, color = ~ color) |&gt;
+  mark_interval() |&gt;
+  transform('stackY') |&gt;
+  transform('normalizeY')
+
+# Jitter on a scatter plot
+g2(mtcars, hp ~ cyl) |&gt;
+  transform('jitterX')
+
+# Histogram using binX
+g2(mtcars, ~ mpg) |&gt;
+  mark_interval(encode = list(y = 'count')) |&gt;
+  transform('binX', thresholds = 15)
+
+# With + operator (first argument must be unnamed)
+g2(df, y ~ x, color = ~ color) |&gt; mark_interval() + transform('stackY')
+</code></pre>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/css/manual.min.css">
+</div>
+<footer><div class="flex-col">
+<p>Developed by Yihui Xie</p>
+<p>Site built with <a href="https://github.com/yihui/litedown">litedown</a> v0.9.9</p>
+</div></footer>
+<script src="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/js/sidenotes.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/js/appendix.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/js/toc-highlight.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/js/copy-button.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/js/heading-anchor.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/js/pages.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" defer></script>
+</body>
+</html>

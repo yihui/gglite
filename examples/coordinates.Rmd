@@ -1,0 +1,139 @@
+---
+title: Coordinates
+---
+
+```{r}
+library(gglite)
+```
+
+Coordinate systems control how the positional channels (x and y) are
+interpreted. Use helpers like `coord_polar()`, `coord_theta()`,
+`coord_radial()`, `coord_helix()`, and `coord_parallel()` to set the
+coordinate system.
+
+## Cartesian (default)
+
+The default coordinate system. Typically you don't need to specify it
+explicitly, but you can do so for clarity.
+
+```{r}
+df = data.frame(x = c('A', 'B', 'C', 'D'), y = c(3, 7, 2, 5))
+p  = g2(df, y ~ x)
+pc = g2(df, y ~ x, color = ~ x)
+p |> coord_('cartesian')
+```
+
+## Polar
+
+Maps x to angle and y to radius. Useful for rose charts and radar-like
+displays.
+
+```{r}
+p |> coord_polar()
+```
+
+### Polar with innerRadius (donut rose)
+
+```{r}
+pc |> coord_polar(innerRadius = 0.4)
+```
+
+### Polar with custom start/end angles
+
+```{r}
+pc |> coord_polar(startAngle = -pi / 2, endAngle = pi / 2)
+```
+
+## Theta
+
+Maps data values to angular extent. Used for pie and donut charts.
+
+```{r}
+pc |>
+  transform('stackY') |>
+  coord_theta()
+```
+
+### Donut chart (theta with innerRadius)
+
+```{r}
+pc |>
+  transform('stackY') |>
+  coord_theta(innerRadius = 0.5)
+```
+
+## Radial
+
+Maps y to the radial direction. Suitable for radial bar charts.
+
+```{r}
+pc |> coord_radial()
+```
+
+### Radial with innerRadius
+
+```{r}
+pc |> coord_radial(innerRadius = 0.3)
+```
+
+## Parallel
+
+Maps multiple numeric variables to parallel axes. Use a `position`
+encoding (a character vector of column names) instead of `x`/`y`.
+
+```{r}
+g2(iris, position = names(iris)[-5], color = ~ Species) |>
+  canvas(padding = 30) |>
+  coord_parallel() |>
+  legend_color(position = 'bottom')
+```
+
+## Radar
+
+Displays data on radial axes emanating from a center point. A radar chart
+is a line or area chart in polar coordinates. Use long-format data with
+`x` (category), `y` (value), and `color` (series) encodings. All values
+should be on the same scale (e.g., 0--100).
+
+```{r}
+df_radar = data.frame(
+  item = rep(c('Design', 'Dev', 'Marketing', 'Sales', 'Support'), 2),
+  score = c(80, 90, 65, 75, 85, 60, 70, 85, 80, 70),
+  team = rep(c('A', 'B'), each = 5)
+)
+g2(df_radar, score ~ item, color = ~ team) |>
+  mark_area() |> style_mark(fillOpacity = 0.5) |>
+  mark_line() |> style_mark(lineWidth = 2) |>
+  mark_point() |>
+  coord_polar() |>
+  scale_x(padding = 0.5, align = 0) |>
+  scale_y(domainMin = 0, domainMax = 100) |>
+  axis_y(grid = TRUE, title = FALSE)
+```
+
+## Helix
+
+Arranges data along a helix spiral. Works best with `mark_interval()`.
+
+```{r}
+df_helix = data.frame(x = paste0('D', 1:50), y = abs(sin(1:50 / 5)))
+g2(df_helix, y ~ x, color = ~ y) |>
+  coord_helix()
+```
+
+## Transpose (coord_flip)
+
+Swap x and y axes, equivalent to ggplot2's `coord_flip()`. This is a
+coordinate transform, not a type.
+
+```{r}
+p |> coord_transpose()
+```
+
+### Transpose with parallel
+
+```{r}
+g2(iris, position = names(iris)[-5], color = ~ Species) |>
+  coord_parallel() |> 
+  coord_transpose()
+```

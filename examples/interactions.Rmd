@@ -1,0 +1,115 @@
+---
+title: Interactions
+---
+
+```{r}
+library(gglite)
+p = g2(mtcars, hp ~ mpg)
+```
+
+Interactions enable user-driven behaviors such as tooltips, brushing, and
+highlighting. Use `interact()` to add them.
+
+## Tooltip
+
+```{r}
+p |> interact('tooltip')
+```
+
+## Element Highlight
+
+Highlight individual elements on hover.
+
+```{r}
+pc = g2(mtcars, hp ~ mpg, color = ~ cyl)
+pc |> interact('elementHighlight')
+```
+
+## Element Highlight by X
+
+Highlight all elements sharing the same x value.
+
+```{r}
+df = data.frame(
+  x = rep(c('A', 'B', 'C'), each = 2), y = c(3, 2, 5, 4, 1, 6),
+  color = rep(c('a', 'b'), 3)
+)
+pd = g2(df, y ~ x, color = ~ color) |>
+  mark_interval() |>
+  transform('dodgeX')
+pd |> interact('elementHighlightByX')
+```
+
+## Element Highlight by Color
+
+```{r}
+pd |> interact('elementHighlightByColor')
+```
+
+## Element Select
+
+Click to select individual elements.
+
+```{r}
+pc |> interact('elementSelect')
+```
+
+## Brush Highlight
+
+Drag to brush and highlight a rectangular region.
+
+```{r}
+p |> interact('brushHighlight')
+```
+
+## Brush X Highlight
+
+Brush only along the x axis.
+
+```{r}
+p |> interact('brushXHighlight')
+```
+
+## Brush Y Highlight
+
+Brush only along the y axis.
+
+```{r}
+p |> interact('brushYHighlight')
+```
+
+## Brush Filter
+
+Drag to filter the visible data.
+
+```{r}
+p |> interact('brushFilter')
+```
+
+## Legend Filter
+
+Click legend entries to filter data.
+
+```{r}
+p_iris = g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species)
+p_iris |> interact('legendFilter')
+```
+
+## Legend Highlight
+
+Hover over legend entries to highlight.
+
+```{r}
+p_iris |> interact('legendHighlight')
+```
+
+## Multiple Interactions
+
+You can combine several interactions.
+
+```{r}
+p_iris |>
+  interact('tooltip') |>
+  interact('legendFilter') |>
+  interact('brushHighlight')
+```

@@ -1,0 +1,80 @@
+---
+title: Themes
+---
+
+```{r}
+library(gglite)
+p = g2(mtcars, hp ~ mpg)
+```
+
+Themes control the overall visual appearance of the chart. Use helpers like
+`theme_classic()`, `theme_dark()`, `theme_light()`, `theme_classic_dark()`,
+and `theme_academy()` to set a built-in theme.
+
+G2 provides five built-in themes in two pairs plus one standalone:
+
+- **`classic` vs `light`**: both use a light background, but differ only in
+  their default color palette for categorical data. `light` uses the AntV Light
+  palette (e.g. `#1783FF`, `#00C9C9`, …), while `classic` (the default) uses
+  G2's `category10` palette (e.g. `#5B8FF9`, `#5AD8A6`, …). When there is only
+  a single data series, the two themes look identical because only one color is
+  used.
+
+- **`dark` vs `classicDark`**: the same relationship as above but on a dark
+  background (`#141414`). `dark` uses the AntV Light palette colors on a dark
+  canvas; `classicDark` uses the `category10` palette colors on a dark canvas.
+  The only visible difference is the multi-series color palette.
+
+- **`academy`**: a distinct style with custom fonts, color ramps, and decorative
+  grid filters; it is not related to the classic/light or dark/classicDark
+  pairs.
+
+## Classic Theme (default)
+
+```{r}
+p |> theme_classic()
+```
+
+## Classic Dark Theme
+
+```{r}
+p |> theme_classic_dark()
+```
+
+## Light Theme
+
+```{r}
+p |> theme_light()
+```
+
+## Dark Theme
+
+```{r}
+p |> theme_dark()
+```
+
+## Academy Theme
+
+```{r}
+p |> theme_academy()
+```
+
+## Theme on a bar chart
+
+```{r}
+df = data.frame(x = c('A', 'B', 'C', 'D'), y = c(3, 7, 2, 5))
+g2(df, y ~ x, color = ~ x) |>
+  theme_dark()
+```
+
+## Theme on a multi-series line chart
+
+```{r}
+df = data.frame(
+  x = rep(1:5, 2), y = c(3, 1, 4, 1, 5, 2, 7, 1, 8, 3),
+  group = rep(c('A', 'B'), each = 5)
+)
+g2(df, y ~ x, color = ~ group) |>
+  mark_line() |>
+  theme_classic_dark()
+```

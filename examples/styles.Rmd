@@ -1,0 +1,51 @@
+---
+title: Styles
+---
+
+```{r}
+library(gglite)
+df = data.frame(x = c('A', 'B', 'C'), y = c(3, 7, 2))
+p  = g2(df, y ~ x)
+```
+
+Use `style_mark()` to set visual properties on the most recently added mark.
+The following bar chart in its default style is used as the baseline for the
+bar examples below.
+
+```{r}
+p
+```
+
+## Custom Fill on Bars
+
+```{r}
+p |> style_mark(fill = 'tomato', stroke = '#333', lineWidth = 3)
+```
+
+## Custom Fill and Stroke on Points
+
+```{r}
+g2(mtcars, hp ~ mpg) |>
+  style_mark(fill = 'orange', stroke = '#333', lineWidth = 3)
+```
+
+## Semi-Transparent Area
+
+```{r}
+df_line = data.frame(x = 1:10, y = c(3, 1, 4, 1, 5, 9, 2, 6, 5, 3))
+p_area = g2(df_line, y ~ x) |> mark_area()
+p_area |> style_mark(fill = 'steelblue', fillOpacity = 0.3)
+```
+
+## Line with Custom Stroke
+
+```{r}
+p_line = g2(df_line, y ~ x) |> mark_line()
+p_line |> style_mark(stroke = 'tomato', lineWidth = 3)
+```
+
+## Dashed Line
+
+```{r}
+p_line |> style_mark(stroke = 'steelblue', lineDash = c(6, 3))
+```

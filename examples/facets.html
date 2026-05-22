@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="generator" content="litedown 0.9.9">
+<title>Facets</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/css/default.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/css/article.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/css/copy-button.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/css/heading-anchor.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/css/pages.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/css/site.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/css/prism-xcode.min.css">
+</head>
+<body>
+<nav><p><a href="../index.html">Home</a>
+<a href="../articles.html">Articles</a>
+<a href="../examples.html">Examples</a>
+<a href="../manual.html">Manual</a>
+<a href="../news.html">News</a>
+<a href="../playground/">Playground</a></p></nav>
+<div class="frontmatter">
+<div class="title"><h1>Facets</h1></div>
+</div>
+<div class="body">
+<div id="TOC">
+<ul class="numbered">
+<li><a href="#sec:rectangular-facet-by-x"><span class="section-number main-number">1</span> Rectangular Facet (by x)</a></li>
+<li><a href="#sec:rectangular-facet-by-y"><span class="section-number main-number">2</span> Rectangular Facet (by y)</a></li>
+<li><a href="#sec:rectangular-facet-by-x-and-y"><span class="section-number main-number">3</span> Rectangular Facet (by x and y)</a></li>
+<li><a href="#sec:facet-with-color"><span class="section-number main-number">4</span> Facet with color</a></li>
+<li><a href="#sec:circular-facet"><span class="section-number main-number">5</span> Circular Facet</a></li>
+</ul>
+</div>
+<pre><code class="language-r">library(gglite)
+</code></pre>
+<p>Faceting splits data into multiple panels. gglite supports rectangular and
+circular faceting.</p>
+<h2 id="sec:rectangular-facet-by-x"><span class="section-number main-number">1</span> Rectangular Facet (by x)</h2>
+<pre><code class="language-r">g2(iris, Sepal.Length ~ Sepal.Width) |&gt;
+  facet_rect(~ Species)
+</code></pre>
+<script src="https://unpkg.com/@antv/g2@5/dist/g2.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@xiee/utils@v1.14.35/js/g2-patches.min.js" defer></script>
+<div data-gglite-container></div>
+<script type="module">
+const el = document.querySelector("[data-gglite-container]");
+el.removeAttribute("data-gglite-container");
+const chart = new G2.Chart({
+  "height": 480,
+  "autoFit": true,
+  "container": el
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "Sepal.Length": [5.1, 4.9, 4.7, 4.6, 5, 5.4, 4.6, 5, 4.4, 4.9, 5.4, 4.8, 4.8, 4.3, 5.8, 5.7, 5.4, 5.1, 5.7, 5.1, 5.4, 5.1, 4.6, 5.1, 4.8, 5, 5, 5.2, 5.2, 4.7, 4.8, 5.4, 5.2, 5.5, 4.9, 5, 5.5, 4.9, 4.4, 5.1, 5, 4.5, 4.4, 5, 5.1, 4.8, 5.1, 4.6, 5.3, 5, 7, 6.4, 6.9, 5.5, 6.5, 5.7, 6.3, 4.9, 6.6, 5.2, 5, 5.9, 6, 6.1, 5.6, 6.7, 5.6, 5.8, 6.2, 5.6, 5.9, 6.1, 6.3, 6.1, 6.4, 6.6, 6.8, 6.7, 6, 5.7, 5.5, 5.5, 5.8, 6, 5.4, 6, 6.7, 6.3, 5.6, 5.5, 5.5, 6.1, 5.8, 5, 5.6, 5.7, 5.7, 6.2, 5.1, 5.7, 6.3, 5.8, 7.1, 6.3, 6.5, 7.6, 4.9, 7.3, 6.7, 7.2, 6.5, 6.4, 6.8, 5.7, 5.8, 6.4, 6.5, 7.7, 7.7, 6, 6.9, 5.6, 7.7, 6.3, 6.7, 7.2, 6.2, 6.1, 6.4, 7.2, 7.4, 7.9, 6.4, 6.3, 6.1, 7.7, 6.3, 6.4, 6, 6.9, 6.7, 6.9, 5.8, 6.8, 6.7, 6.7, 6.3, 6.5, 6.2, 5.9],
+      "Sepal.Width": [3.5, 3, 3.2, 3.1, 3.6, 3.9, 3.4, 3.4, 2.9, 3.1, 3.7, 3.4, 3, 3, 4, 4.4, 3.9, 3.5, 3.8, 3.8, 3.4, 3.7, 3.6, 3.3, 3.4, 3, 3.4, 3.5, 3.4, 3.2, 3.1, 3.4, 4.1, 4.2, 3.1, 3.2, 3.5, 3.6, 3, 3.4, 3.5, 2.3, 3.2, 3.5, 3.8, 3, 3.8, 3.2, 3.7, 3.3, 3.2, 3.2, 3.1, 2.3, 2.8, 2.8, 3.3, 2.4, 2.9, 2.7, 2, 3, 2.2, 2.9, 2.9, 3.1, 3, 2.7, 2.2, 2.5, 3.2, 2.8, 2.5, 2.8, 2.9, 3, 2.8, 3, 2.9, 2.6, 2.4, 2.4, 2.7, 2.7, 3, 3.4, 3.1, 2.3, 3, 2.5, 2.6, 3, 2.6, 2.3, 2.7, 3, 2.9, 2.9, 2.5, 2.8, 3.3, 2.7, 3, 2.9, 3, 3, 2.5, 2.9, 2.5, 3.6, 3.2, 2.7, 3, 2.5, 2.8, 3.2, 3, 3.8, 2.6, 2.2, 3.2, 2.8, 2.8, 2.7, 3.3, 3.2, 2.8, 3, 2.8, 3, 2.8, 3.8, 2.8, 2.8, 2.6, 3, 3.4, 3.1, 3, 3.1, 3.1, 3.1, 2.7, 3.2, 3.3, 3, 2.5, 3, 3.4, 3],
+      "Species": ["setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica"]
+    }
+  },
+  "children": [
+    {
+      "type": "point",
+      "encode": {
+        "y": "Sepal.Length",
+        "x": "Sepal.Width"
+      },
+      "style": {
+        "shape": "point"
+      }
+    }
+  ],
+  "type": "facetRect",
+  "encode": {
+    "x": "Species"
+  }
+});
+chart.render();
+</script>
+<h2 id="sec:rectangular-facet-by-y"><span class="section-number main-number">2</span> Rectangular Facet (by y)</h2>
+<pre><code class="language-r">g2(iris, Sepal.Length ~ Sepal.Width) |&gt;
+  facet_rect(y = ~ Species)
+</code></pre>
+<div data-gglite-container></div>
+<script type="module">
+const el = document.querySelector("[data-gglite-container]");
+el.removeAttribute("data-gglite-container");
+const chart = new G2.Chart({
+  "height": 480,
+  "autoFit": true,
+  "container": el
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "Sepal.Length": [5.1, 4.9, 4.7, 4.6, 5, 5.4, 4.6, 5, 4.4, 4.9, 5.4, 4.8, 4.8, 4.3, 5.8, 5.7, 5.4, 5.1, 5.7, 5.1, 5.4, 5.1, 4.6, 5.1, 4.8, 5, 5, 5.2, 5.2, 4.7, 4.8, 5.4, 5.2, 5.5, 4.9, 5, 5.5, 4.9, 4.4, 5.1, 5, 4.5, 4.4, 5, 5.1, 4.8, 5.1, 4.6, 5.3, 5, 7, 6.4, 6.9, 5.5, 6.5, 5.7, 6.3, 4.9, 6.6, 5.2, 5, 5.9, 6, 6.1, 5.6, 6.7, 5.6, 5.8, 6.2, 5.6, 5.9, 6.1, 6.3, 6.1, 6.4, 6.6, 6.8, 6.7, 6, 5.7, 5.5, 5.5, 5.8, 6, 5.4, 6, 6.7, 6.3, 5.6, 5.5, 5.5, 6.1, 5.8, 5, 5.6, 5.7, 5.7, 6.2, 5.1, 5.7, 6.3, 5.8, 7.1, 6.3, 6.5, 7.6, 4.9, 7.3, 6.7, 7.2, 6.5, 6.4, 6.8, 5.7, 5.8, 6.4, 6.5, 7.7, 7.7, 6, 6.9, 5.6, 7.7, 6.3, 6.7, 7.2, 6.2, 6.1, 6.4, 7.2, 7.4, 7.9, 6.4, 6.3, 6.1, 7.7, 6.3, 6.4, 6, 6.9, 6.7, 6.9, 5.8, 6.8, 6.7, 6.7, 6.3, 6.5, 6.2, 5.9],
+      "Sepal.Width": [3.5, 3, 3.2, 3.1, 3.6, 3.9, 3.4, 3.4, 2.9, 3.1, 3.7, 3.4, 3, 3, 4, 4.4, 3.9, 3.5, 3.8, 3.8, 3.4, 3.7, 3.6, 3.3, 3.4, 3, 3.4, 3.5, 3.4, 3.2, 3.1, 3.4, 4.1, 4.2, 3.1, 3.2, 3.5, 3.6, 3, 3.4, 3.5, 2.3, 3.2, 3.5, 3.8, 3, 3.8, 3.2, 3.7, 3.3, 3.2, 3.2, 3.1, 2.3, 2.8, 2.8, 3.3, 2.4, 2.9, 2.7, 2, 3, 2.2, 2.9, 2.9, 3.1, 3, 2.7, 2.2, 2.5, 3.2, 2.8, 2.5, 2.8, 2.9, 3, 2.8, 3, 2.9, 2.6, 2.4, 2.4, 2.7, 2.7, 3, 3.4, 3.1, 2.3, 3, 2.5, 2.6, 3, 2.6, 2.3, 2.7, 3, 2.9, 2.9, 2.5, 2.8, 3.3, 2.7, 3, 2.9, 3, 3, 2.5, 2.9, 2.5, 3.6, 3.2, 2.7, 3, 2.5, 2.8, 3.2, 3, 3.8, 2.6, 2.2, 3.2, 2.8, 2.8, 2.7, 3.3, 3.2, 2.8, 3, 2.8, 3, 2.8, 3.8, 2.8, 2.8, 2.6, 3, 3.4, 3.1, 3, 3.1, 3.1, 3.1, 2.7, 3.2, 3.3, 3, 2.5, 3, 3.4, 3],
+      "Species": ["setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica"]
+    }
+  },
+  "children": [
+    {
+      "type": "point",
+      "encode": {
+        "y": "Sepal.Length",
+        "x": "Sepal.Width"
+      },
+      "style": {
+        "shape": "point"
+      }
+    }
+  ],
+  "type": "facetRect",
+  "encode": {
+    "y": "Species"
+  }
+});
+chart.render();
+</script>
+<h2 id="sec:rectangular-facet-by-x-and-y"><span class="section-number main-number">3</span> Rectangular Facet (by x and y)</h2>
+<pre><code class="language-r">df = data.frame(
+  x = rnorm(200), y = rnorm(200),
+  a = sample(c('A', 'B'), 200, replace = TRUE),
+  b = sample(c('X', 'Y'), 200, replace = TRUE)
+)
+g2(df, y ~ x) |&gt;
+  facet_rect(b ~ a)
+</code></pre>
+<div data-gglite-container></div>
+<script type="module">
+const el = document.querySelector("[data-gglite-container]");
+el.removeAttribute("data-gglite-container");
+const chart = new G2.Chart({
+  "height": 480,
+  "autoFit": true,
+  "container": el
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "x": [0.352454406224281, 0.413579716484069, 2.15065155072038, 0.349718780828872, 0.425556855394009, -1.91615093289454, -0.690852895332223, -1.66603711368124, -0.677427149960337, 1.34390742743375, -2.89047525404257, 2.58733417924179, 1.23040716960806, -0.441096788673002, -0.267094347453117, -0.592805045414934, -0.11902899978613, 0.856709501432894, 0.420901175160379, 1.99472255520733, 0.050263333799587, 1.23614042902936, -0.270398726679005, -2.81722042720029, 0.10254444024853, 0.0560374848728609, 0.533970877217445, 0.639698845709005, 0.878858428290727, 2.00868989587864, -1.33483413637026, -1.43346549266541, -0.81556794053056, -0.795442634557015, -0.434318419636007, -1.12251083350082, 0.143823037847362, -0.323951517511381, 1.70044921481354, 1.27673857204101, -0.74739361837341, -0.47802496447334, 0.262328891364979, 0.805698946543971, -0.566634472729901, -0.241699578574505, -0.0817061563164208, -0.283051672719905, -0.462224578633321, 0.200102679312343, -0.51853857938503, 0.143614074077208, -0.0532955484555104, -0.646665950980922, 0.608102633220701, -2.45250580569926, -0.322595110072304, -1.02505049239848, 1.35307733226014, -0.843046188100362, 0.459279188764258, -1.28301340539186, 1.44905694183944, 0.967658915082051, -0.186895616464381, -0.648109080437791, 1.63624396837458, 1.47706478028399, -1.59517532665584, -1.28264482948568, -1.01481442597488, -0.894615357623565, -1.58587669006956, 0.569275173377463, -0.103479270536885, -2.04452174587898, -0.354819382371798, 1.26117909736427, -0.454356423596537, 0.605649226068788, 0.967481832091311, -2.55098595786696, 0.615706821187605, -0.746022369788947, -0.288653361871441, -0.160156995067173, -0.181576928858356, 0.979763028831669, 0.510873265362089, -0.327986778858765, 1.26063348788259, -0.119721094707593, 0.00360110408623937, -0.282277128093529, -0.458530056526231, 0.0934709661411987, -0.403525408973353, -1.95775815539631, -0.830615387693129, -0.456408013500076, -2.28603969416843, -1.16985844005154, 0.117835607448539, 0.326748178062867, -0.699387686585182, -0.157187981495515, -0.28090922879857, 0.304309181460558, -0.967770296058414, -0.0368495045504214, -0.829697960842314, -0.0899067476668689, -0.749357226342631, 0.198057259274013, -0.0800454089908013, -0.631091835110248, 3.53681949911599, -0.110273740212411, -0.0817988847107285, 1.50268359274155, 0.767109419980464, -0.279875957437668, 0.261946950258992, -0.33054299771337, -0.996542193327356, 0.816202661356967, 0.501324692255409, 0.466606643706416, 0.319053966926084, -1.72873779707092, -2.3952134448634, 1.81967451597889, 1.25326697757294, 1.48910993833061, 0.0198596540430606, -1.95034398134771, -0.254403488272218, -0.55416343706515, 0.356261162424896, 0.348438934827736, -1.4833965013722, -0.256817043011945, -0.595250608884476, -0.989330488736254, 0.189617686840609, 1.35235632453308, -1.13956871810121, -0.578276961148546, -2.5744869772997, -1.66367704277323, 0.679828200392493, 0.804485845118942, 1.58801349864263, 0.402895749857954, 0.867849595410876, 0.402918084105893, -0.169752372652846, 0.372211444025059, -1.77930921622805, -0.963570963430149, -0.998299315037973, -0.84220752529314, 0.842871330060519, 0.583241092540734, 0.244342386996477, -0.483926987046086, 0.758639840969202, -0.241741706514553, 1.54898778881823, 1.26539520158447, -0.659947771437579, 0.00695043744913196, -0.181033392960816, -0.672615983981975, 1.59442380819205, 0.196880234416658, -1.65733126956738, -0.392354454145376, 1.62837913068235, -0.256657787656637, -1.05488839886096, 0.267785552036205, -1.24399456162052, 0.462074948290858, -0.933879608009791, -0.0784980335613874, -0.00782464996797941, 0.337693878399361, 0.135605485139867, -0.546616643200441, -1.64397151398219, 0.730853084254036, -1.78283315422367, 0.286438639829967, -1.36745271553087, -0.747815470427292, 0.510671397623226, 0.738896983588715, -0.138493679803341, -0.741365455834392],
+      "y": [0.438977182518563, 0.24238635001283, -0.680891278802651, 0.690880853906619, 0.804775120900128, 0.15659879478638, -0.596818775497817, -0.538550253620536, 1.34019602424946, -0.962143827828137, 0.245562793792643, -0.658595976485685, -0.28564145585683, 0.376868116034961, -0.0544792313568587, 1.29123733053703, 0.578921676444862, -0.720544204852001, -0.56267221550728, -0.408040195263139, 1.46004877089136, -1.70738510775711, 0.127667286365875, 0.0823532813758287, -1.11559286948543, -0.9531964758218, 0.153457563285442, 0.376170931172395, 0.663868786355044, -1.37969249734449, 1.68080596643115, -1.71202976457857, 1.9870491011819, -0.00497630912933219, 0.766638153585508, 0.702443369091395, -1.24747397080032, -0.264022535332065, -0.0790333808791236, -1.55981744937813, 1.17072255343208, -0.729049343541002, 0.57641436179514, 0.684593982567219, 0.718648182285952, 0.332246915791459, 1.26961530616801, -0.907329501099163, -1.34201982968672, 0.0420942456344612, -0.166524076251395, 0.356447694546147, -0.0304085593561037, -0.231898340803409, 0.483051850971035, 0.360259993549106, -0.597143659417503, 0.552666686010141, -0.331593011700859, 0.75292427567882, -0.64629748610286, 1.58418820208725, -0.81537789990432, 0.722596649829294, 0.912091140010339, 0.52370789221498, 1.27853401065169, -0.827291053256653, -0.221682332087994, -0.776573206593661, -1.29030723064973, 0.820358142723527, -1.94903922972556, -0.21610780572491, -0.509876577988123, 0.629590562381495, 0.577108713444681, -0.414408561961945, -1.23901859662749, -0.270939347376399, -0.300954752479682, 1.30932058975768, 0.473051682152047, 0.724959851886557, 0.466499236590389, -1.30048848152116, -1.6608913837757, -1.05076312813612, 0.68068656667449, -0.635745912543549, 2.54364728685088, -0.907295138517793, -0.297098348692728, -0.482303248776584, -1.73381831031782, -0.624417450375108, -0.220472210221072, -1.19974710706584, -0.738540325625299, -0.413283567558564, -1.35870271110474, 0.740528645813737, 0.674577462906127, -0.537186398033616, 0.4395249208911, -0.879713731599585, -0.257664863961095, -1.96720690656103, 0.252169609228972, -0.239792312098127, 1.30772878269916, -1.16715300539313, -1.0649982123218, 0.333442821699963, 0.215420221844805, -0.80122327375719, -0.0849290562617289, 1.2899713241692, 0.211118953383684, -0.0268269525499557, -0.227120237062074, 0.363489459271835, -0.253452495534307, 0.254212945012561, 0.39346026142925, 0.338149148045356, -0.169266509326099, -0.327709812853946, 0.250200548820868, -1.45123211550889, 0.928061678786352, -0.703351888131953, 1.17435537556756, 0.597894689879629, -0.891794154344479, -2.58881491675263, 0.509443080317247, 1.61691020885557, -0.151011415284536, -0.891994560955818, -0.883648412952991, 0.456388984297057, 0.22637290139985, -0.107425273355064, 0.334187498589979, 0.68159088834302, -1.56661093056395, -0.05811465788444, 0.762142640521639, -0.416272493958668, -1.49064226711114, -1.0902033204363, 0.571541543610026, 0.473971891628067, 1.14424215382132, 1.19630467265208, 0.156440361037501, -0.279970464269245, 0.099476300393996, -0.317711439389285, 1.03368330374891, 1.83829070889307, -0.249807746189623, -1.60385461309295, -0.128370992587336, 0.0310666672206746, 0.657428740589346, 0.0285744123738443, 1.38898067850043, 1.01276281691832, -0.282412721840837, 1.52350853828882, -0.0113579869321867, -0.219590189620283, 0.0790741784174515, -1.20216870830211, 0.464931380883468, 0.735397326374516, 0.965751444951508, -0.122548249365805, -1.0620084838262, -0.694697957223361, -1.00197256621408, -2.00774134429217, 0.92806220004167, 0.043269273670877, -0.440486209382627, 0.430469083336734, -0.695418089925892, 1.50234933468184, -1.11499409710428, 1.06263275008787, 0.123448062621903, 1.46334325365302, -0.438983473231278, -2.74094704707637, -0.0368584019614953, 0.390825525263588, 1.48552102379718, -0.513034814952217],
+      "a": ["B", "B", "B", "B", "A", "A", "A", "B", "B", "B", "A", "B", "B", "B", "B", "A", "A", "B", "B", "A", "B", "B", "B", "B", "A", "A", "B", "A", "A", "A", "B", "A", "B", "A", "B", "A", "A", "B", "B", "A", "B", "A", "B", "B", "B", "B", "A", "B", "A", "A", "A", "A", "B", "B", "A", "A", "A", "B", "A", "A", "B", "B", "A", "A", "B", "A", "B", "A", "B", "B", "B", "B", "A", "B", "A", "B", "B", "B", "B", "B", "A", "B", "A", "B", "B", "B", "A", "B", "A", "B", "A", "A", "A", "B", "B", "B", "A", "B", "A", "A", "A", "A", "A", "B", "B", "B", "A", "B", "B", "B", "A", "A", "A", "A", "B", "B", "B", "B", "B", "A", "B", "A", "A", "B", "B", "A", "A", "A", "B", "B", "B", "A", "A", "A", "A", "A", "A", "B", "B", "A", "B", "A", "B", "A", "A", "B", "B", "B", "B", "A", "A", "A", "A", "B", "B", "B", "A", "B", "B", "A", "A", "A", "A", "B", "B", "B", "B", "A", "B", "B", "B", "B", "A", "B", "A", "A", "B", "A", "B", "A", "B", "A", "B", "B", "B", "B", "B", "A", "B", "B", "A", "B", "B", "B", "B", "B", "A", "A", "B", "A"],
+      "b": ["Y", "Y", "X", "Y", "X", "Y", "X", "Y", "Y", "Y", "Y", "X", "Y", "Y", "Y", "X", "X", "X", "Y", "Y", "X", "Y", "X", "X", "X", "X", "Y", "X", "X", "Y", "X", "X", "Y", "X", "X", "Y", "Y", "Y", "X", "Y", "Y", "Y", "Y", "X", "X", "X", "X", "X", "Y", "Y", "X", "X", "Y", "Y", "X", "Y", "X", "Y", "X", "Y", "Y", "X", "X", "X", "X", "X", "Y", "Y", "Y", "X", "Y", "X", "X", "Y", "X", "X", "Y", "X", "X", "Y", "Y", "X", "Y", "X", "Y", "Y", "Y", "X", "X", "Y", "Y", "Y", "X", "X", "Y", "X", "Y", "X", "X", "Y", "Y", "Y", "Y", "Y", "Y", "X", "Y", "X", "X", "Y", "Y", "X", "Y", "Y", "X", "Y", "X", "Y", "X", "Y", "X", "Y", "X", "X", "Y", "X", "Y", "Y", "Y", "X", "X", "X", "X", "Y", "Y", "X", "Y", "Y", "Y", "X", "X", "X", "X", "Y", "X", "X", "Y", "Y", "X", "Y", "Y", "Y", "X", "X", "X", "Y", "X", "Y", "X", "Y", "Y", "X", "X", "Y", "X", "Y", "Y", "X", "X", "X", "Y", "Y", "X", "X", "X", "Y", "X", "Y", "X", "X", "X", "X", "X", "Y", "Y", "X", "X", "X", "Y", "X", "Y", "X", "X", "Y", "Y", "Y", "Y", "Y", "Y", "X"]
+    }
+  },
+  "children": [
+    {
+      "type": "point",
+      "encode": {
+        "y": "y",
+        "x": "x"
+      },
+      "style": {
+        "shape": "point"
+      }
+    }
+  ],
+  "type": "facetRect",
+  "encode": {
+    "x": "a",
+    "y": "b"
+  }
+});
+chart.render();
+</script>
+<h2 id="sec:facet-with-color"><span class="section-number main-number">4</span> Facet with color</h2>
+<pre><code class="language-r">g2(iris, Sepal.Length ~ Sepal.Width, color = ~ Species) |&gt;
+  facet_rect(~ Species)
+</code></pre>
+<div data-gglite-container></div>
+<script type="module">
+const el = document.querySelector("[data-gglite-container]");
+el.removeAttribute("data-gglite-container");
+const chart = new G2.Chart({
+  "height": 480,
+  "autoFit": true,
+  "container": el
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "Sepal.Length": [5.1, 4.9, 4.7, 4.6, 5, 5.4, 4.6, 5, 4.4, 4.9, 5.4, 4.8, 4.8, 4.3, 5.8, 5.7, 5.4, 5.1, 5.7, 5.1, 5.4, 5.1, 4.6, 5.1, 4.8, 5, 5, 5.2, 5.2, 4.7, 4.8, 5.4, 5.2, 5.5, 4.9, 5, 5.5, 4.9, 4.4, 5.1, 5, 4.5, 4.4, 5, 5.1, 4.8, 5.1, 4.6, 5.3, 5, 7, 6.4, 6.9, 5.5, 6.5, 5.7, 6.3, 4.9, 6.6, 5.2, 5, 5.9, 6, 6.1, 5.6, 6.7, 5.6, 5.8, 6.2, 5.6, 5.9, 6.1, 6.3, 6.1, 6.4, 6.6, 6.8, 6.7, 6, 5.7, 5.5, 5.5, 5.8, 6, 5.4, 6, 6.7, 6.3, 5.6, 5.5, 5.5, 6.1, 5.8, 5, 5.6, 5.7, 5.7, 6.2, 5.1, 5.7, 6.3, 5.8, 7.1, 6.3, 6.5, 7.6, 4.9, 7.3, 6.7, 7.2, 6.5, 6.4, 6.8, 5.7, 5.8, 6.4, 6.5, 7.7, 7.7, 6, 6.9, 5.6, 7.7, 6.3, 6.7, 7.2, 6.2, 6.1, 6.4, 7.2, 7.4, 7.9, 6.4, 6.3, 6.1, 7.7, 6.3, 6.4, 6, 6.9, 6.7, 6.9, 5.8, 6.8, 6.7, 6.7, 6.3, 6.5, 6.2, 5.9],
+      "Sepal.Width": [3.5, 3, 3.2, 3.1, 3.6, 3.9, 3.4, 3.4, 2.9, 3.1, 3.7, 3.4, 3, 3, 4, 4.4, 3.9, 3.5, 3.8, 3.8, 3.4, 3.7, 3.6, 3.3, 3.4, 3, 3.4, 3.5, 3.4, 3.2, 3.1, 3.4, 4.1, 4.2, 3.1, 3.2, 3.5, 3.6, 3, 3.4, 3.5, 2.3, 3.2, 3.5, 3.8, 3, 3.8, 3.2, 3.7, 3.3, 3.2, 3.2, 3.1, 2.3, 2.8, 2.8, 3.3, 2.4, 2.9, 2.7, 2, 3, 2.2, 2.9, 2.9, 3.1, 3, 2.7, 2.2, 2.5, 3.2, 2.8, 2.5, 2.8, 2.9, 3, 2.8, 3, 2.9, 2.6, 2.4, 2.4, 2.7, 2.7, 3, 3.4, 3.1, 2.3, 3, 2.5, 2.6, 3, 2.6, 2.3, 2.7, 3, 2.9, 2.9, 2.5, 2.8, 3.3, 2.7, 3, 2.9, 3, 3, 2.5, 2.9, 2.5, 3.6, 3.2, 2.7, 3, 2.5, 2.8, 3.2, 3, 3.8, 2.6, 2.2, 3.2, 2.8, 2.8, 2.7, 3.3, 3.2, 2.8, 3, 2.8, 3, 2.8, 3.8, 2.8, 2.8, 2.6, 3, 3.4, 3.1, 3, 3.1, 3.1, 3.1, 2.7, 3.2, 3.3, 3, 2.5, 3, 3.4, 3],
+      "Species": ["setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica"]
+    }
+  },
+  "children": [
+    {
+      "type": "point",
+      "encode": {
+        "y": "Sepal.Length",
+        "x": "Sepal.Width",
+        "color": "Species"
+      },
+      "style": {
+        "shape": "point"
+      }
+    }
+  ],
+  "type": "facetRect",
+  "encode": {
+    "x": "Species"
+  }
+});
+chart.render();
+</script>
+<h2 id="sec:circular-facet"><span class="section-number main-number">5</span> Circular Facet</h2>
+<pre><code class="language-r">g2(iris, Sepal.Length ~ Sepal.Width) |&gt;
+  facet_circle(position = ~ Species)
+</code></pre>
+<div data-gglite-container></div>
+<script type="module">
+const el = document.querySelector("[data-gglite-container]");
+el.removeAttribute("data-gglite-container");
+const chart = new G2.Chart({
+  "height": 480,
+  "autoFit": true,
+  "container": el
+});
+chart.options({
+  "data": {
+    "type": "column",
+    "value": {
+      "Sepal.Length": [5.1, 4.9, 4.7, 4.6, 5, 5.4, 4.6, 5, 4.4, 4.9, 5.4, 4.8, 4.8, 4.3, 5.8, 5.7, 5.4, 5.1, 5.7, 5.1, 5.4, 5.1, 4.6, 5.1, 4.8, 5, 5, 5.2, 5.2, 4.7, 4.8, 5.4, 5.2, 5.5, 4.9, 5, 5.5, 4.9, 4.4, 5.1, 5, 4.5, 4.4, 5, 5.1, 4.8, 5.1, 4.6, 5.3, 5, 7, 6.4, 6.9, 5.5, 6.5, 5.7, 6.3, 4.9, 6.6, 5.2, 5, 5.9, 6, 6.1, 5.6, 6.7, 5.6, 5.8, 6.2, 5.6, 5.9, 6.1, 6.3, 6.1, 6.4, 6.6, 6.8, 6.7, 6, 5.7, 5.5, 5.5, 5.8, 6, 5.4, 6, 6.7, 6.3, 5.6, 5.5, 5.5, 6.1, 5.8, 5, 5.6, 5.7, 5.7, 6.2, 5.1, 5.7, 6.3, 5.8, 7.1, 6.3, 6.5, 7.6, 4.9, 7.3, 6.7, 7.2, 6.5, 6.4, 6.8, 5.7, 5.8, 6.4, 6.5, 7.7, 7.7, 6, 6.9, 5.6, 7.7, 6.3, 6.7, 7.2, 6.2, 6.1, 6.4, 7.2, 7.4, 7.9, 6.4, 6.3, 6.1, 7.7, 6.3, 6.4, 6, 6.9, 6.7, 6.9, 5.8, 6.8, 6.7, 6.7, 6.3, 6.5, 6.2, 5.9],
+      "Sepal.Width": [3.5, 3, 3.2, 3.1, 3.6, 3.9, 3.4, 3.4, 2.9, 3.1, 3.7, 3.4, 3, 3, 4, 4.4, 3.9, 3.5, 3.8, 3.8, 3.4, 3.7, 3.6, 3.3, 3.4, 3, 3.4, 3.5, 3.4, 3.2, 3.1, 3.4, 4.1, 4.2, 3.1, 3.2, 3.5, 3.6, 3, 3.4, 3.5, 2.3, 3.2, 3.5, 3.8, 3, 3.8, 3.2, 3.7, 3.3, 3.2, 3.2, 3.1, 2.3, 2.8, 2.8, 3.3, 2.4, 2.9, 2.7, 2, 3, 2.2, 2.9, 2.9, 3.1, 3, 2.7, 2.2, 2.5, 3.2, 2.8, 2.5, 2.8, 2.9, 3, 2.8, 3, 2.9, 2.6, 2.4, 2.4, 2.7, 2.7, 3, 3.4, 3.1, 2.3, 3, 2.5, 2.6, 3, 2.6, 2.3, 2.7, 3, 2.9, 2.9, 2.5, 2.8, 3.3, 2.7, 3, 2.9, 3, 3, 2.5, 2.9, 2.5, 3.6, 3.2, 2.7, 3, 2.5, 2.8, 3.2, 3, 3.8, 2.6, 2.2, 3.2, 2.8, 2.8, 2.7, 3.3, 3.2, 2.8, 3, 2.8, 3, 2.8, 3.8, 2.8, 2.8, 2.6, 3, 3.4, 3.1, 3, 3.1, 3.1, 3.1, 2.7, 3.2, 3.3, 3, 2.5, 3, 3.4, 3],
+      "Species": ["setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "setosa", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "versicolor", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica", "virginica"]
+    }
+  },
+  "children": [
+    {
+      "type": "point",
+      "encode": {
+        "y": "Sepal.Length",
+        "x": "Sepal.Width"
+      },
+      "style": {
+        "shape": "point"
+      }
+    }
+  ],
+  "type": "facetCircle",
+  "encode": {
+    "position": "Species"
+  }
+});
+chart.render();
+</script>
+</div>
+<footer><div class="flex-col">
+<p>Developed by Yihui Xie</p>
+<p>Site built with <a href="https://github.com/yihui/litedown">litedown</a> v0.9.9</p>
+</div></footer>
+<script src="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/js/sidenotes.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/js/appendix.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/js/toc-highlight.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/js/copy-button.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/js/heading-anchor.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.44/js/pages.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" defer></script>
+</body>
+</html>

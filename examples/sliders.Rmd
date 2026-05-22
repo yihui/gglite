@@ -1,0 +1,36 @@
+---
+title: Sliders
+---
+
+```{r}
+library(gglite)
+df = data.frame(x = 1:100, y = cumsum(rnorm(100)))
+p  = g2(df, y ~ x) |> mark_line()
+```
+
+Sliders allow users to zoom and pan through data by dragging a handle.
+
+## Slider on X
+
+```{r}
+p |> slider_x()
+```
+
+## Slider on Y
+
+```{r}
+p |> slider_y()
+```
+
+## Slider on Both Axes
+
+```{r}
+p |> slider_x() |> slider_y()
+```
+
+## Slider with a Bar Chart
+
+```{r}
+bar_df = data.frame(x = paste0('Item ', 1:50), y = sample(1:100, 50))
+g2(bar_df, y ~ x) |> slider_x()
+```
