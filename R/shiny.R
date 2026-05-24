@@ -57,6 +57,12 @@ renderG2 = function(expr, env = parent.frame(), quoted = FALSE) {
   func = function() eval(expr, envir = expr_env)
   shiny::markRenderFunction(g2Output, function() {
     chart = func()
-    list(ctor = chart$options, spec = xfun::tojson(build_config(chart)))
+    ctor = chart$options
+    # Auto-scale height for row-faceted charts when no explicit canvas() options
+    if (is.null(ctor)) {
+      dyn_h = row_facet_height(chart)
+      if (!is.null(dyn_h)) ctor = list(height = dyn_h)
+    }
+    list(ctor = ctor, spec = xfun::tojson(build_config(chart)))
   })
 }

@@ -14,6 +14,10 @@ $(document).ready(function() {
         el._g2chart = null;
       }
       const ctor = Object.assign({}, data.ctor, { container: el.id });
+      // Resize the container to match dynamic height (e.g. row-faceted charts)
+      if (data.ctor && typeof data.ctor.height === 'number') {
+        el.style.height = data.ctor.height + 'px';
+      }
       const spec = data.spec;  // already parsed (Shiny embeds xfun JSON as object)
       const chart = new G2.Chart(ctor);
       chart.options(spec);
