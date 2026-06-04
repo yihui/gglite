@@ -20,20 +20,14 @@
 #' }
 #' @export
 g2Output = function(outputId, width = '100%', height = '480px') {
-  dep_g2 = htmltools::htmlDependency(
-    'g2', '5', src = c(href = dirname(g2_cdn())), script = basename(g2_cdn())
-  )
-  dep_col = htmltools::htmlDependency(
-    'g2-patches', '1',
-    src = c(href = dirname(g2_patches_cdn)), script = basename(g2_patches_cdn)
-  )
-  dep_binding = htmltools::htmlDependency(
+  dep = htmltools::htmlDependency(
     'g2-binding', as.character(utils::packageVersion('gglite')),
     src = system.file('www', package = 'gglite'),
-    script = 'g2-binding.js'
+    script = 'g2-binding.js',
+    head = paste(sprintf('<script src="%s"></script>', g2_cdn()), collapse = '\n')
   )
   shiny::tagList(
-    dep_g2, dep_col, dep_binding,
+    dep,
     shiny::div(
       id = outputId, class = 'gglite-output',
       style = paste0('width:', width, ';height:', height)
