@@ -199,6 +199,10 @@ g2 = function(data = NULL, ..., title = NULL, subtitle = NULL) {
   chart
 }
 
+chart_ctor = function(chart) {
+  dropNulls(chart$options %||% list(height = 480L, autoFit = TRUE))
+}
+
 #' Configure Canvas Options
 #'
 #' Set chart dimensions, layout spacing, and renderer for a G2 chart. See

@@ -313,7 +313,7 @@ g2_html_page = function(body, chart = NULL) {
 #' @return A character string of HTML.
 #' @export
 chart_html = function(chart, id = NULL, width = NULL, height = NULL) {
-  ctor = dropNulls(chart$options %||% list(height = 480L, autoFit = TRUE))
+  ctor = chart_ctor(chart)
   spec = build_config(chart)
   defer_opt = getOption('gglite.defer_render')
   threshold = if (isTRUE(defer_opt)) 0.5 else if (is.numeric(defer_opt)) defer_opt

@@ -51,6 +51,6 @@ renderG2 = function(expr, env = parent.frame(), quoted = FALSE) {
   func = function() eval(expr, envir = expr_env)
   shiny::markRenderFunction(g2Output, function() {
     chart = func()
-    list(ctor = chart$options, spec = xfun::tojson(build_config(chart)))
+    list(ctor = chart_ctor(chart), spec = xfun::tojson(build_config(chart)))
   })
 }
