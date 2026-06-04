@@ -200,7 +200,7 @@ g2 = function(data = NULL, ..., title = NULL, subtitle = NULL) {
 }
 
 chart_ctor = function(chart) {
-  dropNulls(chart$options %||% list(height = 480L, autoFit = TRUE))
+  dropNulls(chart$options %||% list(autoFit = TRUE))
 }
 
 #' Configure Canvas Options
