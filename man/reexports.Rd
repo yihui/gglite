@@ -11,6 +11,6 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{xfun}{\code{\link[xfun:tojson]{js}}}
+  \item{xfun}{\code{\link[xfun:js]{js()}}}
 }}
 
