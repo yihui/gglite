@@ -180,14 +180,64 @@ build_config = function(chart) {
   # Chart-wide config
   if (length(chart$scales)) config$scale = chart$scales
 
-  # Auto-detect time scale for Date/POSIXt columns
+  # Auto-detect time scale for Date/POSIXt columns; use utc = TRUE so that
+  # D3's UTC time scale is used for tick positions, which aligns with our
+  # UTC-based millisecond timestamps and avoids timezone-induced offsets.
   if (is.data.frame(chart$data)) for (ch in c('x', 'y')) {
     col = chart$aesthetics[[ch]]
     if (!is.null(col) && col %in% names(chart$data) &&
         (inherits(chart$data[[col]], 'Date') ||
          inherits(chart$data[[col]], 'POSIXt')) &&
-        is.null(config$scale[[ch]]$type))
+        is.null(config$scale[[ch]]$type)) {
       config$scale[[ch]]$type = 'time'
+      config$scale[[ch]]$utc = TRUE
+    }
+  }
+
+  # Auto-inject tooltip formatters for Date/POSIXt x columns so the tooltip
+  # shows a human-readable date instead of the raw ms timestamp.
+  # - title: formats the full datum using the column name (for all marks)
+  # - items: for marks that show x as an item (tooltip2d: point, cell, etc.),
+  #   also inject a per-value formatter so the x item is readable
+  if (is.data.frame(chart$data) && length(config$children)) {
+    x_col = chart$aesthetics$x
+    if (!is.null(x_col) && x_col %in% names(chart$data)) {
+      col_js = xfun::tojson(x_col)
+      is_date = inherits(chart$data[[x_col]], 'Date')
+      is_posix = inherits(chart$data[[x_col]], 'POSIXt')
+      # title formatter receives the full datum d
+      fmt_title = if (is_date)
+        xfun::js(paste0('(d) => new Date(d[', col_js, ']).toLocaleDateString()'))
+      else if (is_posix)
+        xfun::js(paste0('(d) => new Date(d[', col_js, ']).toLocaleString()'))
+      # item valueFormatter receives the raw value (ms number)
+      fmt_item = if (is_date)
+        xfun::js('(d) => new Date(d).toLocaleDateString()')
+      else if (is_posix)
+        xfun::js('(d) => new Date(d).toLocaleString()')
+      # marks that use tooltip2d (add x channel as a tooltip item by default)
+      tooltip2d_marks = c(
+        'point', 'cell', 'heatmap', 'image', 'link', 'beeswarm')
+      if (!is.null(fmt_title))
+        config$children = lapply(config$children, function(m) {
+          if (!isFALSE(m$tooltip)) {
+            if (is.null(m$tooltip$title))
+              m$tooltip = modifyList(
+                as.list(m$tooltip), list(title = fmt_title))
+            # inject items formatter for tooltip2d marks so the x item also
+            # shows a readable date (not a raw ms number)
+            if (is.null(m$tooltip$items) && m$type %in% tooltip2d_marks)
+              m$tooltip = modifyList(as.list(m$tooltip), list(
+                items = list(
+                  list(channel = 'x', name = x_col,
+                       valueFormatter = fmt_item),
+                  list(channel = 'y')
+                )
+              ))
+          }
+          m
+        })
+    }
   }
 
   if (!is.null(chart$coords)) config$coordinate = chart$coords
