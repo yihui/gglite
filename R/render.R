@@ -383,8 +383,7 @@ chart_html = function(chart, id = NULL, width = NULL, height = NULL) {
 #' @return The chart object (invisibly).
 #' @export
 print.g2 = function(x, ...) {
-  #TODO: xfun >= 0.57.3 no longer needs paste()
-  xfun::html_view(g2_html_page(chart_html(x, ...), chart = x))
+  xfun::html_view(g2_html_page(chart_html(x, ...), chart = x), name = 'gglite')
   invisible(x)
 }
 

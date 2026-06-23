@@ -1,6 +1,6 @@
 Package: gglite
 Title: Lightweight Data Visualization via the Grammar of Graphics
-Version: 0.0.32
+Version: 0.0.33
 Authors@R: person("Yihui", "Xie", role = c("aut", "cre"), email = "xie@yihui.name",
     comment = c(ORCID = "0000-0003-0645-5666"))
 Description: A lightweight R interface to the AntV G2 JavaScript visualization
@@ -12,7 +12,7 @@ URL: https://github.com/yihui/gglite
 BugReports: https://github.com/yihui/gglite/issues
 Depends: R (>= 4.1.0)
 Imports:
-    xfun (>= 0.57)
+    xfun (>= 0.59)
 Suggests:
     htmltools,
     litedown,
