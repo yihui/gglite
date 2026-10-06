@@ -51,6 +51,10 @@ renderG2 = function(expr, env = parent.frame(), quoted = FALSE) {
   func = function() eval(expr, envir = expr_env)
   shiny::markRenderFunction(g2Output, function() {
     chart = func()
-    list(ctor = chart_ctor(chart), spec = xfun::tojson(build_config(chart)))
+    # Send the spec as a plain string so the Shiny message stays valid JSON even
+    # when it embeds raw JS (e.g. a tickMethod function via xfun::js()); the
+    # binding revives it client-side. as.character() drops the xfun "json" class
+    # that would otherwise make shiny embed it verbatim and break the message.
+    list(ctor = chart_ctor(chart), spec = as.character(xfun::tojson(build_config(chart))))
   })
 }
