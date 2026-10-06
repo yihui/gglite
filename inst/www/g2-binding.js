@@ -14,7 +14,10 @@ $(document).ready(function() {
         el._g2chart = null;
       }
       const ctor = Object.assign({}, data.ctor, { container: el.id });
-      const spec = data.spec;  // already parsed (Shiny embeds xfun JSON as object)
+      // spec arrives as a JSON string; evaluate it (not JSON.parse) so embedded
+      // JS literals such as a tickMethod function survive the Shiny transport.
+      const spec = typeof data.spec === 'string' ?
+        new Function('return (' + data.spec + ')')() : data.spec;
       const chart = new G2.Chart(ctor);
       chart.options(spec);
       chart.render();
