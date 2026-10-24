@@ -203,7 +203,7 @@ you cannot solve it.
 
 -   `R-CMD-check.yaml` - Runs R CMD check on multiple platforms
 -   `copilot-setup-steps.yml` - Sets up the environment for Copilot
--   `github-pages.yml` - Builds and deploys the package site via litedown
+-   `litedown-site.yml` - Builds and deploys the package site via litedown
 
 ## Important Conventions
 
