@@ -5,8 +5,8 @@
 [![R-CMD-check](https://github.com/yihui/gglite/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/yihui/gglite/actions/workflows/R-CMD-check.yaml)
 [![gglite on
 r-universe](https://yihui.r-universe.dev/badges/gglite)](https://yihui.r-universe.dev/gglite)
-
 [![Build site](https://github.com/yihui/gglite/actions/workflows/litedown-site.yml/badge.svg)](https://github.com/yihui/gglite/actions/workflows/litedown-site.yml)
+
 <!-- badges: end -->
 
 > **Experimental** — this package is still under active development. The API may
